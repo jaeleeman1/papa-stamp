@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>COUPHONE</title>
+    <link rel="stylesheet" href="../public/css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <!-- <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet"> -->
+
+</head>
+
+<body>
+<div id="container">
+    <div id="shopping_detail_wrap">
+        <a href="javascript:history.back()"><p class="back_arrow"><img src="../public/images/btn_back_w@3x.png"></p></a>
+        <!-- <p class="slide_img"><img src="images/photo_detail.png"></p> -->
+        <!--슬라이드예제-->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../public/images/photo_detail_01.png"></div>
+                <div class="swiper-slide"><img src="../public/images/photo_detail_02.png"></div>
+                <div class="swiper-slide"><img src="../public/images/photo_detail_03.png"></div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- Swiper JS -->
+        <script src="../../CouPhone_Alpha_Server/public/javascripts/swiper.min.js"></script>
+
+        <!-- Initialize Swiper -->
+        <script>
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                paginationClickable: true,
+                spaceBetween: 0,
+                centeredSlides: true,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: false
+            });
+        </script>
+        <!--슬라이드 예제-->
+        <div id="shopping_detail_body">
+            <ul class="info">
+                <li class="name"><%= rows[0].FOOD_NAME_CN%></li>
+                <li class="price"><%= rows[0].CAPITA_PRICE%></li>
+                <li class="star">
+                    <img src="../public/images/star@3x.png">
+                    <img src="../public/images/star@3x.png">
+                    <img src="../public/images/star@3x.png">
+                    <img src="../public/images/star_dim@3x.png" alt="딤드별">
+                    <img src="../public/images/star_dim@3x.png" alt="딤드별">
+                </li>
+            </ul>
+            <ul>
+                <li class="ti_detail">상세정보</li>
+                <li>
+                    <%= rows[0].DESCRIPTION%>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <a href="#">
+        <div id="btn_put"><span class="ic_add"><img src="../public/images/ic_add@3x.png"></span>담기</div>
+    </a>
+
+</div>
+</body>
+
+</html>
