@@ -74,7 +74,7 @@
 @font-face {
    font-family: 'Noto Sans KR';
    font-style: normal;
-   font-weight: 400;
+   /*font-weight: 400;*/
    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
         url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
         url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
@@ -115,18 +115,15 @@
 }
 
 
+html {height:100%}
+html, body {         position: relative;     }
 
-html, body {
-        position: relative;
-        height: 100%;
-    }
-
-html, body {width:100%;height:100%;}
-body {color:#000;  line-height: 20px; font-size:14px}
+html, body {width:100%; /*height:100%;*/}
+body {color:#000;  line-height: 20px; font-size:14px; font-family: 'Noto Sans KR', sans-serif;  }
 td {vertical-align:top;}
-ul,ol,li{list-style:none}
+ul,ol,li {list-style:none}
 img, fieldset{border:none; vertical-align:top}
-img{border:0; display:inline-block}
+img{border:0; display:inline-block; line-height:0}
 
 
 textarea, button{vertical-align:middle}
@@ -140,56 +137,210 @@ textarea{padding:3px; border:1px solid #ddd; background:#fff; color:#666; vertic
 table{border-collapse:collapse}
 .clear_both {clear:both}
 
-a{color:#666; text-decoration:none; font-size:12px}
-a:hover,a:focus{color:#000; text-decoration:none;  text-decoration:none; font-size:12px}
-a:active{color:#666; text-decoration:none; font-size:12px}
+.txt_en { font-family: 'Roboto','Noto Sans KR', sans-serif;}
+.txt_ch {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif;}
+.txt_small {font-size:12px}
+
+a{text-decoration:none; }
+a:hover,a:focus{text-decoration:none;  text-decoration:none; }
+a:active{text-decoration:none; }
 
 #EBEBEB {background: #EBEBEB;}
+#back_393A3F {background: #393A3F;}
+#back_setup {background: rgba(0,0,0,0.27); height:100%}
+#back_100 {height:100%}
+#back_100_hidden {height:100%;overflow:hidden;}
 
-#container {position:relative; height:100%}
-#header {background: #393A3F; height:48px}
+#container {position:relative; /*height:100%*/}
+#header {background: #393A3F; height:48px; position:fixed; z-index:9; width:100%;  z-index:888}
 #header span {display:inline-block; vertical-align:middle}
 #header .part {height:24px; width:1px; margin-right:12px; margin-left:48px; background: rgba(0,0,0,0.50);}
-#header .head_ti { font-family: 'Noto Sans KR', sans-serif; font-size: 16px; color: #FFFFFF; letter-spacing: 0; line-height:3em}
+#header .head_ti {  font-size: 16px; color: #FFFFFF; letter-spacing: 0; line-height:48px}
+#header .address {background: rgba(0,0,0,0.50); height:36px; line-height:36px; padding:0 4.7%; color:#fff; font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 16px;}
+
+#header_nor {width:100%; position:fixed; height:48px; top:0; left:0; background:#FFF; z-index:888}
+#header_nor.restaurant {text-align:center}
+#header_nor .tab {display:inline-block; width:41.9% ;border: 1px solid #979797;  font-size:12px; color:#979797; margin-top:12px; /* box-shadow: 0 1px 1px  rgba(0,0,0,0.05); */}
+#header_nor .tab .fir {float:left; width:50%;border-right: 1px solid #979797; line-height:26px}
+#header_nor .tab .sec {float:left; width:calc( 50% - 1px );  line-height:26px}
+#header_nor .tab .disable {color: #000; background:#e5e5e5}
 
 /**** 쇼핑몰 디테일페이지 ***/
 #shopping_detail_wrap {position:relative}
 #shopping_detail_wrap .slide_img img{width:100%}
 
-#shopping_detail_body {padding:12px 5.6% 59px 5.3%}
-#shopping_detail_body .info {margin-bottom:20px}
-#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 1.5em; font-family: 'Noto Sans KR', sans-serif;}
-#shopping_detail_body .price {font-size:13px; line-height: 1.462em; font-family: 'Noto Sans KR', sans-serif;}
+#shopping_detail_body {padding:225px 5.6% 64px 5.3%}
+#shopping_detail_body .info {margin-bottom:24px}
+#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 36px; }
+#shopping_detail_body .price {font-size:13px; line-height: 19px; }
 #shopping_detail_body .star {padding-top:6px; line-height:0}
 #shopping_detail_body .star img{width:14px; margin-right:2px;}
-#shopping_detail_body .ti_detail {font-size:12px; line-height: 1.667em; color:#888; padding-bottom:2px; font-family: 'Noto Sans KR', sans-serif;}
-#shopping_detail_body p{padding-bottom:20px}
+#shopping_detail_body .star .txt{display:inline-block; padding:8px 0 0 6px; font-size:12px; color: #252525; font-family: 'Roboto', sans-serif; }
+#shopping_detail_body .ti_detail {font-size:12px; line-height: 20px; color:#888; padding-bottom:2px; font-weight:500}
+#shopping_detail_body p{padding-bottom:14px}
+#shopping_detail_body p:last-child{padding-bottom:0px}
 
 /**** 쇼핑몰 BUY페이지 ***/
-#shopping_buy_wrap {position:relative; padding:10px 10px 54px 10px}
+#shopping_buy_wrap {position:relative; padding:58px 2.77% 54px 2.77%}
 #shopping_buy_wrap .buy_wrap {margin-bottom:5px; background: #FFFFFF; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.04);}
 #shopping_buy_wrap .photo_buy {width:88px; margin-right:17px; float:left}
 #shopping_buy_wrap .ic_card  {width:24px; margin:32px 15px; float:right}
 #shopping_buy_wrap ul {float:left; width:calc( 100% - 160px );}
-#shopping_buy_wrap .name {overflow:hidden; font-size:19px; line-height: 1.368em;  /*font-family: 'Noto Sans KR', sans-serif;*/ color:#555; margin:20px 0 2px; max-height:48px}
-#shopping_buy_wrap .price {font-size:14px; line-height: 1.286em; /*font-family: 'Noto Sans KR', sans-serif;*/ color:#111}
+#shopping_buy_wrap .name {overflow:hidden; font-size:19px; line-height: 25px;   color:#555; margin:20px 0 2px; max-height:48px}
+#shopping_buy_wrap .price {font-size:14px; line-height: 18px;  color:#111}
+.calling_wrap {text-align:center; padding-top:75px;}
 
+/**** 매장정보 ****/
+#shopping_detail_body .res_name {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size:24px ; line-height: 36px;}
+#shopping_detail_body .res_name .kor {font-family: 'Noto Sans KR', sans-serif; font-size:18px ; line-height:0}
+#shopping_detail_body .res_detail UL {margin-bottom:22px}
+
+/**** 매장지도찾기 ***/
+#restaurant_find_local_map {position:fixed; top:0; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
+#restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
+
+#restaurant_find_local_list_wrap {padding:304px 6% 15px 4.4%; }
+#restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
+#restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
+#restaurant_find_local_list .info {}
+#restaurant_find_local_list .name {font-size:24px; padding:0px ; line-height: 36px; }
+#restaurant_find_local_list .price {color: #9A9A9A; letter-spacing: 0.4px;  margin-bottom:1px}
+#restaurant_find_local_list .star {line-height:0px;}
+#restaurant_find_local_list .star img{width:14px; margin:3px 2.2px 3px 0}
+#restaurant_find_local_list .star .txt{display:inline-block; padding-left:7.6px; font-family: 'Roboto', sans-serif; color: #9A9A9A; letter-spacing: 0.37px; line-height: 21px;}
+#restaurant_find_local_list .res_name {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size:15px ; line-height: 22px; margin-bottom:3px; }
+#restaurant_find_local_list .res_name {display: block; overflow:hidden; word-wrap:break-word; text-overflow:ellipsis; white-space:nowrap; width:100%; }
+#restaurant_find_local_list .res_name .kor {font-family: 'Noto Sans KR', sans-serif; font-size: 15px; color: #171717; letter-spacing: 0.42px; line-height: 22px;}
+#restaurant_find_local_list .res_detail UL {margin-bottom:22px}
+
+#restaurant_find_local_list .fir {float:left; width:28px; margin-right:10px; margin-top:21px}
+#restaurant_find_local_list .fir .ic_last_pin {
+	display:inline-block; width:18.5px; height:24px; color: #FFFFFF; padding:4px 0 0 9.5px; line-height: 16px; 
+	background: url('../images/ic_list_pin@3x.png') no-repeat 0px 0px; background-size:28px 28px; z-index:777;  font-family: 'Roboto', sans-serif;}
+#restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px+10.4%) );}
+#restaurant_find_local_list .thi { float:right; width:19px; margin-left:10px; margin-top:25px; z-index:11}
+#restaurant_find_local_list .thi img {width:19px; opacity:0.55; }
+
+
+/**** 베스트리뷰 ***/
+#review_wrap {}
+#review_wrap P {padding:0; margin:0}
+#review_wrap .ti_detail {font-size:12px; line-height: 20px; color:#888; padding-bottom:0px; }
+#review_wrap .review_body {margin-top:7px}
+
+#review_wrap .review_body ul li {float:left;}
+#review_wrap .review_body .photo_wrap {margin-bottom:6px}
+#review_wrap .review_body .photo {width:30px; height:30px; border-radius: 16px; border:1px solid #bfbfbf; margin-right:13px; margin-top:3px}
+#review_wrap .review_body .photo img {width:30px; height:30px; border-radius: 16px;}
+#review_wrap .star {padding-top:3px; line-height:0}
+#review_wrap .star img{width:10px; margin-right:1.5px;}
+
+
+/*** CALL ***/
+#call_wrap {text-align:center; padding-top:74px}
+#call_wrap .face {background: #FED6D6; border-radius: 4px; width:92px; height:92px; display:inline-block; margin-bottom:25px}
+#call_wrap .face img {border-radius: 4px; width:92px; height:92px;}
+#call_wrap .name {font-size: 21px; line-height: 30px; color:#FFF; margin-bottom:2px}
+#call_wrap .time {font-size: 14px; line-height: 20px; color:#FFF; }
+#call_wrap .standby {font-size: 14px; line-height: 20px; color: rgba(255,255,255,0.50); }
+
+/***** 도보택시 *****/
+#map_body {margin-top:60px; padding:0 8.3% 15px 10%; /*position:fixed;*/ z-index:555; background:#fff}
+#map_body ul li {float:left; overflow:hidden}
+#map_body .mark {width:40px; margin-right:33px; margin-top:4px}
+#map_body .center_dot_wrap {padding:5px 0 4px}
+#map_body .center_dot {width:40px; margin-right:33px; line-height:0}
+#map_body .center_dot img {width:100%}
+#map_body .center_dot_hr {width:calc( 100% - 73px );}
+#map_body .center_dot_hr hr {border-top:2px solid #000; opacity: 0.1; display:block; margin-top:7px}
+#map_body .txt {display:inline-block; background:#EBEBEB;  border-radius: 20px; width:40px; height:40px; font-size: 14px; color: #353535; line-height: 39px; text-align:center}
+#map_body .add_name_sc {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 18px; color: #353535; line-height: 27px; margin-bottom:1px;   width:calc( 100% - 73px ); }
+#map_body .add_name_sc p {display: block; overflow:hidden; word-wrap:break-word; text-overflow:ellipsis; white-space:nowrap;}
+#map_body .add_detail_sc {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 13px; color: #6A6A6A; line-height: 19px; white-space:nowrap}
+#map_body .add_time_sc {font-family: 'Noto Sans KR', sans-serif; font-weight:500; font-size: 14px; color: #4A90E2; line-height: 20px; margin-top:11px; white-space:nowrap}
+/* 상호명없을시 */
+#map_body .none_restaurant {margin-top:12px; margin-bottom:15px}
+
+#map_img {height:100vh; position:relative; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover; }
+#map_img hr {position:absolute; top:130px; left:42px; width:170px; border-top: 4px solid #4990E2;}
+
+/**** 지도 Location 아이콘 ***/
+.start_icon {display:inline-block; width:30px; height:25px; position:absolute; top:90px; left:30px;font-size: 9px; color: #FFFFFF; padding:7px 0 0 2px; line-height: 10px; background: url('../images/pin@3x.png') no-repeat 0px 0px; background-size:32px 32px; z-index:777}
+.arrive_icon {display:inline-block; width:30px; height:25px; position:absolute; top:90px; left:200px;font-size: 9px; color: #FFFFFF; padding:7px 0 0 2px; line-height: 10px; background: url('../images/pin@3x.png') no-repeat 0px 0px; background-size:32px 32px; z-index:777}
+.location_icon_42px {
+	display:inline-block; width:31px; height:39px; position:absolute; top:90px; left:30px; color: #FFFFFF; padding:1px 0 0 9px; font-size:18px; line-height: 31px; background: url('../images/pin@3x.png') no-repeat 0px 0px; 
+	background-size:40px 40px; font-family: 'Roboto', sans-serif; z-index:777}
+.location_icon_32px {
+	display:inline-block; width:25px; height:29px; position:absolute; top:150px; left:30px; color: #FFFFFF; padding:3px 0 0 7px; font-size:16px; line-height: 19px; background: url('../images/pin@3x.png') no-repeat 0px 0px; 
+	background-size:32px 32px; font-family: 'Roboto', sans-serif; z-index:777}
+.oval_wrap {position:absolute; background: rgba(0,156,255,0.10); border: 1px solid #009CFF; text-align:center; width:196px; height:196px; border-radius: 98px; top:80px; left:80px; z-index:666}
+.dot_location {position:absolute; top:50%; left:50%; margin-top:-9px; margin-left:-9px; background: #FF4B24; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.30); width:18px; height:18px; border-radius: 9px; display:inline-block; line-height:0;  z-index:777}
+.ic_location_wrap {position:absolute; width:47px; height:47px; border-radius: 23.5px; bottom: 16px; right:16px; background: #FFFFFF; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.50); z-index:777}
+.ic_location {position:absolute; top:50%; left:50%; margin-top:-9.5px; margin-left:-9.5px;z-index:666}
+.ic_location img {width:19px; height:19px}
+
+/*** 택스주소 ***/
+#address_wrap {padding:69px 7.1% 76px 7.3%; text-align:center; position:relative}
+#address_wrap .fir {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 36px; color: #9B9B9B; line-height: 64px;}
+#address_wrap .txt {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 38px; color: #353535; line-height: 64px;}
+
+/*** mylocation ****/
+#container_mylocation {height:100%; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover;}
+
+/*** 팝업 ***/
+#container_popup {height:100%; position:relative;}
+#pop_up_wrap {margin:0 5%; position:absolute;  top:50%; margin-top:-107px; background:#FFF; height:214px; width:90%}
+#pop_up_wrap .pop_up_body {padding:18.5px 6.7% 17.4px}
+#pop_up_wrap .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+#pop_up_wrap .pop_up_body .set_num {border: 1px solid #979797;}
+#pop_up_wrap .pop_up_body .set_num ul li {float:left}
+#pop_up_wrap .pop_up_body .set_num img {width:59px}
+#pop_up_wrap .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+#pop_up_wrap .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+#pop_up_wrap .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+#pop_up_wrap .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+#pop_up_wrap .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+.confirm {color: #1AAD19 !important;}
 
 /*** 버튼 ***/
-#btn_put {position:fixed; left:0; bottom:0px; width:100%; height:48px; border-top:1px solid #e6e6e6; background:#F5F5F5; text-align:center;  font-family: 'Noto Sans KR', sans-serif; font-weight:500; font-size:16px; line-height:46px; color: #353535;}
+#btn_call {position:fixed; left:0; bottom:0px; width:100%; height:113px; text-align:center;   font-size:12px; }
+#btn_call img {width:63px;; margin-bottom:8px}
+#btn_call .btn_center {display:inline-block; margin:0 13.3%;}
+#btn_call .btn_nor {display:inline-block;}
+#btn_call .txt {display:block; line-height: 21px; color:#FFF; font-weight:400}
+#btn_call .disable {opacity:0.5}
+
+#btn_put {position:fixed; left:0; bottom:0px; width:100%; height:48px; border-top:1px solid #e6e6e6; background:#F5F5F5; text-align:center;   font-weight:500; font-size:16px; line-height:46px; color: #353535;}
 #btn_put .ic_add {display:inline-block; margin-right:9px;}
 #btn_put .ic_add img {width:18px; vertical-align:middle; margin-top:-3px}
 
-#btn_buy {position:fixed; left:0; bottom:0px; width:100%; height:48px; border-top:1px solid #e6e6e6; background:#F5F5F5; font-family: 'Noto Sans KR', sans-serif; font-weight:500; font-size:16px; line-height:46px; color: #353535;}
+#btn_buy {position:fixed; left:0; bottom:0px; width:100%; height:48px; border-top:1px solid #e6e6e6; background:#F5F5F5;  font-weight:500; font-size:16px; line-height:46px; color: #353535;}
 #btn_buy .view_product {width:50%;border-right:1px solid #e6e6e6; height:48px; text-align:center; display:inline-block}
 #btn_buy .view_product img {width:18px; vertical-align:middle; margin-top:-5px; margin-right:10px}
 #btn_buy .price_buy {width:calc( 50% - 5px ); height:48px; text-align:center; display:inline-block}
-#btn_buy .ic_price {margin-right:10px; display:inline-block; color: #9B9B9B; font-family: 'Noto Sans KR', sans-serif; font-weight:normal;}
+#btn_buy  a {color:#353535}
+#btn_buy .ic_price {margin-right:10px; display:inline-block; color: #9B9B9B;  font-weight:normal;}
 
-.back_arrow {position:absolute; z-Index:99; top:0; left:0; width:28px; height:28px; padding:10px}
+.btn_close {position:absolute; top:10px; right:11px}
+.btn_close img {width:28px}
+
+/*** 버튼 장바구니 ***/
+#btn_cart {position:fixed; left:0; bottom:0px; width:100%; height:88px; background:#F5F5F5;  font-weight:500; font-size:16px; line-height:46px; color: #353535;}
+#btn_cart a {color: #353535;}
+#btn_cart .total_wrap {height:39px; background: rgba(0,0,0,0.50); border-bottom:1px solid #e6e6e6; color:#FFF; font-size: 18px; line-height:39px; padding:0 3.9% 0 3.3%; font-weight:500}
+#btn_cart .total_wrap .right {float:right}
+#btn_cart .view_product {width:50%;border-right:1px solid #e6e6e6; height:48px; text-align:center; display:inline-block}
+#btn_cart .view_product img {width:18px; vertical-align:middle; margin-top:-5px; margin-right:10px}
+#btn_cart .price_buy {width:calc( 50% - 5px ); height:48px; text-align:center; display:inline-block}
+
+.back_arrow {position:fixed; z-Index:99; top:0; left:0; width:28px; height:28px; padding:10px; z-index:999}
 .back_arrow img{width:28px;}
+.back_arrow.detail {position:fixed}
+
+.btn_send {position:fixed; top:9px; right:8px; background: #1AAD19; border-radius: 4px; width:60px; height:30px; line-height:30px; color:#fff; font-size:14px; text-align:center;}
 
 /*** swiper슬라이더 ***/
+#swiper-container_fix {position:fixed; z-index:22; width:213px; width:100%}
 .swiper-container {width: 100%; height: 100%;}
 .swiper-slide {text-align: center; font-size: 18px;
         background: #fff;        

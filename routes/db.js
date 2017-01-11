@@ -1,11 +1,12 @@
 /**
- * Created by SDS on 2017-01-09.
+ * Created by yunchae.na on 2017-01-09.
  */
 
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
+    //host : '127.0.0.1',
     host : 'cphone.cwv6eeev1qqm.ap-northeast-2.rds.amazonaws.com',
   //  host : '127.0.0.1',
     port : 43306,
