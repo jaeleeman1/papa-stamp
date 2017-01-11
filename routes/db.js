@@ -7,6 +7,7 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit: 10,
     host : 'cphone.cwv6eeev1qqm.ap-northeast-2.rds.amazonaws.com',
+  //  host : '127.0.0.1',
     port : 43306,
     user : 'cphonemaster',
     password : 'dnausehdcphone',
