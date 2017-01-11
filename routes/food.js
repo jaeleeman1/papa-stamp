@@ -15,13 +15,13 @@ var getConnection = require('./db');
 //});
 
 //GET shopping detail Information
-router.get('/DetailInfo', function (req, res, next) {
+router.get('/shopInfo', function (req, res, next) {
 
     //console.log(req);
 
     getConnection(function (err, connection) {
 
-        var query = 'SELECT * FROM FOOD_LIST_CN WHERE ID = ?';
+        var query = 'select * from TB_FOOD_SHOP_LIST_CN A, TB_FOOD_MENU B where A.ID = B.ID and A.ID = ?';
         var id = req.query.id; // foodList Id
 
         connection.query(query, id, function (err, rows) {
@@ -30,7 +30,7 @@ router.get('/DetailInfo', function (req, res, next) {
                 throw err;
             }else{
                 console.log("rows : " + JSON.stringify(rows));
-                res.render('shoppingDetail', {rows : rows});
+                res.render('foodShopInfo', {rows : rows, length:rows.length});
             }
             connection.release();
         })
