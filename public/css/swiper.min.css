@@ -12,7 +12,7 @@
  * 
  * Released on: December 13, 2016
  */
-.swiper-container{margin-left:auto;margin-right:auto;position:relative;overflow:hidden;z-index:1}.swiper-container-no-flexbox
+.swiper-container{margin-left:auto;margin-right:auto; position:relative;overflow:hidden;z-index:1}.swiper-container-no-flexbox
 .swiper-slide{float:left}
 .swiper-slide img{width:100%; height:min-height:213px}
 .swiper-container-vertical>.swiper-wrapper{-webkit-box-orient:vertical;-moz-box-orient:vertical;-ms-flex-direction:column;-webkit-flex-direction:column;flex-direction:column}

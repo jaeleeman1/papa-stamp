@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/swiper.min.css">
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+</head>
+
+<body>
+<div id="container">
+    <div id="shopping_detail_wrap">
+        <a href="javascript:history.back()"><p class="back_arrow detail"><img src="/images/btn_back_w@3x.png"></p></a>
+        <!--슬라이드S-->
+        <div id="swiper-container_fix">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="/images/photo_resdetail_01.png"></div>
+                    <div class="swiper-slide"><img src="/images/photo_resdetail_02.png"></div>
+                    <div class="swiper-slide"><img src="/images/photo_resdetail_03.png"></div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- Swiper JS -->
+        <script src="/js/swiper.min.js"></script>
+
+        <!-- Initialize Swiper -->
+        <script>
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                paginationClickable: true,
+                spaceBetween: 0,
+                centeredSlides: true,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: false
+            });
+        </script>
+        <!--슬라이드 E-->
+        <div id="shopping_detail_body">
+            <ul class="info">
+                <li class="res_name"><%= rows[0].FOOD_NAME_CN%><span class="kor">(<%= rows[0].FOOD_NAME_KR%>)</span></li>
+                <li class="price"><%=rows[0].FOOD_TYPE_KR%>・<%=rows[0].CAPITA_PRICE%></li>
+                <li class="star">
+                    <img src="/images/star@3x.png"><img src="/images/star@3x.png"><img src="/images/star@3x.png"><img src="/images/star_dim@3x.png" alt="딤드별"><img src="/images/star_dim@3x.png" alt="딤드별"><span class="txt">4.8</span>
+                </li>
+            </ul>
+
+            <div class="res_detail">
+                <ul >
+                    <li class="ti_detail">영업시간</li>
+                    <li class="txt_en"><%= rows[0].BSNSS_TIME%></li>
+                </ul>
+
+                <ul>
+                    <li class="ti_detail">메뉴</li>
+                    <li class="txt_ch">
+                        <% for(var i=0; i<length; i++){
+                             if(rows[i].FOOD_DIV == 'FOOD') {%>
+                        <p><%=rows[i].FOOD_MENU_CN %><br><span class="txt_small"><%=rows[i].FOOD_MENU_KR %></span></p>
+                        <% }}%>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li class="ti_detail">위치</li>
+                    <li class="txt_ch">
+                        <p><%=rows[0].FOOD_ADDR_CN%> (<%=rows[0].TAXI_ADDR_CN%>)</p>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li class="ti_detail">전화번호</li>
+                    <li class="txt_en">
+                        <p><%=rows[0].PHONE_NUM%></p>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li class="ti_detail">판매주류</li>
+                    <li>
+                        <p><%   var cnt = 0;
+                                for(var i =0; i<length; i++){
+                                if(rows[i].FOOD_DIV == 'DRINK' && cnt > 0){
+                                  %> / <%=rows[i].FOOD_MENU_CN%> (<%=rows[i].FOOD_MENU_KR%>)
+                                <%}else if(rows[i].FOOD_DIV == 'DRINK'){%>
+                                <%=rows[i].FOOD_MENU_CN%> (<%=rows[i].FOOD_MENU_KR%>)
+                                <%    cnt++;
+                                }
+                            }%></p>
+                    </li>
+                </ul>
+
+                <ul>
+                    <li class="ti_detail">부가정보</li>
+                    <li>
+                        <p><%=rows[0].DESCRIPTION%></p>
+                    </li>
+                </ul>
+            </div>
+            <!-- res_detail E -->
+        </div>
+    </div>
+    <a href="#"><div id="btn_put"><span class="ic_add"><img src="/images/btn_ic_direction@3x.png"></span>길찾기</div></a>
+
+</div>
+</body>
+
+</html>
