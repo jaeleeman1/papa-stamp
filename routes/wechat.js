@@ -1,6 +1,6 @@
 var express = require('express'),
     router = express.Router();
-weixin = require ( 'weixin-api' ),
+    weixin = require ( 'weixin-api' ),
     api = require("../lib/api"),
     bodyParser = require('body-parser');
 

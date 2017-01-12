@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title><%= wechatSendTitle %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="/javascripts/jquery-1.11.2.min.js"></script>
+<script>
+	$(function() {
+		$('#btn_send').on(
+				'click',
+				function() {
+					if ($('#wechatId').val() == "") {
+						alert('Wechat ID를 꼭 입력하세요!');
+						$('#wechatId').focus();
+						return;
+					}
+					
+					$('#sendform').submit(); // 전송
+				});
+	});
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+
+			<h1><%= wechatSendTitle %></h1>
+
+			<form action="/wechat/msgSend" method="post" id="sendform"
+				class="form-inline">
+				<table class="table table-condensed">
+					<tr>
+						<th width="100"><label for="id">Wechat ID</label></th>
+						<td><input type="text" name="id" id="wechatId" size="50"
+							maxlength="12" class="form-control" /></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="button" id="btn_send" value="텍스트 보내기"
+							class="btn btn-primary" /> <input type="button" value="test2"
+							class="btn btn-danger" onclick="history.back();" /></td>
+
+					</tr>
+				</table>
+
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
