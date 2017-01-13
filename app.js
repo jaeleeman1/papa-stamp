@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var food = require('./routes/food');
 var wechat = require('./routes/wechat');
 var agentWechat = require('./routes/agentWechat');
+var dbapi = require('./routes/dbapi');
 
 // app express
 var app = express( );
@@ -31,6 +32,7 @@ app.use('/users', users);
 app.use('/food', food);
 app.use('/', wechat);
 app.use('/wechat', agentWechat);
+app.use('/dbapi', dbapi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
