@@ -7,7 +7,7 @@ var express = require('express'),
 /////////
 var request = require('request');;
 var ACCESS_TOKEN = new Object();
-var getConnection = require('./db');
+var getConnection = require('../lib/db_connection');
 
 
 router.get('/', function(req, res, next) {
