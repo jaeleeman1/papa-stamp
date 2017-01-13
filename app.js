@@ -32,7 +32,7 @@ app.use('/users', users);
 app.use('/food', food);
 app.use('/', wechat);
 app.use('/wechat', agentWechat);
-app.use('/dbapi', dbApi);
+app.use('/api', dbApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
