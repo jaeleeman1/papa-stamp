@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;margin:0;font-family:"Ú°?äºýÙ";}
+        #allmap{width:100%;height:500px;}
+        p{margin-left:5px; font-size:14px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
+    <title>Baidu map API Test</title>
+</head>
+<body>
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    // ÛÝÓøò¢?APIÍíÒö
+    var map = new BMap.Map("allmap");
+    var mPoint = new BMap.Point(121.4943225398708, 31.244152571300409);
+
+    var Points = [ new BMap.Point ( 116.401801 , 39.912114 ), new BMap.Point ( 116.402802 , 39.912225 ), new BMap.Point ( 116.403803 , 39.912336 ), new BMap.Point ( 116.404804 , 39.912447 ), new BMap.Point ( 116.405805 , 39.912558 ), new BMap.Point ( 116.406806 , 39.912669 ), new BMap.Point ( 116.407804 , 39.912123 ) ];
+
+    var MARKER1 = new BMap.Marker (Points [ 0 ]);    // create seven marked
+    var MARKER2 = new BMap.Marker (Points [ 1 ]);
+    var marker3 = new  BMap.Marker (Points [ 2 ]);
+    var marker4 = new  BMap.Marker (Points [ 3 ]);
+    var marker5 = new  BMap.Marker (Points [ 4 ]);
+    var marker6 = new  BMap.Marker (Points [ 5 ]);
+    var marker7 = new  BMap.Marker (Points [ 6 ]);
+
+    var marker = new BMap.Marker(mPoint);
+
+    map.centerAndZoom(mPoint, 20);
+    map.enableScrollWheelZoom();
+
+
+    //var circle = new BMap.Circle(mPoint,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+
+
+    var bounds = map.getBounds();
+
+    console.log(bounds);
+    console.log(map.getBounds().getNorthEast()); // 북동쪽
+    console.log(map.getBounds().getSouthWest()); // 남서쪽
+
+    map.addOverlay(marker);
+    map.addOverlay(MARKER1);
+    map.addOverlay(MARKER2);
+    map.addOverlay(marker3);
+    map.addOverlay(marker4);
+    map.addOverlay(marker5);
+    map.addOverlay(marker6);
+    map.addOverlay(marker7);
+
+    map.centerAndZoom (mPoint, 16 );
+    map.setViewport (Points);
+    Map.addControl ( new new BMap.NavigationControl ())
+    marker7.addEventListener ( " the Click " , function () {         // the marker7 add event
+        map.setViewport (Points);　　　　　　　　　　　　　　});
+    //var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});
+    //local.searchNearby('óÉ?',mPoint,1000);
+</script>
