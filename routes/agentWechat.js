@@ -3,7 +3,8 @@ var express = require('express'),
     weixin = require ( 'weixin-api' ),
     api = require("../lib/api"),
     bodyParser = require('body-parser'),
-    request = require('request');
+    request = require('request'),
+    getConnection = require('../lib/db_connection');
 
 var ACCESS_TOKEN = new Object();
 

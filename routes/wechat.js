@@ -43,7 +43,7 @@ router.post('/', function(req, res, next) {
         }
 
 
-        WechatMessageInsert(req,obj);
+        //WechatMessageInsert(req,obj);
 
     });
 });

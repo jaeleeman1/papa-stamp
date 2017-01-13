@@ -4,7 +4,7 @@
 
 var express = require('express');
 var router = express.Router();
-var getConnection = require('./db');
+var getConnection = require('../lib/db_connection');
 
 //GET shopping detail Information
 router.get('/shopInfo', function (req, res, next) {
