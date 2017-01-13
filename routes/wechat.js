@@ -57,8 +57,11 @@ var WechatMessageInsert = function(req,obj,res){
             '		 ( FROM_USER_NAME, TO_USER_NAME, DIAL_DATE, DIAL_CONTENT,DEL_YN )  ' +
             'VALUES ( ?,?,?,?,?)  ';
 
-        var from_user_name = obj.FromUserName;
-        var to_user_name   = obj.ToUserName;
+        // var from_user_name = obj.FromUserName;
+        // var to_user_name   = obj.ToUserName;
+
+        var from_user_name = "123456ABC";
+        var to_user_name   = "456890ABC";
         var dial_date = new Date().getTime();
         var dial_content = obj.Content;
         var del_yn    = 'N';
