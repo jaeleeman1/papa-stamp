@@ -24,4 +24,26 @@ router.get('/getUserInfo', function (req, res, next) {
     });
 });
 
+//GET Road Information
+router.get('/getRoadInfo', function (req, res, next) {
+
+    getConnection(function (err, connection) {
+
+        var query = 'select USER_OPEN_ID from TB_ROAD_INFO where START_ADDR_KR = ?';
+        var id = req.query.wechatId;
+        
+		connection.query(query, id, function (err, rows) {
+            if (err) {
+                  console.error("err : " + err);
+                  throw err;
+            }else{
+		  		if(rows.length > 0) {
+					res.json(rows[0]);
+				}
+            }
+            connection.release();
+        });
+    });
+});
+
 module.exports = router;
