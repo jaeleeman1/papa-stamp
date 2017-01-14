@@ -1,5 +1,5 @@
 var express = require('express'),
-	router = express.Router(),
+    router = express.Router(),
     weixin = require ( 'weixin-api' ),
     api = require("../lib/api"),
     bodyParser = require('body-parser'),
@@ -7,30 +7,52 @@ var express = require('express'),
     getConnection = require('../lib/db_connection');
 
 var ACCESS_TOKEN = new Object();
+var RETURN_DATA = new Object();
 
-/* GET init page. */
+/* GET Agent Wechat Init Page. */
 router.get('/', function(req, res, next) {
-    console.log('start');
-    res.render('wechat/agentWechatForm', {wechatSendTitle: 'Wechat Message Tool'});
+	console.log('##### Ger Agent Wechat Start #####');
+    	res.render('wechat/agentWechatForm', {wechatSendTitle: 'Wechat Message Tool'});
 });
 
 router.get('/agentWechat', function(req, res, next) {
-    res.render('wechat/agentWechat', {wechatSendTitle: 'Wechat Message Tool'});
+    	console.log('##### Get Agent Wechat Start #####');
+    	res.render('wechat/agentWechatForm', {wechatSendTitle: 'Wechat Message Tool'});
 });
 
 router.post('/agentWechat', function(req, res, next) {
-	console.log('start message send');
-	console.log(req.body);
-	var openId = req.body.wechatId;
+    	console.log('##### Post Agent Wechat Start #####');
+	
+	getUserInfo(req.body.wechatId);
 
-	getToken(openId);
+	getToken(RETURN_DATA.openId);
+	
 	res.redirect('/wechat');
 });
 
-function getToken(openId) {
-	console.log(' get token start ');
+function getUserInfo(wechatId) {
+    	console.log('##### get user info #####');
+	
+	var returnData;
+	var getUserInfoURL = "http://nbnl.couphone.cn:8080/api/getUserInfo?wechatId=" + wechatId;
+	var getUserInfoOptions = {
+		method: "GET",
+		url: getUserInfoURL,
+	};
 
-    //var openId = 'oH7FywN073pRVpCF0G6nMl6iI8mg';
+	function getUserInfoCallback (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body);
+			console.log('*****'+ data.USER_OPEN_ID + '*****');	
+			RETURN_DATA.openId = data.USER_OPEN_ID;
+		}
+	}
+	request(getUserInfoOptions, getUserInfoCallback);
+}
+
+function getToken(openId) {
+    	console.log('##### get token #####');
+
 	var appID = 'wx87ac1cef286fb38d';
 	var appsecret = '39278936f9e35c2e82ed57f25a05717f';
 
@@ -53,7 +75,7 @@ function getToken(openId) {
 };
 
 function pushChat(wechatId) {
-	console.log(' pushChat start ');
+	console.log('##### pushChat start #####');
 
 	var formatted_message = " Couphone Push Message "   ;
 	var pushChatURL = "https://api.wechat.com/cgi-bin/message/custom/send?access_token="+ACCESS_TOKEN.access_token;
