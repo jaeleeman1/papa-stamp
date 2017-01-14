@@ -7,20 +7,21 @@ router.get('/getUserInfo', function (req, res, next) {
 
     getConnection(function (err, connection) {
 
-        var query = 'select * from TB_USER_INFO as TUI TUI.USER_OPEN_ID = ?';
-        var id = req.query.userOpenId;
-
-        connection.query(query, id, function (err, rows) {
+        var query = 'select USER_OPEN_ID from TB_USER_INFO where USER_WECHAT_ID = ?';
+        var id = req.query.wechatId;
+        
+	    connection.query(query, id, function (err, rows) {
             if (err) {
-            //    console.error("err : " + err);
-                  throw err;
+                    console.error("err : " + err);
+                    throw err;
             }else{
-            //    console.log("rows : " + JSON.stringify(rows));
-                  res.render('foodShopInfo', {rows : rows, length:rows.length});
+		            if(rows.length > 0) {
+                        res.json(rows[0]);
+                    }
             }
             connection.release();
-        })
-    })
+        });
+    });
 });
 
 module.exports = router;
