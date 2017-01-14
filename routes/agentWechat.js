@@ -24,11 +24,33 @@ router.post('/agentWechat', function(req, res, next) {
     	console.log('##### Post Agent Wechat Start #####');
 	
 	getUserInfo(req.body.wechatId);
+	
+	etRoadInfo(req.body.wechatId);
 
 	getToken(RETURN_DATA.openId);
 	
 	res.redirect('/wechat');
 });
+
+function getRoadInfo(wechatId) {
+    	console.log('##### get Road info #####');
+	
+	var returnData;
+	var getUserInfoURL = "http://nbnl.couphone.cn:8080/api/getRoadInfo?wechatId=" + wechatId;
+	var getUserInfoOptions = {
+		method: "GET",
+		url: getUserInfoURL,
+	};
+
+	function getUserInfoCallback (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body);
+			console.log('*****'+ data.USER_OPEN_ID + '*****');	
+			RETURN_DATA.openId = data.USER_OPEN_ID;
+		}
+	}
+	request(getUserInfoOptions, getUserInfoCallback);
+}
 
 function getUserInfo(wechatId) {
     	console.log('##### get user info #####');
