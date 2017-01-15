@@ -25,7 +25,7 @@ router.post('/agentWechat', function(req, res, next) {
 	
 	getUserInfo(req.body.wechatId);
 	
-	etRoadInfo(req.body.wechatId);
+	getRoadInfo(req.body.wechatId);
 
 	getToken(RETURN_DATA.openId);
 	
