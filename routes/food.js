@@ -3,26 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
-var getConnection = require('./db');
-// var baiduMap = require('baidumap');
-
-//GET foodShop List
-// router.get('/shopList', function (req, res, next) {
-//
-//     getConnection(function (err, connection){
-//         var query = 'select * from TB_FOOD_SHOP_LIST_CN';
-//         connection.query(query, function (err, rows) {
-//             if (err) {
-//                 //  console.error("err : " + err);
-//                 throw err;
-//             }else{
-//                    console.log("rows : " + JSON.stringify(rows));
-//                    res.render('foodShopList', {rows : rows, length:rows.length});
-//             }
-//             connection.release();
-//         })
-//     });
-// });
+var getConnection = require('../lib/db_connection');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
@@ -32,7 +13,7 @@ router.get('/', function (req, res, next) {
 //GET foodShopList
 router.get('/shopList', function (req, res, next) {
     getConnection(function (err, connection){
-        var query = 'select * from TB_FOOD_SHOP_LIST_CN';
+        var query = 'select * from TB_FOOD_SHOP_LIST';
 
         connection.query(query, function (err, row) {
             if (err) {
@@ -51,7 +32,7 @@ router.get('/shopList', function (req, res, next) {
 //GET foodShop detail Information
 router.get('/shopInfo', function (req, res, next) {
     getConnection(function (err, connection) {
-        var query = 'select * from TB_FOOD_SHOP_LIST_CN A, TB_FOOD_MENU B where A.FOOD_ID = B.FOOD_ID and A.FOOD_ID = ?';
+        var query = 'select * from TB_FOOD_SHOP_LIST A, TB_FOOD_MENU B where A.FOOD_ID = B.FOOD_ID and A.FOOD_ID = ?';
         var id = req.query.id; // foodList Id
 
         connection.query(query, id, function (err, rows) {
