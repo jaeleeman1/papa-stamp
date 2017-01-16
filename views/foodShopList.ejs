@@ -97,16 +97,15 @@
     var getRating = function(foodScope, dynamicDom) {
         var rating = foodScope * 2;
 
-        var fullStar = 0;
+        var fullStar = foodScope;
         var halfStar = false;
 
         // 별 반개가 남으면 홀수, 아니면 짝수
         if (rating % 2 == 1) {
             halfStar = true;
-            fullStar = foodScope - 0.5;
-        } else {
-            fullStar = foodScope;
+            fullStar -= 0.5;
         }
+
         for (var i = 1; i <= 5; i++) {
             if (i <= fullStar) {
                 dynamicDom += '<img src="/images/star@3x.png">';
