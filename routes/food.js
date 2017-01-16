@@ -7,18 +7,40 @@ var getConnection = require('./db');
 // var baiduMap = require('baidumap');
 
 //GET foodShop List
-router.get('/shopList', function (req, res, next) {
+// router.get('/shopList', function (req, res, next) {
+//
+//     getConnection(function (err, connection){
+//         var query = 'select * from TB_FOOD_SHOP_LIST_CN';
+//         connection.query(query, function (err, rows) {
+//             if (err) {
+//                 //  console.error("err : " + err);
+//                 throw err;
+//             }else{
+//                    console.log("rows : " + JSON.stringify(rows));
+//                    res.render('foodShopList', {rows : rows, length:rows.length});
+//             }
+//             connection.release();
+//         })
+//     });
+// });
 
+//GET foodShopMap Basic rendering
+router.get('/', function (req, res, next) {
+      res.render('foodShopList');
+});
+
+//GET foodShopList
+router.get('/shopList', function (req, res, next) {
     getConnection(function (err, connection){
         var query = 'select * from TB_FOOD_SHOP_LIST_CN';
 
-        connection.query(query, function (err, rows) {
+        connection.query(query, function (err, row) {
             if (err) {
-                //  console.error("err : " + err);
+                console.error("err : " + err);
                 throw err;
             }else{
-                   console.log("rows : " + JSON.stringify(rows));
-                   res.render('foodShopList', {rows : rows, length:rows.length});
+                // console.log("foodShopList success : " + JSON.stringify(row));
+                res.send({data:row});
             }
             connection.release();
         })
@@ -37,8 +59,13 @@ router.get('/shopInfo', function (req, res, next) {
               //  console.error("err : " + err);
                 throw err;
             }else{
-             //   console.log("rows : " + JSON.stringify(rows));
-                res.render('foodShopInfo', {rows : rows, length:rows.length});
+               // console.log("rows : " + JSON.stringify(rows));
+
+                if(rows.length > 0){
+                    res.render('foodShopInfo', {rows : rows, length:rows.length});
+                }else{
+                    res.render('foodShopList');
+                }
             }
             connection.release();
         })
