@@ -5,7 +5,7 @@ var getConnection = require('../lib/db_connection');
 //GET User Information
 router.get('/getUserInfo', function (req, res, next) {
 	getConnection(function (err, connection) {
-		if(JSON.stringify(req.body) == '{}') {
+		if(JSON.stringify(req.query) == '{}') {
 			res.status(404);
 			res.json({
 				"success" : 0,
@@ -41,7 +41,7 @@ router.get('/getUserInfo', function (req, res, next) {
 //GET Road Information
 router.get('/getRoadInfo', function (req, res, next) {
 	getConnection(function (err, connection) {
-		if(JSON.stringify(req.body) == '{}') {
+		if(JSON.stringify(req.query) == '{}') {
 			res.status(404);
 			res.json({
 				"success" : 0,
