@@ -199,7 +199,8 @@ a:active{text-decoration:none; }
 #restaurant_find_local_map {position:fixed; top:0; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 
-#restaurant_find_local_list_wrap {padding:304px 6% 15px 4.4%; }
+#restaurant_find_local_list_wrap {padding:0px 6% 15px 4.4%; }
+/*#restaurant_find_local_list_wrap {padding:304px 6% 15px 4.4%; }*/
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}
