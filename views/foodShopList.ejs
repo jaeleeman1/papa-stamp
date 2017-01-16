@@ -66,6 +66,8 @@
                         var foodTypeKr = value.FOOD_TYPE_KR;
                         var foodScope = value.FOOD_SCOPE;
                         var capitaPrice = value.CAPITA_PRICE;
+                        var longitude = value.LONGITUDE;
+                        var latitude = value.LATITUDE;
 
                         var dynamicDom = '<div id="restaurant_find_local_list">' +
                                             '<div class="fir"><span class="ic_last_pin">' + (index+1) + '</span></div>' +
@@ -83,7 +85,7 @@
 
                         $('#restaurant_find_local_list_wrap').append(dynamicDom);
 
-                        geoCodeSet.push({longitude : value.LONGITUDE, latitude : value.LATITUDE}); // 위도 경도 셋
+                        geoCodeSet.push({longitude : longitude, latitude : latitude}); // 위도 경도 셋
                     });
                     initMap(geoCodeSet);
                 },
