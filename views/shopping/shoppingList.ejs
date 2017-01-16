@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script type="text/javascript" src="js/ios_scalable.js"></script>
+
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+
+    <script type ="text/javascript">
+        $(function(){
+            $.ajax({
+                url: 'http://nbnl.couphone.cn:8080/shopping/shoppingList',
+                //url: 'http://localhost:8080/shopping/shoppingList',
+                type: 'GET',
+                success: function(data) {
+                    var geoCodeSet = new Array();
+                    $.each(data.data, function(index, value) {
+                        //console.log(index + ': ', value);
+                        var dynamicTag = '<div class="buy_wrap">' +
+                            '<img src="/images/photo_buy_01.png" class="photo_buy">' +
+                            '<ul>' +
+                            '<li class="name">' + value.PRDCT_NM +'<li>' +
+                            '<li class="price">' + value.PRICE +'<li>' +
+                            '</ul>' +
+                            '<a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card"></a>' +
+                            '<div class="clear_both"></div>' +
+                            '</div>';
+                        $('#shopping_buy_wrap').append(dynamicTag);
+                    });
+                },
+                error: function(request, status, error) {
+                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    console.log('Error occured');
+                }
+            })
+        });
+    </script>
+</head>
+
+<body>
+<div id="container">
+    <a href="javascript:history.back()"><p class="back_arrow"><img src="images/btn_back_w@3x.png"></p></a>
+    <div id="header">
+        <span class="part"></span><span class="head_ti">쇼핑</span>
+    </div>
+    <!-- Shopping list -->
+    <div id="shopping_buy_wrap"></div>
+    <!-- 하단버튼 -->
+    <div id="btn_buy">
+        <div class="view_product"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품 3개</div>
+        <a href="#"><div class="price_buy"><span class="ic_price">￥140</span>구매</div></a>
+    </div>
+
+</div>
+</body>
+
+</html>
