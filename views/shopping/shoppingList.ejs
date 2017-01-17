@@ -29,39 +29,6 @@
 
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="js/ios_scalable.js"></script>
-
-    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="/js/ios_scalable.js"></script>
-
-    <script type ="text/javascript">
-        $(function(){
-            $.ajax({
-                url: 'http://nbnl.couphone.cn:8080/shopping/shoppingList',
-                //url: 'http://localhost:8080/shopping/shoppingList',
-                type: 'GET',
-                success: function(data) {
-                    var geoCodeSet = new Array();
-                    $.each(data.data, function(index, value) {
-                        //console.log(index + ': ', value);
-                        var dynamicTag = '<div class="buy_wrap">' +
-                            '<img src="/images/photo_buy_01.png" class="photo_buy">' +
-                            '<ul>' +
-                            '<li class="name">' + value.PRDCT_NM +'<li>' +
-                            '<li class="price">' + value.PRICE +'<li>' +
-                            '</ul>' +
-                            '<a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card"></a>' +
-                            '<div class="clear_both"></div>' +
-                            '</div>';
-                        $('#shopping_buy_wrap').append(dynamicTag);
-                    });
-                },
-                error: function(request, status, error) {
-                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    console.log('Error occured');
-                }
-            })
-        });
-    </script>
 </head>
 
 <body>
@@ -71,13 +38,25 @@
         <span class="part"></span><span class="head_ti">쇼핑</span>
     </div>
     <!-- Shopping list -->
-    <div id="shopping_buy_wrap"></div>
+    <div id="shopping_buy_wrap">
+        <% for(var i = 0; i < data.length; i++) { %>
+            <div class="buy_wrap">
+                <img src="/images/photo_buy_01.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?id=<%= data[i].PRDCT_ID%>'">
+                <a href = "/shopping/shoppingDetail?id=<%= data[i].PRDCT_ID%>">
+                    <ul>
+                        <li class="name"><%= data[i].PRDCT_NM %><li>
+                            <li class="price"><%= data[i].PRICE %><li>
+                    </ul>
+                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card"></a>
+                <div class="clear_both"></div>
+            </div>
+        <% } %>
+    </div>
     <!-- 하단버튼 -->
     <div id="btn_buy">
         <div class="view_product"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품 3개</div>
         <a href="#"><div class="price_buy"><span class="ic_price">￥140</span>구매</div></a>
     </div>
-
 </div>
 </body>
 
