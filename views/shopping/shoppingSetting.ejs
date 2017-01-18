@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+
+    <script type ="text/javascript">
+        $(function() {
+            $("#btn_plus").click(
+                function() {
+                    var cnt =$("#set_id").text();
+                    cnt++;
+                    $("#set_id").text(cnt);
+                    $("#buy_count").val(cnt);
+                }
+            );
+
+            $("#btn_minus").click(
+                function() {
+                    var cnt =$("#set_id").text();
+                    cnt--;
+                    if(cnt > 0) {
+                        $("#set_id").text(cnt);
+                    }else {
+                        alert('상품은 1개 이상 선택해야 합니다.');
+                    }
+                }
+            );
+
+            $("#btn_confirm").click(
+                function() {
+                    $("#buy_setting").submit();
+                }
+            );
+        });
+    </script>
+
+</head>
+<form action="/shopping/shoppingBuyList" method="post" style="display:none" name="buy_setting" id="buy_setting">
+    <input type="hidden" name="buy_count" id="buy_count" value="<%= prdctCnt %>"/>
+    <input type="hidden" name="buy_prdct_id" id="buy_prdct_id" value="<%= prdctId %>"/>
+    <input type="hidden" name="buy_wechat_id" id="buy_wechat_id" value="<%= wechatId %>"/>
+</form>
+
+<body id="back_setup">
+<div id="container_popup">
+    <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
+    <div id="header">
+        <span class="part"></span><span class="head_ti">쇼핑</span>
+    </div>
+
+    <div id="pop_up_wrap">
+        <div class="pop_up_body">
+            <p class="ti">개수 설정<p>
+            <div class="set_num">
+                <ul>
+                    <li class="fir"><a href="#"><img src="/images/ic_popup_minus.png" id="btn_minus"></a></li>
+                    <li class="sec" id="set_id"><%= prdctCnt %></li>
+                    <li class="thi"><a href="#"><img src="/images/ic_popup_plus.png" id="btn_plus"></a></li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <p class="btn_txt"><a href="/shopping/shoppingBuyList?wechatId=jaeleeman1"><span>취소</span></a><a href="#"><span class="confirm" id="btn_confirm">확인</span></a></p>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

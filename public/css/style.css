@@ -171,7 +171,7 @@ a:active{text-decoration:none; }
 
 #shopping_detail_body {padding:225px 5.6% 64px 5.3%}
 #shopping_detail_body .info {margin-bottom:24px}
-#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 36px; }
+#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 80px; }
 #shopping_detail_body .price {font-size:13px; line-height: 19px; }
 #shopping_detail_body .star {padding-top:6px; line-height:0}
 #shopping_detail_body .star img{width:14px; margin-right:2px;}
@@ -199,8 +199,7 @@ a:active{text-decoration:none; }
 #restaurant_find_local_map {position:fixed; top:0; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 
-#restaurant_find_local_list_wrap {padding:0px 6% 15px 4.4%; }
-/*#restaurant_find_local_list_wrap {padding:304px 6% 15px 4.4%; }*/
+#restaurant_find_local_list_wrap {padding:304px 6% 15px 4.4%; }
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}

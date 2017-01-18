@@ -28,17 +28,17 @@
     <meta itemprop="keywords" content="">
 
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <script type="text/javascript" src="js/ios_scalable.js"></script>
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
 
 </head>
 
-<body>
+<body id="EBEBEB">
 <div id="container">
-    <a href="javascript:history.back()"><p class="back_arrow"><img src="images/btn_back_w@3x.png"></p></a>
+    <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
     <div id="header">
-        <span class="part"></span><span class="head_ti">쇼핑</span>
+        <span class="part"></span><span class="head_ti">장바구니</span>
     </div>
-    <!-- Shopping list -->
+
     <div id="shopping_buy_wrap">
         <% for(var i = 0; i < data.length; i++) { %>
             <div class="buy_wrap">
@@ -46,18 +46,20 @@
                 <a href = "/shopping/shoppingDetail?id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
-                        <li class="price">￥<%= data[i].PRICE %><li>
+                        <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
-                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card"></a>
-                    <div class="clear_both"></div>
+                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
+                <div class="clear_both"></div>
             </div>
         <% } %>
     </div>
     <!-- 하단버튼 -->
-    <div id="btn_buy">
-        <div class="view_product"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품 3개</div>
-        <a href="#"><div class="price_buy"><span class="ic_price">￥140</span>구매</div></a>
+    <div id="btn_cart">
+        <div class="total_wrap">합계<span class="right">￥140</span></div>
+        <a href="#"><div class="view_product">장바구니 비우기</div></a>
+        <a href="#"><div class="price_buy">구매하기</div></a>
     </div>
+
 </div>
 </body>
 
