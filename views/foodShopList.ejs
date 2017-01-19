@@ -55,8 +55,8 @@
 
     $(function(){
             $.ajax({
-//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-                url: 'http://127.0.0.1:8080/food/shopList',
+                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+//                url: 'http://127.0.0.1:8080/food/shopList',
                 type: 'GET',
                 success: function(data) {
                     var geoCodeSet = new Array();
@@ -71,22 +71,6 @@
                         var capitaPrice = value.CAPITA_PRICE;
                         var longitude = value.LONGITUDE;
                         var latitude = value.LATITUDE;
-
-                        // 테스트 후 삭제 예정
-//                        var departNameCn = "鹿港小镇";
-//                        var departNameKr = "벨라지오 Bellagio";
-//                        var departAddrWalking = "黄浦区豫园路85号(近九曲桥)";
-//                        var departAddrTaxi = "港汇恒隆广场 (华山路口)";
-//                        var departLatitude = "黄浦区豫园路85号(近九曲桥)";
-//                        var departLongitude = "港汇恒隆广场 (华山路口)";
-                        // 테스트 후 삭제 예정
-
-//                        var arriveNameCn = value.FOOD_NAME_CN;
-//                        var arriveNameKr = value.FOOD_NAME_KR;
-//                        var arriveAddrWalking = value.FOOD_ADDR_CN;
-//                        var arriveAddrTaxi = value.TAXI_ADDR_CN;
-//                        var arriveLatitude = value.LATITUDE;
-//                        var arriveLongitude = value.LONGITUDE;
                         var parameter = "'transport" + (index+1) + "'";
 
 
