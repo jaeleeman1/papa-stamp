@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/swiper.min.css">
+    <style type="text/css">
+        #l-map{height:600px;width:100%;}
+        /*#r-result,#r-result table{width:100%;}*/
+    </style>
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
+</head>
+
+<body id="back_100_hidden">
+<div id="container">
+    <div id="shopping_detail_wrap">
+        <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
+        <div id="header_nor" class="restaurant">
+            <div class="tab">
+                <ul>
+                    <li class="fir">도보</li>
+                    <a href="#"><li class="sec disable">택시</li></a>
+                </ul>
+            </div>
+            <div class="clear_both"></div>
+        </div>
+
+        <div id="map_body">
+            <!-- 출발S -->
+            <div>
+                <ul>
+                    <li class="mark"><span class="txt">출발</span><li>
+                        <!-- width보다 글자 길어질 경우 ... 처리 -->
+                    <li class="add_name_sc">
+                        <p id="depart"><%=depart.nameCn%> ( <%=depart.nameKr%> )</p>
+                        <p class="add_detail_sc" id="departAddr"><%=depart.addrWalking%></p>
+                    <li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <!-- 출발E -->
+
+            <!-- Center Dot S -->
+            <div class="center_dot_wrap">
+                <ul>
+                    <li class="center_dot"><img src="/images/dot_course_centerdot@3x.png"><li>
+                    <li class="center_dot_hr"><hr></hr><li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <!-- Center Dot E -->
+
+            <!-- 도착S -->
+            <div>
+                <ul>
+                    <li class="mark"><span class="txt">도착</span><li>
+                    <li class="add_name_sc">
+                        <p id ="arrive"><%=arrive.nameCn%> ( <%=arrive.nameKr%> )</p>
+                        <p class="add_detail_sc" id="arriveAddr"><%=arrive.addrWalking%></p>
+                    <li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <!-- 도착E -->
+
+            <!-- 시간S -->
+            <div>
+                <ul>
+                    <li class="mark"><li>
+                    <li><p class="add_time_sc">도보 <%=duration.value%>분   <%=distance.value%>m</p><li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <!-- 시간E -->
+
+        </div>
+        <!-- map_body E -->
+
+        <!--지도영역-->
+        <div id="l-map"></div>
+        <!--<div type="hidden" id="r-result"></div>-->
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var map = new BMap.Map("l-map");
+//      var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+        var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+        walking.search($('#departAddr').text(), $('#arriveAddr').text());
+
+        $.ajax({
+//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+            url: 'http://api.map.baidu.com/routematrix/v2/walking?',
+            type: 'GET',
+            success: function(data) {
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log('Error occured');
+            }
+        })
+
+    });
+</script>
+</html>
+<!-- 
+<p class="add_name">上海外婆(상해외할머니)</p>
+ -->
