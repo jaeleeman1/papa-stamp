@@ -95,10 +95,10 @@ router.get('/transport', function (req, res, next) {
                                 + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
                     request.get({'url': host}, function(error, res, body){
                         if(!error){
-                            console.log('body', body);
-
-                            var distance = body.result[0];
-                            var duration = body.result[1];
+                            var jsonBody = JSON.parse(body);
+                            console.log('jsonBody', jsonBody);
+                            var distance = jsonBody.result[0];
+                            var duration = jsonBody.result[1];
 
                             res.render('foodTransport', {depart: depart, arrive : arrive, distance : distance, duration : duration});
                         }
