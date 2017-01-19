@@ -93,15 +93,39 @@ router.get('/transport', function (req, res, next) {
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                 var host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
                                 + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+
+                var durationBase = 60;
+                var distanceBase = 1000;
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
-                            console.log('jsonBody', jsonBody);
-                            var distance = jsonBody.result[0].distance;
-                            var duration = jsonBody.result[0].duration;
-                            console.log('distance', distance);
-                            console.log('duration', duration);
-                            res.render('foodTransport', {depart: depart, arrive : arrive, distance : distance, duration : duration});
+                            var duration = jsonBody.result[0].duration.value;
+                            var distance = jsonBody.result[0].distance.value;
+
+                            var calculateDuration = '';
+                            var calculateDistance = '';
+
+                            if(duration >= durationBase){
+                                if(duration%durationBase != 0){
+                                    calculateDuration = duration/durationBase + '시간 ' + duration%durationBase + '분';
+                                }else{
+                                    calculateDuration = duration/durationBase + '시간';
+                                }
+                            }else{
+                                calculateDuration = durationBase + '분'
+                            }
+
+                            if(distance >= distanceBase){
+                                if(distance%calculateDistance != 0){
+                                    calculateDistance = distance/distanceBase + 'km ' + distance%distanceBase + 'm';
+                                }else{
+                                    calculateDistance = distance/distanceBase + 'km';
+                                }
+                            }else{
+                                calculateDistance = distance + 'm';
+                            }
+
+                            res.render('foodTransport', {depart: depart, arrive : arrive, distance : calculateDistance, duration : calculateDuration});
                         }
                     }).on('error', function(e){
                         console.log(e)
