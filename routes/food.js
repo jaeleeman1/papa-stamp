@@ -94,36 +94,20 @@ router.get('/transport', function (req, res, next) {
                 var host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
                                 + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
 
-                var durationBase = 60;
-                var distanceBase = 1000;
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
+
+                            var durationBase = 60;
+                            var distanceBase = 1000;
                             var duration = jsonBody.result[0].duration.value;
                             var distance = jsonBody.result[0].distance.value;
 
-                            var calculateDuration = '';
-                            var calculateDistance = '';
+                            var calculateDuration = getDuration(duration, durationBase);
+                            var calculateDistance = getDistance(distance, distanceBase);
 
-                            if(duration >= durationBase){
-                                if(duration%durationBase != 0){
-                                    calculateDuration = duration/durationBase + '시간 ' + duration%durationBase + '분';
-                                }else{
-                                    calculateDuration = duration/durationBase + '시간';
-                                }
-                            }else{
-                                calculateDuration = durationBase + '분'
-                            }
-
-                            if(distance >= distanceBase){
-                                if(distance%calculateDistance != 0){
-                                    calculateDistance = distance/distanceBase + 'km ' + distance%distanceBase + 'm';
-                                }else{
-                                    calculateDistance = distance/distanceBase + 'km';
-                                }
-                            }else{
-                                calculateDistance = distance + 'm';
-                            }
+                            console.log('calculateDuration', calculateDuration);
+                            console.log('calculateDistance', calculateDistance);
 
                             res.render('foodTransport', {depart: depart, arrive : arrive, distance : calculateDistance, duration : calculateDuration});
                         }
@@ -138,5 +122,29 @@ router.get('/transport', function (req, res, next) {
         })
         })
 });
+
+var getDuration = function(duration, durationBase) {
+    if (duration >= durationBase) {
+        if (duration % durationBase != 0) {
+            return duration / durationBase + '시간 ' + duration % durationBase + '분';
+        } else {
+            return duration / durationBase + '시간';
+        }
+    } else {
+        return durationBase + '분';
+    }
+}
+
+var getDistance = function (distance, distanceBase) {
+    if(distance >= distanceBase){
+        if(distance%distanceBase != 0){
+            return distance/distanceBase + 'km ' + distance%distanceBase + 'm';
+        }else{
+            return distance/distanceBase + 'km';
+        }
+    }else{
+        return distance + 'm';
+    }
+}
 
 module.exports = router;
