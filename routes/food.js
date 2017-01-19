@@ -98,18 +98,10 @@ router.get('/transport', function (req, res, next) {
                         if(!error){
                             var jsonBody = JSON.parse(body);
 
-                            var durationBase = 60;
-                            var distanceBase = 1000;
-                            var duration = jsonBody.result[0].duration.value;
-                            var distance = jsonBody.result[0].distance.value;
+                            var duration = getDuration(jsonBody.result[0].duration.value);
+                            var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            var calculateDuration = getDuration(duration, durationBase);
-                            var calculateDistance = getDistance(distance, distanceBase);
-
-                            console.log('calculateDuration', calculateDuration);
-                            console.log('calculateDistance', calculateDistance);
-
-                            res.render('foodTransport', {depart: depart, arrive : arrive, distance : calculateDistance, duration : calculateDuration});
+                            res.render('foodTransport', {depart: depart, arrive : arrive, duration : duration, distance : distance});
                         }
                     }).on('error', function(e){
                         console.log(e)
@@ -123,28 +115,34 @@ router.get('/transport', function (req, res, next) {
         })
 });
 
-var getDuration = function(duration, durationBase) {
-    if (duration >= durationBase) {
-        if (duration % durationBase != 0) {
-            return duration / durationBase + '시간 ' + duration % durationBase + '분';
-        } else {
-            return duration / durationBase + '시간';
-        }
-    } else {
-        return durationBase + '분';
+var getDuration = function(duration) {
+
+    var hour = Math.floor(duration/ (60*60));
+    var min =  Math.floor(duration/60 % 60);
+
+    var result = '';
+    if(hour != 0){
+        result += hour + '시간 ';
     }
+    if(min != 0){
+        result += min + '분 ';
+    }
+    return result;
 }
 
-var getDistance = function (distance, distanceBase) {
-    if(distance >= distanceBase){
-        if(distance%distanceBase != 0){
-            return distance/distanceBase + 'km ' + distance%distanceBase + 'm';
-        }else{
-            return distance/distanceBase + 'km';
-        }
-    }else{
-        return distance + 'm';
+var getDistance = function (distance) {
+    var kilo = Math.floor(distance/1000);
+    var meter = Math.floor(distance%1000);
+
+    var result = '';
+    if(kilo != 0 && meter == 0){
+        result += kilo + 'km';
+    } else if(kilo != 0 && meter != 0){
+        result += kilo + '.' + Math.round(meter/100) + 'km ';
+    } else if(meter != 0){
+        result += meter + 'm ';
     }
+    return result;
 }
 
 module.exports = router;
