@@ -29,6 +29,33 @@
 
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+
+    <script type ="text/javascript">
+        $(function() {
+            $("#btn_confirm").click(
+                function() {
+                    if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
+                        $.ajax({
+                            url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                            //url: 'http://localhost:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                            type: 'POST',
+                            success: function(data) {
+                                //console.log("data : ", data);
+                                window.location.href = "http://localhost:8080/shopping";
+                            },
+                            error: function(request, status, error) {
+                                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                                console.log('Error occured');
+                            }
+                        })
+                    } else {
+                        return;
+                    }
+                }
+            );
+        });
+    </script>
 
 </head>
 
@@ -40,23 +67,25 @@
     </div>
 
     <div id="shopping_buy_wrap">
+        <% var prdctSum = 0 %>
         <% for(var i = 0; i < data.length; i++) { %>
+            <% prdctSum += (data[i].PRICE * data[i].SHOPPING_CNT) %>
             <div class="buy_wrap">
-                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?id=<%= data[i].PRDCT_ID%>'">
-                <a href = "/shopping/shoppingDetail?id=<%= data[i].PRDCT_ID%>" />
+                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <a href = "/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
-                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
+                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
                 <div class="clear_both"></div>
             </div>
         <% } %>
     </div>
     <!-- 하단버튼 -->
     <div id="btn_cart">
-        <div class="total_wrap">합계<span class="right">￥140</span></div>
-        <a href="#"><div class="view_product">장바구니 비우기</div></a>
+        <div class="total_wrap">합계<span class="right">￥<%= prdctSum%></span></div>
+        <a href="#"><div class="view_product" id="btn_confirm">장바구니 비우기</div></a>
         <a href="#"><div class="price_buy">구매하기</div></a>
     </div>
 
