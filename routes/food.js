@@ -91,15 +91,16 @@ router.get('/transport', function (req, res, next) {
                 arrive.drivingLat = rows[0].LATITUDE;
 
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-                    var host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
+                var host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
                                 + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
-                    request.get({'url': host}, function(error, res, body){
+                    request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
                             console.log('jsonBody', jsonBody);
-                            var distance = jsonBody.result[0];
-                            var duration = jsonBody.result[1];
-
+                            var distance = jsonBody.result[0].distance;
+                            var duration = jsonBody.result[0].duration;
+                            console.log('distance', distance);
+                            console.log('duration', duration);
                             res.render('foodTransport', {depart: depart, arrive : arrive, distance : distance, duration : duration});
                         }
                     }).on('error', function(e){
