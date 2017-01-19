@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/swiper.min.css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
 </head>
 
 <body>
@@ -69,8 +70,8 @@
             <ul class="info">
                 <li class="res_name"><%= rows[0].FOOD_NAME_CN%><span class="kor">(<%= rows[0].FOOD_NAME_KR%>)</span></li>
                 <li class="price"><%=rows[0].FOOD_TYPE_KR%>・<%=rows[0].CAPITA_PRICE%></li>
-                <li class="star">
-                    <img src="/images/star@3x.png"><img src="/images/star@3x.png"><img src="/images/star@3x.png"><img src="/images/star_dim@3x.png" alt="딤드별"><img src="/images/star_dim@3x.png" alt="딤드별"><span class="txt"><%=rows[0].FOOD_SCOPE%></span>
+                <li class="star" id="star">
+                    <span class="txt" id="foodScope"><%=rows[0].FOOD_SCOPE%></span>
                 </li>
             </ul>
 
@@ -135,3 +136,38 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+
+    $(function(){
+        var foodScope = $('#foodScope').text();
+
+        console.log('foodScope', foodScope);
+        var dynamicDom ='';
+        dynamicDom = getRating(foodScope, dynamicDom);
+        $('#star').prepend(dynamicDom);
+    })
+
+    var getRating = function(foodScope, dynamicDom) {
+        var rating = foodScope * 2;
+        var fullStar = foodScope;
+        var halfStar = false;
+
+        // 별 반개가 남으면 홀수, 아니면 짝수
+        if (rating % 2 == 1) {
+            halfStar = true;
+            fullStar -= 0.5;
+        }
+        for (var i = 1; i <= 5; i++) {
+            if (i <= fullStar) {
+                dynamicDom += '<img src="/images/star@3x.png">';
+            } else if (halfStar) {
+                dynamicDom += '<img src="/images/star_half@3x.png">';
+                halfStar = false;
+            } else {
+                dynamicDom += '<img src="/images/star_dim@3x.png" alt="딤드별">';
+            }
+        }
+        return dynamicDom;
+    }
+</script>
