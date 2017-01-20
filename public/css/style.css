@@ -217,7 +217,7 @@ a:active{text-decoration:none; }
 #restaurant_find_local_list .fir .ic_last_pin {
 	display:inline-block; width:18.5px; height:24px; color: #FFFFFF; padding:4px 0 0 9.5px; line-height: 16px; 
 	background: url('../images/ic_list_pin@3x.png') no-repeat 0px 0px; background-size:28px 28px; z-index:777;  font-family: 'Roboto', sans-serif;}
-#restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px+10.4%) );}
+#restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px+ 10.4%) );}
 #restaurant_find_local_list .thi { float:right; width:19px; margin-left:10px; margin-top:25px; z-index:11}
 #restaurant_find_local_list .thi img {width:19px; opacity:0.55; }
 
