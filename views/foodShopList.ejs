@@ -55,8 +55,8 @@
 
     $(function(){
             $.ajax({
-                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-//                url: 'http://127.0.0.1:8080/food/shopList',
+//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+                url: 'http://127.0.0.1:8080/food/shopList',
                 type: 'GET',
                 success: function(data) {
                     var geoCodeSet = new Array();
@@ -84,7 +84,7 @@
 //                                            '<input type="hidden" name="departLongitude" value="' + departLongitude + '">' +
                                             // 테스트 후 삭제 예정
                                             '<input type="hidden" name="foodId" value="' + foodId + '">' +
-                                            '<input type="hidden" name="transportType" value="walking">' +
+                                            '<input type="hidden" name="transportType" value="driving">' +
                                             '<div id="restaurant_find_local_list">' +
                                                 '<div class="fir"><span class="ic_last_pin">' + (index+1) + '</span></div>' +
                                                     '<a href = "/food/shopInfo?id='+ foodId +'"><div class="sec"><ul class="info">' +

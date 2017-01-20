@@ -61,6 +61,12 @@ router.get('/transport', function (req, res, next) {
         var query = 'select * from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
         var id = req.query.foodId; // foodList Id
         var type = req.query.transportType;
+
+        console.log('query', query);
+        console.log('req.query.foodId', req.query.foodId);
+        console.log('id', id);
+        console.log('type', type);
+
         connection.query(query, id, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
@@ -78,7 +84,7 @@ router.get('/transport', function (req, res, next) {
                 depart.drivingLat = '31.201250489726449';
 
                 var arrive = {};
-                arrive.foodId = rows[0].FOOD_ID
+                arrive.foodId = rows[0].FOOD_ID;
                 arrive.nameCn = rows[0].FOOD_NAME_CN;
                 arrive.nameKr = rows[0].FOOD_NAME_KR ;
                 arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
@@ -100,6 +106,9 @@ router.get('/transport', function (req, res, next) {
                     host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                         + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
                 }
+
+                console.log('driving', host);
+
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);

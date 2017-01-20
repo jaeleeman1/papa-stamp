@@ -101,7 +101,7 @@
             <div>
                 <ul>
                     <li class="mark"><li>
-                    <li><p class="add_time_sc">도보 <%=duration%>   <%=distance%></p><li>
+                    <li><p class="add_time_sc"><% if('walking'== transportType){%>도보<%}else{%>택시<%}%><%=duration%><%=distance%></p><li>
                 </ul>
                 <ul class="clear_both"></ul>
             </div>
