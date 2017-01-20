@@ -55,13 +55,12 @@
 
     $(function(){
             $.ajax({
-//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-                url: 'http://127.0.0.1:8080/food/shopList',
+                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+//                url: 'http://127.0.0.1:8080/food/shopList',
                 type: 'GET',
                 success: function(data) {
                     var geoCodeSet = new Array();
                     $.each(data.data, function(index, value) {
-//                        console.log(index + ': ', value);
 
                         var foodId = value.FOOD_ID;
                         var foodNameCn = value.FOOD_NAME_CN;
@@ -73,16 +72,7 @@
                         var latitude = value.LATITUDE;
                         var parameter = "'transport" + (index+1) + "'";
 
-
                         var dynamicDom = '<form id="transport'+(index+1)+ '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
-                                            // 테스트 후 삭제 예정
-//                                            '<input type="hidden" name="departNameCn" value="' + departNameCn + '">' +
-//                                            '<input type="hidden" name="departNameKr" value="' + departNameKr + '">' +
-//                                            '<input type="hidden" name="departAddrWalking" value="' + departAddrWalking + '">' +
-//                                            '<input type="hidden" name="departAddrTaxi" value="' + departAddrTaxi + '">' +
-//                                            '<input type="hidden" name="departLatitude" value="' + departLatitude + '">' +
-//                                            '<input type="hidden" name="departLongitude" value="' + departLongitude + '">' +
-                                            // 테스트 후 삭제 예정
                                             '<input type="hidden" name="foodId" value="' + foodId + '">' +
                                             '<input type="hidden" name="transportType" value="driving">' +
                                             '<div id="restaurant_find_local_list">' +

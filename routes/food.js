@@ -22,7 +22,6 @@ router.get('/shopList', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("foodShopList success : " + JSON.stringify(row));
                 res.send({data:row});
             }
             connection.release();
@@ -62,11 +61,6 @@ router.get('/transport', function (req, res, next) {
         var id = req.query.foodId; // foodList Id
         var type = req.query.transportType;
 
-        console.log('query', query);
-        console.log('req.query.foodId', req.query.foodId);
-        console.log('id', id);
-        console.log('type', type);
-
         connection.query(query, id, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
@@ -97,8 +91,6 @@ router.get('/transport', function (req, res, next) {
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                 var host = '';
                 
-                console.log('type', type);
-                
                 if(type == 'walking'){
                     host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
                         + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
@@ -106,8 +98,6 @@ router.get('/transport', function (req, res, next) {
                     host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                         + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
                 }
-
-                console.log('driving', host);
 
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
