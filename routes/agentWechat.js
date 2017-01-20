@@ -37,6 +37,31 @@ router.post('/agentWechat', function(req, res, next) {
 	res.redirect('/wechat');
 });
 
+router.post('/shoppingResultSend', function(req, res, next) {
+    console.log('##### Post  shoppingResSend Start #####');
+    api.shoppingResultSender.shoppingResSend( req , res, next)
+    {
+        console.log(   res.statusCode );
+        if (  res.statusCode != 200) {
+            console.log('##### SEND ERROR  #####');
+        }
+
+        res.status(200).send('Send Sucess');
+    }
+});
+
+router.post('/foodResultSend', function(req, res, next) {
+    console.log('##### Post  foodResSend Start #####');
+    api.foodResultSender.foodResSend( req , res, next)
+    {
+        console.log(   res.statusCode );
+        if (  res.statusCode != 200) {
+            console.log('##### SEND ERROR  #####');
+        }
+        res.status(200).send('Send Sucess');
+    }
+});
+
 function getRoadInfo(wechatId) {
     	console.log('##### get Road info #####');
 	

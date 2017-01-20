@@ -29,7 +29,32 @@
 
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
 
+    <script type ="text/javascript">
+        $(function() {
+//            $("#btn_confirm").click(
+//                function() {
+                    $.ajax({
+                        //url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                        url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
+                        type: 'GET',
+                        success: function(data) {
+                            var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품'+ data.buyCnt +'개</div>';
+                            $("#btn_count").replaceWith(replaceCnt);
+
+                            var replaceSumPrice = '<a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥' + data.buySumPrice +' </span>구매</div></a>';
+                            $("#btn_sum_price").replaceWith(replaceSumPrice);
+                        },
+                        error: function(request, status, error) {
+                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            console.log('Error occured');
+                        }
+                    })
+                });
+//            );
+//        });
+    </script>
 </head>
 
 <body>
@@ -40,9 +65,7 @@
     </div>
     <!-- Shopping list -->
     <div id="shopping_buy_wrap">
-        <% var prdctSum = 0 %>
         <% for(var i = 0; i < data.length; i++) { %>
-            <% prdctSum += data[i].PRICE %>
             <div class="buy_wrap">
                 <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>" />
@@ -57,8 +80,8 @@
     </div>
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <div class="view_product"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품 <%= data[0].PRDCT_CNT %>개</div>
-        <a href="#"><div class="price_buy"><span class="ic_price">￥<%= prdctSum%></span>구매</div></a>
+        <div class="view_product" id="btn_count"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품 개</div>
+        <a href="#"><div class="price_buy" id="btn_sum_price"><span class="ic_price">￥ </span>구매</div></a>
     </div>
 </div>
 </body>

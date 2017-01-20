@@ -35,19 +35,19 @@
         $(function() {
             $("#btn_plus").click(
                 function() {
-                    var cnt =$("#set_id").text();
+                    var cnt =$("#set_cnt").text();
                     cnt++;
-                    $("#set_id").text(cnt);
+                    $("#set_cnt").text(cnt);
                     $("#prdct_cnt").val(cnt);
                 }
             );
 
             $("#btn_minus").click(
                 function() {
-                    var cnt =$("#set_id").text();
+                    var cnt =$("#set_cnt").text();
                     cnt--;
                     if(cnt > 0) {
-                        $("#set_id").text(cnt);
+                        $("#set_cnt").text(cnt);
                         $("#prdct_cnt").val(cnt);
                     }else {
                         alert('상품은 1개 이상 선택해야 합니다.');
@@ -68,6 +68,7 @@
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="prdct_id" id="prdct_id" value="<%= prdctId %>"/>
     <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="<%= prdctCnt %>"/>
+    <input type="hidden" name="price" id="price" value="<%= price %>"/>
 </form>
 
 <body id="back_setup">
@@ -83,7 +84,7 @@
             <div class="set_num">
                 <ul>
                     <li class="fir"><a href="#"><img src="/images/ic_popup_minus.png" id="btn_minus"></a></li>
-                    <li class="sec" id="set_id"><%= prdctCnt %></li>
+                    <li class="sec" id="set_cnt"><%= prdctCnt %></li>
                     <li class="thi"><a href="#"><img src="/images/ic_popup_plus.png" id="btn_plus"></a></li>
                 </ul>
                 <ul class="clear_both"></ul>

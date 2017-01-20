@@ -37,8 +37,8 @@
                 function() {
                     if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
                         $.ajax({
-                            url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
-                            //url: 'http://localhost:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                            //url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                            url: 'http://localhost:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
                             type: 'POST',
                             success: function(data) {
                                 //console.log("data : ", data);
@@ -77,7 +77,7 @@
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
-                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
+                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>
                 <div class="clear_both"></div>
             </div>
         <% } %>
