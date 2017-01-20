@@ -41,7 +41,7 @@
 <body id="back_100_hidden">
 <div id="container">
     <div id="shopping_detail_wrap">
-        <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
+        <a href="/food"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
         <div id="header_nor" class="restaurant">
             <input id='transportType' type="hidden" value=<%=transportType%>>
             <div class="tab">
@@ -123,9 +123,6 @@
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
-
-        console.log('transportType', $('#transportType').val() );
-
         if($('#transportType').val() == 'walking'){
             transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
         } else if($('#transportType').val() == 'driving') {
