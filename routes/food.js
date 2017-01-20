@@ -90,7 +90,9 @@ router.get('/transport', function (req, res, next) {
 
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                 var host = '';
-
+                
+                console.log('type', type);
+                
                 if(type == 'walking'){
                     host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
                         + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
