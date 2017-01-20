@@ -43,7 +43,9 @@
     <div id="shopping_detail_wrap">
         <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
         <div id="header_nor" class="restaurant">
-            <div class="tab"><ul>
+            <input id='transportType' type="hidden" value=<%=transportType%>>
+            <div class="tab">
+                <ul>
                 <% if('walking'== transportType){%>
                     <li class="fir">도보</li>
                     <% } else{%>
@@ -119,22 +121,17 @@
 <script type="text/javascript">
     $(function(){
         var map = new BMap.Map("l-map");
-//      var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
-        var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
-        walking.search($('#departAddr').text(), $('#arriveAddr').text());
 
-        $.ajax({
-//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-            url: 'http://api.map.baidu.com/routematrix/v2/walking?',
-            type: 'GET',
-            success: function(data) {
-            },
-            error: function(request, status, error) {
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                console.log('Error occured');
-            }
-        })
+        var transportWay = null;
 
+        console.log('transportType', $('#transportType').val() );
+
+        if($('#transportType').val() == 'walking'){
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+        } else if($('#transportType').val() == 'driving') {
+            transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+        }
+        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
     });
 </script>
 </html>
