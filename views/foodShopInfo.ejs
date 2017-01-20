@@ -141,8 +141,6 @@
 
     $(function(){
         var foodScope = $('#foodScope').text();
-
-        console.log('foodScope', foodScope);
         var dynamicDom ='';
         dynamicDom = getRating(foodScope, dynamicDom);
         $('#star').prepend(dynamicDom);

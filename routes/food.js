@@ -60,15 +60,12 @@ router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
         var query = 'select * from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
         var id = req.query.foodId; // foodList Id
-
+        var type = req.query.transportType;
         connection.query(query, id, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
                 throw err;
             }else{
-
-                // console.log('transport', rows[0]);
-
                 if(rows.length > 0){
                 var depart = {};
                 depart.nameCn = '鹿港小镇';
@@ -81,6 +78,7 @@ router.get('/transport', function (req, res, next) {
                 depart.drivingLat = '31.201250489726449';
 
                 var arrive = {};
+                arrive.foodId = rows[0].FOOD_ID
                 arrive.nameCn = rows[0].FOOD_NAME_CN;
                 arrive.nameKr = rows[0].FOOD_NAME_KR ;
                 arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
@@ -91,9 +89,15 @@ router.get('/transport', function (req, res, next) {
                 arrive.drivingLat = rows[0].LATITUDE;
 
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-                var host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
-                                + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+                var host = '';
 
+                if(type == 'walking'){
+                    host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
+                        + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+                }else if(type == 'driving'){
+                    host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
+                        + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
+                }
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
@@ -101,13 +105,11 @@ router.get('/transport', function (req, res, next) {
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('foodTransport', {depart: depart, arrive : arrive, duration : duration, distance : distance});
+                            res.render('foodTransport', {depart: depart, arrive : arrive, duration : duration, distance : distance, transportType: type});
                         }
                     }).on('error', function(e){
                         console.log(e)
                     }).end()
-                }else{
-                    // res.render('foodShopList');
                 }
             }
             connection.release();

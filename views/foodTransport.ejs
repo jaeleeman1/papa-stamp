@@ -34,7 +34,7 @@
         /*#r-result,#r-result table{width:100%;}*/
     </style>
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
-    <script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
 </head>
 
@@ -43,10 +43,17 @@
     <div id="shopping_detail_wrap">
         <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
         <div id="header_nor" class="restaurant">
-            <div class="tab">
-                <ul>
+            <div class="tab"><ul>
+                <% if('walking'== transportType){%>
                     <li class="fir">도보</li>
-                    <a href="#"><li class="sec disable">택시</li></a>
+                    <% } else{%>
+                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.foodId%>&transportType='walking'" value="도보"></a></li>
+                    <%}%>
+                    <% if('driving'==transportType){%>
+                    <li class="fir">택시</li>
+                    <% } else{%>
+                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.foodId%>&transportType='driving'" value="택시"></a></li>
+                    <%}%>
                 </ul>
             </div>
             <div class="clear_both"></div>
