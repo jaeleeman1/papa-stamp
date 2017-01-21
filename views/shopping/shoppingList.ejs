@@ -36,8 +36,8 @@
 //            $("#btn_confirm").click(
 //                function() {
                     $.ajax({
-                        //url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
-                        url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
+                        url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                        //url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
                         type: 'GET',
                         success: function(data) {
                             var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품'+ data.buyCnt +'개</div>';
