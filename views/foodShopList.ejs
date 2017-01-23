@@ -55,10 +55,7 @@
 
     $(function(){
         var map = new BMap.Map("restaurant_find_local_map");
-        var mPoint = new BMap.Point(121.4943225398708, 31.244152571300409);
-
         map.enableScrollWheelZoom();
-        map.centerAndZoom (mPoint, 14);
 
         var navigationControl = new BMap.NavigationControl({
             anchor: BMAP_ANCHOR_BOTTOM_LEFT,
@@ -132,9 +129,12 @@
             data: data,
             success: function (data) {
 
-                console.log('data lat lng', data.data);
-
                 $('#restaurant_find_local_list_wrap').empty();
+
+                if(!!address) {
+                    var mPoint = new BMap.Point(data.lng, data.lat);
+                    map.centerAndZoom(mPoint, 14);
+                }
 
                 var geoCodeSet = new Array();
                 $.each(data.data, function (index, value) {
