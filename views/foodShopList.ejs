@@ -63,18 +63,15 @@
         });
         map.addControl(navigationControl);
         var geolocationControl = new BMap.GeolocationControl();
-//        console.log("geolocationControl", geolocationControl.getAddressComponent());
-
         var addressComponent = geolocationControl.getAddressComponent();
 
         var address = '';
-
         var addressComponent = {
-            province : '北京市',
-            city : '北京市',
-            district : '海淀区',
-            street : '上地十街',
-            streetNumber :'10'
+            province : '上海市',
+            city : '上海市',
+            district : '黄浦区',
+            street : '百翎路',
+            streetNumber :'1号'
         }
 
         address += addressComponent.province;
@@ -82,9 +79,6 @@
         address += addressComponent.district;
         address += addressComponent.street;
         address += addressComponent.streetNumber;
-
-//        var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-//        var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + address + '&output=json&ak=' + ak + '&callback=showLocation';
 
         $.ajax({
             url: 'http://nbnl.couphone.cn/food/currentLocation',
