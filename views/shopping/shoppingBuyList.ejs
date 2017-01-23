@@ -39,7 +39,7 @@
 
                     if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
                         $.ajax({
-                            url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll',
+                            url: 'http://nbnl.couphone.cn/shopping/shoppingDeleteAll',
 //                            url: 'http://localhost:8080/shopping/shoppingDeleteAll',
                             type: 'POST',
                             dataType: 'json',
@@ -71,7 +71,7 @@
                     };
                     if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
                         $.ajax({
-                            url: 'http://nbnl.couphone.cn:8080/wechat/shoppingResultSend',
+                            url: 'http://nbnl.couphone.cn/wechat/shoppingResultSend',
 //                            url: 'http://localhost:8080/wechat/shoppingResultSend',
                             type: 'POST',
                             dataType: 'json',
