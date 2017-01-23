@@ -24,10 +24,21 @@ router.post('/shopList', function (req, res, next) {
 
     request.get({'url': host}, function(error, request, body){
         if(!error){
-            var jsonBody = JSON.parse(body);
-            console.log("result", jsonBody.result[0].location)
-            console.log("result lng", jsonBody.result[0].location.lng)
-            console.log("result lat", jsonBody.result[0].location.lat)
+
+            var data = body;
+            var json1 = data.split('(');
+            var json2 = json1[1].split(')');
+            var jsonBody = JSON.parse(json2[0]);
+            // console.log('t', t);
+            console.log('jsonBody', jsonBody);
+
+            console.log('json', json);
+
+
+            // var jsonBody = JSON.parse(body);
+            console.log("result", jsonBody.result.location)
+            console.log("result lng", jsonBody.result.location.lng)
+            console.log("result lat", jsonBody.result.location.lat)
 
             var lng = jsonBody.result[0].location.lng;
             var lat = jsonBody.result[0].location.lat;
