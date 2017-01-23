@@ -15,23 +15,23 @@ router.get('/', function (req, res, next) {
 //GET foodShopList
 router.post('/shopList', function (req, res, next) {
 
-    console.log('req.body', req.body);
-
-    var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
-
-    console.log('host', host);
-
-    request.get({'url': host}, function(error, request, body){
-        if(!error){
-
-            var data = body;
-            var json1 = data.split('(');
-            var json2 = json1[1].split(')');
-            var jsonBody = JSON.parse(json2[0]);
-
-            var lng = jsonBody.result.location.lng;
-            var lat = jsonBody.result.location.lat;
+    // console.log('req.body', req.body);
+    //
+    // var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+    // var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
+    //
+    // console.log('host', host);
+    //
+    // request.get({'url': host}, function(error, request, body){
+    //     if(!error){
+    //
+    //         var data = body;
+    //         var json1 = data.split('(');
+    //         var json2 = json1[1].split(')');
+    //         var jsonBody = JSON.parse(json2[0]);
+    //
+    //         var lng = jsonBody.result.location.lng;
+    //         var lat = jsonBody.result.location.lat;
 
             getConnection(function (err, connection){
                 var query = 'select * from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
@@ -46,16 +46,15 @@ router.post('/shopList', function (req, res, next) {
                         console.error("err : " + err);
                         throw err;
                     }else{
-                        res.send({data:row, lat : lat, lng : lng});
+                        res.send({data:row});
                     }
                     connection.release();
                 })
             });
-
-        }
-    }).on('error', function(e){
-        console.log(e)
-    }).end()
+    //     }
+    // }).on('error', function(e){
+    //     console.log(e)
+    // }).end()
 });
 
 
