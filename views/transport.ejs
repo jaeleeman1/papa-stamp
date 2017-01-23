@@ -49,12 +49,12 @@
                 <% if('walking'== transportType){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/food/transport?foodId=<%=arrive.foodId%>&transportType=walking">도보</a></li>
+                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.id%>&transportType=walking">도보</a></li>
                     <%}%>
                     <% if('driving'==transportType){%>
                     <li class="fir">택시</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/food/transport?foodId=<%=arrive.foodId%>&transportType=driving">택시</a></li>
+                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.id%>&transportType=driving">택시</a></li>
                     <%}%>
                 </ul>
             </div>
