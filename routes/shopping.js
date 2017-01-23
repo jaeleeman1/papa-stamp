@@ -130,9 +130,9 @@ router.get('/shoppingSetting', function (req, res, next) {
 //GET Shopping Delete All
 router.post('/shoppingDeleteAll', function (req, res, next) {
     getConnection(function (err, connection) {
-        var wechatId = req.query.wechat_id; // product Id
-        var prdctId = req.query.prdct_id; // product Id
-        var prdctCnt = req.query.prdct_cnt; // product count
+        var wechatId = req.body.wechat_id; // product Id
+        //var prdctId = req.query.prdct_id; // product Id
+        //var prdctCnt = req.query.prdct_cnt; // product count
 
         //var query = 'UPDATE TB_SHOPPING_BUY_LIST AS TSBL SET TSBL.DEL_YN = "Y" WHERE TSBL.USER_WECHAT_ID = ?';
         var query = 'DELETE FROM TB_SHOPPING_BUY_LIST WHERE USER_WECHAT_ID = ?';
