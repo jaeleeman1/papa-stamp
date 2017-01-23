@@ -55,8 +55,8 @@
 
     $(function(){
             $.ajax({
-                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-//                url: 'http://127.0.0.1:8080/food/shopList',
+//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+                url: 'http://127.0.0.1:8080/food/shopList',
                 type: 'GET',
                 success: function(data) {
                     var geoCodeSet = new Array();
@@ -73,7 +73,7 @@
                         var parameter = "'transport" + (index+1) + "'";
 
                         var dynamicDom = '<form id="transport'+(index+1)+ '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
-                                            '<input type="hidden" name="foodId" value="' + foodId + '">' +
+                                            '<input type="hidden" name="id" value="' + foodId + '">' +
                                             '<input type="hidden" name="transportType" value="walking">' +
                                             '<div id="restaurant_find_local_list">' +
                                                 '<div class="fir"><span class="ic_last_pin">' + (index+1) + '</span></div>' +
