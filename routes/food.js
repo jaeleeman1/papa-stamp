@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
-var http = require('http');
+// var http = require('http');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
@@ -58,7 +58,7 @@ router.get('/transport', function (req, res, next) {
 
     getConnection(function (err, connection) {
         var query = 'select * from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
-        var id = req.query.foodId; // foodList Id
+        var id = req.query.id; // foodList Id
         var type = req.query.transportType;
 
         connection.query(query, id, function (err, rows) {
@@ -83,10 +83,10 @@ router.get('/transport', function (req, res, next) {
                 arrive.nameKr = rows[0].FOOD_NAME_KR ;
                 arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
                 arrive.addrTaxi = rows[0].TAXI_ADDR_CN ;
-                arrive.walkingLong = rows[0].LONGITUDE ;
-                arrive.walkingLat = rows[0].LATITUDE ;
-                arrive.drivingLong = rows[0].LONGITUDE ;
-                arrive.drivingLat = rows[0].LATITUDE;
+                arrive.walkingLong = rows[0].LONGITUDE_WALK;
+                arrive.walkingLat = rows[0].LATITUDE_WALK;
+                arrive.drivingLong = rows[0].LONGITUDE_TAXI;
+                arrive.drivingLat = rows[0].LATITUDE_TAXI;
 
                 var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                 var host = '';
@@ -106,7 +106,7 @@ router.get('/transport', function (req, res, next) {
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('foodTransport', {depart: depart, arrive : arrive, duration : duration, distance : distance, transportType: type});
+                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, transportType: type});
                         }
                     }).on('error', function(e){
                         console.log(e)
