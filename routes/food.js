@@ -13,11 +13,12 @@ router.get('/', function (req, res, next) {
 });
 
 //GET foodShopList
-router.get('/shopList', function (req, res, next) {
+router.post('/shopList', function (req, res, next) {
+
+    console.log('req.body', req.body);
 
     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-
-    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.query.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
+    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
 
     console.log('host', host);
 
@@ -34,10 +35,10 @@ router.get('/shopList', function (req, res, next) {
             getConnection(function (err, connection){
                 var query = 'select * from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
                 // var query = 'select * from TB_FOOD_SHOP_LIST where LONGITUDE_WALK between ? and ? and LATITUDE_WALK between ? and ?';
-                var northEastLat = req.query.neLat;
-                var northEastLng = req.query.neLng;
-                var southWestLat = req.query.swLat;
-                var southWestLng = req.query.swLng;
+                var northEastLat = req.body.neLat;
+                var northEastLng = req.body.neLng;
+                var southWestLat = req.body.swLat;
+                var southWestLng = req.body.swLng;
 
                 connection.query(query, [southWestLat, northEastLat, southWestLng, northEastLng], function (err, row) {
                     if (err) {
