@@ -19,6 +19,8 @@ router.get('/shopList', function (req, res, next) {
 
     var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.query.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
 
+    console.log('host', host);
+
     request.get({'url': host}, function(error, request, body){
         if(!error){
             var jsonBody = JSON.parse(body);

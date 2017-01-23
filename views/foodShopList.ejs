@@ -121,15 +121,13 @@
                         swLng: map.getBounds().getSouthWest().lng
                     };
 
-        console.log('!!address ::::::::::::::', !!address);
-
         if(!!address){
             data.addr = address;
         }
 
         $.ajax({
-//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-            url: 'http://127.0.0.1:8080/food/shopList',
+              url: 'http://nbnl.couphone.cn:8080/food/shopList',
+//            url: 'http://127.0.0.1:8080/food/shopList',
             type: 'GET',
             data: data,
             success: function (data) {
