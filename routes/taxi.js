@@ -21,8 +21,8 @@ router.get('/transport', function (req, res, next) {
             }else{
                 if(rows.length > 0){
                     var depart = {};
-                    depart.nameCn = rows[0].START_NAME_CN;
-                    depart.nameKr = rows[0].START_NAME_KR;
+                    depart.nameCn = rows[0].START_NM_CN;
+                    depart.nameKr = rows[0].START_NM_KR;
                     depart.addrWalking = rows[0].START_WALK_ADDR_CN;
                     depart.addrTaxi = rows[0].START_TAXI_ADDR_CN;
                     depart.walkingLong = rows[0].START_LONGITUDE_WALK ;
@@ -30,16 +30,20 @@ router.get('/transport', function (req, res, next) {
                     depart.drivingLong = rows[0].START_LONGITUDE_TAXI ;
                     depart.drivingLat = rows[0].START_LATITUDE_TAXI;
 
+                    console.log('depart', depart);
+
                     var arrive = {};
                     arrive.id = rows[0].USER_OPEN_ID
-                    arrive.nameCn = rows[0].END_NAME_CN;
-                    arrive.nameKr = rows[0].END_NAME_KR ;
+                    arrive.nameCn = rows[0].END_NM_CN;
+                    arrive.nameKr = rows[0].END_NM_KR ;
                     arrive.addrWalking = rows[0].SEND_WALK_ADDR_CN ;
                     arrive.addrTaxi = rows[0].END_TAXI_ADDR_CN ;
                     arrive.walkingLong = rows[0].END_LONGITUDE_WALK ;
                     arrive.walkingLat = rows[0].END_LATITUDE_WALK ;
                     arrive.drivingLong = rows[0].END_LONGITUDE_TAXI ;
                     arrive.drivingLat = rows[0].END_LATITUDE_TAXI;
+
+                    console.log('arrive', arrive);
 
                     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                     var host = '';
