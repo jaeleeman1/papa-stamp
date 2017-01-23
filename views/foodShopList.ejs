@@ -54,54 +54,133 @@
 
 
     $(function(){
-            $.ajax({
-//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
-                url: 'http://127.0.0.1:8080/food/shopList',
-                type: 'GET',
-                success: function(data) {
-                    var geoCodeSet = new Array();
-                    $.each(data.data, function(index, value) {
+        var map = new BMap.Map("restaurant_find_local_map");
+        var mPoint = new BMap.Point(121.4943225398708, 31.244152571300409);
 
-                        var foodId = value.FOOD_ID;
-                        var foodNameCn = value.FOOD_NAME_CN;
-                        var foodNameKr = value.FOOD_NAME_KR;
-                        var foodTypeKr = value.FOOD_TYPE_KR;
-                        var foodScope = value.FOOD_SCOPE;
-                        var capitaPrice = value.CAPITA_PRICE;
-                        var longitude = value.LONGITUDE_WALK;
-                        var latitude = value.LATITUDE_WALK;
-                        var parameter = "'transport" + (index+1) + "'";
+        map.enableScrollWheelZoom();
+        map.centerAndZoom (mPoint, 14);
 
-                        var dynamicDom = '<form id="transport'+(index+1)+ '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
-                                            '<input type="hidden" name="id" value="' + foodId + '">' +
-                                            '<input type="hidden" name="transportType" value="walking">' +
-                                            '<div id="restaurant_find_local_list">' +
-                                                '<div class="fir"><span class="ic_last_pin">' + (index+1) + '</span></div>' +
-                                                    '<a href = "/food/shopInfo?id='+ foodId +'"><div class="sec"><ul class="info">' +
-                                                        '<li class="res_name">' + foodNameCn+ '<span class="kor">' + '(' + foodNameKr + ')' + '</span></li>' +
-                                                            '<li class="price">' + foodTypeKr + '</li>' +
-                                                                '<li class="star">';
-                        dynamicDom = getRating(foodScope, dynamicDom);
-                        dynamicDom += '<span class="txt">' + foodScope + ' ・ ' + capitaPrice + '</span>' +
-                                            '</li>' +
-                                    '</ul></div></a>'+
-                                '<div class="thi"><span class="icon" onclick="document.getElementById('+parameter+').submit();"><img src="/images/btn_ic_direction@3x.png"></a></span></div>' +
-                            '<div class="clear_both"></div>' +
-                            '</div></form>';
+        var navigationControl = new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+            type: BMAP_NAVIGATION_CONTROL_SMALL,
+            enableGeolocation: true
+        });
+        map.addControl(navigationControl);
+        var geolocationControl = new BMap.GeolocationControl();
+//        console.log("geolocationControl", geolocationControl.getAddressComponent());
 
-                        $('#restaurant_find_local_list_wrap').append(dynamicDom);
+        var addressComponent = geolocationControl.getAddressComponent();
 
-                        geoCodeSet.push({longitude : longitude, latitude : latitude}); // 위도 경도 셋
-                    });
-                    initMap(geoCodeSet);
-                },
-                error: function(request, status, error) {
-                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    console.log('Error occured');
-                }
-            })
+        var address = '';
+
+        var addressComponent = {
+            province : '北京市',
+            city : '北京市',
+            district : '海淀区',
+            street : '上地十街',
+            streetNumber :'10'
+        }
+
+        address += addressComponent.province;
+        address += addressComponent.city;
+        address += addressComponent.district;
+        address += addressComponent.street;
+        address += addressComponent.streetNumber;
+
+        getFoodShop(map, address);
+
+        map.addEventListener("dragend", function () {
+            getFoodShop(map, null);
+        });
+
+        map.addEventListener("zoomend", function() {
+            getFoodShop(map, null);
+        });
     });
 
+//    var getLocation = function() {
+//        if (navigator.geolocation) {
+//            navigator.geolocation.getCurrentPosition(showPosition);
+//        } else {
+//            console.log('Geolocation is not supported by this browser.');
+//        }
+//    }
+//    var showPosition = function(position) {
+//        console.log('position', position);
+//        console.log('latitude', position.coords.latitude);
+//        console.log('longitude', position.coords.longitude)
+//        return new BMap.Point(position.coords.longitude, position.coords.latitude);
+//    }
+
+    var getFoodShop = function(map, address) {
+
+        var data = {
+                        neLat: map.getBounds().getNorthEast().lat,
+                        neLng: map.getBounds().getNorthEast().lng,
+                        swLat: map.getBounds().getSouthWest().lat,
+                        swLng: map.getBounds().getSouthWest().lng
+                    };
+
+        console.log('!!address ::::::::::::::', !!address);
+
+        if(!!address){
+            data.addr = address;
+        }
+
+        $.ajax({
+//                url: 'http://nbnl.couphone.cn:8080/food/shopList',
+            url: 'http://127.0.0.1:8080/food/shopList',
+            type: 'GET',
+            data: data,
+            success: function (data) {
+
+                console.log('data lat lng', data.data);
+
+                $('#restaurant_find_local_list_wrap').empty();
+
+                var geoCodeSet = new Array();
+                $.each(data.data, function (index, value) {
+                    var foodId = value.FOOD_ID;
+                    var foodNameCn = value.FOOD_NAME_CN;
+                    var foodNameKr = value.FOOD_NAME_KR;
+                    var foodTypeKr = value.FOOD_TYPE_KR;
+                    var foodScope = value.FOOD_SCOPE;
+                    var capitaPrice = value.CAPITA_PRICE;
+                    var longitude = value.LONGITUDE_WALK;
+                    var latitude = value.LATITUDE_WALK;
+                    var parameter = "'transport" + (index + 1) + "'";
+
+                    var dynamicDom = '<form id="transport' + (index + 1) + '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
+                        '<input type="hidden" name="id" value="' + foodId + '">' +
+                        '<input type="hidden" name="transportType" value="walking">' +
+                        '<div id="restaurant_find_local_list">' +
+                        '<div class="fir"><span class="ic_last_pin">' + (index + 1) + '</span></div>' +
+                        '<a href = "/food/shopInfo?id=' + foodId + '"><div class="sec"><ul class="info">' +
+                        '<li class="res_name">' + foodNameCn + '<span class="kor">' + '(' + foodNameKr + ')' + '</span></li>' +
+                        '<li class="price">' + foodTypeKr + '</li>' +
+                        '<li class="star">';
+                    dynamicDom = getRating(foodScope, dynamicDom);
+                    dynamicDom += '<span class="txt">' + foodScope + ' ・ ' + capitaPrice + '</span>' +
+                        '</li>' +
+                        '</ul></div></a>' +
+                        '<div class="thi"><span class="icon" onclick="document.getElementById(' + parameter + ').submit();"><img src="/images/btn_ic_direction@3x.png"></a></span></div>' +
+                        '<div class="clear_both"></div>' +
+                        '</div></form>';
+
+                    $('#restaurant_find_local_list_wrap').append(dynamicDom);
+
+                    geoCodeSet.push({longitude: longitude, latitude: latitude}); // 위도 경도 셋
+                });
+                pointMap(map, geoCodeSet);
+            },
+            error: function (request, status, error) {
+                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                console.log('Error occured');
+            }
+        })
+    }
+
+    // 별점 평점 계산
     var getRating = function(foodScope, dynamicDom) {
         var rating = foodScope * 2;
         var fullStar = foodScope;
@@ -126,63 +205,32 @@
         return dynamicDom;
     }
 
-    var initMap = function (geoCodeSet) {
-        var map = new BMap.Map("restaurant_find_local_map");
-        var mPoint = new BMap.Point(121.4943225398708, 31.244152571300409);
+    // 지도 맵
+    var pointMap = function (map, geoCodeSet) {
+//        map.addControl(navigationControl);
+//        // 添加定位控件
+//        var geolocationControl = new BMap.GeolocationControl();
+//
+//        console.log("geolocationControl", geolocationControl.getAddressComponent());
+//
+//        geolocationControl.addEventListener("locationSuccess", function(e){
+//            // 定位成功事件
+//            var address = '';
+//            address += e.addressComponent.province;
+//            address += e.addressComponent.city;
+//            address += e.addressComponent.district;
+//            address += e.addressComponent.street;
+//            address += e.addressComponent.streetNumber;
+//            alert("当前定位地址为：" + address);
+//        });
 
-        console.log('geoCodeSet : ', geoCodeSet);
 
         var points = new Array();
         for(var i in geoCodeSet){
             points.push(new BMap.Point(geoCodeSet[i].longitude, geoCodeSet[i].latitude));
         }
-
-        console.log('points :', points);
-
         for(var i in points){
             map.addOverlay(new BMap.Marker(points[i]));
         }
-        var Points = [ new BMap.Point ( 116.401801 , 39.912114 ), new BMap.Point ( 116.402802 , 39.912225 ), new BMap.Point ( 116.403803 , 39.912336 ), new BMap.Point ( 116.404804 , 39.912447 ), new BMap.Point ( 116.405805 , 39.912558 ), new BMap.Point ( 116.406806 , 39.912669 ), new BMap.Point ( 116.407804 , 39.912123 ) ];
-
-//        var MARKER1 = new BMap.Marker (Points [ 0 ]);    // create seven marked
-//        var MARKER2 = new BMap.Marker (Points [ 1 ]);
-//        var marker3 = new  BMap.Marker (Points [ 2 ]);
-//        var marker4 = new  BMap.Marker (Points [ 3 ]);
-//        var marker5 = new  BMap.Marker (Points [ 4 ]);
-//        var marker6 = new  BMap.Marker (Points [ 5 ]);
-//        var marker7 = new  BMap.Marker (Points [ 6 ]);
-
-//        var marker = new BMap.Marker(mPoint);
-
-//        map.centerAndZoom(mPoint, 20);
-                map.enableScrollWheelZoom();
-
-//        }
-
-        map.centerAndZoom (mPoint, 16 );
-        map.setViewport (points);
-
-
-        //var circle = new BMap.Circle(mPoint,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
-
-
-        var bounds = map.getBounds();
-
-//        console.log(bounds);
-//        console.log(map.getBounds().getNorthEast()); // 북동쪽
-//        console.log(map.getBounds().getSouthWest()); // 남서쪽
-
-//        map.addOverlay(marker);
-//        map.addOverlay(MARKER1);
-//        map.addOverlay(MARKER2);
-//        map.addOverlay(marker3);
-//        map.addOverlay(marker4);
-//        map.addOverlay(marker5);
-//        map.addOverlay(marker6);
-//        map.addOverlay(marker7);
     }
-
-    //Map.addControl ( new new BMap.NavigationControl ())
-    //marker7.addEventListener ( " the Click " , function () {         // the marker7 add event
-    //    map.setViewport (Points);　　　　　　　　　　　　　　});
 </script>

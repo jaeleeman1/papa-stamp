@@ -14,19 +14,44 @@ router.get('/', function (req, res, next) {
 
 //GET foodShopList
 router.get('/shopList', function (req, res, next) {
-    getConnection(function (err, connection){
-        var query = 'select * from TB_FOOD_SHOP_LIST';
 
-        connection.query(query, function (err, row) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            }else{
-                res.send({data:row});
-            }
-            connection.release();
-        })
-    });
+    var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+
+    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.query.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
+
+    request.get({'url': host}, function(error, request, body){
+        if(!error){
+            var jsonBody = JSON.parse(body);
+            console.log("result", jsonBody.result[0].location)
+            console.log("result lng", jsonBody.result[0].location.lng)
+            console.log("result lat", jsonBody.result[0].location.lat)
+
+            var lng = jsonBody.result[0].location.lng;
+            var lat = jsonBody.result[0].location.lat;
+
+            getConnection(function (err, connection){
+                var query = 'select * from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
+                // var query = 'select * from TB_FOOD_SHOP_LIST where LONGITUDE_WALK between ? and ? and LATITUDE_WALK between ? and ?';
+                var northEastLat = req.query.neLat;
+                var northEastLng = req.query.neLng;
+                var southWestLat = req.query.swLat;
+                var southWestLng = req.query.swLng;
+
+                connection.query(query, [southWestLat, northEastLat, southWestLng, northEastLng], function (err, row) {
+                    if (err) {
+                        console.error("err : " + err);
+                        throw err;
+                    }else{
+                        res.send({data:row, lat : lat, lng : lng});
+                    }
+                    connection.release();
+                })
+            });
+
+        }
+    }).on('error', function(e){
+        console.log(e)
+    }).end()
 });
 
 
