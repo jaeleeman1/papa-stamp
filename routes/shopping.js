@@ -53,10 +53,6 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var price = req.query.price; // product price
         var prdctCnt = req.query.prdct_cnt; // product count
 
-        console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' + prdctId);
-        console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' + prdctCnt);
-        console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' + price);
-
         if(prdctId != '' || prdctId != null) {
             if(prdctCnt == '' || prdctCnt == null || prdctCnt == undefined) {
                 prdctCnt = 1;

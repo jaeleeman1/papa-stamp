@@ -39,7 +39,7 @@ router.post('/agentWechat', function(req, res, next) {
 
 router.post('/shoppingResultSend', function(req, res, next) {
     console.log('##### Post  shoppingResSend Start #####');
-    api.shoppingResultSender.shoppingResSend( req , res, next)
+    api.sender.shoppingResSend( req , res, next)
     {
         console.log(   res.statusCode );
         if (  res.statusCode != 200) {
@@ -61,7 +61,6 @@ router.post('/foodResultSend', function(req, res, next) {
         res.status(200).send('Send Sucess');
     }
 });
-
 function getRoadInfo(wechatId) {
     	console.log('##### get Road info #####');
 	
