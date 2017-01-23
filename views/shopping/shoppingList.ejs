@@ -33,27 +33,23 @@
 
     <script type ="text/javascript">
         $(function() {
-//            $("#btn_confirm").click(
-//                function() {
-                    $.ajax({
-                        url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
-                        //url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
-                        type: 'GET',
-                        success: function(data) {
-                            var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품'+ data.buyCnt +'개</div>';
-                            $("#btn_count").replaceWith(replaceCnt);
+            $.ajax({
+                url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                //url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
+                type: 'GET',
+                success: function (data) {
+                    var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품' + data.buyCnt + '개</div>';
+                    $("#btn_count").replaceWith(replaceCnt);
 
-                            var replaceSumPrice = '<a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥' + data.buySumPrice +' </span>구매</div></a>';
-                            $("#btn_sum_price").replaceWith(replaceSumPrice);
-                        },
-                        error: function(request, status, error) {
-                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                            console.log('Error occured');
-                        }
-                    })
-                });
-//            );
-//        });
+                    var replaceSumPrice = '<a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥' + data.buySumPrice + ' </span>구매</div></a>';
+                    $("#btn_sum_price").replaceWith(replaceSumPrice);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            })
+        });
     </script>
 </head>
 

@@ -33,13 +33,17 @@
 
     <script type ="text/javascript">
         $(function() {
-            $("#btn_confirm").click(
+            $("#btn_delete").click(
                 function() {
+                    var dataString = {'wechat_id': 'jaeleeman1'};
+
                     if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
                         $.ajax({
-                            //url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
-                            url: 'http://localhost:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+                            url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll',
+//                            url: 'http://localhost:8080/shopping/shoppingDeleteAll',
                             type: 'POST',
+                            dataType: 'json',
+                            data: dataString,
                             success: function(data) {
                                 //console.log("data : ", data);
                                 window.location.href = "http://localhost:8080/shopping";
@@ -54,7 +58,38 @@
                     }
                 }
             );
-        });
+
+            $("#btn_confirm").click(
+                function() {
+                    var dataString = {'User_Open_Id': 'oH7FywN073pRVpCF0G6nMl6iI8mg',
+                        'Prdct': [
+                            {"Prdct_Nm" : "Coffee1", "Prdct_Cnt" : "8", "Price":"20" },
+                            {"Prdct_Nm" : "Coffee2", "Prdct_Cnt" : "4", "Price":"25" },
+                            {"Prdct_Nm" : "Coffee3", "Prdct_Cnt" : "5", "Price":"30" }
+                        ]
+                    };
+                    if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
+                        $.ajax({
+                            url: 'http://nbnl.couphone.cn:8080/shopping/shoppingDeleteAll?wechat_id=jaeleeman1',
+//                            url: 'http://localhost:8080/wechat/shoppingResultSend',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: dataString,
+                            success: function(data) {
+                                //console.log("data : ", data);
+                                window.location.href = "http://localhost:8080/shopping";
+                            },
+                            error: function(request, status, error) {
+                                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                                console.log('Error occured');
+                            }
+                        })
+                    } else {
+                        return;
+                    }
+                });
+            }
+        );
     </script>
 
 </head>
@@ -85,8 +120,8 @@
     <!-- 하단버튼 -->
     <div id="btn_cart">
         <div class="total_wrap">합계<span class="right">￥<%= prdctSum%></span></div>
-        <a href="#"><div class="view_product" id="btn_confirm">장바구니 비우기</div></a>
-        <a href="#"><div class="price_buy">구매하기</div></a>
+        <a href="#"><div class="view_product" id="btn_delete">장바구니 비우기</div></a>
+        <a href="#"><div class="price_buy" id="btn_confirm">구매하기</div></a>
     </div>
 
 </div>
