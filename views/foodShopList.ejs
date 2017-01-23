@@ -81,7 +81,7 @@
         address += addressComponent.streetNumber;
 
         $.ajax({
-            url: 'http://nbnl.couphone.cn/food/currentLocation',
+            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
             type: 'POST',
             data: {addr : address},
             success: function (data) {
@@ -116,7 +116,7 @@
                     };
 
         $.ajax({
-              url: 'http://nbnl.couphone.cn/food/shopList',
+              url: 'http://nbnl.couphone.cn:8080/food/shopList',
 //            url: 'http://127.0.0.1:8080/food/shopList',
             type: 'POST',
             data: data,

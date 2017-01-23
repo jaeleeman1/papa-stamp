@@ -36,7 +36,7 @@ router.get('/transport', function (req, res, next) {
                     arrive.id = rows[0].USER_OPEN_ID
                     arrive.nameCn = rows[0].END_NM_CN;
                     arrive.nameKr = rows[0].END_NM_KR ;
-                    arrive.addrWalking = rows[0].SEND_WALK_ADDR_CN ;
+                    arrive.addrWalking = rows[0].END_WALK_ADDR_CN ;
                     arrive.addrTaxi = rows[0].END_TAXI_ADDR_CN ;
                     arrive.walkingLong = rows[0].END_LONGITUDE_WALK ;
                     arrive.walkingLat = rows[0].END_LATITUDE_WALK ;
