@@ -78,7 +78,7 @@ router.get('/transport', function (req, res, next) {
                 depart.drivingLat = '31.201250489726449';
 
                 var arrive = {};
-                arrive.foodId = rows[0].FOOD_ID;
+                arrive.id = rows[0].FOOD_ID;
                 arrive.nameCn = rows[0].FOOD_NAME_CN;
                 arrive.nameKr = rows[0].FOOD_NAME_KR ;
                 arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
