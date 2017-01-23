@@ -87,15 +87,17 @@
         address += addressComponent.street;
         address += addressComponent.streetNumber;
 
-        var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-        var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + address + '&output=json&ak=' + ak + '&callback=showLocation';
+//        var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+//        var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + address + '&output=json&ak=' + ak + '&callback=showLocation';
 
         $.ajax({
-            url: host,
-            type: 'GET',
+            url: 'http://nbnl.couphone.cn/food/currentLocation',
+            type: 'POST',
+            data: addr,
             success: function (data) {
 
-                console.log('data', data.data);
+                console.log('data', data);
+                console.log('data.data', data);
 
 //                $('#restaurant_find_local_list_wrap').empty();
 //

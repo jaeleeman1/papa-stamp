@@ -12,27 +12,27 @@ router.get('/', function (req, res, next) {
       res.render('foodShopList');
 });
 
-//GET foodShopList
+//POST get my current location
+router.post('/currentLocation', function (req, res, next) {
+    var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
+    request.get({'url': host}, function(error, request, body) {
+        if (!error) {
+
+            var data = body;
+            var json1 = data.split('(');
+            var json2 = json1[1].split(')');
+            var jsonBody = JSON.parse(json2[0]);
+
+            var lng = jsonBody.result.location.lng;
+            var lat = jsonBody.result.location.lat;
+            res.send({lat:lat, lng:lng});
+        }
+    });
+})
+
+//POST foodShopList
 router.post('/shopList', function (req, res, next) {
-
-    // console.log('req.body', req.body);
-    //
-    // var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-    // var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
-    //
-    // console.log('host', host);
-    //
-    // request.get({'url': host}, function(error, request, body){
-    //     if(!error){
-    //
-    //         var data = body;
-    //         var json1 = data.split('(');
-    //         var json2 = json1[1].split(')');
-    //         var jsonBody = JSON.parse(json2[0]);
-    //
-    //         var lng = jsonBody.result.location.lng;
-    //         var lat = jsonBody.result.location.lat;
-
             getConnection(function (err, connection){
                 var query = 'select * from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
                 // var query = 'select * from TB_FOOD_SHOP_LIST where LONGITUDE_WALK between ? and ? and LATITUDE_WALK between ? and ?';
