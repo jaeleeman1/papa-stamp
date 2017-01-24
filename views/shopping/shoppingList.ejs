@@ -33,9 +33,9 @@
 
     <script type ="text/javascript">
         $(function() {
+//            console.log('url' + $("#url").val());
             $.ajax({
-                url: 'http://nbnl.couphone.cn/shopping/shoppingBuySum?wechat_id=jaeleeman1',
-                //url: 'http://localhost:8080/shopping/shoppingBuySum?wechat_id=jaeleeman1',
+                url: $("#url").val()+'/shopping/shoppingBuySum?wechat_id=jaeleeman1',
                 type: 'GET',
                 success: function (data) {
                     var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품' + data.buyCnt + '개</div>';
@@ -52,6 +52,9 @@
         });
     </script>
 </head>
+<form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
+    <input type="hidden" name="url" id="url" value="<%= url %>"/>
+</form>
 
 <body>
 <div id="container">
