@@ -1,9 +1,10 @@
 var express = require('express'),
 	weixin = require('weixin-api'),
+	bodyParser = require('body-parser'),
 	router = express.Router();
 
 // 解析器
-router.use(express.bodyParser());
+//router.use(express.bodyParser());
 //app.use(xmlBodyParser);
 
 // 接入验证
@@ -124,3 +125,5 @@ router.post('/', function(req, res) {
 });
 
 router.listen(3000);
+
+module.exports = router;
