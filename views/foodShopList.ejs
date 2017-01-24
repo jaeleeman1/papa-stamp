@@ -85,8 +85,8 @@
             console.log('############ address :: ', address);
 
             $.ajax({
-//            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
-                url: 'http://localhost:8080/food/currentLocation',
+            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
+//                url: 'http://localhost:8080/food/currentLocation',
                 type: 'POST',
                 data: {addr : address},
                 success: function (data) {
@@ -167,10 +167,10 @@
                         '<div class="clear_both"></div>' +
                         '</div></form>';
 
+                    $('#restaurant_find_local_list_wrap').append(dynamicDom);
                     geoCodeSet.push({longitude: longitude, latitude: latitude}); // 위도 경도 셋
                 });
 
-//                $('#address').val(address);
                 pointMap(map, geoCodeSet);
             },
             error: function (request, status, error) {
