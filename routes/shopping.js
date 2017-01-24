@@ -88,7 +88,6 @@ router.get('/shoppingBuyList', function (req, res, next) {
                 throw err;
             }else{
                 console.log("### shoppingBuyList ### - wechatId : " + wechatId);
-                console.log('XXXXXXXXXXXXXXXXXXX' + openId);
                 res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId, url:config.url, openId:openId});
             }
             connection.release();
@@ -115,7 +114,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                // console.log("shoppingBuyList success : " + JSON.stringify(row));
+                console.log("### update shoppingBuyList ### - wechatId : " + wechatId);
                 res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&prdct_cnt=' + prdctCnt +'&price=' + price);
             }
             connection.release();
@@ -133,16 +132,15 @@ router.get('/shoppingSetting', function (req, res, next) {
     if(prdctCnt == '') {
         prdctCnt = 1;
     }
-
+    console.log("### shoppingSetting ### - wechatId : " + wechatId);
     res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, prdctCnt: prdctCnt, price: price});
 });
 
 //GET Shopping Delete All
 router.post('/shoppingDeleteAll', function (req, res, next) {
     getConnection(function (err, connection) {
-        var wechatId = req.body.wechat_id; // product Id
+        var wechatId = req.body.wechat_id; // wechat_id
 
-        //var query = 'UPDATE TB_SHOPPING_BUY_LIST AS TSBL SET TSBL.DEL_YN = "Y" WHERE TSBL.USER_WECHAT_ID = ?';
         var query = 'DELETE FROM TB_SHOPPING_BUY_LIST WHERE USER_WECHAT_ID = ?';
 
         connection.query(query, wechatId, function (err, row) {
@@ -150,9 +148,8 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                // console.log("shoppingBuyList success : " + JSON.stringify(row));
+                console.log("### shoppingDeleteAll ### - wechatId : " + wechatId);
                 res.send({wechatId: wechatId});
-                // res.render('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&prdct_cnt=' + prdctCnt +'&price=' + price, {wechatId: wechatId});
             }
             connection.release();
         })
