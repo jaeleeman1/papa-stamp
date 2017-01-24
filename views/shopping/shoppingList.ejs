@@ -35,7 +35,7 @@
         $(function() {
 //            console.log('url' + $("#url").val());
             $.ajax({
-                url: $("#url").val()+'/shopping/shoppingBuySum?wechat_id=jaeleeman1',
+                url: $("#url").val()+'/shopping/shoppingBuySum?wechat_id='+ $("#wechat_id").val(),
                 type: 'GET',
                 success: function (data) {
                     var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품' + data.buyCnt + '개</div>';
@@ -53,6 +53,7 @@
     </script>
 </head>
 <form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
+    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
 </form>
 
@@ -66,13 +67,13 @@
     <div id="shopping_buy_wrap">
         <% for(var i = 0; i < data.length; i++) { %>
             <div class="buy_wrap">
-                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %><li>
                     </ul>
-                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
+                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>'"></a>
                     <div class="clear_both"></div>
             </div>
         <% } %>
