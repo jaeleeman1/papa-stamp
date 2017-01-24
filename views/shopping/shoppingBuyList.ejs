@@ -33,9 +33,11 @@
 
     <script type ="text/javascript">
         $(function() {
+            var wechatId = $("#wechat_id").val();
+
             $("#btn_delete").click(
                 function() {
-                    var dataString = {'wechat_id': 'jaeleeman1'};
+                    var dataString = {'wechat_id': wechatId};
 
                     if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
                         $.ajax({
@@ -45,9 +47,8 @@
                             dataType: 'json',
                             data: dataString,
                             success: function(data) {
-                                //console.log("data : ", data);
                                 window.location.href = "http://nbnl.couphone.cn/shopping";
-                                //window.location.href = "http://localhost:8080/shopping";
+//                                window.location.href = "http://localhost:8080/shopping";
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -62,24 +63,22 @@
 
             $("#btn_confirm").click(
                 function() {
-                    var dataString = {'User_Open_Id': 'oH7FywN073pRVpCF0G6nMl6iI8mg',
-                        'Prdct': [
-                            {"Prdct_Nm" : "Coffee1", "Prdct_Cnt" : "8", "Price":"20" },
-                            {"Prdct_Nm" : "Coffee2", "Prdct_Cnt" : "4", "Price":"25" },
-                            {"Prdct_Nm" : "Coffee3", "Prdct_Cnt" : "5", "Price":"30" }
-                        ]
-                    };
+                    var dataStr = '{ "User_Open_Id":"oH7FywN073pRVpCF0G6nMl6iI8mg", ' +
+                        '"Prdct_Nm":["루즈 디올", "Coffee2", "Coffee3"], ' +
+                        '"Prdct_Cnt":["1", "2", "3"], ' +
+                        '"Price":["20", "30", "40"]' +
+                        '}';
+
                     if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
                         $.ajax({
                             url: 'http://nbnl.couphone.cn/wechat/shoppingResultSend',
 //                            url: 'http://localhost:8080/wechat/shoppingResultSend',
                             type: 'POST',
-                            dataType: 'json',
-                            data: dataString,
+                            traditional:true,
+                            data: JSON.parse(dataStr),
                             success: function(data) {
-                                //console.log("data : ", data);
                                 window.location.href = "http://nbnl.couphone.cn/shopping";
-//                                window.location.href = "http://localhost/shopping";
+                                //window.location.href = "http://localhost:8080/shopping";
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -95,6 +94,9 @@
     </script>
 
 </head>
+<form action="/shopping" method="post" style="display:none" name="buy_setting" id="buy_setting">
+    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
+</form>
 
 <body id="EBEBEB">
 <div id="container">

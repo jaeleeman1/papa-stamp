@@ -1,14 +1,14 @@
 var express = require('express'),
 	weixin = require('weixin-api'),
-	app = express();
+	bodyParser = require('body-parser'),
+	router = express.Router();
 
 // 解析器
-app.use(express.bodyParser());
+//router.use(express.bodyParser());
 //app.use(xmlBodyParser);
 
 // 接入验证
-app.get('/', function(req, res) {
-		
+router.get('/', function(req, res) {		
 	// 签名成功
 	if (weixin.checkSignature(req)) {
         console.log("checkSignature return true");
@@ -117,11 +117,11 @@ weixin.eventMsg(function(msg) {
 });
 
 // Start
-app.post('/', function(req, res) {
+router.post('/', function(req, res) {
 	
 	// loop
 	weixin.loop(req, res);
 
 });
 
-app.listen(3000);
+module.exports = router;
