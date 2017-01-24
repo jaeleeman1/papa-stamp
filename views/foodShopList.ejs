@@ -139,7 +139,7 @@
                     var dynamicDom = '<form id="transport' + (index + 1) + '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
                         '<input type="hidden" name="id" value="' + foodId + '">' +
                         '<input type="hidden" name="type" value="walking">' +
-                        '<input type="hidden" name="address" value="'+address+'">' +
+                        '<input type="hidden" name="address" id="address">' +
                         '<div id="restaurant_find_local_list">' +
                         '<div class="fir"><span class="ic_last_pin">' + (index + 1) + '</span></div>' +
                         '<a href = "/food/shopInfo?id=' + foodId + '"><div class="sec"><ul class="info">' +
@@ -158,6 +158,8 @@
 
                     geoCodeSet.push({longitude: longitude, latitude: latitude}); // 위도 경도 셋
                 });
+
+                $('#address').val(address);
                 pointMap(map, geoCodeSet);
             },
             error: function (request, status, error) {
