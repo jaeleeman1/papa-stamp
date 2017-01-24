@@ -49,12 +49,12 @@
                 <% if('walking'== type){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>">도보</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="fir">택시</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/food/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>">택시</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>">택시</a></li>
                     <%}%>
                 </ul>
             </div>
