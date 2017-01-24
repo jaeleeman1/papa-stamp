@@ -21,8 +21,8 @@ router.get('/transport', function (req, res, next) {
             }else{
                 if(rows.length > 0){
                     var depart = {};
-                    depart.nameCn = rows[0].START_NM_CN;
-                    depart.nameKr = rows[0].START_NM_KR;
+                    // depart.nameCn = rows[0].START_NM_CN;
+                    // depart.nameKr = rows[0].START_NM_KR;
                     depart.addrWalking = rows[0].START_WALK_ADDR_CN;
                     depart.addrTaxi = rows[0].START_TAXI_ADDR_CN;
                     depart.walkingLong = rows[0].START_LONGITUDE_WALK ;

@@ -89,7 +89,7 @@
                 map.enableScrollWheelZoom();
                 map.centerAndZoom (mPoint, 14);
 
-                getFoodShop(map, address);
+                getFoodShop(map, address, data.lng, data.lat);
             },
             error: function (request, status, error) {
                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -106,13 +106,16 @@
         });
     });
 
-    var getFoodShop = function(map, address) {
+    var getFoodShop = function(map, address, lng, lat) {
 
         var data = {
                         neLat: map.getBounds().getNorthEast().lat,
                         neLng: map.getBounds().getNorthEast().lng,
                         swLat: map.getBounds().getSouthWest().lat,
-                        swLng: map.getBounds().getSouthWest().lng
+                        swLng: map.getBounds().getSouthWest().lng,
+                        address : address,
+                        lng : lng,
+                        lat : lat
                     };
 
         $.ajax({
@@ -134,12 +137,17 @@
                     var capitaPrice = value.CAPITA_PRICE;
                     var longitude = value.LONGITUDE_WALK;
                     var latitude = value.LATITUDE_WALK;
+                    var address = value.ADDRESS;
+                    var lat = value.LAT;
+                    var lng = value.lng;
                     var parameter = "'transport" + (index + 1) + "'";
 
                     var dynamicDom = '<form id="transport' + (index + 1) + '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
                         '<input type="hidden" name="id" value="' + foodId + '">' +
                         '<input type="hidden" name="type" value="walking">' +
-                        '<input type="hidden" name="address" id="address">' +
+                        '<input type="hidden" name="address" value="'+ address+'">' +
+                        '<input type="hidden" name="lat" value="'+ lat +'">' +
+                        '<input type="hidden" name="lng" value="'+ lng +'">' +
                         '<div id="restaurant_find_local_list">' +
                         '<div class="fir"><span class="ic_last_pin">' + (index + 1) + '</span></div>' +
                         '<a href = "/food/shopInfo?id=' + foodId + '"><div class="sec"><ul class="info">' +
@@ -154,12 +162,12 @@
                         '<div class="clear_both"></div>' +
                         '</div></form>';
 
-                    $('#restaurant_find_local_list_wrap').append(dynamicDom);
+//                    $('#restaurant_find_local_list_wrap').append(dynamicDom);
 
                     geoCodeSet.push({longitude: longitude, latitude: latitude}); // 위도 경도 셋
                 });
 
-                $('#address').val(address);
+//                $('#address').val(address);
                 pointMap(map, geoCodeSet);
             },
             error: function (request, status, error) {
