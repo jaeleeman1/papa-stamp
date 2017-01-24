@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <style type="text/css">
+        #taxi_find_local_map{width:100%;height:100%;}
+    </style>
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
+</head>
+
+<body id="back_100">
+
+<!--<div>-->
+
+    <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
+    <div id="header">
+        <span class="part"></span><span class="head_ti">출발지 지정</span>
+        <a href="#"><p class="btn_send">보내기</p></a>
+        <div class="address" id ='address'></div>
+    </div>
+
+    <!--<span class="dot_location"></span>-->
+    <!-- Focus -->
+    <!--<div class="ic_location_wrap"><span class="ic_location"><img src="/images/ic_location@3x.png"></span></div>-->
+    <div id="taxi_find_local_map"></div>
+<!--</div>-->
+</body>
+
+</html>
+
+<script type ="text/javascript">
+
+    $(function(){
+        var map = new BMap.Map("taxi_find_local_map");
+
+        var navigationControl = new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            enableGeolocation: true
+        });
+
+        var geolocationControl = new BMap.GeolocationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            enableGeolocation: true
+        })
+
+        map.addControl(navigationControl);
+        map.addControl(new BMap.ScaleControl());
+//        map.addControl(new BMap.OverviewMapControl());
+        map.addControl(geolocationControl);
+
+        var geolocationControl = new BMap.GeolocationControl();
+        var addressComponent = geolocationControl.getAddressComponent();
+
+        var address = '';
+        var addressComponent = {
+            province : '上海市',
+            city : '上海市',
+            district : '黄浦区',
+            street : '百翎路',
+            streetNumber :'1号'
+        }
+
+        address += addressComponent.province;
+        address += addressComponent.city;
+        address += addressComponent.district;
+        address += addressComponent.street;
+        address += addressComponent.streetNumber;
+
+        if(address != '' && address != undefined && address!= null){
+
+            $.ajax({
+            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
+//                url: 'http://localhost:8080/food/currentLocation',
+                type: 'POST',
+                data: {addr : address},
+                success: function (data) {
+                    var mPoint = new BMap.Point(data.lng, data.lat);
+//                    var mPoint = new BMap.Point(121.49815490071883, 31.232280291456389);
+                    map.enableScrollWheelZoom();
+                    map.centerAndZoom (mPoint, 20);
+
+//                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
+//                        anchor: new BMap.Size(10, 30),
+//                        infoWindowAnchor: new BMap.Size(10, 0)
+//                    });
+                    var mkr = new BMap.Marker(mPoint);
+                    map.addOverlay(mkr);
+
+                    $('#address').text(address);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            })
+        }
+    });
+</script>

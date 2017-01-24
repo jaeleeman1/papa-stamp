@@ -6,6 +6,9 @@ var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
 
+router.get('/myLocation', function (req, res, next) {
+    res.render('taxiMyLocation');
+});
 
 router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
