@@ -43,7 +43,7 @@ router.post('/shopList', function (req, res, next) {
                 var southWestLat = req.body.swLat;
                 var southWestLng = req.body.swLng;
 
-                var query =   'select ' + address + ' as ADDRESS, ' + lat +' as LAT, ' +lng +'as LNG, FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_TYPE_KR, FOOD_SCOPE, CAPITA_PRICE, LONGITUDE_WALK, LATITUDE_WALK ' +
+                var query =   "select '" + address + "' as ADDRESS, " + lat +' as LAT, ' +lng +'as LNG, FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_TYPE_KR, FOOD_SCOPE, CAPITA_PRICE, LONGITUDE_WALK, LATITUDE_WALK ' +
                                 'from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
 
                 connection.query(query, [southWestLat, northEastLat, southWestLng, northEastLng], function (err, row) {
@@ -86,7 +86,7 @@ router.get('/shopInfo', function (req, res, next) {
 router.get('/transport', function (req, res, next) {
 
     getConnection(function (err, connection) {
-        var query = 'select ' + address + ' as ADDRESS, ' + lat +' as LAT, ' +lng +'as LNG, ' +
+        var query = "select '" + address + "' as ADDRESS, " + lat +' as LAT, ' +lng +'as LNG, ' +
                     'FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_ADDR_CN, TAXI_ADDR_CN, LONGITUDE_WALK, LATITUDE_WALK, LONGITUDE_TAXI, LATITUDE_TAXI from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
         var id = req.query.id; // foodList Id
         var type = req.query.type;
