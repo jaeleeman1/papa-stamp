@@ -14,6 +14,7 @@ var wechat = require('./routes/wechat');
 var agentWechat = require('./routes/agentWechat');
 var dbApi = require('./routes/dbApi');
 var mapTest = require('./routes/mapTest'); // 테스트 후 삭제 예정
+var responsor = require('./routes/responsor'); // Will be removed after test
 
 // app express
 var app = express( );
@@ -39,6 +40,7 @@ app.use('/', wechat);
 app.use('/wechat', agentWechat);
 app.use('/api', dbApi);
 app.use('/mapTest', mapTest);
+app.use('/responsor', responsor);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
