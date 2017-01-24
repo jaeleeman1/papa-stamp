@@ -51,10 +51,6 @@ router.post('/shopList', function (req, res, next) {
                     connection.release();
                 })
             });
-    //     }
-    // }).on('error', function(e){
-    //     console.log(e)
-    // }).end()
 });
 
 
@@ -87,7 +83,8 @@ router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
         var query = 'select * from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
         var id = req.query.id; // foodList Id
-        var type = req.query.transportType;
+        var type = req.query.type;
+        var addr = req.query.address;
 
         connection.query(query, id, function (err, rows) {
             if (err) {
@@ -95,50 +92,113 @@ router.get('/transport', function (req, res, next) {
                 throw err;
             }else{
                 if(rows.length > 0){
-                var depart = {};
-                depart.nameCn = '鹿港小镇';
-                depart.nameKr = '벨라지오 Bellagio';
-                depart.addrWalking = '黄浦区豫园路85号(近九曲桥)';
-                depart.addrTaxi = '港汇恒隆广场 (华山路口)';
-                depart.walkingLong = '121.49815490071883';
-                depart.walkingLat = '31.232280291456389';
-                depart.drivingLong = '121.4442219027139';
-                depart.drivingLat = '31.201250489726449';
 
-                var arrive = {};
-                arrive.id = rows[0].FOOD_ID;
-                arrive.nameCn = rows[0].FOOD_NAME_CN;
-                arrive.nameKr = rows[0].FOOD_NAME_KR ;
-                arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
-                arrive.addrTaxi = rows[0].TAXI_ADDR_CN ;
-                arrive.walkingLong = rows[0].LONGITUDE_WALK;
-                arrive.walkingLat = rows[0].LATITUDE_WALK;
-                arrive.drivingLong = rows[0].LONGITUDE_TAXI;
-                arrive.drivingLat = rows[0].LATITUDE_TAXI;
+                    var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+                    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + addr + '&output=json&ak=' + ak + '&callback=showLocation';
+                    request.get({'url': host}, function(error, request, body) {
+                        if (!error) {
 
-                var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-                var host = '';
-                
-                if(type == 'walking'){
-                    host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
-                        + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
-                }else if(type == 'driving'){
-                    host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
-                        + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
-                }
+                            var data = body;
+                            var json1 = data.split('(');
+                            var json2 = json1[1].split(')');
+                            var jsonBody = JSON.parse(json2[0]);
 
-                    request.get({'url': host}, function(error, request, body){
-                        if(!error){
-                            var jsonBody = JSON.parse(body);
+                            var lng = jsonBody.result.location.lng;
+                            var lat = jsonBody.result.location.lat;
 
-                            var duration = getDuration(jsonBody.result[0].duration.value);
-                            var distance = getDistance(jsonBody.result[0].distance.value);
+                            var depart = {};
+                            // depart.nameCn = '鹿港小镇';
+                            // depart.nameKr = '벨라지오 Bellagio';
+                            depart.addrWalking = 'addr';
+                            depart.addrTaxi = 'addr';
+                            depart.walkingLong = lng;
+                            depart.walkingLat = lat;
+                            depart.drivingLong = lng;
+                            depart.drivingLat = lat;
 
-                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, transportType: type});
+                            var arrive = {};
+                            arrive.id = rows[0].FOOD_ID;
+                            arrive.nameCn = rows[0].FOOD_NAME_CN;
+                            arrive.nameKr = rows[0].FOOD_NAME_KR ;
+                            arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
+                            arrive.addrTaxi = rows[0].TAXI_ADDR_CN ;
+                            arrive.walkingLong = rows[0].LONGITUDE_WALK;
+                            arrive.walkingLat = rows[0].LATITUDE_WALK;
+                            arrive.drivingLong = rows[0].LONGITUDE_TAXI;
+                            arrive.drivingLat = rows[0].LATITUDE_TAXI;
+
+                            var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+                            var host = '';
+
+                            if(type == 'walking'){
+                                host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
+                                    + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+                            }else if(type == 'driving'){
+                                host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
+                                    + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
+                            }
+
+                            request.get({'url': host}, function(error, request, body){
+                                if(!error){
+                                    var jsonBody = JSON.parse(body);
+
+                                    var duration = getDuration(jsonBody.result[0].duration.value);
+                                    var distance = getDistance(jsonBody.result[0].distance.value);
+
+                                    res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type});
+                                }
+                            }).on('error', function(e){
+                                console.log(e)
+                            }).end()
+
                         }
-                    }).on('error', function(e){
-                        console.log(e)
-                    }).end()
+                    });
+
+
+                    // var depart = {};
+                    // depart.nameCn = '鹿港小镇';
+                    // depart.nameKr = '벨라지오 Bellagio';
+                    // depart.addrWalking = 'addr';
+                    // depart.addrTaxi = 'addr';
+                    // depart.walkingLong = '121.49815490071883';
+                    // depart.walkingLat = '31.232280291456389';
+                    // depart.drivingLong = '121.4442219027139';
+                    // depart.drivingLat = '31.201250489726449';
+                    //
+                    // var arrive = {};
+                    // arrive.id = rows[0].FOOD_ID;
+                    // arrive.nameCn = rows[0].FOOD_NAME_CN;
+                    // arrive.nameKr = rows[0].FOOD_NAME_KR ;
+                    // arrive.addrWalking = rows[0].FOOD_ADDR_CN ;
+                    // arrive.addrTaxi = rows[0].TAXI_ADDR_CN ;
+                    // arrive.walkingLong = rows[0].LONGITUDE_WALK;
+                    // arrive.walkingLat = rows[0].LATITUDE_WALK;
+                    // arrive.drivingLong = rows[0].LONGITUDE_TAXI;
+                    // arrive.drivingLat = rows[0].LATITUDE_TAXI;
+                    //
+                    // var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+                    // var host = '';
+                    //
+                    // if(type == 'walking'){
+                    //     host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
+                    //         + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+                    // }else if(type == 'driving'){
+                    //     host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
+                    //         + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
+                    // }
+                    //
+                    // request.get({'url': host}, function(error, request, body){
+                    //     if(!error){
+                    //         var jsonBody = JSON.parse(body);
+                    //
+                    //         var duration = getDuration(jsonBody.result[0].duration.value);
+                    //         var distance = getDistance(jsonBody.result[0].distance.value);
+                    //
+                    //         res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type});
+                    //     }
+                    // }).on('error', function(e){
+                    //     console.log(e)
+                    // }).end()
                 }
             }
             connection.release();
