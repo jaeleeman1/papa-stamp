@@ -41,14 +41,12 @@
 
                     if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
                         $.ajax({
-                            url: 'http://nbnl.couphone.cn/shopping/shoppingDeleteAll',
-//                            url: 'http://localhost:8080/shopping/shoppingDeleteAll',
+                            url: $("#url").val()+'/shopping/shoppingDeleteAll',
                             type: 'POST',
                             dataType: 'json',
                             data: dataString,
                             success: function(data) {
-                                window.location.href = "http://nbnl.couphone.cn/shopping";
-//                                window.location.href = "http://localhost:8080/shopping";
+                                window.location.href = $("#url").val()+'/shopping';
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -71,14 +69,12 @@
 
                     if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
                         $.ajax({
-                            url: 'http://nbnl.couphone.cn/wechat/shoppingResultSend',
-//                            url: 'http://localhost:8080/wechat/shoppingResultSend',
+                            url: $("#url").val()+'/wechat/shoppingResultSend',
                             type: 'POST',
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
-                                window.location.href = "http://nbnl.couphone.cn/shopping";
-                                //window.location.href = "http://localhost:8080/shopping";
+                                window.location.href = $("#url").val()+'/shopping';
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -96,6 +92,7 @@
 </head>
 <form action="/shopping" method="post" style="display:none" name="buy_setting" id="buy_setting">
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
+    <input type="hidden" name="url" id="url" value="<%= url %>"/>
 </form>
 
 <body id="EBEBEB">

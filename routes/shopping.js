@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
+var config = require('../lib/config');
 
 //GET Shopping List
 router.get('/', function (req, res, next) {
@@ -15,7 +16,7 @@ router.get('/', function (req, res, next) {
             }else{
                 // console.log("shoppingList success : " + JSON.stringify(row));
                 //dataa += JSON.stringify(row);
-                res.render('shopping/shoppingList', {data: row});
+                res.render('shopping/shoppingList', {data: row, url: config.url});
             }
             connection.release();
         })
@@ -79,7 +80,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
                 throw err;
             }else{
                 // console.log("shoppingBuyList success : " + JSON.stringify(row));
-                res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId});
+                res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId, url: config.url});
             }
             connection.release();
         })
