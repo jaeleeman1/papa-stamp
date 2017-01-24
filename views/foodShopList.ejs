@@ -89,7 +89,7 @@
                 map.enableScrollWheelZoom();
                 map.centerAndZoom (mPoint, 14);
 
-                getFoodShop(map);
+                getFoodShop(map, address);
             },
             error: function (request, status, error) {
                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -106,7 +106,7 @@
         });
     });
 
-    var getFoodShop = function(map) {
+    var getFoodShop = function(map, address) {
 
         var data = {
                         neLat: map.getBounds().getNorthEast().lat,
@@ -138,7 +138,8 @@
 
                     var dynamicDom = '<form id="transport' + (index + 1) + '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
                         '<input type="hidden" name="id" value="' + foodId + '">' +
-                        '<input type="hidden" name="transportType" value="walking">' +
+                        '<input type="hidden" name="type" value="walking">' +
+                        '<input type="hidden" name="address" value="'+address+'">' +
                         '<div id="restaurant_find_local_list">' +
                         '<div class="fir"><span class="ic_last_pin">' + (index + 1) + '</span></div>' +
                         '<a href = "/food/shopInfo?id=' + foodId + '"><div class="sec"><ul class="info">' +

@@ -7,8 +7,7 @@ router.use(express.bodyParser());
 //app.use(xmlBodyParser);
 
 // 接入验证
-router.get('/', function(req, res) {
-		
+router.get('/', function(req, res) {		
 	// 签名成功
 	if (weixin.checkSignature(req)) {
         console.log("checkSignature return true");
