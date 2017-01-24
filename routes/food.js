@@ -109,8 +109,8 @@ router.get('/transport', function (req, res, next) {
                             var depart = {};
                             // depart.nameCn = '鹿港小镇';
                             // depart.nameKr = '벨라지오 Bellagio';
-                            depart.addrWalking = 'addr';
-                            depart.addrTaxi = 'addr';
+                            depart.addrWalking = addr;
+                            depart.addrTaxi = addr;
                             depart.walkingLong = lng;
                             depart.walkingLat = lat;
                             depart.drivingLong = lng;
@@ -127,7 +127,7 @@ router.get('/transport', function (req, res, next) {
                             arrive.drivingLong = rows[0].LONGITUDE_TAXI;
                             arrive.drivingLat = rows[0].LATITUDE_TAXI;
 
-                            var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+                            // var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                             var host = '';
 
                             if(type == 'walking'){
