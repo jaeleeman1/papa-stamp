@@ -93,6 +93,20 @@
                     map.centerAndZoom (mPoint, 14);
 
                     getFoodShop(map, address, data.lng, data.lat);
+
+                    map.addEventListener("dragend", function () {
+                        getFoodShop(map, address, data.lng, data.lat);
+                    });
+
+                    var isFirst = true;
+
+                    map.addEventListener("zoomend", function() {
+                        if(!isFirst){
+                            getFoodShop(map, address, data.lng, data.lat);
+                        }
+                        isFirst = false;
+                    });
+
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -100,14 +114,6 @@
                 }
             })
         }
-
-        map.addEventListener("dragend", function () {
-            getFoodShop(map, null);
-        });
-
-//        map.addEventListener("zoomend", function() {
-//            getFoodShop(map, null);
-//        });
     });
 
     var getFoodShop = function(map, address, lng, lat) {
