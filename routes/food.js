@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
-// var http = require('http');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
@@ -29,6 +28,7 @@ router.post('/currentLocation', function (req, res, next) {
             res.send({lat:lat, lng:lng});
         }
     });
+    // res.send({lat:31.232280291456389, lng:121.49815490071883});
 })
 
 //POST foodShopList
@@ -38,15 +38,26 @@ router.post('/shopList', function (req, res, next) {
                 var address = req.body.address;
                 var lat = req.body.lat;
                 var lng = req.body.lng;
+
+                if(address == null || address == undefined){
+                    address = '';
+                }
+                if(lat == null || lat == undefined){
+                    lat = '';
+                }
+                if(lng == null || lng == undefined){
+                    lng = '';
+                }
+
                 var northEastLat = req.body.neLat;
                 var northEastLng = req.body.neLng;
                 var southWestLat = req.body.swLat;
                 var southWestLng = req.body.swLng;
 
-                var query =   "select '" + address + "' as ADDRESS, " + lat +' as LAT, ' +lng +'as LNG, FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_TYPE_KR, FOOD_SCOPE, CAPITA_PRICE, LONGITUDE_WALK, LATITUDE_WALK ' +
+                var query =   'select ? as ADDRESS, ? as LAT, ? as LNG, FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_TYPE_KR, FOOD_SCOPE, CAPITA_PRICE, LONGITUDE_WALK, LATITUDE_WALK ' +
                                 'from TB_FOOD_SHOP_LIST where LATITUDE_WALK between ? and ? and LONGITUDE_WALK between ? and ?';
-
-                connection.query(query, [southWestLat, northEastLat, southWestLng, northEastLng], function (err, row) {
+                
+                connection.query(query, [address, lat, lng, southWestLat, northEastLat, southWestLng, northEastLng], function (err, row) {
                     if (err) {
                         console.error("err : " + err);
                         throw err;
@@ -86,7 +97,7 @@ router.get('/shopInfo', function (req, res, next) {
 router.get('/transport', function (req, res, next) {
 
     getConnection(function (err, connection) {
-        var query = "select '" + address + "' as ADDRESS, " + lat +' as LAT, ' +lng +'as LNG, ' +
+        var query = "select '" + address + "' as ADDRESS, " + lat +' as LAT, ' +lng +' as LNG, ' +
                     'FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_ADDR_CN, TAXI_ADDR_CN, LONGITUDE_WALK, LATITUDE_WALK, LONGITUDE_TAXI, LATITUDE_TAXI from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
         var id = req.query.id; // foodList Id
         var type = req.query.type;

@@ -80,30 +80,36 @@
         address += addressComponent.street;
         address += addressComponent.streetNumber;
 
-        $.ajax({
-            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
-            type: 'POST',
-            data: {addr : address},
-            success: function (data) {
-                var mPoint = new BMap.Point(data.lng, data.lat);
-                map.enableScrollWheelZoom();
-                map.centerAndZoom (mPoint, 14);
+        if(address != '' && address != undefined && address!= null){
 
-                getFoodShop(map, address, data.lng, data.lat);
-            },
-            error: function (request, status, error) {
-                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                console.log('Error occured');
-            }
-        })
+            console.log('############ address :: ', address);
+
+            $.ajax({
+//            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
+                url: 'http://localhost:8080/food/currentLocation',
+                type: 'POST',
+                data: {addr : address},
+                success: function (data) {
+                    var mPoint = new BMap.Point(data.lng, data.lat);
+                    map.enableScrollWheelZoom();
+                    map.centerAndZoom (mPoint, 14);
+
+                    getFoodShop(map, address, data.lng, data.lat);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            })
+        }
 
         map.addEventListener("dragend", function () {
             getFoodShop(map, null);
         });
 
-        map.addEventListener("zoomend", function() {
-            getFoodShop(map, null);
-        });
+//        map.addEventListener("zoomend", function() {
+//            getFoodShop(map, null);
+//        });
     });
 
     var getFoodShop = function(map, address, lng, lat) {
@@ -119,12 +125,11 @@
                     };
 
         $.ajax({
-              url: 'http://nbnl.couphone.cn:8080/food/shopList',
-//            url: 'http://127.0.0.1:8080/food/shopList',
+//              url: 'http://nbnl.couphone.cn:8080/food/shopList',
+            url: 'http://127.0.0.1:8080/food/shopList',
             type: 'POST',
             data: data,
             success: function (data) {
-
                 $('#restaurant_find_local_list_wrap').empty();
 
                 var geoCodeSet = new Array();
@@ -161,8 +166,6 @@
                         '<div class="thi"><span class="icon" onclick="document.getElementById(' + parameter + ').submit();"><img src="/images/btn_ic_direction@3x.png"></a></span></div>' +
                         '<div class="clear_both"></div>' +
                         '</div></form>';
-
-//                    $('#restaurant_find_local_list_wrap').append(dynamicDom);
 
                     geoCodeSet.push({longitude: longitude, latitude: latitude}); // 위도 경도 셋
                 });
