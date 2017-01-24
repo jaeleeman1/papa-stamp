@@ -128,7 +128,7 @@ router.get('/transport', function (req, res, next) {
                     depart.walkingLong = rows[0].LNG;
                     depart.walkingLat = rows[0].LAT;
                     depart.drivingLong = rows[0].LNG;
-                    depart.drivingLat = LAT;
+                    depart.drivingLat = rows[0].LAT;
 
                     var arrive = {};
                     arrive.id = rows[0].FOOD_ID;
