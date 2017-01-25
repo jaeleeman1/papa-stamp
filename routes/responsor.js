@@ -91,10 +91,20 @@ weixin.textMsg(function(msg) {
 				articles : articles,				
 				funcFlag : 0
 			};
+			break;
+		default :
+			resMsg = {
+				fromUserName : msg.toUserName,
+				toUserName : msg.fromUserName,
+				msgType : "text",
+				content : "",
+				funcFlag : 0
+			};
+			break;
 	}
 
 	weixin.sendMsg(resMsg);
-	api.sendText(msg.toUserName, "WeChatAPI Sample", function(err, data, res) {
+	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
 		console.log("WeChatAPI call failed");
 		console.log(err);
 	});
@@ -127,10 +137,10 @@ weixin.eventMsg(function(msg) {
 
 // Start
 router.post('/', function(req, res) {
-
+	console.log("POST start");
 	// loop
 	weixin.loop(req, res);
-
+	console.log("POST end");
 });
 
 module.exports = router;
