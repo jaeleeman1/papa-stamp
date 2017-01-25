@@ -38,7 +38,7 @@ router.post('/agentWechat', function(req, res, next) {
 		getConnection(function (err, connection){
 			var wechatId = req.body.wechat_id; // wechat Id
 			var destination = req.body.destination; // destination
-			var query = 'UPDATE TB_ROAD_INFO SET TRANSLATION_ADDR_CN ='+ destination +' WHERE USER_OPEN_ID=?';
+			var query = 'UPDATE TB_ROAD_INFO SET TRANSLATION_ADDR_CN ='+ destination +' WHERE USER_OPEN_ID= ?';
 
 			connection.query(query, wechatId, function (err, row) {
 				if (err) {
