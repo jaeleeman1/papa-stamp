@@ -34,23 +34,23 @@ router.post('/agentWechat', function(req, res, next) {
 	//insert destination
     if (req.body.message == "2")
     {
-	    console.log('Destination : ',req.body);
-		getConnection(function (err, connection){
-			var wechatId = req.body.wechatId; // wechat Id
-			var destination = req.body.destination; // destination
-			var query = 'UPDATE TB_ROAD_INFO SET TRANSLATION_ADDR_CN ='+ destination +' WHERE USER_OPEN_ID= ?';
+	console.log('Destination : ',req.body);
+	getConnection(function (err, connection){
+		var wechatId = req.body.wechatId; // wechat Id
+		var destination = req.body.destination; // destination
+		var query = 'UPDATE TB_ROAD_INFO SET START_NM_KR ='xxxxxxxxxxxxxxxx' WHERE USER_OPEN_ID='jaeleeman1';';
 
-			connection.query(query, wechatId, function (err, row) {
-				if (err) {
-					console.error("err : " + err);
-					throw err;
-				}else{
-					console.log("### update destination ### - wechatId : " + wechatId);
-					res.status(200).send('Send Sucess');
-				}
-				connection.release();
-			})
-		});        
+		connection.query(query, function (err, row) {
+			if (err) {
+				console.error("err : " + err);
+				throw err;
+			}else{
+				console.log("### update destination ### - wechatId : " + wechatId);
+				res.status(200).send('Send Sucess');
+			}
+			connection.release();
+		})
+	});        
     }
 
     //data send
