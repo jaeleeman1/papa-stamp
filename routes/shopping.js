@@ -7,6 +7,33 @@ var config = require('../lib/config');
 router.get('/', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = 'jaeleeman1'//req.query.wechat_id; // wechat Id
+        var openId = '';
+        var buyData;
+
+        var query = 'SELECT * FROM TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
+        // Select Buy List
+        connection.query(query, wechatId, function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            }else{
+                buyData = row;
+                console.log("### shoppingBuyList ### - wechatId : " + wechatId);
+            }
+        })
+
+        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO as TUI WHERE USER_WECHAT_ID = ?';
+        // selectQuery Open ID
+        connection.query(selectQuery, wechatId, function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            }else{
+                openId = row[0].USER_OPEN_ID;
+                console.log("shoppingBuyList select success : " + row);
+            }
+        })
+
         var query = 'SELECT TSL.* FROM TB_SHOPPING_LIST AS TSL';
         connection.query(query, wechatId, function (err, row) {
             if (err) {
@@ -14,7 +41,7 @@ router.get('/', function (req, res, next) {
                 throw err;
             }else{
                 console.log("### shoppingList ### - wechatId : " + wechatId);
-                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId});
+                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId});
             }
             connection.release();
         })
