@@ -10,7 +10,7 @@ router.get('/myLocation', function (req, res, next) {
 
     var wechatId = req.query.wechatId;
     getConnection(function (err, connection) {
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO as TUI WHERE USER_WECHAT_ID = ?';
+        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
         // selectQuery Open ID
         connection.query(selectQuery, wechatId, function (err, row) {
             if (err) {
