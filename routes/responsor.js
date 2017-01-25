@@ -3,13 +3,17 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	router = express.Router();
 
+var WechatAPI = require('wechat-api');
+var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033");
+
 // 解析器
 //router.use(express.bodyParser());
 //app.use(xmlBodyParser);
 
+
+
 // 接入验证
 router.get('/', function(req, res) {		
-	// 签名成功
 	if (weixin.checkSignature(req)) {
         console.log("checkSignature return true");
 		res.send(200, req.query.echostr);
@@ -90,6 +94,10 @@ weixin.textMsg(function(msg) {
 	}
 
 	weixin.sendMsg(resMsg);
+	api.sendText(msg.toUserName, "WeChatAPI Sample", function(err, data, res) {
+		console.log("WeChatAPI call failed");
+		console.log(err);
+	});
 });
 
 // 监听图片消息
@@ -114,11 +122,12 @@ weixin.urlMsg(function(msg) {
 weixin.eventMsg(function(msg) {
 	console.log("eventMsg received");
 	console.log(JSON.stringify(msg));
+	
 });
 
 // Start
 router.post('/', function(req, res) {
-	
+
 	// loop
 	weixin.loop(req, res);
 
