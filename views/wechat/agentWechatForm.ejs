@@ -1,149 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title><%= wechatSendTitle %></title>
-	<link rel='stylesheet' href='/stylesheets/style.css' />
-	<link rel="stylesheet"
-		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<link rel="stylesheet"
-		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script src="/javascripts/jquery-1.11.2.min.js"></script>
-	<script>
-        $(function() {
-            $('#btn_send').on(
-                'click',
-                function() {
-                    if ($('#wechatId').val() == "") {
-                        console.log('val', $('#wechatId').val());
-                        alert('Wechat ID를 꼭 입력하세요!');
-                        $('#wechatId').focus();
-                        return;
-                    }
-                    if ($('#StartCn').val() == "" || $('#StartKr').val() == "" ) {
-                        alert('출발지 주소 입력 해주세요.');
-                        return;
-                    }
-                    if ($('#EndKr').val() == "" || $('#EndCn').val() == "") {
-                        alert('도착지 주소 입력 해주세요.');
-                        return;
-                    }
+<meta charset="utf-8">
+<title><%= wechatSendTitle %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="/javascripts/jquery-1.11.2.min.js"></script>
+<script>
+	$(function() {
+		$('#btn_send').on(
+				'click',
+				function() {
+					if ($('#wechatId').val() == "") {
+						alert('Wechat ID를 꼭 입력하세요!');
+						$('#wechatId').focus();
+						return;
+					}
 
-
-                    $('#sendform').submit(); // 전송
-                });
-
-            $('#Taxi_send').on(
-                'click',
-                function() {
-
-                    $('#sendform3').submit(); // 전송
-                });
-
-            $('#StartMessage_send').on(
-                'click',
-                function() {
-                    if ($('#StartMessage').val() == "") {
-                        alert('보내실문자를 입력하세요');
-                        $('#StartMessage').focus();
-                        return;
-                    }
-
-                    $('#sendform2').submit(); // 전송
-                });
-
-
-        });
-	</script>
+					$('#sendform').submit(); // 전송
+				});
+	});
+</script>
 </head>
 <body>
-<div class="container">
-	<div class="row">
+	<div class="container">
+		<div class="row">
 
-		<h1><%= wechatSendTitle %></h1>
+			<h1><%= wechatSendTitle %></h1>
 
-		<form action="/wechat/agentWechat" method="post" id="sendform"
-			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="1">
-			<table class="table table-condensed">
+			<form action="/wechat/agentWechat" method="post" id="sendform"
+				class="form-inline">
+				<table class="table table-condensed">
+					<tr>
+						<th width="100"><label for="wechatId">Wechat ID</label></th>
+						<td><input type="text" name="wechatId" id="wechatId" size="50"
+							maxlength="12" class="form-control" value="jaeleeman1"/></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="button" id="btn_send" value="텍스트 보내기"
+							class="btn btn-primary" /> <input type="button" value="test2"
+							class="btn btn-danger" onclick="history.back();" /></td>
+					</tr>
+				</table>
 
-				<tr>
-					<th width="100"><label for="wechatId">Wechat ID</label></th>
-					<td><input type="text" name="wechatId" id="wechatId" size="50"
-							   maxlength="12" class="form-control" value="mjmts" /></td>
-				</tr>
-				<tr>
-					<th width="100"><label for="StartCn">StartCn</label></th>
-					<td><input type="text" name="StartCn" id="StartCn" size="25"
-							   maxlength="50" class="form-control"  value="start chinese"/></td>
-					<th width="100"><label for="StartKr">StartKr</label></th>
-					<td><input type="text" name="StartKr" id="StartKr" size="25"
-							   maxlength="50" class="form-control" value="출발한국" /></td>
-				</tr>
-				<tr>
-					<th width="100"><label for="EndCn">EndCn</label></th>
-					<td><input type="text" name="EndCn" id="EndCn" size="25"
-							   maxlength="50" class="form-control" value="end chinese" /></td>
-					<th width="100"><label for="EndKr">EndKr</label></th>
-					<td><input type="text" name="EndKr" id="EndKr" size="25" value="도착한국"
-							   maxlength="50" class="form-control"  /></td>
-				</tr>
-
-				<tr>
-					<td colspan="2"><input type="button" id="btn_send" value="주소등록"
-										   class="btn btn-primary" onclick="history.back();"/>  </td>
-					<!--<td colspan="2"><input type="button" id="taxi_send" value="길찾기전송"-->
-					<!--class="btn btn-primary" onclick="history.back();"/>-->
-
-					</td>
-				</tr>
-
-			</table>
-		</form>
-
-
-		<form action="/wechat/agentWechat" method="post" id="sendform2"
-			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="2">
-			<table class="table table-condensed">
-				<tr>
-					<th width="100"><label for="wechatId">Wechat ID</label></th>
-					<td><input type="text" name="wechatId" id="wechatId" size="50"
-							   maxlength="12" class="form-control" value="mjmts" /></td>
-				</tr>
-				<tr>
-					<th width="100"><label for="StartMessage">Message</label></th>
-					<td><input type="text" name="StartMessage" id="StartMessage" size="50"
-							   maxlength="100" class="form-control"  /></td>
-				</tr>
-
-				<tr>
-					<td colspan="2"><input type="button" id="StartMessage_send" value="문자전송"
-										   class="btn btn-primary"    onclick="history.back();"/> </td>
-				</tr>
-			</table>
-		</form>
-
-		<form action="/wechat/agentWechat" method="post" id="sendform3"
-			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="3">
-			<table class="table table-condensed">
-				<tr>
-					<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"
-										   class="btn btn-primary"    onclick="history.back();"/> </td>
-				</tr>
-			</table>
-		</form>
-
+			</form>
+		</div>
 	</div>
-</div>
 
 </body>
 </html>
-
-
-
-
-
