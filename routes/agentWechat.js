@@ -50,6 +50,22 @@ router.post('/shoppingResultSend', function(req, res, next) {
     }
 });
 
+router.post('/taxiDepartSend', function(req, res, next) {
+    console.log('##### Post  taxi Start #####');
+    console.log('req ::::::: ', req.body);
+
+    api.sender.resSend( req , res, next)
+    {
+        console.log(   res.statusCode );
+        if (  res.statusCode != 200) {
+            console.log('##### SEND ERROR  #####');
+        }
+
+        res.status(200).send('Send Sucess');
+    }
+});
+
+
 router.post('/foodResultSend', function(req, res, next) {
     console.log('##### Post  foodResSend Start #####');
     api.foodResultSender.foodResSend( req , res, next)
