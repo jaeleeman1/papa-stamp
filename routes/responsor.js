@@ -16,7 +16,8 @@ var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033"
 router.get('/', function(req, res) {		
 	if (weixin.checkSignature(req)) {
         console.log("checkSignature return true");
-		res.send(200, req.query.echostr);
+		//res.send(200, req.query.echostr);
+		res.status(200).send(req.query.echostr);
 	} else {
         console.log("checkSignature return false");
 		res.send(200, 'fail');
@@ -104,10 +105,12 @@ weixin.textMsg(function(msg) {
 	}
 
 	weixin.sendMsg(resMsg);
+	console.log("WeChatAPI call start");
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
 		console.log("WeChatAPI call failed");
 		console.log(err);
 	});
+	console.log("WeChatAPI call end");
 });
 
 // 监听图片消息
