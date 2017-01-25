@@ -8,11 +8,11 @@ router.get('/', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = 'jaeleeman1'//req.query.wechat_id; // wechat Id
         var openId = '';
-        var buyData;
+        var buyData = '';
 
-        var query = 'SELECT * FROM TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
+        var buyQuery = 'SELECT * FROM TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
         // Select Buy List
-        connection.query(query, wechatId, function (err, row) {
+        connection.query(buyQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
@@ -34,8 +34,8 @@ router.get('/', function (req, res, next) {
             }
         })
 
-        var query = 'SELECT TSL.* FROM TB_SHOPPING_LIST AS TSL';
-        connection.query(query, wechatId, function (err, row) {
+        var shoppingQuery = 'SELECT TSL.* FROM TB_SHOPPING_LIST AS TSL';
+        connection.query(shoppingQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
