@@ -17,7 +17,7 @@ router.get('/myLocation', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                consle.log('row ::: ', row);
+                console.log('row ::: ', row);
                 openId = row[0].USER_OPEN_ID;
                 res.render('taxiMyLocation', {openId: openId});
             }
