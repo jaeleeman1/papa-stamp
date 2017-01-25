@@ -42,6 +42,7 @@
 <!--<div>-->
     <form id="myLocation" action="/wechat/taxiDepartSend" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" id="wechatId" name="wechatId" value=<%=wechatId%>>
+        <input type="hidden" id="addr" name="addr" value="">
         <input type="hidden" id="lat" name="lat" value="">
         <input type="hidden" id="lng" name="lng" value="">
         <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
@@ -104,8 +105,8 @@
         if(address != '' && address != undefined && address!= null){
 
             $.ajax({
-//            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
-                url: 'http://localhost:8080/food/currentLocation',
+            url: 'http://nbnl.couphone.cn:8080/food/currentLocation',
+//                url: 'http://localhost:8080/food/currentLocation',
                 type: 'POST',
                 data: {addr : address},
                 success: function (data) {
@@ -125,8 +126,10 @@
                     var mkr = new BMap.Marker(mPoint);
                     map.addOverlay(mkr);
 
-                    $('#lng').value(lng);
-                    $('#lat').value(lat);
+                    $('#address').text(address);
+                    $('#lng').val(lng);
+                    $('#addr').val(address);
+                    $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
                             $('#myLocation').submit();
