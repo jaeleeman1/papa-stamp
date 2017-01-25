@@ -103,6 +103,22 @@
 			</table>
 		</form>
 
+		<form action="/wechat/agentWechat" method="post" id="sendform1"
+			  class="form-inline">
+			<input type="hidden" id="message" name="message" value="2">
+			<table class="table table-condensed">
+				<tr>
+					<th width="100"><label for="wechatId">도착지 주소</label></th>
+					<td><input type="text" name="wechatId" id="wechatId" size="50"
+							   maxlength="12" class="form-control" value="도착지 주소를 입력하세요" /></td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="button" id="insert_destination" value="도착지 저장"
+										   class="btn btn-primary"/> </td>
+				</tr>
+			</table>
+		</form>
 
 		<form action="/wechat/agentWechat" method="post" id="sendform2"
 			  class="form-inline">
