@@ -7,8 +7,17 @@ var getConnection = require('../lib/db_connection');
 var request = require('request');
 
 router.get('/myLocation', function (req, res, next) {
-    res.render('taxiMyLocation');
+
+    var wechatId = req.query.wechatId;
+
+    res.render('taxiMyLocation', {wechatId: wechatId});
 });
+
+router.post('/sendDepartMsg', function (req, res, next) {
+
+})
+
+
 
 router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
