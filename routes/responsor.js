@@ -3,8 +3,8 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	router = express.Router();
 
-//var WechatAPI = require('wechat-api');
-//var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033");
+var WechatAPI = require('wechat-api');
+var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033");
 
 // 解析器
 //router.use(express.bodyParser());
@@ -91,13 +91,23 @@ weixin.textMsg(function(msg) {
 				articles : articles,				
 				funcFlag : 0
 			};
+			break;
+		default :
+			resMsg = {
+				fromUserName : msg.toUserName,
+				toUserName : msg.fromUserName,
+				msgType : "text",
+				content : "",
+				funcFlag : 0
+			};
+			break;
 	}
 
 	weixin.sendMsg(resMsg);
-	// api.sendText(msg.toUserName, "WeChatAPI Sample", function(err, data, res) {
-	// 	console.log("WeChatAPI call failed");
-	// 	console.log(err);
-	// });
+	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
+		console.log("WeChatAPI call failed");
+		console.log(err);
+	});
 });
 
 // 监听图片消息
