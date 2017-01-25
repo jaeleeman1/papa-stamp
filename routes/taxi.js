@@ -10,7 +10,17 @@ router.get('/myLocation', function (req, res, next) {
 
     var wechatId = req.query.wechatId;
 
-    res.render('taxiMyLocation', {wechatId: wechatId});
+    var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO as TUI WHERE USER_WECHAT_ID = ?';
+    // selectQuery Open ID
+    connection.query(selectQuery, wechatId, function (err, row) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else{
+            openId = row[0].USER_OPEN_ID;
+            res.render('taxiMyLocation', {openId: openId});
+        }
+    })
 });
 
 router.post('/sendDepartMsg', function (req, res, next) {
