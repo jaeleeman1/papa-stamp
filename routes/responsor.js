@@ -6,6 +6,7 @@ var express = require('express'),
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033");
 
+
 // 解析器
 //router.use(express.bodyParser());
 //app.use(xmlBodyParser);
@@ -20,7 +21,8 @@ router.get('/', function(req, res) {
 		res.status(200).send(req.query.echostr);
 	} else {
         console.log("checkSignature return false");
-		res.send(200, 'fail');
+		//res.send(200, 'fail');
+		res.status(200).send("fail");
 	}
 });
 
@@ -106,6 +108,9 @@ weixin.textMsg(function(msg) {
 
 	weixin.sendMsg(resMsg);
 	console.log("WeChatAPI call start");
+	console.log(api.getAccessToken(function(err) {
+		console.log("WeChatAPI getAccessToken failed");
+	}));
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
 		console.log("WeChatAPI call failed");
 		console.log(err);
