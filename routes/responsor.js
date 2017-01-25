@@ -95,6 +95,44 @@ weixin.textMsg(function(msg) {
 				funcFlag : 0
 			};
 			break;
+		case "menu" : 
+			var menu =  {
+				"button":[
+					{	
+						"type":"click",
+						"name":"Daily Song",
+						"key":"V1001_TODAY_MUSIC"
+					},
+					{
+						"type":"click",
+						"name":" Artist Profile",
+						"key":"V1001_TODAY_SINGER"
+					},
+					{
+						"name":"Menu",
+						"sub_button":[
+						{	
+							"type":"view",
+							"name":"Search",
+							"url":"http://www.soso.com/"
+							},
+							{
+							"type":"view",
+							"name":"Video",
+							"url":"http://v.qq.com/"
+							},
+							{
+							"type":"click",
+							"name":"Like us",
+							"key":"V1001_GOOD"
+							}]
+					}]
+				};
+				api.createCustomMenu(menu, function(err){
+					console.log("WeChatAPI createCustomMenu failed");
+					console.log(err);
+				});
+			break;
 		default :
 			resMsg = {
 				fromUserName : msg.toUserName,
@@ -110,6 +148,7 @@ weixin.textMsg(function(msg) {
 	console.log("WeChatAPI call start");
 	console.log(api.getAccessToken(function(err) {
 		console.log("WeChatAPI getAccessToken failed");
+		console.log(err);
 	}));
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
 		console.log("WeChatAPI call failed");
