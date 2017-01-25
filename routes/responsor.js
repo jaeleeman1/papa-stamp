@@ -97,41 +97,49 @@ weixin.textMsg(function(msg) {
 			break;
 		case "menu" : 
 			var menu =  {
-				"button":[
-					{	
-						"type":"click",
-						"name":"Daily Song",
-						"key":"V1001_TODAY_MUSIC"
-					},
+				"button": [
 					{
-						"type":"click",
-						"name":" Artist Profile",
-						"key":"V1001_TODAY_SINGER"
-					},
+						"type": "click", 
+						"name": "今日歌曲", 
+						"key": "V1001_TODAY_MUSIC"
+					}, 
 					{
-						"name":"Menu",
-						"sub_button":[
-						{	
-							"type":"view",
-							"name":"Search",
-							"url":"http://www.soso.com/"
-							},
+						"name": "菜单", 
+						"sub_button": [
 							{
-							"type":"view",
-							"name":"Video",
-							"url":"http://v.qq.com/"
-							},
+								"type": "view", 
+								"name": "搜索", 
+								"url": "http://www.soso.com/"
+							}, 
 							{
-							"type":"click",
-							"name":"Like us",
-							"key":"V1001_GOOD"
-							}]
-					}]
-				};
-				api.createCustomMenu(menu, function(err){
-					console.log("WeChatAPI createCustomMenu failed");
-					console.log(err);
-				});
+								"type": "view", 
+								"name": "视频", 
+								"url": "http://v.qq.com/"
+							}, 
+							{
+								"type": "click", 
+								"name": "赞一下我们", 
+								"key": "V1001_GOOD"
+							}
+						]
+					}
+				], 
+				"matchrule": {
+					"group_id": "2", 
+					"sex": "1", 
+					"country": "中国", 
+					"province": "广东", 
+					"city": "广州", 
+					"client_platform_type": "2", 
+					"language": "zh_CN"
+				}
+			};
+
+			api.createCustomMenu(menu, function(err){
+				console.log("WeChatAPI createCustomMenu done");
+				console.log("Error : "+err);
+			});
+
 			break;
 		default :
 			resMsg = {
@@ -147,12 +155,12 @@ weixin.textMsg(function(msg) {
 	weixin.sendMsg(resMsg);
 	console.log("WeChatAPI call start");
 	console.log(api.getAccessToken(function(err) {
-		console.log("WeChatAPI getAccessToken failed");
-		console.log(err);
+		console.log("WeChatAPI getAccessToken done");
+		console.log("Error : "+err);
 	}));
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
-		console.log("WeChatAPI call failed");
-		console.log(err);
+		console.log("WeChatAPI sendText done");
+		console.log("Error : "+err);
 	});
 	console.log("WeChatAPI call end");
 });
