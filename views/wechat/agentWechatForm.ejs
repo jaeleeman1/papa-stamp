@@ -42,7 +42,19 @@
                     $('#sendform3').submit(); // 전송
                 });
 
-            $('#StartMessage_send').on(
+            $('#insert_destination').on(
+                'click',
+                function() {
+                    if ($('#text_destination').val() == "") {
+                        alert('저장할 를 입력하세요');
+                        $('#text_destination').focus();
+                        return;
+                    }
+
+                    $('#sendform1').submit(); // 전송
+                });
+		
+	    $('#StartMessage_send').on(
                 'click',
                 function() {
                     if ($('#StartMessage').val() == "") {
@@ -53,8 +65,6 @@
 
                     $('#sendform2').submit(); // 전송
                 });
-
-
         });
 	</script>
 </head>
@@ -109,7 +119,7 @@
 			<table class="table table-condensed">
 				<tr>
 					<th width="100"><label for="wechatId">도착지 주소</label></th>
-					<td><input type="text" name="wechatId" id="wechatId" size="50"
+					<td><input type="text" name="wechatId" id="text_destination size="50"
 							   maxlength="12" class="form-control" value="도착지 주소를 입력하세요" /></td>
 				</tr>
 
@@ -122,7 +132,7 @@
 
 		<form action="/wechat/agentWechat" method="post" id="sendform2"
 			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="2">
+			<input type="hidden" id="message" name="message" value="3">
 			<table class="table table-condensed">
 				<tr>
 					<th width="100"><label for="wechatId">Wechat ID</label></th>
@@ -144,7 +154,7 @@
 
 		<form action="/wechat/agentWechat" method="post" id="sendform3"
 			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="3">
+			<input type="hidden" id="message" name="message" value="4">
 			<table class="table table-condensed">
 				<tr>
 					<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"
