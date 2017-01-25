@@ -114,8 +114,15 @@
     </script>
 </head>
 <form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
+    <input type="hidden" name="open_Id" id="open_Id" value="<%= openId %>"/>
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
+    <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
+    <% for(var i = 0; i < buyData.length; i++) { %>
+        <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
+        <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>
+        <input type="hidden" name="price_<%=i%>" id="price_<%=i%>" value="<%= buyData[i].PRICE %>"/>
+    <% } %>
 </form>
 
 <body>
