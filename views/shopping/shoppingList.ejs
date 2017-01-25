@@ -33,9 +33,10 @@
 
     <script type ="text/javascript">
         $(function() {
+            var wechatId = $("#wechat_id").val();
 //            console.log('url' + $("#url").val());
             $.ajax({
-                url: $("#url").val()+'/shopping/shoppingBuySum?wechat_id='+ $("#wechat_id").val(),
+                url: $("#url").val()+'/shopping/shoppingBuySum?wechat_id='+ wechatId,
                 type: 'GET',
                 success: function (data) {
                     var replaceCnt = '<div class="view_product" id="btn_change"><span class="ic_buy"><img src="images/btn_ic_buy@3x.png"></span>상품' + data.buyCnt + '개</div>';
