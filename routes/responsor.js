@@ -91,6 +91,7 @@ weixin.textMsg(function(msg) {
 				articles : articles,				
 				funcFlag : 0
 			};
+			break;
 		default:
 			resMsg = {
 				fromUserName : msg.toUserName,
