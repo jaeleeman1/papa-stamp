@@ -91,10 +91,20 @@ weixin.textMsg(function(msg) {
 				articles : articles,				
 				funcFlag : 0
 			};
+		default:
+			resMsg = {
+				fromUserName : msg.toUserName,
+				toUserName : msg.fromUserName,
+				msgType : "text",
+				content : "",
+				funcFlag : 0
+			};
+			break;
 	}
 
 	weixin.sendMsg(resMsg);
-	api.sendText(msg.toUserName, "WeChatAPI Sample", function(err, data, res) {
+	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
+		console.log(msg.fromUserName);
 		console.log("WeChatAPI call failed");
 		console.log(err);
 	});
