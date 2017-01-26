@@ -179,36 +179,45 @@ weixin.eventMsg(function(msg) {
 				]
 			};
 
-			api.createCustomMenu(menu, function(err){
-				console.log("WeChatAPI createCustomMenu done");
+			api.createMenu(menu, function(err){
+				console.log("WeChatAPI createMenu done");
 				console.log("WeChatAPI Error : "+err);
 			});
 
-			// get customer list
-			var customerList;
-			customerList = api.getOnlineCustomServiceList(function(err, result) {
-				console.log("WeChatAPI getOnlineCustomServiceList done");
-				if(err) {
-					console.log("WeChatAPI Error : "+err);
-				} else {
-					// create session
-					var minAcceptedCnt = -1;
-					var minAcceptedCustomer = "";
-					for(var i = 0; i < result.kf_online_list.length; i++) {
-						console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
-						if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
-							minAcceptedCnt = result.kf_online_list[i].accepted_case;
-							minAcceptedCustomer = result.kf_online_list[i].kf_account;
+			// check user's session status
+			api.getClientSessionState(msg.fromUserName, function(err, result) {
+				console.log("WeChatAPI getClientSessionState done");
+				console.log("WeChatAPI getClientSessionState "+err);
+				console.log("WeChatAPI getClientSessionState "+result);
+				if(result){
+					api.getOnlineCustomServiceList(function(err, result) {
+						console.log("WeChatAPI getOnlineCustomServiceList done");
+						console.log("WeChatAPI getOnlineCustomServiceList "+err);
+						console.log("WeChatAPI getOnlineCustomServiceList "+result);						
+						if(err) {
+							console.log("WeChatAPI Error : "+err);
+						} else {
+							// search customer which have minimum sessions
+							var minAcceptedCnt = -1;
+							var minAcceptedCustomer = "";
+							for(var i = 0; i < result.kf_online_list.length; i++) {
+								console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
+								if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
+									minAcceptedCnt = result.kf_online_list[i].accepted_case;
+									minAcceptedCustomer = result.kf_online_list[i].kf_account;
+								}
+							}
+							// create session
+							if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
+								console.log("WeChatAPI target customer account("+minAcceptedCustomer+")");
+								api.createSession(minAcceptedCustomer, msg.fromUserName, function(err) {
+									console.log("WeChatAPI createSession : "+err);
+								})
+							}
 						}
-					}
-					if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
-						console.log("WeChatAPI  done");
-					}
+					});
 				}
-			})
-			console.log(customerList);
-
-			// create session
+			});
 			
 			break;
 		case "unsubscribe" :

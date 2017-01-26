@@ -15,7 +15,6 @@
     "serve-favicon": "~2.3.0",
     "sequelize" : "*",
     "mysql": "*",
-    "baidumap" : "*",
-    "wechat-api" : "*"
+    "baidumap" : "*"
   }
 }
