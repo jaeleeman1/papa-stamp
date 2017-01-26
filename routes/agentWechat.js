@@ -116,7 +116,8 @@ router.post('/taxiDepartSend', function(req, res, next) {
             } else {
 
             	var taxiMsg = '';
-                taxiMsg+= '택시 안내 요청 \n현위치 : ' + addr;
+                taxiMsg+= '택시 안내 요청 \n현위치 : ';
+                // taxiMsg+= '택시 안내 요청 \n현위치 : ' + addr;
 
                 // console.log('openId', openId);
                 // console.log('taxiMsg', taxiMsg);
