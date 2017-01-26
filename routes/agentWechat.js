@@ -28,7 +28,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
     // GET 위도,경도 via BaiduMap
     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
     var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + endAddrCn + '&output=json&ak=' + ak + '&callback=showLocation';
-    request.get({'url': host}, function(error, request, body) {
+    request.get({'url': host}, function(error, req, body) {
         if (!error) {
 
             var json1 = body.split('(');
@@ -91,7 +91,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                                             + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
 
-                                        request.get({'url': host}, function(error, request, body){
+                                        request.get({'url': host}, function(error, req, body){
                                             if(!error){
                                                 var jsonBody = JSON.parse(body);
 
