@@ -87,7 +87,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                         var openId = rows[0].USER_OPEN_ID;
                                         var wechatId = rows[0].USER_WECHAT_ID;
-
+                                        var translationAddrCn = rows[0].TRANSLATION_ADDR_CN;
                                         console.log('arrive', arrive);
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                                             + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
@@ -110,13 +110,14 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 // req.body.Time = duration;
                                                 // req.body.Distance = distance;
                                                 // req.body.ImageUrl = "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_buy_01.png"
-                                                var url = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var mapUrl = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var messageUrl = 'http://nbnl.couphone.cn:8080/taxi/taxiaddress?name='+ arrive.nameKr +'&address="+translationAddrCn';  //중국어 보여주는 url
                                                 // var message  =    "--------------------------------------- \n";
                                                 // message     += 	 " 출발 : " + depart.addrTaxi +  " \n ";
                                                 // message     +=    "--------------------------------------- \n";
                                                 // message     +=    " 도착 :" + arrive.addrTaxi +  " \n";
                                                 var message    =    "약 " +    duration +" "+ distance  +  " \n ";
-                                                    message     +=    "도착지 : " + arrive.nameCn +  " \n";
+                                                    message     +=    "도착지 : " + arrive.nameCn ;
                                                 // message     +=    "--------------------------------------- \n ";
 
                                                 var contents = {
@@ -128,12 +129,12 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                             // "title": arrive.nameKr,
                                                                             "title": message,
                                                                             // "description": message,
-                                                                            "url": url,
+                                                                            "url": mapUrl,
                                                                             "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         },
                                                                         {
-                                                                            "title": "중국어 도착지",
-                                                                            "url": "http://52.79.56.181:8000/taxiaddress?useropenid="+openId,  //중국어 보여주는 url + OPENID
+                                                                            "title": "중국어로 목적지 보기",
+                                                                            "url": messageUrl,
                                                                             "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         }
 

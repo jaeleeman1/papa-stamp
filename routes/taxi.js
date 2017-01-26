@@ -30,8 +30,8 @@ router.get('/myLocation', function (req, res, next) {
     });
 });
 
-router.post('/sendDepartMsg', function (req, res, next) {
-
+router.get('/taxiaddress', function (req, res, next) {
+        res.render('taxiAddress', {name : req.query.name, address: req.query.address});
 })
 
 
