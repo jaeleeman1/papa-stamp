@@ -77,36 +77,13 @@ router.post('/shoppingResultSend', function(req, res, next) {
 
 router.post('/taxiDepartSend', function(req, res, next) {
     console.log('##### Post  taxi Start #####');
-    console.log('req ::::::: ', req.body);
-    //
-    // req :::::::  { openId: 'oH7FywN073pRVpCF0G6nMl6iI8mg',
-    //     addr: '訝딀돈躍귚툓役룟툊容꾣덱?븀쇍玲롨러1??,
-    //     lat: '31.232280291456387',
-    //         lng: '121.49815490071883' }
+    // console.log('req ::::::: ', req.body);
+
 	var openId = req.body.openId;
 	var addr = req.body.addr;
 	var lat = req.body.lat;
 	var lng = req.body.lng;
 
-    //
-    // var total_amount    = 0;
-    // var shoppingResult  = prdctLength +'개 물품 주문 접수 되었습니다. \n';
-    //
-    // shoppingResult  += '--------------------------------------- \n';
-    // for(var i = 0; i <  prdctLength; i++)
-    // {
-    //     shoppingResult += 	ProductSet.Prdct_Nm[i] + "\n " +
-    //         ": 수량"+ProductSet.Prdct_Cnt[i] + "개 |" +
-    //         "￥ " + ProductSet.Price[i] * ProductSet.Prdct_Cnt[i] + "\n "
-    //
-    //     total_amount += ProductSet.Price[i] * ProductSet.Prdct_Cnt[i];
-    // }
-    //
-    // shoppingResult += "\n 합계 ￥" + total_amount ;
-    // shoppingResult += '\n --------------------------------------- \n';
-
-    // console.log( shoppingResult);
-    // getToken(shoppingResult);
     getConnection(function (err, connection) {
         var insertQuery =  'INSERT INTO TB_ROAD_INFO (USER_OPEN_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
         // Insert Buy List
@@ -120,8 +97,8 @@ router.post('/taxiDepartSend', function(req, res, next) {
                 taxiMsg+= '택시 안내 요청 \n';
                 taxiMsg+= '현위치 : ' + addr;
 
-                console.log('openId', openId);
-                console.log('taxiMsg', taxiMsg);
+                // console.log('openId', openId);
+                // console.log('taxiMsg', taxiMsg);
 
                 api.sender.msgSend(openId, taxiMsg);
                 {
