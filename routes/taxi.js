@@ -10,7 +10,7 @@ router.get('/myLocation', function (req, res, next) {
 
     var wechatId = req.query.wechatId;
     getConnection(function (err, connection) {
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
+        var selectQuery = 'SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
         // selectQuery Open ID
         connection.query(selectQuery, wechatId, function (err, row) {
             if (err) {
@@ -18,8 +18,9 @@ router.get('/myLocation', function (req, res, next) {
                 throw err;
             } else {
                 console.log('row ::: ', row);
-                openId = row[0].USER_OPEN_ID;
-                res.render('taxiMyLocation', {openId: openId});
+                var openId = row[0].USER_OPEN_ID;
+                var wechatId = row[0].USER_WECHAT_ID;
+                res.render('taxiMyLocation', {openId: openId, wechatId: wechatId});
             }
         })
     });
