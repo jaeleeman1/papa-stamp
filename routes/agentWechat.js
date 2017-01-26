@@ -30,15 +30,37 @@ router.post('/agentWechat', function(req, res, next) {
         //wechat id로 open id 가져오기
         getOpenId(req , res   );
     }
+	
+	//insert destination
+    if (req.body.message == "2")
+    {
+	console.log('Destination : ',req.body);
+	getConnection(function (err, connection){
+		var wechatId = req.body.wechat_id; // wechat Id
+		var destination = req.body.destination; // destination
+		var query = 'UPDATE TB_ROAD_INFO SET TRANSLATION_ADDR_CN ="'+ destination +'" WHERE USER_OPEN_ID=?';
+
+		connection.query(query, wechatId, function (err, row) {
+			if (err) {
+				console.error("err : " + err);
+				throw err;
+			}else{
+				console.log("### update destination ### - wechatId : " + wechatId);
+				res.status(200).send('Send Sucess');
+			}
+			connection.release();
+		})
+	});        
+    }
 
     //data send
-    if (req.body.message == "2")
+    if (req.body.message == "3")
     {
         console.log('SendMessage ',req.body);
         SendMessage(req, res, next);
     }
 
-    if (req.body.message == "3")
+    if (req.body.message == "4")
     {
         console.log('send food rich message ' );
         // 리치 메세지를 보내기 위해서 req.body에 추가 데이타를 적재함

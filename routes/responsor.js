@@ -4,7 +4,8 @@ var express = require('express'),
 	router = express.Router();
 
 var WechatAPI = require('wechat-api');
-var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033");
+var api = new WechatAPI('wx9aa7c34851e950de', '84f007b293a60d3d90919308ac29a033');
+
 
 // 解析器
 //router.use(express.bodyParser());
@@ -16,10 +17,12 @@ var api = new WechatAPI("wx9aa7c34851e950de", "84f007b293a60d3d90919308ac29a033"
 router.get('/', function(req, res) {		
 	if (weixin.checkSignature(req)) {
         console.log("checkSignature return true");
-		res.send(200, req.query.echostr);
+		//res.send(200, req.query.echostr);
+		res.status(200).send(req.query.echostr);
 	} else {
         console.log("checkSignature return false");
-		res.send(200, 'fail');
+		//res.send(200, 'fail');
+		res.status(200).send("fail");
 	}
 });
 
@@ -92,6 +95,52 @@ weixin.textMsg(function(msg) {
 				funcFlag : 0
 			};
 			break;
+		case "menu" : 
+			var menu =  {
+				"button": [
+					{
+						"type": "click", 
+						"name": "今日歌曲", 
+						"key": "V1001_TODAY_MUSIC"
+					}, 
+					{
+						"name": "菜单", 
+						"sub_button": [
+							{
+								"type": "view", 
+								"name": "搜索", 
+								"url": "http://www.soso.com/"
+							}, 
+							{
+								"type": "view", 
+								"name": "视频", 
+								"url": "http://v.qq.com/"
+							}, 
+							{
+								"type": "click", 
+								"name": "赞一下我们", 
+								"key": "V1001_GOOD"
+							}
+						]
+					}
+				], 
+				"matchrule": {
+					"group_id": "2", 
+					"sex": "1", 
+					"country": "中国", 
+					"province": "广东", 
+					"city": "广州", 
+					"client_platform_type": "2", 
+					"language": "zh_CN"
+				}
+			};
+
+			api.createCustomMenu(menu, function(err){
+				console.log("WeChatAPI createCustomMenu done");
+				console.log("Error : "+err);
+			});
+
+			break;
 		default :
 			resMsg = {
 				fromUserName : msg.toUserName,
@@ -104,10 +153,16 @@ weixin.textMsg(function(msg) {
 	}
 
 	weixin.sendMsg(resMsg);
+	console.log("WeChatAPI call start");
+	console.log(api.getAccessToken(function(err) {
+		console.log("WeChatAPI getAccessToken done");
+		console.log("Error : "+err);
+	}));
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
-		console.log("WeChatAPI call failed");
-		console.log(err);
+		console.log("WeChatAPI sendText done");
+		console.log("Error : "+err);
 	});
+	console.log("WeChatAPI call end");
 });
 
 // 监听图片消息
