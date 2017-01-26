@@ -145,7 +145,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
     });
 });
 
-router.post('sendMessage',function (req, res, next) {
+router.post('/sendMessage',function (req, res, next) {
     var wechatId = req.body.wechatId;
     var message = req.body.message;
 
