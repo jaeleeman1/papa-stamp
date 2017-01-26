@@ -58,8 +58,8 @@ router.get('/shoppingDetail', function (req, res, next) {
         var wechatId = req.query.wechat_id; // wechat Id
         var prdctId = req.query.prdct_id; // product Id
         
-		// Select Shopping Detail
-		var detailQuery = 'select * from TB_SHOPPING_LIST AS TSL where TSL.PRDCT_ID = ?';
+	// Select Shopping Detail
+	var detailQuery = 'select * from TB_SHOPPING_LIST AS TSL where TSL.PRDCT_ID = ?';
         connection.query(detailQuery, prdctId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
