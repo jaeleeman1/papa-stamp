@@ -96,25 +96,19 @@ weixin.textMsg(function(msg) {
 			};
 			break;
 		default :
-			resMsg = {
-				fromUserName : msg.toUserName,
-				toUserName : msg.fromUserName,
-				msgType : "text",
-				content : "",
-				funcFlag : 0
-			};
+			resMsg = '';
 			break;
 	}
 
 	weixin.sendMsg(resMsg);
-	console.log(api.getAccessToken(function(err) {
-		console.log("WeChatAPI getAccessToken done");
-		console.log("WeChatAPI Error : "+err);
-	}));
-	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
-		console.log("WeChatAPI sendText done");
-		console.log("WeChatAPI Error : "+err);
-	});
+	// console.log(api.getAccessToken(function(err) {
+	// 	console.log("WeChatAPI getAccessToken done");
+	// 	console.log("WeChatAPI Error : "+err);
+	// }));
+	// api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
+	// 	console.log("WeChatAPI sendText done");
+	// 	console.log("WeChatAPI Error : "+err);
+	// });
 });
 
 // 监听图片消息
@@ -188,12 +182,12 @@ weixin.eventMsg(function(msg) {
 			api.getClientSessionState(msg.fromUserName, function(err, result) {
 				console.log("WeChatAPI getClientSessionState done");
 				console.log("WeChatAPI getClientSessionState "+err);
-				console.log("WeChatAPI getClientSessionState "+result);
+				console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
 				if(result){
 					api.getOnlineCustomServiceList(function(err, result) {
 						console.log("WeChatAPI getOnlineCustomServiceList done");
 						console.log("WeChatAPI getOnlineCustomServiceList "+err);
-						console.log("WeChatAPI getOnlineCustomServiceList "+result);						
+						console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));						
 						if(err) {
 							console.log("WeChatAPI Error : "+err);
 						} else {
