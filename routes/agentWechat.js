@@ -107,7 +107,7 @@ router.post('/taxiDepartSend', function(req, res, next) {
 	var lng = req.body.lng;
 
     getConnection(function (err, connection) {
-        var insertQuery =  'INSERT INTO TB_ROAD_INFO (USER_OPEN_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
+        var insertQuery =  'INSERT INTO TB_ROAD_INFO (USER_WECHAT_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
         // Insert Buy List
         connection.query(insertQuery, [openId, addr, addr, lng, lat,lng, lat],  function (err, row) {
             if (err) {
