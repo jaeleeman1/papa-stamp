@@ -30,8 +30,6 @@
                         alert('도착지 주소 입력 해주세요.');
                         return;
                     }
-
-
                     $('#sendform').submit(); // 전송
                 });
 
@@ -42,19 +40,7 @@
                     $('#sendform3').submit(); // 전송
                 });
 
-            $('#insert_destination').on(
-                'click',
-                function() {
-                    if ($('#text_destination').val() == "") {
-                        alert('저장할 를 입력하세요');
-                        $('#text_destination').focus();
-                        return;
-                    }
-
-                    $('#sendform1').submit(); // 전송
-                });
-		
-	    $('#StartMessage_send').on(
+            $('#StartMessage_send').on(
                 'click',
                 function() {
                     if ($('#StartMessage').val() == "") {
@@ -62,9 +48,28 @@
                         $('#StartMessage').focus();
                         return;
                     }
-
                     $('#sendform2').submit(); // 전송
                 });
+
+            $('#Find_Message_Btn').on(
+                'click',
+                function() {
+                    $('#StartMessage').val("지금 요청하신 자료를 찾고 있습니다. 잠시만 기다려 주십시요.");
+                    return;
+                });
+            $('#Delay_Message_Btn').on(
+                'click',
+                function() {
+                    $('#StartMessage').val("요청하신 자료 찾기가 쉽지 않아 시간이 조금 더 걸릴 것 같습니다.");
+                    return;
+                });
+            $('#Bye_Message_Btn').on(
+                'click',
+                function() {
+                    $('#StartMessage').val("이용해주셔서 감사합니다. 즐거운 여행 되십시요.");
+                    return;
+                });
+
         });
 	</script>
 </head>
@@ -85,25 +90,27 @@
 							   maxlength="12" class="form-control" value="mjmts" /></td>
 				</tr>
 				<tr>
-					<th width="100"><label for="StartCn">StartCn</label></th>
-					<td><input type="text" name="StartCn" id="StartCn" size="25"
-							   maxlength="50" class="form-control"  value="start chinese"/></td>
-					<th width="100"><label for="StartKr">StartKr</label></th>
-					<td><input type="text" name="StartKr" id="StartKr" size="25"
-							   maxlength="50" class="form-control" value="출발한국" /></td>
-				</tr>
-				<tr>
 					<th width="100"><label for="EndCn">EndCn</label></th>
 					<td><input type="text" name="EndCn" id="EndCn" size="25"
-							   maxlength="50" class="form-control" value="end chinese" /></td>
-					<th width="100"><label for="EndKr">EndKr</label></th>
-					<td><input type="text" name="EndKr" id="EndKr" size="25" value="도착한국"
-							   maxlength="50" class="form-control"  /></td>
+							   maxlength="50" class="form-control"  value="ARRIVE ADDRESS"/>
+						<!--</td>-->
+
+						<!--<th width="10"><label for="EndKr">EndKr</label></th>-->
+						<!--<td>-->
+						<label for="EndKr" >EndKr</label>
+						<input type="text" name="EndKr" id="EndKr" size="25"
+							   maxlength="50" class="form-control" value="도착지 주소" /></td>
+				</tr>
+				<tr>
+					<th width="100"><label for="LargeAddrCn">택시기사용중국어</label></th>
+					<td><input type="text" name="LargeAddrCn" id="LargeAddrCn" size="100"
+							   maxlength="100" class="form-control" value="택시기사용 중국어" /></td>
+
 				</tr>
 
 				<tr>
 					<td colspan="2"><input type="button" id="btn_send" value="주소등록"
-										   class="btn btn-primary" onclick="history.back();"/>  </td>
+										   class="btn btn-primary" />  </td>
 					<!--<td colspan="2"><input type="button" id="taxi_send" value="길찾기전송"-->
 					<!--class="btn btn-primary" onclick="history.back();"/>-->
 
@@ -113,31 +120,10 @@
 			</table>
 		</form>
 
-		<form action="/wechat/agentWechat" method="post" id="sendform1"
-			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="2">
-			<table class="table table-condensed">
-				<tr>
-					<th width="100"><label for="wechat_id">Wechat ID</label></th>
-					<td><input type="text" name="wechat_id" id="wechat_id" size="50"
-							   maxlength="12" class="form-control" value="mjmts" /></td>
-				</tr>
-				<tr>
-					<th width="100"><label for="destination">도착지 주소</label></th>
-					<td><input type="text" name="destination" id="destination size="50"
-							   maxlength="12" class="form-control" value="도착지 주소를 입력하세요" /></td>
-				</tr>
-
-				<tr>
-					<td colspan="2"><input type="button" id="insert_destination" value="도착지 저장"
-										   class="btn btn-primary"/> </td>
-				</tr>
-			</table>
-		</form>
 
 		<form action="/wechat/agentWechat" method="post" id="sendform2"
 			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="3">
+			<input type="hidden" id="message" name="message" value="2">
 			<table class="table table-condensed">
 				<tr>
 					<th width="100"><label for="wechatId">Wechat ID</label></th>
@@ -146,24 +132,36 @@
 				</tr>
 				<tr>
 					<th width="100"><label for="StartMessage">Message</label></th>
-					<td><input type="text" name="StartMessage" id="StartMessage" size="50"
+					<td><input type="text" name="StartMessage" id="StartMessage" size="100"
 							   maxlength="100" class="form-control"  /></td>
 				</tr>
 
 				<tr>
 					<td colspan="2"><input type="button" id="StartMessage_send" value="문자전송"
-										   class="btn btn-primary"/> </td>
+										   class="btn btn-primary"/>
+						<!--</td>-->
+						<!--<td colspan="2">-->
+						<input type="button" id="Find_Message_Btn" value="찾는중"
+							   class="btn btn-primary" />
+						<!--</td>-->
+						<!--<td colspan="2">-->
+						<input type="button" id="Delay_Message_Btn" value="오래걸림"
+							   class="btn btn-primary"/>
+						<!--</td>-->
+						<!--<td colspan="2">-->
+						<input type="button" id="Bye_Message_Btn" value="종료인사"
+							   class="btn btn-primary"/> </td>
 				</tr>
 			</table>
 		</form>
 
 		<form action="/wechat/agentWechat" method="post" id="sendform3"
 			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="4">
+			<input type="hidden" id="message" name="message" value="3">
 			<table class="table table-condensed">
 				<tr>
 					<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"
-										   class="btn btn-primary"    onclick="history.back();"/> </td>
+										   class="btn btn-primary"    /> </td>
 				</tr>
 			</table>
 		</form>
