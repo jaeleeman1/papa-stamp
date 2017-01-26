@@ -78,12 +78,22 @@
                             Price += JSON.stringify($("#price_"+i).val());
                         }
                     }
-
-                    var dataStr = '{"User_Open_Id":"' + openId +'", ' +
-                        '"Prdct_Nm":[' + Prdct_Nm +'], ' +
-                        '"Prdct_Cnt":[' + Prdct_Cnt +'], ' +
-                        '"Price":[' + Price +']' +
-                        '}';
+                    
+                    if(length == 1) {
+                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
+                            '"Prdct_Nm":' + Prdct_Nm +', ' +
+                            '"Prdct_Cnt":' + Prdct_Cnt +', ' +
+                            '"Price":' + Price +', ' +
+                            '"Length":' + length +
+                            '}';
+                    } else {
+                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
+                            '"Prdct_Nm":[' + Prdct_Nm +'], ' +
+                            '"Prdct_Cnt":[' + Prdct_Cnt +'], ' +
+                            '"Price":[' + Price +'], ' +
+                            '"Length":' + length +
+                            '}';
+                    }
 
                     if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
                         $.ajax({
