@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
         var openId = '';
         var buyData = '';
 
-		// Select Shopping Buy List
+	// Select Shopping Buy List
         var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
         connection.query(buyQuery, wechatId, function (err, row) {
             if (err) {
@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
             }else{
                 buyData = row;
                 console.log("### Shopping Buy List ###");
-				console.log("### Data Success ### " + JSON.stringify(buyData));
+		console.log("### Data Success ### " + JSON.stringify(buyData));
             }
         })
 		
@@ -43,8 +43,8 @@ router.get('/', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-				console.log("### Shopping List ###");
-				console.log("### Data Success ### " + JSON.stringify(row));
+		console.log("### Shopping List ###");
+		console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId});
             }
             connection.release();
@@ -65,8 +65,8 @@ router.get('/shoppingDetail', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-				console.log("### Shopping Detail ###");
-				console.log("### Data Success ### " + JSON.stringify(row));
+		console.log("### Shopping Detail ###");
+		console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingDetail', {data:row[0], wechatId:wechatId});
             }
             connection.release();
@@ -98,8 +98,8 @@ router.get('/shoppingBuyList', function (req, res, next) {
                     console.error("err : " + err);
                     throw err;
                 }else{
-					console.log("### Insert Buy List ###");
-					console.log("### Data Success ### " + JSON.stringify(row));
+		    console.log("### Insert Buy List ###");
+		    console.log("### Data Success ### " + JSON.stringify(row));
                 }
             })
         }
@@ -112,8 +112,8 @@ router.get('/shoppingBuyList', function (req, res, next) {
                 throw err;
             }else{
                 openId = row[0].USER_OPEN_ID;
-				console.log("### Select Open ID ###");
-				console.log("### Data Success ### " + JSON.stringify(openId));
+		console.log("### Select Open ID ###");
+		console.log("### Data Success ### " + JSON.stringify(openId));
             }
         })
 
@@ -124,8 +124,8 @@ router.get('/shoppingBuyList', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-				console.log("### Shopping Buy List ###");
-				console.log("### Data Success ### " + JSON.stringify(row));
+		console.log("### Shopping Buy List ###");
+		console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId, url:config.url, openId:openId});
             }
             connection.release();
@@ -148,7 +148,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-				console.log("### Update Shopping Buy List ###");
+		console.log("### Update Shopping Buy List ###");
                 res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&prdct_cnt=' + prdctCnt +'&price=' + price);
             }
             connection.release();
@@ -210,8 +210,8 @@ router.get('/shoppingBuySum', function (req, res, next) {
                 for(var i=0; i<buyPrdctCnt; i++) {
                     buyPrdctSumPrice += (row[i].SHOPPING_CNT * row[i].PRICE);
                 }
-				console.log("### Shopping Buy Sum ###");
-				console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
+		console.log("### Shopping Buy Sum ###");
+		console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
                 res.send({buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
             }
             connection.release();
