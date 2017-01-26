@@ -10,37 +10,41 @@ router.get('/', function (req, res, next) {
         var openId = '';
         var buyData = '';
 
-        var buyQuery = 'SELECT * FROM TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
-        // Select Buy List
+		// Select Shopping Buy List
+        var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
         connection.query(buyQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
                 buyData = row;
-                console.log("### shoppingBuyList ### - wechatId : " + wechatId);
+                console.log("### Shopping Buy List ###");
+				console.log("### Data Success ### " + JSON.stringify(buyData));
             }
         })
-
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO as TUI WHERE USER_WECHAT_ID = ?';
-        // selectQuery Open ID
+		
+		// Select Open ID
+        var selectQuery = 'select TUI.USER_OPEN_ID from TB_USER_INFO as TUI where TUI.USER_WECHAT_ID = ?';
         connection.query(selectQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
                 openId = row[0].USER_OPEN_ID;
-                console.log("shoppingBuyList select success : " + row);
+                console.log("### Open ID ###");
+				console.log("### Data Success ### " + JSON.stringify(openId));
             }
         })
 
-        var shoppingQuery = 'SELECT TSL.* FROM TB_SHOPPING_LIST AS TSL';
+		// Select Shopping List
+        var shoppingQuery = 'select TSL.* from TB_SHOPPING_LIST AS TSL';
         connection.query(shoppingQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("### shoppingList ### - wechatId : " + wechatId);
+				console.log("### Shopping List ###");
+				console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId});
             }
             connection.release();
@@ -53,14 +57,16 @@ router.get('/shoppingDetail', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = req.query.wechat_id; // wechat Id
         var prdctId = req.query.prdct_id; // product Id
-        var query = 'SELECT * FROM TB_SHOPPING_LIST AS TSL WHERE TSL.PRDCT_ID = ?';
-
-        connection.query(query, prdctId, function (err, row) {
+        
+		// Select Shopping Detail
+		var detailQuery = 'select * from TB_SHOPPING_LIST AS TSL where TSL.PRDCT_ID = ?';
+        connection.query(detailQuery, prdctId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("### shoppingDetail ### - wechatId : " + wechatId);
+				console.log("### Shopping Detail ###");
+				console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingDetail', {data:row[0], wechatId:wechatId});
             }
             connection.release();
@@ -80,41 +86,45 @@ router.get('/shoppingBuyList', function (req, res, next) {
         if(prdctId != '' || prdctId != null) {
             if(prdctCnt == '' || prdctCnt == null || prdctCnt == undefined) {
                 prdctCnt = 1;
-            }else if (prdctCnt == 'plus') {
-                prdc
+            }else {
+                prdctCnt += 1;
             }
-            var insertQuery = 'INSERT INTO TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, SHOPPING_CNT) VALUES (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', ' + prdctCnt + ') ON DUPLICATE KEY UPDATE SHOPPING_CNT = '+ prdctCnt;
-            // Insert Buy List
+			
+			// Insert Buy List
+            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
             connection.query(insertQuery, prdctId, function (err, row) {
                 if (err) {
                     console.error("err : " + err);
                     throw err;
                 }else{
-                    console.log("shoppingBuyList insert success : " + JSON.stringify(row));
+					console.log("### Insert Buy List ###");
+					console.log("### Data Success ### " + JSON.stringify(row));
                 }
             })
         }
-
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO as TUI WHERE USER_WECHAT_ID = ?';
-        // selectQuery Open ID
-        connection.query(selectQuery, wechatId, function (err, row) {
+		
+        // Select Open ID
+        var openIdQuery = 'select USER_OPEN_ID from TB_USER_INFO as TUI where USER_WECHAT_ID = ?';
+        connection.query(openIdQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
                 openId = row[0].USER_OPEN_ID;
-                console.log("shoppingBuyList select success : " + row);
+				console.log("### Select Open ID ###");
+				console.log("### Data Success ### " + JSON.stringify(openId));
             }
         })
 
-        var query = 'SELECT * FROM TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
+        var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" and TSL.PRDCT_ID = TSBL.PRDCT_ID and USER_WECHAT_ID = ?';
         // Select Buy List
-        connection.query(query, wechatId, function (err, row) {
+        connection.query(buyQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("### shoppingBuyList ### - wechatId : " + wechatId);
+				console.log("### Shopping Buy List ###");
+				console.log("### Data Success ### " + JSON.stringify(row));
                 res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId, url:config.url, openId:openId});
             }
             connection.release();
@@ -124,24 +134,20 @@ router.get('/shoppingBuyList', function (req, res, next) {
 
 ///POST Shopping Buy List
 router.post('/shoppingBuyList', function (req, res, next) {
-    //api.database.insertBuyCount(req, function(obj) {
-    //var data = JSON.parse(obj);
-    //console.log(''+ data.USER_OPEN_ID);
-    //});
-
     getConnection(function (err, connection){
         var wechatId = req.body.wechat_id; // wechat Id
         var prdctId = req.body.prdct_id; // wechat Id
         var prdctCnt = req.body.prdct_cnt; // product count
         var price = req.body.price; // price
-        var query = 'UPDATE TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' WHERE USER_WECHAT_ID="jaeleeman1" AND PRDCT_ID = ?';
-
-        connection.query(query, prdctId, function (err, row) {
+		
+		// Update Buy List
+        var updateQuery = 'update TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' where USER_WECHAT_ID="jaeleeman1" and PRDCT_ID = ?';
+        connection.query(updateQuery, prdctId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("### update shoppingBuyList ### - wechatId : " + wechatId);
+				console.log("### Update Shopping Buy List ###");
                 res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&prdct_cnt=' + prdctCnt +'&price=' + price);
             }
             connection.release();
@@ -159,7 +165,7 @@ router.get('/shoppingSetting', function (req, res, next) {
     if(prdctCnt == '') {
         prdctCnt = 1;
     }
-    console.log("### shoppingSetting ### - wechatId : " + wechatId);
+    console.log("### Shopping Setting ###");
     res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, prdctCnt: prdctCnt, price: price});
 });
 
@@ -168,14 +174,14 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = req.body.wechat_id; // wechat_id
 
-        var query = 'DELETE FROM TB_SHOPPING_BUY_LIST WHERE USER_WECHAT_ID = ?';
-
-        connection.query(query, wechatId, function (err, row) {
+		// Delete Shopping Buy List
+        var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID = ?';
+        connection.query(deleteQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                console.log("### shoppingDeleteAll ### - wechatId : " + wechatId);
+                console.log("### Delete Shopping Buy List ###");
                 res.send({wechatId: wechatId});
             }
             connection.release();
@@ -190,9 +196,10 @@ router.get('/shoppingBuySum', function (req, res, next) {
         var prdctId = req.query.prdct_id; // product Id
         var price = req.query.price; // product price
         var prdctCnt = req.query.prdct_cnt; // product count
-        var query = 'SELECT * FROM TB_SHOPPING_BUY_LIST as TSBL WHERE TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
-
-        connection.query(query, wechatId, function (err, row) {
+        
+		// Shopping Buy Sum
+		var sumQuery = 'select * from TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
+        connection.query(sumQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
@@ -202,7 +209,8 @@ router.get('/shoppingBuySum', function (req, res, next) {
                 for(var i=0; i<buyPrdctCnt; i++) {
                     buyPrdctSumPrice += (row[i].SHOPPING_CNT * row[i].PRICE);
                 }
-                console.log("### shoppingBuySum ### - wechatId : " + wechatId);
+				console.log("### Shopping Buy Sum ###");
+				console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
                 res.send({buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
             }
             connection.release();
