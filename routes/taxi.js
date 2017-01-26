@@ -110,7 +110,7 @@ router.get('/address', function (req, res, next) {
                 throw err;
             }else{
                 console.log("rows : " + JSON.stringify(rows));
-                res.render('taxiAddress', {data:rows[0]});
+                res.render('taxi/destinationAddress', {data:rows[0]});
             }
             connection.release();
         })
