@@ -157,13 +157,13 @@
         <% for(var i = 0; i < data.length; i++) { %>
             <% prdctSum += (data[i].PRICE * data[i].SHOPPING_CNT) %>
             <div class="buy_wrap">
-                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>'">
-                <a href = "/shopping/shoppingDetail?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>" />
+                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
-                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=jaeleeman1&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>
+                <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>
                 <div class="clear_both"></div>
             </div>
         <% } %>
