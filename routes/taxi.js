@@ -33,7 +33,7 @@ router.post('/sendDepartMsg', function (req, res, next) {
 
 router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
-        var query = 'select * from TB_ROAD_INFO where USER_OPEN_ID = ? order by ROAD_SEQ DESC limit 1';
+        var query = 'select * from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ DESC limit 1';
         var id = req.query.id; // user open id
         var type = req.query.type;
 
