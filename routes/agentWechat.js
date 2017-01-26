@@ -121,9 +121,7 @@ router.post('/taxiDepartSend', function(req, res, next) {
                 // console.log('openId', openId);
                 // console.log('taxiMsg', taxiMsg);
 
-                api.sender.msgSend(openId);
-
-
+                api.sender.msgSend(openId, taxiMsg);
                 // api.sender.msgSend(openId, taxiMsg);
                 // {
                     // console.log(   res.statusCode );
