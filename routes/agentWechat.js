@@ -56,30 +56,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                             'TRANSLATION_ADDR_CN = ? ' +
                             ' WHERE  ROAD_SEQ = (select ROAD_SEQ from (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1) as TEMP)';
 
-            //             var query = ' UPDATE TB_ROAD_INFO ' +
-            // ' SET  END_NM_CN      = ?, ' +
-            // 'END_NM_KR       = ?, ' +
-            // 'LARGE_ADDR_CN   = ?  ' +
-            // ' WHERE  ROAD_SEQ     = ?  ' +
-            // ' AND  USER_WECHAT_ID  = ?  ';
-
-
-                // var roadInfoSet =
-                //     {
-                //         'END_NM_CN': endNameCn,
-                //         'END_NM_KR': endNameKr,
-                //         'END_TAXI_ADDR_CN' : endAddrCn,
-                //         'END_TAXI_ADDR_KR' : endAddrKr,
-                //         'END_WALK_ADDR_CN' : endAddrCn,
-                //         'END_WALK_ADDR_KR' : endAddrKr,
-                //         'END_LONGITUDE_WALK' : lng,
-                //         'END_LATITUDE_WALK' : lat,
-                //         'END_LONGITUDE_TAXI' : lng,
-                //         'END_LATITUDE_TAXI' : lat,
-                //         'TRANSLATION_ADDR_CN' : translationAddrCn,
-                //         'USER_WECHAT_ID': wechatId
-                //     };
-
                 connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, wechatId], function (err, rows) {
                     if (err) {
                         console.error("err : " + err);
@@ -444,6 +420,37 @@ function getOpenId(req, res, next) {
     console.log("openID : " + RETURN_DATA.openId);
     return true;
 }
+
+var getDuration = function(duration) {
+
+    var hour = Math.floor(duration/ (60*60));
+    var min =  Math.floor(duration/60 % 60);
+
+    var result = '';
+    if(hour != 0){
+        result += hour + '시간 ';
+    }
+    if(min != 0){
+        result += min + '분 ';
+    }
+    return result;
+}
+
+var getDistance = function (distance) {
+    var kilo = Math.floor(distance/1000);
+    var meter = Math.floor(distance%1000);
+
+    var result = '';
+    if(kilo != 0 && meter == 0){
+        result += kilo + 'km';
+    } else if(kilo != 0 && meter != 0){
+        result += kilo + '.' + Math.round(meter/100) + 'km ';
+    } else if(meter != 0){
+        result += meter + 'm ';
+    }
+    return result;
+}
+
 //
 // function RoadAddressInsert(req, res, next) {
 //     console.log(" Start!! RoadAddressInsert ");
@@ -577,6 +584,5 @@ function getOpenId(req, res, next) {
 //     console.log("openID : " + RETURN_DATA.openId);
 //     return true;
 // }
-
 
 module.exports = router;
