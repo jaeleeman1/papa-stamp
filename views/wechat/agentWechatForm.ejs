@@ -11,36 +11,34 @@
 	<script>
         $(function() {
             $('#btnTaxi').click(function() {
-                if ($('#wechatId').val() == "") {
-                    $('#wechatId').text('Wechat ID를 꼭 입력하세요!');
-                    $('#wechatId').focus();
+                if ($('#wechatIdTaxi').val() == "") {
+                    $('#alertTaxi').text('Wechat ID를 꼭 입력하세요!');
+                    $('#wechatIdTaxi').focus();
                     return;
                 } else if ($('#endNameCn').val() == "") {
-                    $('#endNameCn').text('도착지 이름(중국어)를 꼭 입력하세요!');
+                    $('#alertTaxi').text('도착지 이름(중국어)를 꼭 입력하세요!');
                     $('#endNameCn').focus();
                     return;
                 } else if ($('#endNameKr').val() == "") {
-                    $('#endNameKr').text('도착지 이름(한국어)를 꼭 입력하세요!');
+                    $('#alertTaxi').text('도착지 이름(한국어)를 꼭 입력하세요!');
                     $('#endNameKr').focus();
                     return;
                 } else if ($('#endAddrCn').val() == "") {
-                    $('#endAddrCn').text('도착지 주소(중국어)를 꼭 입력하세요!');
+                    $('#alertTaxi').text('도착지 주소(중국어)를 꼭 입력하세요!');
                     $('#endAddrCn').focus();
                     return;
                 } else if ($('#endAddrKr').val() == "") {
-                    $('#endAddrKr').text('도착지 주소(한국어)를 꼭 입력하세요!');
+                    $('#alertTaxi').text('도착지 주소(한국어)를 꼭 입력하세요!');
                     $('#endAddrKr').focus();
                     return;
                 } else if ($('#translationAddrCn').val() == "") {
-                    $('#alert').text('택시기사용 중국어를 꼭 입력하세요!');
+                    $('#alertTaxi').text('택시기사용 중국어를 꼭 입력하세요!');
                     $('#translationAddrCn').focus();
                     return;
                 }
 
-//								$('#sendform').submit(); // 전송
-
                 var data = {
-                    wechatId: $('#wechatId').val(),
+                    wechatId: $('#wechatIdTaxi').val(),
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
@@ -53,6 +51,11 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
+                        $('#endNameCn').val("");
+                        $('#endNameKr').val("");
+                        $('#endAddrCn').val("");
+                        $('#endAddrKr').val("");
+                        $('#translationAddrCn').val("");
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -61,43 +64,117 @@
                 });
             });
 
-            $('#Taxi_send').on(
-                'click',
-                function() {
+            // 일반 메시지 전송
+            $('#btnSendMessage').click(function () {
+                if ($('#wechatIdMessage').val() == "") {
+                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
+                    $('#wechatIdMessage').focus();
+                    return;
+                }else if ($('#message').val() == "") {
+                    $('#alertMessage').text('Message 를 꼭 입력하세요!');
+                    $('#message').focus();
+                    return;
+                }
 
-                    $('#sendform3').submit(); // 전송
-                });
+                var data = {
+                    wechatId: $('#wechatIdMessage').val(),
+                    message: $('#message').val()
+                };
 
-            $('#StartMessage_send').on(
-                'click',
-                function() {
-                    if ($('#StartMessage').val() == "") {
-                        alert('보내실문자를 입력하세요');
-                        $('#StartMessage').focus();
-                        return;
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        $('#message').val("");
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
                     }
-                    $('#sendform2').submit(); // 전송
                 });
+            });
 
-            $('#Find_Message_Btn').on(
-                'click',
-                function() {
-                    $('#StartMessage').val("지금 요청하신 자료를 찾고 있습니다. 잠시만 기다려 주십시요.");
+            // 찾는 중
+            $('#btnFindMessage').click(function () {
+                if ($('#wechatIdMessage').val() == "") {
+                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
+                    $('#wechatIdMessage').focus();
                     return;
-                });
-            $('#Delay_Message_Btn').on(
-                'click',
-                function() {
-                    $('#StartMessage').val("요청하신 자료 찾기가 쉽지 않아 시간이 조금 더 걸릴 것 같습니다.");
-                    return;
-                });
-            $('#Bye_Message_Btn').on(
-                'click',
-                function() {
-                    $('#StartMessage').val("이용해주셔서 감사합니다. 즐거운 여행 되십시요.");
-                    return;
-                });
+                }
 
+                var data = {
+                    wechatId: $('#wechatIdMessage').val(),
+                    message: "요청하신 자료 찾기가 쉽지 않아 시간이 조금 더 걸릴 것 같습니다."
+                };
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        alert("메시지가 전송되었습니다.");
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });
+            });
+
+            //오래걸림
+            $('#btnDelayMessage').click(function () {
+                if ($('#wechatIdMessage').val() == "") {
+                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
+                    $('#wechatIdMessage').focus();
+                    return;
+                }
+
+                var data = {
+                    wechatId: $('#wechatIdMessage').val(),
+                    message: "지금 요청하신 자료를 찾고 있습니다. 잠시만 기다려 주십시요."
+                };
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        alert("메시지가 전송되었습니다.");
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });
+            });
+
+			// 종료 인사
+            $('#btnByeMessage').click(function () {
+                if ($('#wechatIdMessage').val() == "") {
+                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
+                    $('#wechatIdMessage').focus();
+                    return;
+                }
+
+                var data = {
+                    wechatId: $('#wechatIdMessage').val(),
+                    message: "이용해주셔서 감사합니다. 즐거운 여행 되십시요."
+                };
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        alert("메시지가 전송되었습니다.");
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });
+            });
         });
 	</script>
 </head>
@@ -107,11 +184,10 @@
 
 		<h1>Wechat Message Tool</h1>
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
-			<input type="hidden" id="message" name="message" value="1">
 			<table class="table table-condensed">
 				<tr>
-					<th width="100"><label for="wechatId" style="text-align: center;">Wechat ID</label></th>
-					<td><input type="text" name="wechatId" id="wechatId" size="50" maxlength="12" class="form-control" value="test02" /></td>
+					<th width="100"><label for="wechatIdTaxi" style="text-align: center;">Wechat ID</label></th>
+					<td><input type="text" name="wechatIdTaxi" id="wechatIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -133,47 +209,45 @@
 					<td colspan="3"><label for="translationAddrCn">택시기사용 &nbsp;&nbsp;중국어&nbsp;</label>
 					<input type="text" name="translationAddrCn" id="translationAddrCn" size="100" maxlength="100" class="form-control" value="黄浦区福州路70号" /></td>
 				</tr>
-				<tr><td colspan="3" id ='alert' style="color: red"></td></tr>
+				<tr><td colspan="3" id ='alertTaxi' style="color: red"></td></tr>
 				<tr>
 					<td colspan="2"><input type="button" id="btnTaxi" value="Taxi 지도 전송" style="height: 35px" class="btn btn-primary" />  </td>
 				</tr>
 			</table>
 		<!--</form>-->
 
-
-		<form action="/wechat/agentWechat" method="post" id="sendform2"
+		<!--<form action="/wechat/agentWechat" method="post" id="sendform2"-->
 			  class="form-inline">
-			<input type="hidden" id="message" name="message" value="2">
 			<table class="table table-condensed">
 				<tr>
-					<th width="100"><label for="wechatId">Wechat ID</label></th>
-					<td><input type="text" name="wechatId" id="wechatId" size="50"
+					<th width="100"><label for="wechatIdMessage">Wechat ID</label></th>
+					<td><input type="text" name="wechatIdMessage" id="wechatIdMessage" size="50"
 							   maxlength="12" class="form-control" value="mjmts" /></td>
 				</tr>
 				<tr>
-					<th width="100"><label for="StartMessage">Message</label></th>
-					<td><input type="text" name="StartMessage" id="StartMessage" size="100"
+					<th width="100"><label for="message">Message</label></th>
+					<td><input type="text" name="message" id="message" size="100"
 							   maxlength="100" class="form-control"  /></td>
 				</tr>
-
+				<tr><td colspan="3" id ='alertMessage' style="color: red"></td></tr>
 				<tr>
-					<td colspan="2"><input type="button" id="StartMessage_send" value="문자전송" style="height: 35px"
+					<td colspan="2"><input type="button" id="btnSendMessage" value="문자전송" style="height: 35px"
 										   class="btn btn-primary"/>
 						<!--</td>-->
 						<!--<td colspan="2">-->
-						<input type="button" id="Find_Message_Btn" value="찾는중" style="height: 35px"
+						<input type="button" id="btnFindMessage" value="찾는중" style="height: 35px"
 							   class="btn btn-primary" />
 						<!--</td>-->
 						<!--<td colspan="2">-->
-						<input type="button" id="Delay_Message_Btn" value="오래걸림" style="height: 35px"
+						<input type="button" id="btnDelayMessage" value="오래걸림" style="height: 35px"
 							   class="btn btn-primary"/>
 						<!--</td>-->
 						<!--<td colspan="2">-->
-						<input type="button" id="Bye_Message_Btn" value="종료인사" style="height: 35px"
+						<input type="button" id="btnByeMessage" value="종료인사" style="height: 35px"
 							   class="btn btn-primary"/> </td>
 				</tr>
 			</table>
-		</form>
+		<!--</form>-->
 
 		<!--<form action="/wechat/agentWechat" method="post" id="sendform3"-->
 			  <!--class="form-inline">-->

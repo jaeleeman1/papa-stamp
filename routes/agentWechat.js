@@ -146,6 +146,25 @@ router.post('/sendTaxiMap', function (req, res, next) {
     });
 });
 
+router.post('sendMessage',function (req, res, next) {
+    var wechatId = req.body.wechatId;
+    var message = req.body.message;
+
+    getConnection(function (err, connection) {
+        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
+        // selectQuery Open ID
+        connection.query(selectQuery, wechatId, function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+                var openId = row[0].USER_OPEN_ID;
+                api.sender.msgSend(openId, message);
+            }
+        })
+    });
+})
+
 //
 // router.post('/agentWechat', function (req, res, next) {
 //     console.log('##### Post Agent Wechat Start #####');
