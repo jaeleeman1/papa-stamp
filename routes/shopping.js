@@ -81,6 +81,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var prdctId = req.query.prdct_id; // product Id
         var price = req.query.price; // product price
         var prdctCnt = req.query.prdct_cnt; // product count
+	var img = req.body.img;    
         var openId = '';
 
         if(prdctId != '' || prdctId != null) {
@@ -89,7 +90,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
             }
 			
 			// Insert Buy List
-            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', ' + img + ', ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
             connection.query(insertQuery, prdctId, function (err, row) {
                 if (err) {
                     console.error("err : " + err);
@@ -137,8 +138,8 @@ router.post('/shoppingBuyList', function (req, res, next) {
         var prdctId = req.body.prdct_id; // wechat Id
         var prdctCnt = req.body.prdct_cnt; // product count
         var price = req.body.price; // price
-		
-		// Update Buy List
+	    
+	// Update Buy List
         var updateQuery = 'update TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' where USER_WECHAT_ID="jaeleeman1" and PRDCT_ID = ?';
         connection.query(updateQuery, prdctId, function (err, row) {
             if (err) {
