@@ -157,7 +157,7 @@
         <% for(var i = 0; i < data.length; i++) { %>
             <% prdctSum += (data[i].PRICE * data[i].SHOPPING_CNT) %>
             <div class="buy_wrap">
-                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <img src="<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
