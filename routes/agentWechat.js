@@ -42,26 +42,45 @@ router.post('/sendTaxiMap', function (req, res, next) {
                 //입력할 값 셋팅 update입력값과 insert 입력값 포맷이 다름 {}, [] 괄호도 다름
 
                 // Taxi 도착지 정보 업데이트
-                var query = ' UPDATE TB_ROAD_INFO SET END_NM_CN = ?, END_NM_KR = ?, END_TAXI_ADDR_CN = ?, END_TAXI_ADDR_KR =?, END_WALK_ADDR_CN = ?, END_WALK_ADDR_KR = ?, ' +
-                            ' END_LONGITUDE_WALK = ?, END_LATITUDE_WALK = ?, END_LONGITUDE_TAXI = ?, END_LATITUDE_TAXI = ?, TRANSLATION_ADDR_CN = ? ' +
+                var query = ' UPDATE TB_ROAD_INFO ' +
+                            '  SET END_NM_CN = ?, '+
+                            'END_NM_KR = ?, '+
+                            'END_TAXI_ADDR_CN = ?, '+
+                            'END_TAXI_ADDR_KR =?, '+
+                            'END_WALK_ADDR_CN = ?, '+
+                            'END_WALK_ADDR_KR = ?, ' +
+                            'END_LONGITUDE_WALK = ?, '+
+                            'END_LATITUDE_WALK = ?, '+
+                            'END_LONGITUDE_TAXI = ?, '+
+                            'END_LATITUDE_TAXI = ?, '+
+                            'TRANSLATION_ADDR_CN = ? ' +
                             ' WHERE  ROAD_SEQ = (select ROAD_SEQ from (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1) as TEMP)';
-                var roadInfoSet =
-                    {
-                        'END_NM_CN': endNameCn,
-                        'END_NM_KR': endNameKr,
-                        'END_TAXI_ADDR_CN' : endAddrCn,
-                        'END_TAXI_ADDR_KR' : endAddrKr,
-                        'END_WALK_ADDR_CN' : endAddrCn,
-                        'END_WALK_ADDR_KR' : endAddrKr,
-                        'END_LONGITUDE_WALK' : lng,
-                        'END_LATITUDE_WALK' : lat,
-                        'END_LONGITUDE_TAXI' : lng,
-                        'END_LATITUDE_TAXI' : lat,
-                        'TRANSLATION_ADDR_CN' : translationAddrCn,
-                        'USER_WECHAT_ID': wechatId
-                    };
 
-                connection.query(query, roadInfoSet, function (err, rows) {
+            //             var query = ' UPDATE TB_ROAD_INFO ' +
+            // ' SET  END_NM_CN      = ?, ' +
+            // 'END_NM_KR       = ?, ' +
+            // 'LARGE_ADDR_CN   = ?  ' +
+            // ' WHERE  ROAD_SEQ     = ?  ' +
+            // ' AND  USER_WECHAT_ID  = ?  ';
+
+
+                // var roadInfoSet =
+                //     {
+                //         'END_NM_CN': endNameCn,
+                //         'END_NM_KR': endNameKr,
+                //         'END_TAXI_ADDR_CN' : endAddrCn,
+                //         'END_TAXI_ADDR_KR' : endAddrKr,
+                //         'END_WALK_ADDR_CN' : endAddrCn,
+                //         'END_WALK_ADDR_KR' : endAddrKr,
+                //         'END_LONGITUDE_WALK' : lng,
+                //         'END_LATITUDE_WALK' : lat,
+                //         'END_LONGITUDE_TAXI' : lng,
+                //         'END_LATITUDE_TAXI' : lat,
+                //         'TRANSLATION_ADDR_CN' : translationAddrCn,
+                //         'USER_WECHAT_ID': wechatId
+                //     };
+
+                connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, wechatId], function (err, rows) {
                     if (err) {
                         console.error("err : " + err);
                         throw err;
