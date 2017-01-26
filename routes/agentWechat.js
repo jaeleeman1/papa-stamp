@@ -115,8 +115,7 @@ router.post('/taxiDepartSend', function(req, res, next) {
                 throw err;
             } else {
 
-            	var taxiMsg = '';
-                taxiMsg+= '택시 안내 요청 \n현위치 : ';
+                var taxiMsg = '택시 안내 요청 \n현위치 : 上海市上海市黄浦区百翎路1号';
                 // taxiMsg+= '택시 안내 요청 \n현위치 : ' + addr;
 
                 // console.log('openId', openId);
