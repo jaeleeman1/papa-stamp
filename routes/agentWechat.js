@@ -44,7 +44,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                 // Taxi 도착지 정보 업데이트
                 var query = ' UPDATE TB_ROAD_INFO SET END_NM_CN = ?, END_NM_KR = ?, END_TAXI_ADDR_CN = ?, END_TAXI_ADDR_KR =?, END_WALK_ADDR_CN = ?, END_WALK_ADDR_KR = ?, ' +
                             ' END_LONGITUDE_WALK = ?, END_LATITUDE_WALK = ?, END_LONGITUDE_TAXI = ?, END_LATITUDE_TAXI = ?, TRANSLATION_ADDR_CN = ? ' +
-                            ' WHERE  ROAD_SEQ = (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1)';
+                            ' WHERE  ROAD_SEQ = (select ROAD_SEQ from (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1) as TEMP)';
                 var roadInfoSet =
                     {
                         'END_NM_CN': endNameCn,
@@ -425,48 +425,48 @@ function getOpenId(req, res, next) {
     console.log("openID : " + RETURN_DATA.openId);
     return true;
 }
-
-function RoadAddressInsert(req, res, next) {
-    console.log(" Start!! RoadAddressInsert ");
-
-    getConnection(function (err, connection) {
-        if (JSON.stringify(req.body) == '{}') {
-            res.status(404);
-            res.json({
-                "success": 0,
-                "message": "Parameters missing"
-            });
-            return false;
-        }
-        //입력할 값 셋팅
-        var road_info_set =
-            {
-                'USER_WECHAT_ID': req.body.wechatId,
-                'START_NM_CN': req.body.StartCn,
-                'START_NM_KR': req.body.StartKr,
-                'END_NM_CN': req.body.EndCn,
-                'END_NM_KR': req.body.EndKr
-            };
-
-        //insert 문장
-        var query = 'INSERT INTO TB_ROAD_INFO SET  ?';
-
-        connection.query(query, road_info_set, function (err, rows) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            } else {
-                console.log(" INSERT SUCESS ");
-                res.status(200).send('Insert Sucess');
-
-                return true;
-            }
-            connection.release();
-        });
-    });
-
-    return true;
-}
+//
+// function RoadAddressInsert(req, res, next) {
+//     console.log(" Start!! RoadAddressInsert ");
+//
+//     getConnection(function (err, connection) {
+//         if (JSON.stringify(req.body) == '{}') {
+//             res.status(404);
+//             res.json({
+//                 "success": 0,
+//                 "message": "Parameters missing"
+//             });
+//             return false;
+//         }
+//         //입력할 값 셋팅
+//         var road_info_set =
+//             {
+//                 'USER_WECHAT_ID': req.body.wechatId,
+//                 'START_NM_CN': req.body.StartCn,
+//                 'START_NM_KR': req.body.StartKr,
+//                 'END_NM_CN': req.body.EndCn,
+//                 'END_NM_KR': req.body.EndKr
+//             };
+//
+//         //insert 문장
+//         var query = 'INSERT INTO TB_ROAD_INFO SET  ?';
+//
+//         connection.query(query, road_info_set, function (err, rows) {
+//             if (err) {
+//                 console.error("err : " + err);
+//                 throw err;
+//             } else {
+//                 console.log(" INSERT SUCESS ");
+//                 res.status(200).send('Insert Sucess');
+//
+//                 return true;
+//             }
+//             connection.release();
+//         });
+//     });
+//
+//     return true;
+// }
 
 //
 // function RoadAddressUpdate(req, res, next) {
@@ -518,46 +518,46 @@ function RoadAddressInsert(req, res, next) {
 //     return true;
 // }
 
-
-function SelectMaxSeq(req, res, next) {
-
-    getConnection(function (err, connection) {
-
-        //위챗 아디로 max seq 가져오기
-        var query = ' SELECT A.ROAD_SEQ   ' +
-            'FROM  TB_ROAD_INFO  A ' +
-            'WHERE A.USER_WECHAT_ID = ?         ' +
-            'ORDER BY A.ROAD_SEQ   DESC        LIMIT 1';
-
-        var id = req.body.wechatId;
-
-
-        connection.query(query, id, function (err, rows) {
-            if (err) {
-                //  console.error("err : " + err);
-                throw err;
-            } else {
-                console.log("rows1 : " + JSON.stringify(rows));
-
-                var Array = JSON.parse(JSON.stringify(rows));
-
-                req.body.roadSeq = Array[0]["ROAD_SEQ"];
-                //화면에서 주소 등록 인경우 처리
-                if (req.body.message == '1') {
-                    console.log(" Before!! RoadAddress Update ");
-                    RoadAddressUpdate(req, res, next);
-                }
-
-            }
-
-            connection.release();
-        })
-    })
-
-
-    console.log("openID : " + RETURN_DATA.openId);
-    return true;
-}
+//
+// function SelectMaxSeq(req, res, next) {
+//
+//     getConnection(function (err, connection) {
+//
+//         //위챗 아디로 max seq 가져오기
+//         var query = ' SELECT A.ROAD_SEQ   ' +
+//             'FROM  TB_ROAD_INFO  A ' +
+//             'WHERE A.USER_WECHAT_ID = ?         ' +
+//             'ORDER BY A.ROAD_SEQ   DESC        LIMIT 1';
+//
+//         var id = req.body.wechatId;
+//
+//
+//         connection.query(query, id, function (err, rows) {
+//             if (err) {
+//                 //  console.error("err : " + err);
+//                 throw err;
+//             } else {
+//                 console.log("rows1 : " + JSON.stringify(rows));
+//
+//                 var Array = JSON.parse(JSON.stringify(rows));
+//
+//                 req.body.roadSeq = Array[0]["ROAD_SEQ"];
+//                 //화면에서 주소 등록 인경우 처리
+//                 if (req.body.message == '1') {
+//                     console.log(" Before!! RoadAddress Update ");
+//                     RoadAddressUpdate(req, res, next);
+//                 }
+//
+//             }
+//
+//             connection.release();
+//         })
+//     })
+//
+//
+//     console.log("openID : " + RETURN_DATA.openId);
+//     return true;
+// }
 
 
 module.exports = router;
