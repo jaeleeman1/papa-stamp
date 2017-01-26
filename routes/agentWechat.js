@@ -112,7 +112,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                     "news" : {
                                                                     "articles": [
                                                                         {
-                                                                            // "title": arrive.nameKr,
                                                                             "title": message,
                                                                             // "description": message,
                                                                             "url": mapUrl,
