@@ -79,7 +79,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         console.log('depart', depart);
 
                                         var arrive = {};
-                                        // arrive.nameCn = rows[0].END_NM_CN;
+                                        arrive.nameCn = rows[0].END_NM_CN;
                                         arrive.nameKr = rows[0].END_NM_KR ;
                                         arrive.addrTaxi = rows[0].END_TAXI_ADDR_CN ;
                                         arrive.drivingLong = rows[0].END_LONGITUDE_TAXI ;
@@ -101,24 +101,10 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                                 console.log(" UPDATE SUCESS ");
 
-                                                // 리치 메세지를 보내기 위해서 req.body에 추가 데이타를 적재함
-                                                // req.body.UserOpenId = openId;
-                                                // req.body.StartPos = depart.addrTaxi;
-                                                // req.body.EndPos = arrive.addrTaxi;
-                                                // req.body.RestruantName = arrive.nameKr;
-                                                // req.body.Transfortation = "택시";
-                                                // req.body.Time = duration;
-                                                // req.body.Distance = distance;
-                                                // req.body.ImageUrl = "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_buy_01.png"
                                                 var mapUrl = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
                                                 var messageUrl = 'http://nbnl.couphone.cn:8080/taxi/taxiaddress?name='+ arrive.nameKr +'&address="+translationAddrCn';  //중국어 보여주는 url
-                                                // var message  =    "--------------------------------------- \n";
-                                                // message     += 	 " 출발 : " + depart.addrTaxi +  " \n ";
-                                                // message     +=    "--------------------------------------- \n";
-                                                // message     +=    " 도착 :" + arrive.addrTaxi +  " \n";
-                                                var message    =    "약 " +    duration +" "+ distance  +  " \n ";
-                                                    message     +=    "도착지 : " + arrive.nameCn ;
-                                                // message     +=    "--------------------------------------- \n ";
+                                                var message    =    "약 " +    duration +" "+ distance  +  "\n";
+                                                     message     +=  '도착지 : ' + arrive.nameCn + '(' + arrive.nameKr + ')';
 
                                                 var contents = {
                                                                     "touser" : openId,
