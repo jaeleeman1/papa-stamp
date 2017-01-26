@@ -104,7 +104,8 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 var mapUrl = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
                                                 var messageUrl = 'http://nbnl.couphone.cn:8080/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
-                                                     message     +=  '도착지 : ' + arrive.nameCn + '(' + arrive.nameKr + ')';
+                                                     message     +=  '도착지 : ' + arrive.nameCn + '\n'+
+                                                                     '        (' + arrive.nameKr + ')';
 
                                                 var contents = {
                                                                     "touser" : openId,
