@@ -86,6 +86,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         arrive.drivingLat = rows[0].END_LATITUDE_TAXI;
 
                                         var openId = rows[0].USER_OPEN_ID;
+                                        var wechatId = rows[0].USER_WECHAT_ID;
 
                                         console.log('arrive', arrive);
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
@@ -101,15 +102,15 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 console.log(" UPDATE SUCESS ");
 
                                                 // 리치 메세지를 보내기 위해서 req.body에 추가 데이타를 적재함
-                                                req.body.UserOpenId = openId;
-                                                req.body.StartPos = depart.addrTaxi;
-                                                req.body.EndPos = arrive.addrTaxi;
-                                                req.body.RestruantName = arrive.nameKr;
-                                                req.body.Transfortation = "택시";
-                                                req.body.Time = duration;
-                                                req.body.Distance = distance;
-                                                req.body.ImageUrl = "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_buy_01.png"
-
+                                                // req.body.UserOpenId = openId;
+                                                // req.body.StartPos = depart.addrTaxi;
+                                                // req.body.EndPos = arrive.addrTaxi;
+                                                // req.body.RestruantName = arrive.nameKr;
+                                                // req.body.Transfortation = "택시";
+                                                // req.body.Time = duration;
+                                                // req.body.Distance = distance;
+                                                // req.body.ImageUrl = "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_buy_01.png"
+                                                var url = 'nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&transportType=driving'
                                                 // var message  =    "--------------------------------------- \n";
                                                 // message     += 	 " 출발 : " + depart.addrTaxi +  " \n ";
                                                 // message     +=    "--------------------------------------- \n";
@@ -126,7 +127,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                         {
                                                                             "title": arrive.nameKr,
                                                                             "description": message,
-                                                                            "url": ImageUrl,
+                                                                            "url": url,
                                                                             "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         },
                                                                         {
