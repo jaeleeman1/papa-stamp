@@ -95,52 +95,6 @@ weixin.textMsg(function(msg) {
 				funcFlag : 0
 			};
 			break;
-		case "menu" : 
-			var menu =  {
-				"button": [
-					{
-						"type": "click", 
-						"name": "今日歌曲", 
-						"key": "V1001_TODAY_MUSIC"
-					}, 
-					{
-						"name": "菜单", 
-						"sub_button": [
-							{
-								"type": "view", 
-								"name": "搜索", 
-								"url": "http://www.soso.com/"
-							}, 
-							{
-								"type": "view", 
-								"name": "视频", 
-								"url": "http://v.qq.com/"
-							}, 
-							{
-								"type": "click", 
-								"name": "赞一下我们", 
-								"key": "V1001_GOOD"
-							}
-						]
-					}
-				], 
-				"matchrule": {
-					"group_id": "2", 
-					"sex": "1", 
-					"country": "中国", 
-					"province": "广东", 
-					"city": "广州", 
-					"client_platform_type": "2", 
-					"language": "zh_CN"
-				}
-			};
-
-			api.createCustomMenu(menu, function(err){
-				console.log("WeChatAPI createCustomMenu done");
-				console.log("Error : "+err);
-			});
-
-			break;
 		default :
 			resMsg = {
 				fromUserName : msg.toUserName,
@@ -153,16 +107,14 @@ weixin.textMsg(function(msg) {
 	}
 
 	weixin.sendMsg(resMsg);
-	console.log("WeChatAPI call start");
 	console.log(api.getAccessToken(function(err) {
 		console.log("WeChatAPI getAccessToken done");
-		console.log("Error : "+err);
+		console.log("WeChatAPI Error : "+err);
 	}));
 	api.sendText(msg.fromUserName, "WeChatAPI Sample", function(err, data, res) {
 		console.log("WeChatAPI sendText done");
-		console.log("Error : "+err);
+		console.log("WeChatAPI Error : "+err);
 	});
-	console.log("WeChatAPI call end");
 });
 
 // 监听图片消息
@@ -187,7 +139,97 @@ weixin.urlMsg(function(msg) {
 weixin.eventMsg(function(msg) {
 	console.log("eventMsg received");
 	console.log(JSON.stringify(msg));
-	
+
+	switch (msg.event) {
+		case "kf_create_session" :
+			break;
+		case "kf_close_session" :
+			break;
+		case "kf_switch_session" :
+			break;
+		case "subscribe" :
+			// create menu
+			var menu =  {
+				"button": [
+					{
+						"type": "click", 
+						"name": "Menu0", 
+						"key": "V1001_TODAY_MUSIC"
+					}, 
+					{
+						"name": "Menu1", 
+						"sub_button": [
+							{
+								"type": "view", 
+								"name": "SubMenu0", 
+								"url": "http://www.soso.com/"
+							}, 
+							{
+								"type": "view", 
+								"name": "SubMenu1", 
+								"url": "http://v.qq.com/"
+							}, 
+							{
+								"type": "click", 
+								"name": "SubMenu2", 
+								"key": "V1001_GOOD"
+							}
+						]
+					}
+				]
+			};
+
+			api.createCustomMenu(menu, function(err){
+				console.log("WeChatAPI createCustomMenu done");
+				console.log("WeChatAPI Error : "+err);
+			});
+
+			// get customer list
+			var customerList;
+			customerList = api.getOnlineCustomServiceList(function(err, result) {
+				console.log("WeChatAPI getOnlineCustomServiceList done");
+				if(err) {
+					console.log("WeChatAPI Error : "+err);
+				} else {
+					// create session
+					var minAcceptedCnt = -1;
+					var minAcceptedCustomer = "";
+					for(var i = 0; i < result.kf_online_list.length; i++) {
+						console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
+						if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
+							minAcceptedCnt = result.kf_online_list[i].accepted_case;
+							minAcceptedCustomer = result.kf_online_list[i].kf_account;
+						}
+					}
+					if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
+						console.log("WeChatAPI  done");
+					}
+				}
+			})
+			console.log(customerList);
+
+			// create session
+			
+			break;
+		case "unsubscribe" :
+			break;
+		case "CLICK" :
+			break;
+		case "VIEW" :
+			break;
+		case "scancode_push" :
+			break;
+		case "scancode_waitmsg" :
+			break;
+		case "pic_sysphoto" :
+			break;
+		case "pic_photo_or_album" :
+			break;
+		case "pic_weixin" :
+			break;
+		case "location_select" :
+			break;
+	}	
 });
 
 // Start
