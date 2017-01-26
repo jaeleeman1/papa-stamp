@@ -20,6 +20,10 @@ router.get('/myLocation', function (req, res, next) {
                 console.log('row ::: ', row);
                 var openId = row[0].USER_OPEN_ID;
                 var wechatId = row[0].USER_WECHAT_ID;
+
+                console.log("taxi openId :::: ", openId)
+                console.log("taxi wechatId :::: ", wechatId)
+
                 res.render('taxiMyLocation', {openId: openId, wechatId: wechatId});
             }
         })
