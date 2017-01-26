@@ -86,9 +86,6 @@ router.get('/shoppingBuyList', function (req, res, next) {
         if(prdctId != '' || prdctId != null) {
             if(prdctCnt == '' || prdctCnt == null || prdctCnt == undefined) {
                 prdctCnt = 1;
-            }else {
-		console.log('&&&&&&&&&&&'+prdctCnt);
-                //prdctCnt += 1;
             }
 			
 			// Insert Buy List
