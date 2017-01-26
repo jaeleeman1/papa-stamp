@@ -61,7 +61,7 @@ router.get('/transport', function (req, res, next) {
                     console.log('depart', depart);
 
                     var arrive = {};
-                    arrive.id = rows[0].USER_OPEN_ID
+                    arrive.id = rows[0].USER_WECHAT_ID
                     arrive.nameCn = rows[0].END_NM_CN;
                     arrive.nameKr = rows[0].END_NM_KR ;
                     arrive.addrWalking = rows[0].END_WALK_ADDR_CN ;
