@@ -89,6 +89,7 @@
                 data: {addr : address},
                 success: function (data) {
                     var mPoint = new BMap.Point(data.lng, data.lat);
+                    map.addOverlay(mPoint);
                     map.enableScrollWheelZoom();
                     map.centerAndZoom (mPoint, 14);
 
