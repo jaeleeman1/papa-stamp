@@ -125,8 +125,9 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                     "news" : {
                                                                     "articles": [
                                                                         {
-                                                                            "title": arrive.nameKr,
-                                                                            "description": message,
+                                                                            // "title": arrive.nameKr,
+                                                                            "title": message,
+                                                                            // "description": message,
                                                                             "url": url,
                                                                             "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         },
