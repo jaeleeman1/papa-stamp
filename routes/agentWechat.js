@@ -158,7 +158,15 @@ router.post('/sendMessage',function (req, res, next) {
                 throw err;
             } else {
                 var openId = row[0].USER_OPEN_ID;
-                api.sender.msgSend(openId, message);
+
+                var contents = {
+                    "touser" : openId,
+                    "msgtype": "text",
+                    "text": {
+                        "content": message
+                    }
+                };
+                api.sender.msgSend(openId, contents);
             }
         })
     });
