@@ -110,7 +110,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 // req.body.Time = duration;
                                                 // req.body.Distance = distance;
                                                 // req.body.ImageUrl = "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_buy_01.png"
-                                                var url = 'nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var url = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
                                                 // var message  =    "--------------------------------------- \n";
                                                 // message     += 	 " 출발 : " + depart.addrTaxi +  " \n ";
                                                 // message     +=    "--------------------------------------- \n";
