@@ -102,7 +102,7 @@ router.get('/transport', function (req, res, next) {
 router.get('/address', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = 'jaeleeman1'//req.query.wechat_id;
-        var query = 'SELECT END_NM_CN, TRANSLATION_ADDR_CN FROM TB_ROAD_INFO WHERE  USER_OPEN_ID = ?  ORDER BY ROAD_SEQ DESC LIMIT 1';
+        var query = 'SELECT END_NM_CN, TRANSLATION_ADDR_CN FROM TB_ROAD_INFO WHERE USER_WECHAT_ID = ?  ORDER BY ROAD_SEQ DESC LIMIT 1';
 
         connection.query(query, wechatId, function (err, rows) {
             if (err) {
