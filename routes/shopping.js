@@ -9,6 +9,8 @@ router.get('/', function (req, res, next) {
         var wechatId = 'jaeleeman1'//req.query.wechat_id; // wechat Id
         var openId = '';
         var buyData = '';
+    	var buyPrdctCnt;
+	var buyPrdctSumPrice = 0;
 
 	// Select Shopping Buy List
         var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
@@ -23,7 +25,7 @@ router.get('/', function (req, res, next) {
             }
         })
 		
-		// Select Open ID
+	// Select Open ID
         var selectQuery = 'select TUI.USER_OPEN_ID from TB_USER_INFO as TUI where TUI.USER_WECHAT_ID = ?';
         connection.query(selectQuery, wechatId, function (err, row) {
             if (err) {
@@ -36,7 +38,24 @@ router.get('/', function (req, res, next) {
             }
         })
 
-		// Select Shopping List
+	// Shopping Buy Sum
+	var sumQuery = 'select * from TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
+        connection.query(sumQuery, wechatId, function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            }else{
+                for(var i=0; i<buyPrdctCnt; i++) {
+                    buyPrdctSumPrice += (row[i].SHOPPING_CNT * row[i].PRICE);
+                }
+		buyPrdctCnt = row.length;
+		console.log("### Shopping Buy Sum ###");
+		console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
+            }
+            connection.release();
+        })
+	    
+	// Select Shopping List
         var shoppingQuery = 'select TSL.* from TB_SHOPPING_LIST AS TSL';
         connection.query(shoppingQuery, wechatId, function (err, row) {
             if (err) {
@@ -45,7 +64,7 @@ router.get('/', function (req, res, next) {
             }else{
 		console.log("### Shopping List ###");
 		console.log("### Data Success ### " + JSON.stringify(row));
-                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId});
+                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
             }
             connection.release();
         })
