@@ -175,7 +175,7 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = req.body.wechat_id; // wechat_id
 
-		// Delete Shopping Buy List
+	// Delete Shopping Buy List
         var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID = ?';
         connection.query(deleteQuery, wechatId, function (err, row) {
             if (err) {
@@ -190,7 +190,7 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
     });
 });
 
-//GET Shopping Delete All
+//GET Shopping History
 router.post('/shoppingInsertHistory', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = req.body.wechat_id; // wechat_id
