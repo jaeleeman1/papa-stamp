@@ -36,7 +36,7 @@ var checkUserAndConnectSeesion = function(user) {
 					// create session
 					if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
 						console.log("WeChatAPI target customer account("+minAcceptedCustomer+")");
-						api.createSession(minAcceptedCustomer, msg.fromUserName, function(err) {
+						api.createSession(minAcceptedCustomer, user, function(err) {
 							console.log("WeChatAPI createSession : "+err);
 						})
 					}
@@ -150,11 +150,12 @@ weixin.textMsg(function(msg) {
 	}
 
 	// To verify server
-	//weixin.sendMsg(resMsg);
+	weixin.sendMsg('');
 
 	// check current user have session.
 	// if user have it -> forward message to agent
 	// if user haven't it -> create session 
+	
 	if(resMsg == '') {
 		checkUserAndConnectSeesion(resMsg);
 	} else {
@@ -288,6 +289,7 @@ weixin.eventMsg(function(msg) {
 		case "location_select" :
 			break;
 	}	
+	weixin.sendMsg('');
 });
 
 // Start
