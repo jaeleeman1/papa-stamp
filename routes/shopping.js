@@ -90,7 +90,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
             }
 			
 	    // Insert Buy List
-            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
             connection.query(insertQuery, prdctId, function (err, row) {
                 if (err) {
                     console.error("err : " + err);
@@ -198,7 +198,7 @@ router.post('/shoppingInsertHistory', function (req, res, next) {
         var prdctCnt = req.query.prdct_cnt; // product count
 
 	// Insert Shopping Buy History
-        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', "' + prdctId + '", ' + prdctCnt + ');
+        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values ("' + wechatId + '",' +  prdctId + '", ' + prdctCnt + ')';
 
         connection.query(historyQuery, function (err, row) {
             if (err) {
