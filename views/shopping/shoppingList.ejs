@@ -72,14 +72,16 @@
                     }
                     
                     if(length == 1) {
-                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
+                        var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
+                            '"User_Open_Id":"' + openId +'", ' +
                             '"Prdct_Nm":' + Prdct_Nm +', ' +
                             '"Prdct_Cnt":' + Prdct_Cnt +', ' +
                             '"Price":' + Price +', ' +
                             '"Length":' + length +
                             '}';
                     } else {
-                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
+                        var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
+                            '"User_Open_Id":"' + openId +'", ' +
                             '"Prdct_Nm":[' + Prdct_Nm +'], ' +
                             '"Prdct_Cnt":[' + Prdct_Cnt +'], ' +
                             '"Price":[' + Price +'], ' +
@@ -94,12 +96,12 @@
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
-                                var dataString = {'wechat_id': wechatId};
+                                var deleteStr = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
                                     type: 'POST',
                                     dataType: 'json',
-                                    data: dataString,
+                                    data: deleteStr,
                                     success: function(data) {
                                         console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
                                     },
@@ -108,11 +110,12 @@
                                         console.log('Error occured');
                                     }
                                 })
+
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingInsertHistory',
                                     type: 'POST',
                                     dataType: 'json',
-                                    data: dataString,
+                                    data: JSON.parse(dataStr),
                                     success: function(data) {
                                         console.log("*** insert shoppingBuyHistory *** - wechatId : " + wechatId);
                                     },
