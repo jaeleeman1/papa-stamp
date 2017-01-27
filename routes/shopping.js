@@ -190,6 +190,29 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
     });
 });
 
+//GET Shopping Delete All
+router.post('/shoppingInsertHistory', function (req, res, next) {
+    getConnection(function (err, connection) {
+        var wechatId = req.body.wechat_id; // wechat_id
+	var prdctId = req.query.prdct_id; // product Id
+        var prdctCnt = req.query.prdct_cnt; // product count
+
+	// Insert Shopping Buy History
+        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', "' + prdctId + '", ' + prdctCnt + ');
+
+        connection.query(historyQuery, function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+                console.log("### Insert Shopping Buy History ###");
+                res.send({wechatId: wechatId});
+            }
+            connection.release();
+        })
+    });
+});
+
 //GET Shopping Buy Sum
 router.get('/shoppingBuySum', function (req, res, next) {
     getConnection(function (err, connection){
