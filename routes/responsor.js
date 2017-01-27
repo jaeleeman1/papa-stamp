@@ -231,9 +231,7 @@ weixin.eventMsg(function(msg) {
 				console.log("WeChatAPI Error : "+err);
 			});
 
-			checkUserHasSeesionAndCreateSeesion(msg.fromUserName, function(err, result){
-
-			});
+			checkUserAndConnectSeesion(msg.fromUserName);
 			// // check user's session status
 			// api.getClientSessionState(msg.fromUserName, function(err, result) {
 			// 	console.log("WeChatAPI getClientSessionState done");
