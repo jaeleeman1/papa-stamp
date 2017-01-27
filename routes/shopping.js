@@ -80,8 +80,8 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var wechatId = req.query.wechat_id; // wechat Id
         var prdctId = req.query.prdct_id; // product Id
         var price = req.query.price; // product price
+	var img = req.query.img; // image
         var prdctCnt = req.query.prdct_cnt; // product count
-	var img = req.query.img;    
         var openId = '';
 
         if(prdctId != '' || prdctId != null) {
@@ -89,7 +89,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
                 prdctCnt = 1;
             }
 			
-			// Insert Buy List
+	    // Insert Buy List
             var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', "' + img + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
             connection.query(insertQuery, prdctId, function (err, row) {
                 if (err) {
