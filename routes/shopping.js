@@ -193,12 +193,13 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
 //GET Shopping History
 router.post('/shoppingInsertHistory', function (req, res, next) {
     getConnection(function (err, connection) {
-        var wechatId = req.body.wechat_id; // wechat_id
-	var prdctId = req.query.prdct_id; // product Id
-        var prdctCnt = req.query.prdct_cnt; // product count
+	var ProductSet = req.body;
+        var wechatId = ProductSet.Wechat_Id; // wechat_id
+	var prdctNm = ProductSet.Nm; // product Id
+        var prdctCnt = ProductSet.Prdct_Cnt; // product count
 
 	// Insert Shopping Buy History
-        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values ("' + wechatId + '",' +  prdctId + '", ' + prdctCnt + ')';
+        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values ("' + wechatId + '",' +  prdctNm + '", ' + prdctCnt + ')';
 
         connection.query(historyQuery, function (err, row) {
             if (err) {
