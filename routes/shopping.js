@@ -199,7 +199,7 @@ router.post('/shoppingInsertHistory', function (req, res, next) {
         var prdctCnt = ProductSet.Prdct_Cnt; // product count
 
 	// Insert Shopping Buy History
-        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, PRDCT_ID, SHOPPING_CNT) values ("' + wechatId + '",' +  prdctNm + '", ' + prdctCnt + ')';
+        var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, BUY_PRDCT_NM, BUY_SHOPPING_CNT) values ("' + wechatId + '",' +  prdctNm + '", ' + prdctCnt + ')';
 
         connection.query(historyQuery, function (err, row) {
             if (err) {
