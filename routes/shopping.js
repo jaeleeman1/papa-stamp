@@ -45,10 +45,10 @@ router.get('/', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
+	    	buyPrdctCnt = row.length;
                 for(var i=0; i<buyPrdctCnt; i++) {
                     buyPrdctSumPrice += (row[i].SHOPPING_CNT * row[i].PRICE);
                 }
-		buyPrdctCnt = row.length;
 		console.log("### Shopping Buy Sum ###");
 		console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
             }
