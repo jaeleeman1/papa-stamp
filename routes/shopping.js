@@ -80,7 +80,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var wechatId = req.query.wechat_id; // wechat Id
         var prdctId = req.query.prdct_id; // product Id
         var price = req.query.price; // product price
-	var img = req.query.img; // image
+	var image = req.query.image; // image
         var prdctCnt = req.query.prdct_cnt; // product count
         var openId = '';
 
@@ -90,7 +90,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
             }
 			
 	    // Insert Buy List
-            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', "' + img + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values (' + '"'+ wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
             connection.query(insertQuery, prdctId, function (err, row) {
                 if (err) {
                     console.error("err : " + err);
@@ -135,7 +135,8 @@ router.get('/shoppingBuyList', function (req, res, next) {
 router.post('/shoppingBuyList', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = req.body.wechat_id; // wechat Id
-        var prdctId = req.body.prdct_id; // wechat Id
+        var prdctId = req.body.prdct_id; // product Id
+	var image = req.body.image; // image
         var prdctCnt = req.body.prdct_cnt; // product count
         var price = req.body.price; // price
 	    
@@ -147,7 +148,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
                 throw err;
             }else{
 		console.log("### Update Shopping Buy List ###");
-                res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&prdct_cnt=' + prdctCnt +'&price=' + price);
+                res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&image=' + image +'&prdct_cnt=' + prdctCnt +'&price=' + price);
             }
             connection.release();
         })
@@ -158,7 +159,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
 router.get('/shoppingSetting', function (req, res, next) {
     var wechatId = req.query.wechat_id; // wechat Id
     var prdctId = req.query.prdct_id; // product Id
-    var img = req.query.img; // image
+    var image = req.query.image; // image
     var prdctCnt = req.query.prdct_cnt; // product count
     var price = req.query.price; // product price
 
@@ -166,7 +167,7 @@ router.get('/shoppingSetting', function (req, res, next) {
         prdctCnt = 1;
     }
     console.log("### Shopping Setting ###");
-    res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, img: img, prdctCnt: prdctCnt, price: price});
+    res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, image: image, prdctCnt: prdctCnt, price: price});
 });
 
 //GET Shopping Delete All
