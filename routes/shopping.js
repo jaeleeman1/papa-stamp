@@ -158,6 +158,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
 router.get('/shoppingSetting', function (req, res, next) {
     var wechatId = req.query.wechat_id; // product Id
     var prdctId = req.query.prdct_id; // product Id
+    var img = req.query.img; // product Id
     var prdctCnt = req.query.prdct_cnt; // product count
     var price = req.query.price; // product price
 
@@ -165,7 +166,7 @@ router.get('/shoppingSetting', function (req, res, next) {
         prdctCnt = 1;
     }
     console.log("### Shopping Setting ###");
-    res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, prdctCnt: prdctCnt, price: price});
+    res.render('shopping/shoppingSetting', {wechatId: wechatId, prdctId: prdctId, img: img, prdctCnt: prdctCnt, price: price});
 });
 
 //GET Shopping Delete All
