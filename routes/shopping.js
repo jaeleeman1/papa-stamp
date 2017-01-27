@@ -195,7 +195,7 @@ router.post('/shoppingInsertHistory', function (req, res, next) {
     getConnection(function (err, connection) {
 	var ProductSet = req.body;
         var wechatId = ProductSet.Wechat_Id; // wechat_id
-	var prdctNm = ProductSet.Nm; // product Id
+	var prdctNm = ProductSet.Prdct_Nm; // product Id
         var prdctCnt = ProductSet.Prdct_Cnt; // product count
 
 	// Insert Shopping Buy History
