@@ -108,6 +108,19 @@
                                         console.log('Error occured');
                                     }
                                 })
+                                $.ajax({
+                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: dataString,
+                                    success: function(data) {
+                                        console.log("*** insert shoppingBuyHistory *** - wechatId : " + wechatId);
+                                    },
+                                    error: function(request, status, error) {
+                                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                                        console.log('Error occured');
+                                    }
+                                })                        
                                 console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                                 window.location.href = $("#url").val()+'/shopping';
                             },
