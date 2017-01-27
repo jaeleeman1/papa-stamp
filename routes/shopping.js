@@ -156,9 +156,9 @@ router.post('/shoppingBuyList', function (req, res, next) {
 
 //GET Shopping Setting
 router.get('/shoppingSetting', function (req, res, next) {
-    var wechatId = req.query.wechat_id; // product Id
+    var wechatId = req.query.wechat_id; // wechat Id
     var prdctId = req.query.prdct_id; // product Id
-    var img = req.query.img; // product Id
+    var img = req.query.img; // image
     var prdctCnt = req.query.prdct_cnt; // product count
     var price = req.query.price; // product price
 
