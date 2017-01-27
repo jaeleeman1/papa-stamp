@@ -52,7 +52,6 @@ router.get('/', function (req, res, next) {
 		console.log("### Shopping Buy Sum ###");
 		console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
             }
-            connection.release();
         })
 	    
 	// Select Shopping List
