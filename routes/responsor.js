@@ -159,7 +159,7 @@ weixin.textMsg(function(msg) {
 	// if user haven't it -> create session 
 	
 	if(resMsg == '') {
-		checkUserAndConnectSeesion(resMsg.fromUserName);
+		checkUserAndConnectSeesion(msg.fromUserName);
 	} else {
 		weixin.sendMsg(resMsg);
 	}
