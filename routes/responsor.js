@@ -14,8 +14,9 @@ var checkUserAndConnectSeesion = function(user) {
 		console.log("WeChatAPI getClientSessionState done");
 		console.log("WeChatAPI getClientSessionState "+err);
 		console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
-		// there are no agent who is asigned
+
 		if(!err && result.kf_account != ""){
+			// there are no agent who is asigned
 			api.getOnlineCustomServiceList(function(err, result) {
 				console.log("WeChatAPI getOnlineCustomServiceList done");
 				console.log("WeChatAPI getOnlineCustomServiceList "+err);
@@ -43,7 +44,7 @@ var checkUserAndConnectSeesion = function(user) {
 				}
 			});
 		} else if(!err) {
-			// already asigned
+			// already asigned but session is closed(agent is already assugbed)
 			var resMsg = {
 				toUserName : user,
 				fromUserName : result.kf_account,
@@ -53,6 +54,7 @@ var checkUserAndConnectSeesion = function(user) {
 
 			weixin.sendMsg(resMsg);
 		} else {
+			// err message isn't empty
 			console.log("WeChatAPI checkUserAndConnectSeesion fail");
 		}
 	});	
@@ -157,7 +159,7 @@ weixin.textMsg(function(msg) {
 	// if user haven't it -> create session 
 	
 	if(resMsg == '') {
-		checkUserAndConnectSeesion(resMsg);
+		checkUserAndConnectSeesion(resMsg.fromUserName);
 	} else {
 		weixin.sendMsg(resMsg);
 	}
@@ -233,42 +235,7 @@ weixin.eventMsg(function(msg) {
 			});
 
 			checkUserAndConnectSeesion(msg.fromUserName);
-			// // check user's session status
-			// api.getClientSessionState(msg.fromUserName, function(err, result) {
-			// 	console.log("WeChatAPI getClientSessionState done");
-			// 	console.log("WeChatAPI getClientSessionState "+err);
-			// 	console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
-			// 	// there are no agent who is asigned
-			// 	if(!err && result.kf_account != ""){
-			// 		api.getOnlineCustomServiceList(function(err, result) {
-			// 			console.log("WeChatAPI getOnlineCustomServiceList done");
-			// 			console.log("WeChatAPI getOnlineCustomServiceList "+err);
-			// 			console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));						
-			// 			if(err) {
-			// 				console.log("WeChatAPI Error : "+err);
-			// 			} else {
-			// 				// search customer which have minimum sessions
-			// 				var minAcceptedCnt = -1;
-			// 				var minAcceptedCustomer = "";
-			// 				for(var i = 0; i < result.kf_online_list.length; i++) {
-			// 					console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
-			// 					if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
-			// 						minAcceptedCnt = result.kf_online_list[i].accepted_case;
-			// 						minAcceptedCustomer = result.kf_online_list[i].kf_account;
-			// 					}
-			// 				}
-			// 				// create session
-			// 				if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
-			// 					console.log("WeChatAPI target customer account("+minAcceptedCustomer+")");
-			// 					api.createSession(minAcceptedCustomer, msg.fromUserName, function(err) {
-			// 						console.log("WeChatAPI createSession : "+err);
-			// 					})
-			// 				}
-			// 			}
-			// 		});
-			// 	}
-			// });
-			
+
 			break;
 		case "unsubscribe" :
 			break;
