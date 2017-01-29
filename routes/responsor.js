@@ -6,8 +6,16 @@ var express = require('express'),
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI('wx9aa7c34851e950de', '84f007b293a60d3d90919308ac29a033');
 
-// Define functions
+// Define strings
+var templateGreetingMsg = {
+	fromUserName : "",
+	toUserName : "",
+	msgType : "text",
+	content : "안녕하세요!\n큐폰 서비스를 이용해 주셔서 감사합니다.\n오전 9시부터 오후 7시까지 답변이 가능하오니, 여행 중 궁금하시거나 요청하실 사항 있으시면 편하게 말씀해 주세요.",
+	funcFlag : 0
+};
 
+// Define functions
 var checkUserAndConnectSeesion = function(user) {
 	// check user's session status
 	api.getClientSessionState(user, function(err, result) {
@@ -15,7 +23,7 @@ var checkUserAndConnectSeesion = function(user) {
 		console.log("WeChatAPI getClientSessionState "+err);
 		console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
 
-		if(!err && result.kf_account != ""){
+		if(err == null && result.kf_account != ""){
 			// there are no agent who is asigned
 			api.getOnlineCustomServiceList(function(err, result) {
 				console.log("WeChatAPI getOnlineCustomServiceList done");
@@ -43,8 +51,9 @@ var checkUserAndConnectSeesion = function(user) {
 					}
 				}
 			});
-		} else if(!err) {
+		} else if(err == null) {
 			// already asigned but session is closed(agent is already assugbed)
+			console.log("Will transfer this user("+user+") to agent("+result.kf_account+")");
 			var resMsg = {
 				toUserName : user,
 				fromUserName : result.kf_account,
@@ -194,6 +203,7 @@ weixin.eventMsg(function(msg) {
 		case "kf_create_session" :
 			break;
 		case "kf_close_session" :
+			// TODO : Do we need to add code? because after close session, agent can't ping to user
 			break;
 		case "kf_switch_session" :
 			break;
@@ -202,27 +212,27 @@ weixin.eventMsg(function(msg) {
 			var menu =  {
 				"button": [
 					{
-						"type": "click", 
-						"name": "Menu0", 
-						"key": "V1001_TODAY_MUSIC"
+						"type": "VIEW", 
+						"name": "통화(미지원)", 
+						"url": "http://v.qq.com/"
 					}, 
 					{
-						"name": "Menu1", 
+						"name": "요청하기", 
 						"sub_button": [
 							{
-								"type": "view", 
-								"name": "SubMenu0", 
+								"type": "VIEW", 
+								"name": "쇼핑", 
 								"url": "http://www.soso.com/"
 							}, 
 							{
-								"type": "view", 
-								"name": "SubMenu1", 
+								"type": "VIEW", 
+								"name": "맛집", 
 								"url": "http://v.qq.com/"
 							}, 
 							{
-								"type": "click", 
-								"name": "SubMenu2", 
-								"key": "V1001_GOOD"
+								"type": "VIEW", 
+								"name": "택시", 
+								"url": "http://v.qq.com/"
 							}
 						]
 					}
@@ -234,7 +244,11 @@ weixin.eventMsg(function(msg) {
 				console.log("WeChatAPI Error : "+err);
 			});
 
-			checkUserAndConnectSeesion(msg.fromUserName);
+			templateGreetingMsg.fromUserName = msg.toUserName;
+			templateGreetingMsg.toUserName = msg.fromUserName;
+			weixin.sendMsg(templateGreetingMsg);
+
+			checkUserAndConnectSeesion(msg.fromUserName);			
 
 			break;
 		case "unsubscribe" :
@@ -242,6 +256,19 @@ weixin.eventMsg(function(msg) {
 		case "CLICK" :
 			break;
 		case "VIEW" :
+			// View event Key
+			// TODO : Need to check do we need to add user id into link
+			switch(msg.eventKey) {
+				case "KEY_SHOPPING" : 
+					// TODO :  Link to shopping page
+					break;
+				case "KEY_FOOD" : 
+					// TODO : Link to food page	
+					break;
+				case "KEY_TAXI" : 
+					// TODO : Link to taxi page
+					break;
+			}
 			break;
 		case "scancode_push" :
 			break;
