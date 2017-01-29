@@ -16,7 +16,7 @@ var templateGreetingMsg = {
 };
 
 // Define functions
-var checkUserAndConnectSeesion = function(user) {
+var checkUserAndConnectSeesion = function(user, server) {
 	// check user's session status
 	api.getClientSessionState(user, function(err, result) {
 		console.log("WeChatAPI getClientSessionState done");
@@ -24,41 +24,50 @@ var checkUserAndConnectSeesion = function(user) {
 		console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
 
 		if(err == null && result.kf_account != ""){
-			// there are no agent who is asigned
-			api.getOnlineCustomServiceList(function(err, result) {
-				console.log("WeChatAPI getOnlineCustomServiceList done");
-				console.log("WeChatAPI getOnlineCustomServiceList "+err);
-				console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));						
-				if(err) {
-					console.log("WeChatAPI Error : "+err);
-				} else {
-					// search customer which have minimum sessions
-					var minAcceptedCnt = -1;
-					var minAcceptedCustomer = "";
-					for(var i = 0; i < result.kf_online_list.length; i++) {
-						console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
-						if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
-							minAcceptedCnt = result.kf_online_list[i].accepted_case;
-							minAcceptedCustomer = result.kf_online_list[i].kf_account;
-						}
-					}
-					// create session
-					if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
-						console.log("WeChatAPI target customer account("+minAcceptedCustomer+")");
-						api.createSession(minAcceptedCustomer, user, function(err) {
-							console.log("WeChatAPI createSession : "+err);
-						})
-					}
-				}
-			});
+			// // there are no agent who is asigned
+			// api.getOnlineCustomServiceList(function(err, result) {
+			// 	console.log("WeChatAPI getOnlineCustomServiceList done");
+			// 	console.log("WeChatAPI getOnlineCustomServiceList "+err);
+			// 	console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));						
+			// 	if(err) {
+			// 		console.log("WeChatAPI Error : "+err);
+			// 	} else {
+			// 		// search customer which have minimum sessions
+			// 		var minAcceptedCnt = -1;
+			// 		var minAcceptedCustomer = "";
+			// 		for(var i = 0; i < result.kf_online_list.length; i++) {
+			// 			console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+" accepted_case("+result.kf_online_list[i].accepted_case+")");
+			// 			if(result.kf_online_list[i].accepted_case > minAcceptedCnt) {
+			// 				minAcceptedCnt = result.kf_online_list[i].accepted_case;
+			// 				minAcceptedCustomer = result.kf_online_list[i].kf_account;
+			// 			}
+			// 		}
+			// 		// create session
+			// 		if(result.kf_online_list.length > 0 && minAcceptedCnt >= 0) {
+			// 			console.log("WeChatAPI target customer account("+minAcceptedCustomer+")");
+			// 			api.createSession(minAcceptedCustomer, user, function(err) {
+			// 				console.log("WeChatAPI createSession : "+err);
+			// 			})
+			// 		}
+			// 	}
+			// });
+
+			console.log("Will transfer this user("+user+") to agent("+result.kf_account+")");
+			var resMsg = {
+				toUserName : user,
+				fromUserName : server,
+				msgType : "transfer_customer_service"
+			};
+
+			weixin.sendMsg(resMsg);
+
 		} else if(err == null) {
 			// already asigned but session is closed(agent is already assugbed)
 			console.log("Will transfer this user("+user+") to agent("+result.kf_account+")");
 			var resMsg = {
 				toUserName : user,
-				fromUserName : result.kf_account,
-				msgType : "transfer_customer_service",
-				content : "text message content"
+				fromUserName : server,
+				msgType : "transfer_customer_service"
 			};
 
 			weixin.sendMsg(resMsg);
@@ -168,7 +177,7 @@ weixin.textMsg(function(msg) {
 	// if user haven't it -> create session 
 	
 	if(resMsg == '') {
-		checkUserAndConnectSeesion(msg.fromUserName);
+		checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 	} else {
 		weixin.sendMsg(resMsg);
 	}
@@ -248,7 +257,7 @@ weixin.eventMsg(function(msg) {
 			templateGreetingMsg.toUserName = msg.fromUserName;
 			weixin.sendMsg(templateGreetingMsg);
 
-			checkUserAndConnectSeesion(msg.fromUserName);			
+			checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);			
 
 			break;
 		case "unsubscribe" :
