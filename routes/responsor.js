@@ -15,6 +15,22 @@ var templateGreetingMsg = {
 	funcFlag : 0
 };
 
+var templateCreateSessionMsg = {
+	fromUserName : "",
+	toUserName : "",
+	msgType : "text",
+	content : "Agent와 연결 되었습니다.",
+	funcFlag : 0
+};
+
+var templateCloseSessionMsg = {
+	fromUserName : "",
+	toUserName : "",
+	msgType : "text",
+	content : "Agent와 연결 해제되었습니다.(재연결을 원하시면 메세지를 보내주세요)",
+	funcFlag : 0
+};
+
 // Define functions
 var checkUserAndConnectSeesion = function(user, server) {
 	// check user's session status
@@ -211,10 +227,16 @@ weixin.eventMsg(function(msg) {
 	switch (msg.event) {
 		case "kf_create_session" :
 			// TODO : we can show greeting again
+			templateCreateSessionMsg.fromUserName = msg.toUserName;
+			templateCreateSessionMsg.toUserName = msg.fromUserName;
+			weixin.sendMsg(templateCreateSessionMsg);
 			break;
 		case "kf_close_session" :
 			// TODO : Do we need to add code? because after close session, agent can't ping to user
 			// we can show some sentence at this time
+			templateCloseSessionMsg.fromUserName = msg.toUserName;
+			templateCloseSessionMsg.toUserName = msg.fromUserName;
+			weixin.sendMsg(templateCloseSessionMsg);
 			break;
 		case "kf_switch_session" :
 			break;
@@ -224,7 +246,7 @@ weixin.eventMsg(function(msg) {
 				"button": [
 					{
 						"type": "VIEW", 
-						"name": "통화(미지원)", 
+						"name": "Call(Unsupported)", 
 						"url": "http://v.qq.com/"
 					}, 
 					{
@@ -232,17 +254,17 @@ weixin.eventMsg(function(msg) {
 						"sub_button": [
 							{
 								"type": "VIEW", 
-								"name": "쇼핑", 
+								"name": "Shopping", 
 								"url": "http://nbnl.couphone.cn/shopping/"+msg.fromUserName
 							}, 
 							{
 								"type": "VIEW", 
-								"name": "맛집", 
+								"name": "Restaurant", 
 								"url": "http://v.qq.com/"
 							}, 
 							{
 								"type": "VIEW", 
-								"name": "택시", 
+								"name": "Taxi", 
 								"url": "http://v.qq.com/"
 							}
 						]
