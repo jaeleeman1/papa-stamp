@@ -52,15 +52,13 @@ var checkUserAndConnectSeesion = function(user, server) {
 			// 	}
 			// });
 
-			console.log("Will transfer this user("+user+") to agent("+result.kf_account+")");
+			console.log("Will transfer this user("+user+") to any agent");
 			var resMsg = {
 				toUserName : user,
 				fromUserName : server,
 				msgType : "transfer_customer_service"
 			};
-
 			weixin.sendMsg(resMsg);
-
 		} else if(err == null) {
 			// already asigned but session is closed(agent is already assugbed)
 			console.log("Will transfer this user("+user+") to agent("+result.kf_account+")");
@@ -69,7 +67,6 @@ var checkUserAndConnectSeesion = function(user, server) {
 				fromUserName : server,
 				msgType : "transfer_customer_service"
 			};
-
 			weixin.sendMsg(resMsg);
 		} else {
 			// err message isn't empty
@@ -77,10 +74,6 @@ var checkUserAndConnectSeesion = function(user, server) {
 		}
 	});	
 }
-
-// 解析器
-//router.use(express.bodyParser());
-//app.use(xmlBodyParser);
 
 // 接入验证
 router.get('/', function(req, res) {		
@@ -181,8 +174,6 @@ weixin.textMsg(function(msg) {
 	} else {
 		weixin.sendMsg(resMsg);
 	}
-
-
 });
 
 // 监听图片消息
@@ -210,9 +201,11 @@ weixin.eventMsg(function(msg) {
 
 	switch (msg.event) {
 		case "kf_create_session" :
+			// TODO : we can show greeting again
 			break;
 		case "kf_close_session" :
 			// TODO : Do we need to add code? because after close session, agent can't ping to user
+			// we can show some sentence at this time
 			break;
 		case "kf_switch_session" :
 			break;
@@ -231,7 +224,7 @@ weixin.eventMsg(function(msg) {
 							{
 								"type": "VIEW", 
 								"name": "쇼핑", 
-								"url": "http://www.soso.com/"
+								"url": "http://nbnl.couphone.cn/shopping/"+msg.fromUserName
 							}, 
 							{
 								"type": "VIEW", 
