@@ -318,10 +318,11 @@ weixin.eventMsg(function(msg) {
 			break;
 	}	
 	weixin.sendMsg('');
-		// get access token for debug
+
+	// get access token for debug
 	api.getAccessToken(function(err, token) {
 		if(err == null) {
-			console.log("Access Token : "+token);		
+			console.log("Access Token : "+token.accessToken);		
 		}
 	});
 });
