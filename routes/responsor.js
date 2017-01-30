@@ -250,12 +250,12 @@ weixin.eventMsg(function(msg) {
 						"url": "http://v.qq.com/"
 					}, 
 					{
-						"name": "요청하기", 
+						"name": "Request", 
 						"sub_button": [
 							{
 								"type": "VIEW", 
 								"name": "Shopping", 
-								"url": "http://nbnl.couphone.cn/shopping/"+msg.fromUserName
+								"url": "http://nbnl.couphone.cn/shopping/"
 							}, 
 							{
 								"type": "VIEW", 
