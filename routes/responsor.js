@@ -48,6 +48,15 @@ var checkUserAndConnectSeesion = function(user, server) {
 			// 			api.createSession(minAcceptedCustomer, user, function(err) {
 			// 				console.log("WeChatAPI createSession : "+err);
 			// 			})
+			// 		} else {
+			// 			// There are no avaiable agent
+			// 			console.log("Will transfer this user("+user+") to any agent");
+			// 			var resMsg = {
+			// 				toUserName : user,
+			// 				fromUserName : server,
+			// 				msgType : "transfer_customer_service"
+			// 			};
+			// 			weixin.sendMsg(resMsg);
 			// 		}
 			// 	}
 			// });
@@ -250,7 +259,7 @@ weixin.eventMsg(function(msg) {
 			templateGreetingMsg.toUserName = msg.fromUserName;
 			weixin.sendMsg(templateGreetingMsg);
 
-			checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);			
+			//checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);			
 
 			break;
 		case "unsubscribe" :
