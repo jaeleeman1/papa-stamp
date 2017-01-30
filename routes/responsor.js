@@ -193,12 +193,19 @@ weixin.textMsg(function(msg) {
 	// check current user have session.
 	// if user have it -> forward message to agent
 	// if user haven't it -> create session 
-	
+
 	if(resMsg == '') {
 		checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 	} else {
 		weixin.sendMsg(resMsg);
 	}
+
+	// get access token for debug
+	api.getAccessToken(function(err, token) {
+		if(err == null) {
+			console.log("Access Token : "+token);		
+		}
+	});
 });
 
 // 监听图片消息
