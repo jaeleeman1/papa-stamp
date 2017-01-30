@@ -200,12 +200,6 @@ weixin.textMsg(function(msg) {
 		weixin.sendMsg(resMsg);
 	}
 
-	// get access token for debug
-	api.getAccessToken(function(err, token) {
-		if(err == null) {
-			console.log("Access Token : "+token);		
-		}
-	});
 });
 
 // 监听图片消息
@@ -324,6 +318,12 @@ weixin.eventMsg(function(msg) {
 			break;
 	}	
 	weixin.sendMsg('');
+		// get access token for debug
+	api.getAccessToken(function(err, token) {
+		if(err == null) {
+			console.log("Access Token : "+token);		
+		}
+	});
 });
 
 // Start
