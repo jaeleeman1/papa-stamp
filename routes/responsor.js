@@ -273,7 +273,7 @@ weixin.eventMsg(function(msg) {
 							{
 								"type": "view", 
 								"name": "택시", 
-								"url": "http://nbnl.couphone.cn/shopping/"
+								"url": "http://nbnl.couphone.cn:8080/taxi/myLocation?wechatId=test02"
 							}
 						]
 					}
