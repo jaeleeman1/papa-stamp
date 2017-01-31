@@ -190,6 +190,13 @@ weixin.textMsg(function(msg) {
 	// To verify server
 	weixin.sendMsg('');
 
+		// get access token for debug
+	api.getAccessToken(function(err, token) {
+		if(err == null) {
+			console.log("Access Token : "+JSON.stringify(token));		
+		}
+	});
+
 	// check current user have session.
 	// if user have it -> forward message to agent
 	// if user haven't it -> create session 
@@ -318,13 +325,6 @@ weixin.eventMsg(function(msg) {
 			break;
 	}	
 	weixin.sendMsg('');
-
-	// get access token for debug
-	api.getAccessToken(function(err, token) {
-		if(err == null) {
-			console.log("Access Token : "+token.accessToken);		
-		}
-	});
 });
 
 // Start
