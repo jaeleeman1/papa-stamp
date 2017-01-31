@@ -41,7 +41,11 @@
 <body id="back_100_hidden">
 <div id="container">
     <div id="shopping_detail_wrap">
-        <a href="/food"><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
+        <% if('food' == transportType) {%>
+            <a href="/food/shopInfo?id=<%=arrive.id%>">
+        <%}else if('taxi' == transportType){%>
+            <a href=”#” onclick="javascript:self.close();">
+        <%}%><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
         <div id="header_nor" class="restaurant">
             <input id='transportType' type="hidden" value=<%=type%>>
             <div class="tab">
