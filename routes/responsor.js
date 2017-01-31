@@ -253,27 +253,27 @@ weixin.eventMsg(function(msg) {
 			var menu =  {
 				"button": [
 					{
-						"type": "VIEW", 
-						"name": "Call(Unsupported)", 
+						"type": "view", 
+						"name": "전화", 
 						"url": "http://v.qq.com/"
 					}, 
 					{
 						"name": "Request", 
 						"sub_button": [
 							{
-								"type": "VIEW", 
-								"name": "Shopping", 
+								"type": "view", 
+								"name": "쇼핑", 
 								"url": "http://nbnl.couphone.cn/shopping/"
 							}, 
 							{
-								"type": "VIEW", 
-								"name": "Restaurant", 
-								"url": "http://v.qq.com/"
+								"type": "view", 
+								"name": "맛집", 
+								"url": "http://nbnl.couphone.cn/shopping/"
 							}, 
 							{
-								"type": "VIEW", 
-								"name": "Taxi", 
-								"url": "http://v.qq.com/"
+								"type": "view", 
+								"name": "택시", 
+								"url": "http://nbnl.couphone.cn/shopping/"
 							}
 						]
 					}
