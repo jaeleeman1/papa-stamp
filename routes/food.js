@@ -73,10 +73,15 @@ router.post('/shopList', function (req, res, next) {
 //GET foodShop detail Information
 router.get('/shopInfo', function (req, res, next) {
     getConnection(function (err, connection) {
-        var query = 'select * from TB_FOOD_SHOP_LIST A, TB_FOOD_MENU B where A.FOOD_ID = B.FOOD_ID and A.FOOD_ID = ?';
+        var query =  'select ? as ADDRESS, ? as LAT, ? as LNG, A.FOOD_ID, A.FOOD_NAME_CN, A.FOOD_NAME_KR, A.FOOD_TYPE_KR, A.CAPITA_PRICE, A.FOOD_SCOPE, A.BSNSS_TIME, B.FOOD_DIV,' +
+                     'B.FOOD_MENU_CN, B.FOOD_MENU_KR, A.FOOD_ADDR_CN, A.TAXI_ADDR_CN, A.PHONE_NUM, A.DESCRIPTION from TB_FOOD_SHOP_LIST A, TB_FOOD_MENU B ' +
+                     'where A.FOOD_ID = B.FOOD_ID and A.FOOD_ID = ?';
         var id = req.query.id; // foodList Id
+        var address = req.query.address; // foodList Id
+        var lat = req.query.lat; // foodList Id
+        var lng = req.query.lng; // foodList Id
 
-        connection.query(query, id, function (err, rows) {
+        connection.query(query, [address, lat, lng, id], function (err, rows) {
             if (err) {
               //  console.error("err : " + err);
                 throw err;
