@@ -296,7 +296,7 @@ weixin.eventMsg(function(msg) {
             templateGreetingMsg.toUserName = msg.fromUserName;
             weixin.sendMsg(templateGreetingMsg);
 
-            insertUserInfo(nick_name, open_id);
+            getUserInfo(open_id);
 
             //checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 
@@ -369,7 +369,8 @@ function getUserAPI(new_token, openId) {
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
-            nick_name = bodyObject.nickname;            
+            nick_name = bodyObject.nickname;
+            insertUserInfo(nick_name, openId);
         }
     }
     request(pushChatOptions, pushChatCallback);
