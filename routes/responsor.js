@@ -7,6 +7,7 @@ var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
 var request = require('request');
 var getConnection = require('../lib/db_connection');
+var nick_name;
 
 
 // Define strings
@@ -256,7 +257,6 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-            nick_name = getUserInfo(open_id);
             var menu =  {
                 "button": [
                     {
@@ -347,21 +347,18 @@ router.post('/', function(req, res) {
 
 function getUserInfo(openId) {
     console.log(' get user info ');
-    var nick_name;
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            nick_name = getUserAPI(token.accessToken, openId);
+            getUserAPI(token.accessToken, openId);
         }
     });
-    return nick_name;
 }
 
 function getUserAPI(new_token, openId) {
     var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+openId+"&lang=en_US";
-    var nick_name;
     var pushChatOptions = {
         method: "GET",
         url: getUserURL
@@ -372,11 +369,10 @@ function getUserAPI(new_token, openId) {
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
-            nick_name = bodyObject.nickname;
+            nick_name = bodyObject.nickname;            
         }
     }
     request(pushChatOptions, pushChatCallback);
-    return nick_name;
 }
 
 function insertUserInfo(nickName, openId) {
