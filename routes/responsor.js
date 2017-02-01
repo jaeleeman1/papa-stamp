@@ -237,7 +237,6 @@ weixin.eventMsg(function(msg) {
     
     var nick_name;
     var open_id =  msg.fromUserName;
-    getUserInfo(open_id);
     
     switch (msg.event) {
         case "kf_create_session" :
@@ -257,6 +256,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
+            getUserInfo(open_id);
             var menu =  {
                 "button": [
                     {
