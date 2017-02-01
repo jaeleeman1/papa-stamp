@@ -116,15 +116,19 @@ var getUserListOfAgent = function(agentNickName, callback){
 				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
 					" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
+					console.log("Nick Name Matched");
 					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
-						if(err0 == null) {
+						if(err0 != null) {
 							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
 							// return user's info using callback
+							console.log("WeChatAPI getCustomerSessionList Done");
 							callback(err0, result0);
 						}
 					});				
 					break;
+				} else {
+
 				}
 			}
 		}
