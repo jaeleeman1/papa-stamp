@@ -234,7 +234,11 @@ weixin.urlMsg(function(msg) {
 weixin.eventMsg(function(msg) {
     console.log("eventMsg received");
     console.log(JSON.stringify(msg));
-
+    
+    var nick_name;
+    var open_id =  msg.fromUserName;
+    getUserInfo(open_id);
+    
     switch (msg.event) {
         case "kf_create_session" :
             // TODO : we can show greeting again
@@ -266,7 +270,7 @@ weixin.eventMsg(function(msg) {
                             {
                                 "type": "view",
                                 "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping?nickname="+ "felix"
+                                "url": "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name
                             },
                             {
                                 "type": "view",
@@ -292,13 +296,13 @@ weixin.eventMsg(function(msg) {
             templateGreetingMsg.toUserName = msg.fromUserName;
             weixin.sendMsg(templateGreetingMsg);
 
-            getUserInfo(msg.fromUserName);
+            insertUserInfo(nick_name, open_id);
 
             //checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 
             break;
         case "unsubscribe" :
-            deleteUserInfo(msg.fromUserName);
+            deleteUserInfo(open_id);
             break;
         case "CLICK" :
             break;
@@ -366,7 +370,8 @@ function getUserAPI(new_token, openId) {
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
-            insertUserInfo(bodyObject.nickname, bodyObject.openid);
+            nick_name = bodyObject.nickname;
+            open_id = bodyObject.openid;
         }
     }
     request(pushChatOptions, pushChatCallback);
