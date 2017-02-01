@@ -238,6 +238,7 @@ weixin.eventMsg(function(msg) {
 			templateCreateSessionMsg.fromUserName = msg.toUserName;
 			templateCreateSessionMsg.toUserName = msg.fromUserName;
 			weixin.sendMsg(templateCreateSessionMsg);
+
 			break;
 		case "kf_close_session" :
 			// TODO : Do we need to add code? because after close session, agent can't ping to user
@@ -268,7 +269,7 @@ weixin.eventMsg(function(msg) {
 							{
 								"type": "view", 
 								"name": "맛집", 
-								"url": "http://nbnl.couphone.cn/shopping/"
+								"url": "http://nbnl.couphone.cn/food/"
 							}, 
 							{
 								"type": "view", 
