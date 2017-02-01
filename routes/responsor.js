@@ -7,8 +7,6 @@ var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
 var request = require('request');
 var getConnection = require('../lib/db_connection');
-var nick_name;
-
 
 // Define strings
 var templateGreetingMsg = {
@@ -236,11 +234,7 @@ weixin.eventMsg(function(msg) {
     console.log("eventMsg received");
     console.log(JSON.stringify(msg));
     
-    var nick_name;
     var open_id =  msg.fromUserName;
-    getUserInfo(open_id);
-    
-    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX 2 ' + nick_name);
     
     switch (msg.event) {
         case "kf_create_session" :
@@ -260,40 +254,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-            var menu =  {
-                "button": [
-                    {
-                        "type": "view",
-                        "name": "전화",
-                        "url": "http://v.qq.com/"
-                    },
-                    {
-                        "name": "Request",
-                        "sub_button": [
-                            {
-                                "type": "view",
-                                "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name
-                            },
-                            {
-                                "type": "view",
-                                "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food/"
-                            },
-                            {
-                                "type": "view",
-                                "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation?wechatId=test02"
-                            }
-                        ]
-                    }
-                ]
-            };
-
-            api.createMenu(menu, function(err){
-                console.log("WeChatAPI createMenu done");
-                console.log("WeChatAPI Error : "+err);
-            });
+            getUserInfo(open_id);
 
             templateGreetingMsg.fromUserName = msg.toUserName;
             templateGreetingMsg.toUserName = msg.fromUserName;
@@ -373,8 +334,43 @@ function getUserAPI(new_token, openId) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
             nick_name = bodyObject.nickname;
-            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX 1 ' + nick_name);
-            //insertUserInfo(nick_name, openId);
+            
+            var menu =  {
+                "button": [
+                    {
+                        "type": "view",
+                        "name": "전화",
+                        "url": "http://v.qq.com/"
+                    },
+                    {
+                        "name": "Request",
+                        "sub_button": [
+                            {
+                                "type": "view",
+                                "name": "쇼핑",
+                                "url": "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name
+                            },
+                            {
+                                "type": "view",
+                                "name": "맛집",
+                                "url": "http://nbnl.couphone.cn/food/"
+                            },
+                            {
+                                "type": "view",
+                                "name": "택시",
+                                "url": "http://nbnl.couphone.cn/taxi/myLocation?wechatId=test02"
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            api.createMenu(menu, function(err){
+                console.log("WeChatAPI createMenu done");
+                console.log("WeChatAPI Error : "+err);
+            });
+            
+            insertUserInfo(nick_name, openId);
         }
     }
     request(pushChatOptions, pushChatCallback);
