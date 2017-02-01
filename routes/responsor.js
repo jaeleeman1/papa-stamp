@@ -266,7 +266,7 @@ weixin.eventMsg(function(msg) {
                             {
                                 "type": "view",
                                 "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping/"
+                                "url": "http://nbnl.couphone.cn/shopping?nickname="+ "felix"
                             },
                             {
                                 "type": "view",
