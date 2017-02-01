@@ -159,7 +159,7 @@ router.post('/shoppingBuyList', function (req, res, next) {
         var price = req.body.price; // price
 	    
 	    // Update Buy List
-        var updateQuery = 'update TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' where USER_WECHAT_ID="jaeleeman1" and PRDCT_ID = ?';
+        var updateQuery = 'update TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' where USER_WECHAT_ID=' + wechatId +' and PRDCT_ID = ?';
         connection.query(updateQuery, prdctId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
