@@ -318,11 +318,15 @@ weixin.eventMsg(function(msg) {
                     // TODO : Link to taxi page
                     break;
             }
-			// Test
+
+			////////////////////////////////////
+			// Test for getUserListOfAgent
+			////////////////////////////////////
 			getUserListOfAgent("Couphone0004", function(err, result){
 				console.log("WeChatAPI getUserListOfAgent done");
 				console.log(JSON.stringify(result));
 			});
+			////////////////////////////////////
             break;
         case "scancode_push" :
             break;
@@ -336,7 +340,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "location_select" :
             break;
-    }
+    } 
     weixin.sendMsg('');
 });
 
