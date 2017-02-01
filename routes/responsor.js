@@ -254,7 +254,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-            getUserInfo(open_id);
+            createMenu(open_id);
 
             templateGreetingMsg.fromUserName = msg.toUserName;
             templateGreetingMsg.toUserName = msg.fromUserName;
@@ -309,19 +309,19 @@ router.post('/', function(req, res) {
     console.log("POST end");
 });
 
-function getUserInfo(openId) {
-    console.log(' get user info ');
+function createMenu(openId) {
+    console.log(' createMenu start ');
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            getUserAPI(token.accessToken, openId);
+            getUserInfo(token.accessToken, openId);
         }
     });
 }
 
-function getUserAPI(new_token, openId) {
+function getUserInfo(new_token, openId) {
     var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+openId+"&lang=en_US";
     var pushChatOptions = {
         method: "GET",
@@ -333,7 +333,7 @@ function getUserAPI(new_token, openId) {
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
-            nick_name = bodyObject.nickname;
+            var nick_name = bodyObject.nickname;
             
             var menu =  {
                 "button": [
@@ -348,7 +348,7 @@ function getUserAPI(new_token, openId) {
                             {
                                 "type": "view",
                                 "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name
+                                "url": "http://nbnl.couphone.cn/shopping?nick_name=" + nick_name
                             },
                             {
                                 "type": "view",
