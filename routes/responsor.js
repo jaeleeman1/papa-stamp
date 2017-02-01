@@ -238,6 +238,9 @@ weixin.eventMsg(function(msg) {
     
     var nick_name;
     var open_id =  msg.fromUserName;
+    getUserInfo(open_id);
+    
+    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX 2 ' + nick_name);
     
     switch (msg.event) {
         case "kf_create_session" :
@@ -296,7 +299,7 @@ weixin.eventMsg(function(msg) {
             templateGreetingMsg.toUserName = msg.fromUserName;
             weixin.sendMsg(templateGreetingMsg);
 
-            getUserInfo(open_id);
+            //getUserInfo(open_id);
 
             //checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 
@@ -370,7 +373,8 @@ function getUserAPI(new_token, openId) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
             nick_name = bodyObject.nickname;
-            insertUserInfo(nick_name, openId);
+            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXX 1 ' + nick_name);
+            //insertUserInfo(nick_name, openId);
         }
     }
     request(pushChatOptions, pushChatCallback);
