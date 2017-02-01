@@ -105,19 +105,18 @@ var checkUserAndConnectSeesion = function(user, server) {
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName, callback){
 	// get agent account using agentNickName
-	api.getOnlineCustomServiceList(function(err, result) {
-		console.log("WeChatAPI getOnlineCustomServiceList done");
-		console.log("WeChatAPI getOnlineCustomServiceList "+err);
-		console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));
+	api.getCustomServiceList(function(err, result) {
+		console.log("WeChatAPI getCustomServiceList done");
+		console.log("WeChatAPI getCustomServiceList "+err);
+		console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
 		if(err) {
-			console.log("WeChatAPI getOnlineCustomServiceList Error : "+err);
+			console.log("WeChatAPI getCustomServiceList Error : "+err);
 		} else {
-			for(var i = 0; i < result.kf_online_list.length; i++) {
-				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+
-					" accepted_case("+result.kf_online_list[i].accepted_case+
-					") kf_id("+result.kf_online_list[i].kf_id+")");
-				if(result.kf_online_list[i].kf_id == agentNickName) {
-					api.getCustomerSessionList(result.kf_online_list[i].kf_account, function(err0, result0) {
+			for(var i = 0; i < result.kf_list.length; i++) {
+				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
+					" kf_nick("+result.kf_list[i].kf_nick+")");
+				if(result.kf_list[i].kf_nick == agentNickName) {
+					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 == null) {
 							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
