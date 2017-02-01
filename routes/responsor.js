@@ -102,6 +102,37 @@ var checkUserAndConnectSeesion = function(user, server) {
     });
 }
 
+// callback(err, result)
+var getUserListOfAgent = function(agentNickName, callback){
+	// get agent account using agentNickName
+	api.getOnlineCustomServiceList(function(err, result) {
+		console.log("WeChatAPI getOnlineCustomServiceList done");
+		console.log("WeChatAPI getOnlineCustomServiceList "+err);
+		console.log("WeChatAPI getOnlineCustomServiceList "+JSON.stringify(result));
+		if(err) {
+			console.log("WeChatAPI getOnlineCustomServiceList Error : "+err);
+		} else {
+			for(var i = 0; i < result.kf_online_list.length; i++) {
+				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_online_list[i].kf_account+
+					" accepted_case("+result.kf_online_list[i].accepted_case+
+					") kf_id("+result.kf_online_list[i].kf_id+")");
+				if(result.kf_online_list[i].kf_id == agentNickName) {
+					api.getCustomerSessionList(result.kf_online_list[i].kf_account, function(err0, result0) {
+						if(err0 == null) {
+							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
+						} else {
+							// return user's info using callback
+							callback(err0, result0);
+						}
+					});				
+					break;
+				}
+			}
+		}
+	});
+	// get user's of agent using agent account
+} 
+
 // 接入验证
 router.get('/', function(req, res) {
     if (weixin.checkSignature(req)) {
@@ -284,6 +315,11 @@ weixin.eventMsg(function(msg) {
                     // TODO : Link to taxi page
                     break;
             }
+			// Test
+			getUserListOfAgent("Couphone0004", function(err, result){
+				console.log("WeChatAPI getUserListOfAgent done");
+				console.log(JSON.stringify(result));
+			});
             break;
         case "scancode_push" :
             break;
