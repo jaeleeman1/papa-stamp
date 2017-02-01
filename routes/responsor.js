@@ -352,20 +352,20 @@ router.post('/', function(req, res) {
     console.log("POST end");
 });
 
-function createMenu(openId) {
+function createMenu(open_id) {
     console.log(' createMenu start ');
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            getUserInfo(token.accessToken, openId);
+            getUserInfo(token.accessToken, open_id);
         }
     });
 }
 
-function getUserInfo(new_token, openId) {
-    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+openId+"&lang=en_US";
+function getUserInfo(new_token, open_id) {
+    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
     var pushChatOptions = {
         method: "GET",
         url: getUserURL
@@ -377,7 +377,7 @@ function getUserInfo(new_token, openId) {
             console.log("Get User API success");
             bodyObject = JSON.parse(body);
             var nick_name = bodyObject.nickname;
-            
+            console.log("Nick name : " + nick_name);
             var menu =  {
                 "button": [
                     {
@@ -413,16 +413,16 @@ function getUserInfo(new_token, openId) {
                 console.log("WeChatAPI Error : "+err);
             });
             
-            insertUserInfo(nick_name, openId);
+            insertUserInfo(nick_name, open_id);
         }
     }
     request(pushChatOptions, pushChatCallback);
 }
 
-function insertUserInfo(nickName, openId) {
+function insertUserInfo(nick_name, open_id) {
     getConnection(function (err, connection) {
         // Insert User Information
-        var insertQuery = 'insert into TB_USER_INFO (USER_OPEN_ID, USER_WECHAT_ID, USER_TYPE) values ("' + openId + '", "' +  nickName + '", "01") on DUPLICATE KEY update DEL_YN="N"';
+        var insertQuery = 'insert into TB_USER_INFO (USER_OPEN_ID, USER_WECHAT_ID, USER_TYPE) values ("' + open_id + '", "' +  nick_name + '", "01") on DUPLICATE KEY update DEL_YN="N"';
         connection.query(insertQuery, function (err, row) {
             if (err) {
                 console.error("err : " + err);
@@ -436,11 +436,11 @@ function insertUserInfo(nickName, openId) {
     });
 }
 
-function deleteUserInfo(openId) {
+function deleteUserInfo(open_id) {
     getConnection(function (err, connection) {
         // Delete User Information
         var updateQuery = 'update TB_USER_INFO SET DEL_YN = "Y" WHERE USER_OPEN_ID=?' ;
-        connection.query(updateQuery, openId, function (err, row) {
+        connection.query(updateQuery, open_id, function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
