@@ -480,7 +480,7 @@ var getDistance = function (distance) {
 ////////////////////////////////////
 router.post('/getUserAlias', function (req, res, next) {
     console.log('##### Post  getUserAlias Start #####');
-    console.log(req.body.agentId);
+    console.log('agentId #### ', req.body.agentId);
 
     //agent의 키 를 가져오는 함수
    getUserListOfAgent(req.body.agentId, function(err, result){
