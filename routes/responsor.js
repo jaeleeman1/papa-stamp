@@ -288,13 +288,46 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-            createMenu(open_id);
+	    var menu =  {
+                "button": [
+                    {
+                        "type": "view",
+                        "name": "전화",
+                        "url": "http://v.qq.com/"
+                    },
+                    {
+                        "name": "Request",
+                        "sub_button": [
+                            {
+                                "type": "click",
+                                "name": "쇼핑",
+                                "key": "KEY_SHOPPING"
+                            },
+                            {
+                                "type": "view",
+                                "name": "맛집",
+                                "url": "http://nbnl.couphone.cn/food/"
+                            },
+                            {
+                                "type": "view",
+                                "name": "택시",
+                                "url": "http://nbnl.couphone.cn/taxi/myLocation?nick_name=" + nick_name
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            api.createMenu(menu, function(err){
+                console.log("WeChatAPI createMenu done");
+                console.log("WeChatAPI Error : "+err);
+            });
 
             templateGreetingMsg.fromUserName = msg.toUserName;
             templateGreetingMsg.toUserName = msg.fromUserName;
             weixin.sendMsg(templateGreetingMsg);
 
-            //getUserInfo(open_id);
+            getUserInfo(open_id);
 
             //checkUserAndConnectSeesion(msg.fromUserName, msg.toUserName);
 
@@ -303,6 +336,17 @@ weixin.eventMsg(function(msg) {
             deleteUserInfo(open_id);
             break;
         case "CLICK" :
+	     switch(msg.eventKey) {
+                case "KEY_SHOPPING" :
+                    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+                    break;
+                case "KEY_FOOD" :
+                    // TODO : Link to food page
+                    break;
+                case "KEY_TAXI" :
+                    // TODO : Link to taxi page
+                    break;
+            }
             break;
         case "VIEW" :
             // View event Key
@@ -352,19 +396,19 @@ router.post('/', function(req, res) {
     console.log("POST end");
 });
 
-function createMenu(open_id) {
+function getUserInfo(open_id) {
     console.log(' createMenu start ');
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            getUserInfo(token.accessToken, open_id);
+            getUserAPI(token.accessToken, open_id);
         }
     });
 }
 
-function getUserInfo(new_token, open_id) {
+function getUserAPI(new_token, open_id) {
     var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
     var pushChatOptions = {
         method: "GET",
@@ -375,45 +419,10 @@ function getUserInfo(new_token, open_id) {
         //console.log("log : " + body);
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
-            bodyObject = JSON.parse(body);
-            var nick_name = bodyObject.nickname;
-            console.log("Nick name : " + nick_name);
-            var menu =  {
-                "button": [
-                    {
-                        "type": "view",
-                        "name": "전화",
-                        "url": "http://v.qq.com/"
-                    },
-                    {
-                        "name": "Request",
-                        "sub_button": [
-                            {
-                                "type": "view",
-                                "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping?nick_name=" + nick_name
-                            },
-                            {
-                                "type": "view",
-                                "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food/"
-                            },
-                            {
-                                "type": "view",
-                                "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation?nick_name=" + nick_name
-                            }
-                        ]
-                    }
-                ]
-            };
-
-            api.createMenu(menu, function(err){
-                console.log("WeChatAPI createMenu done");
-                console.log("WeChatAPI Error : "+err);
-            });
+	    console.log("Nick name : " + bodyObject.nickname);
+            bodyObject = JSON.parse(body);         
             
-            insertUserInfo(nick_name, open_id);
+            insertUserInfo(bodyObject.nickname, open_id);
         }
     }
     request(pushChatOptions, pushChatCallback);
