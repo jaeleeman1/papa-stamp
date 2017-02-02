@@ -8,7 +8,7 @@ var request = require('request');
 
 router.get('/myLocation', function (req, res, next) {
 
-    var wechatId = req.query.wechatId;
+    var wechatId = req.query.nick_name;
     getConnection(function (err, connection) {
         var selectQuery = 'SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
         // selectQuery Open ID
