@@ -1,15 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var weixin = require('weixin-api'),
-    bodyParser = require('body-parser')
+var express = require('express'),
+    router = express.Router(),
+    weixin = require('weixin-api'),
+    bodyParser = require('body-parser'),
+    wechatAPI = require('../lib/wechatApi');
     // request = require('request')
 
 
 // var appid = 'wx9242b0f3c507cb24';
 // var appsec = '3f901f86a389445276b13e1b661935d6';
 
-var WechatAPI = require('wechat-api');
-var api = WechatAPI('wx9242b0f3c507cb24','3f901f86a389445276b13e1b661935d6');
+// var WechatAPI = require('wechat-api');
+// var api = WechatAPI('wx9242b0f3c507cb24','3f901f86a389445276b13e1b661935d6');
 
 
 
@@ -20,13 +21,13 @@ router.get('/', function(req, res, next) {
   res.render('wechat/loginForm', {wechatSendTitle: 'Couphone Agent Login'});
 
 	/**/
-    api.getAccessToken(function(err, token) {
+    wechatAPI.getAccessToken(function(err, token) {
         if(err == null) {
             console.log("Access Token : "+JSON.stringify(token));
         }
     });
 
-		// api.getCustomServiceList( function(err, result){
+		// wechatAPI.getCustomServiceList( function(err, result){
     //     if(err) {
     //         console.log("getCustomServiceList Error  : "+err);
     //     } else {
