@@ -1,12 +1,13 @@
 var express = require('express'),
     weixin = require('weixin-api'),
     bodyParser = require('body-parser'),
-    router = express.Router();
-var config = require('../lib/config');
-var WechatAPI = require('wechat-api');
-var api = new WechatAPI(config.appID, config.appsecret);
-var request = require('request');
-var getConnection = require('../lib/db_connection');
+    router = express.Router(),
+// var config = require('../lib/config');
+// var WechatAPI = require('wechat-api');
+// var api = new WechatAPI(config.appID, config.appsecret);
+    wechatAPI = require('../lib/wechatApi'),
+    request = require('request'),
+    getConnection = require('../lib/db_connection');
 
 // Define strings
 var templateGreetingMsg = {
@@ -36,7 +37,7 @@ var templateCloseSessionMsg = {
 // Define functions
 var checkUserAndConnectSeesion = function(user, server) {
     // check user's session status
-    api.getClientSessionState(user, function(err, result) {
+    wechatAPI.getClientSessionState(user, function(err, result) {
         console.log("WeChatAPI getClientSessionState done");
         console.log("WeChatAPI getClientSessionState "+err);
         console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
@@ -105,7 +106,7 @@ var checkUserAndConnectSeesion = function(user, server) {
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName, callback){
 	// get agent account using agentNickName
-	api.getCustomServiceList(function(err, result) {
+    wechatAPI.getCustomServiceList(function(err, result) {
 		console.log("WeChatAPI getCustomServiceList done");
 		console.log("WeChatAPI getCustomServiceList "+err);
 		console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
@@ -117,7 +118,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 					" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
 					console.log("Nick Name Matched");
-					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
+                    wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 != null) {
 							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
@@ -227,7 +228,7 @@ weixin.textMsg(function(msg) {
     weixin.sendMsg('');
 
     // get access token for debug
-    api.getAccessToken(function(err, token) {
+    wechatAPI.getAccessToken(function(err, token) {
         if(err == null) {
             console.log("Access Token : "+JSON.stringify(token));
         }
@@ -318,7 +319,7 @@ weixin.eventMsg(function(msg) {
                 ]
             };
 
-            api.createMenu(menu, function(err){
+            wechatAPI.createMenu(menu, function(err){
                 console.log("WeChatAPI createMenu done");
                 console.log("WeChatAPI Error : "+err);
             });
@@ -400,7 +401,7 @@ function getUserInfo(open_id) {
     console.log(' createMenu start ');
 
     // get access token for debug
-    api.getAccessToken(function(err, token) {
+    wechatAPI.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
             getUserAPI(token.accessToken, open_id);

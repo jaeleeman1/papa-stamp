@@ -4,14 +4,10 @@ var express = require('express'),
     api = require("../lib/api"),
     bodyParser = require('body-parser'),
     request = require('request'),
-    getConnection = require('../lib/db_connection');
+    getConnection = require('../lib/db_connection'),
+    wechatAPI = require('../lib/wechatApi');
 
-var config = require('../lib/config');
-var WechatAPI = require('wechat-api');
-var api = new WechatAPI(config.appID, config.appsecret);
-
-
-
+// var api = new WechatAPI(config.appID, config.appsecret);
 
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
@@ -498,7 +494,7 @@ router.post('/getUserAlias', function (req, res, next) {
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName, callback){
     // get agent account using agentNickName
-    api.getCustomServiceList(function(err, result) {
+    wechatAPI.getCustomServiceList(function(err, result) {
         console.log("WeChatAPI getCustomServiceList done");
         console.log("WeChatAPI getCustomServiceList "+err);
         console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
@@ -510,7 +506,7 @@ var getUserListOfAgent = function(agentNickName, callback){
                     " kf_nick("+result.kf_list[i].kf_nick+")");
                 if(result.kf_list[i].kf_nick == agentNickName) {
                     console.log("Nick Name Matched");
-                    api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
+                    wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
                         if(err0 != null) {
                             console.log("WeChatAPI getCustomerSessionList Error : "+err0);
                         } else {
