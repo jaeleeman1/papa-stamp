@@ -506,27 +506,30 @@ var getUserListOfAgent = function(agentNickName, callback){
                     " kf_nick("+result.kf_list[i].kf_nick+")");
                 if(result.kf_list[i].kf_nick == agentNickName) {
                     console.log("Nick Name Matched");
-                    wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
-                        if(err0 != null) {
-                            console.log("WeChatAPI getCustomerSessionList Error : "+err0);
+                    wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
+                        if(sessionListError != null) {
+                            console.log("WeChatAPI getCustomerSessionList Error : "+sessionListError);
                         } else {
                             // return user's info using callback
-                            console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(result0) + "cnt :" + result0.length);
+                            console.log("sessionListResult" , listResult);
+                            console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(listResult) + "cnt :" + listResult.sessionlist.length);
+
+                            var data = listResult.sessionlist;
 
                             // [ a1, a2,a3,0 ]
-                            var indata = '[';
-                            for(var j =0; j< resul0.length - 1;j++){
-                                indata += result0[j].openId;
+                            var indata = ' [';
+                            for(var j =0; j< data.length - 1;j++){
+                                indata += data[j];
                                 indata += ',';
                             }
 
-                            indata +=  result0[resul0.length-1].openId + ']';
-
+                            indata +=  data[data.length-1] + '  ]';
+                            var charN ='N';
                             console.log('indata :: ' , indata);
 
                             getConnection(function (err, connection) {
                                 //위챗 아디로 open id 가져오기
-                                var query = 'SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE  USER_OPEN_ID IN (?) AND DEL_YN = N  ';
+                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' " + "AND  USER_OPEN_ID IN (?)  ";
 
 
                                 connection.query(query, indata, function (err, rows) {
