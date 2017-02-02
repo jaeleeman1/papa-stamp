@@ -6,6 +6,13 @@ var express = require('express'),
     request = require('request'),
     getConnection = require('../lib/db_connection');
 
+var config = require('../lib/config');
+var WechatAPI = require('wechat-api');
+var api = new WechatAPI(config.appID, config.appsecret);
+
+
+
+
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
@@ -16,7 +23,7 @@ router.get('/agentForm', function (req, res, next) {
 });
 
 router.post('/sendTaxiMap', function (req, res, next) {
-    var wechatId = req.body.wechatId;
+    var wechatId  = req.body.wechatId;
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
@@ -319,12 +326,17 @@ function getToken(openId, sendMessage) {
     console.log('##### get token #####');
     var res;
     // 단말 couphone 1번
-    var appID = 'wx87ac1cef286fb38d';
-    var appsecret = '39278936f9e35c2e82ed57f25a05717f';
+    // var appID = 'wx87ac1cef286fb38d';
+    // var appsecret = '39278936f9e35c2e82ed57f25a05717f';
 
-    // 3번 단말
-    // var appID = 'wx9242b0f3c507cb24';
-    // var appsecret = '3f901f86a389445276b13e1b661935d6';
+
+    // config.appID = 'wx9aa7c34851e950de';
+    // config.appsecret = '84f007b293a60d3d90919308ac29a033';
+
+
+    var appID = config.appID;
+    var appsecret = config.appsecret;
+
 
 
     var accessTokenURL = "https://api.wechat.com/cgi-bin/token?grant_type=client_credential&appid=" + appID + "&secret=" + appsecret;
@@ -465,6 +477,96 @@ var getDistance = function (distance) {
     }
     return result;
 }
+
+
+////////////////////////////////////
+// Test for getUserListOfAgent
+////////////////////////////////////
+router.post('/getUserAlias', function (req, res, next) {
+    console.log('##### Post  getUserAlias Start #####');
+    console.log(req.body.agentId);
+
+    //agent의 키 를 가져오는 함수
+   getUserListOfAgent("Couphone0004", function(err, result){
+        console.log("WeChatAPI getUserListOfAgent done");
+        console.log("userList ::::::: ", result);
+
+    });
+});
+
+
+// callback(err, result)
+var getUserListOfAgent = function(agentNickName, callback){
+    // get agent account using agentNickName
+    api.getCustomServiceList(function(err, result) {
+        console.log("WeChatAPI getCustomServiceList done");
+        console.log("WeChatAPI getCustomServiceList "+err);
+        console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
+        if(err) {
+            console.log("WeChatAPI getCustomServiceList Error : "+err);
+        } else {
+            for(var i = 0; i < result.kf_list.length; i++) {
+                console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
+                    " kf_nick("+result.kf_list[i].kf_nick+")");
+                if(result.kf_list[i].kf_nick == agentNickName) {
+                    console.log("Nick Name Matched");
+                    api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
+                        if(err0 != null) {
+                            console.log("WeChatAPI getCustomerSessionList Error : "+err0);
+                        } else {
+                            // return user's info using callback
+                            console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(result0) + "cnt :" + result0.length);
+
+                            // [ a1, a2,a3,0 ]
+                            var indata = '[';
+                            for(var j =0; j< resul0.length - 1;j++){
+                                indata += result0[j].openId;
+                                indata += ',';
+                            }
+
+                            indata +=  result0[resul0.length-1].openId + ']';
+
+                            console.log('indata :: ' , indata);
+
+                            getConnection(function (err, connection) {
+                                //위챗 아디로 open id 가져오기
+                                var query = 'SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE  USER_OPEN_ID IN (?) AND DEL_YN = N  ';
+
+
+                                connection.query(query, indata, function (err, rows) {
+                                    if (err) {
+                                        console.error("err : " + err);
+                                        throw err;
+                                    } else {
+
+                                        console.error("rows : ", rows);
+
+                                        return rows;
+
+                                        // console.log("rows1 : " + JSON.stringify(rows));
+                                        // var Array = JSON.parse(JSON.stringify(rows));
+                                        //
+                                        // //화면에 적재
+                                        //
+                                        // for (var k=0; k< Array.length; k++){
+                                        //     console.log( k + Array[k].USER_OPEN_ID + Array[k].USER_WECHAT_ID + '\N');
+                                        // }
+                                    }
+                                    connection.release();
+                                })
+                            })
+                        }
+                    });
+                    break;
+                } else {
+
+                }
+            }
+        }
+    });
+    // get user's of agent using agent account
+}
+
 
 //
 // function RoadAddressInsert(req, res, next) {
