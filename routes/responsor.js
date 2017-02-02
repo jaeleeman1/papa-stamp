@@ -419,8 +419,10 @@ function getUserAPI(new_token, open_id) {
         //console.log("log : " + body);
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
+            
+	    bodyObject = JSON.parse(body);      
+	    
 	    console.log("Nick name : " + bodyObject.nickname);
-            bodyObject = JSON.parse(body);         
             
             insertUserInfo(bodyObject.nickname, open_id);
         }
