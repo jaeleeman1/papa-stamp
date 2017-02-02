@@ -338,7 +338,7 @@ weixin.eventMsg(function(msg) {
         case "CLICK" :
 	     switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    userShoppingUrl(open_id);					
+                    userShoppingAPI('felix');					
                     break;
                 case "KEY_TAXI" :
 					console.log('taxi call');
@@ -509,7 +509,7 @@ function userShoppingAPI(nick_name) {
             console.log("Success Shooping");          
         }
     }
-    api.shorturl(getUserURL, shoppingCallback);
+    request(getUserURL, shoppingCallback);
 }
 
 module.exports = router;
