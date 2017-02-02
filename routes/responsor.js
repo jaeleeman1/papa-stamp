@@ -1,13 +1,12 @@
 var express = require('express'),
     weixin = require('weixin-api'),
     bodyParser = require('body-parser'),
-    router = express.Router(),
-// var config = require('../lib/config');
-// var WechatAPI = require('wechat-api');
-// var api = new WechatAPI(config.appID, config.appsecret);
-    wechatAPI = require('../lib/wechatApi'),
-    request = require('request'),
-    getConnection = require('../lib/db_connection');
+    router = express.Router();
+var config = require('../lib/config');
+var WechatAPI = require('wechat-api');
+var api = new WechatAPI(config.appID, config.appsecret);
+var request = require('request');
+var getConnection = require('../lib/db_connection');
 
 // Define strings
 var templateGreetingMsg = {
@@ -37,7 +36,7 @@ var templateCloseSessionMsg = {
 // Define functions
 var checkUserAndConnectSeesion = function(user, server) {
     // check user's session status
-    wechatAPI.getClientSessionState(user, function(err, result) {
+    api.getClientSessionState(user, function(err, result) {
         console.log("WeChatAPI getClientSessionState done");
         console.log("WeChatAPI getClientSessionState "+err);
         console.log("WeChatAPI getClientSessionState "+JSON.stringify(result));
@@ -106,7 +105,7 @@ var checkUserAndConnectSeesion = function(user, server) {
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName, callback){
 	// get agent account using agentNickName
-    wechatAPI.getCustomServiceList(function(err, result) {
+	api.getCustomServiceList(function(err, result) {
 		console.log("WeChatAPI getCustomServiceList done");
 		console.log("WeChatAPI getCustomServiceList "+err);
 		console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
@@ -118,7 +117,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 					" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
 					console.log("Nick Name Matched");
-                    wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
+					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 != null) {
 							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
@@ -228,7 +227,7 @@ weixin.textMsg(function(msg) {
     weixin.sendMsg('');
 
     // get access token for debug
-    wechatAPI.getAccessToken(function(err, token) {
+    api.getAccessToken(function(err, token) {
         if(err == null) {
             console.log("Access Token : "+JSON.stringify(token));
         }
@@ -310,16 +309,16 @@ weixin.eventMsg(function(msg) {
                                 "url": "http://nbnl.couphone.cn/food/"
                             },
                             {
-                                "type": "view",
+                                "type": "click",
                                 "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation?nick_name=test02"
+                                "key": "KEY_TAXI"
                             }
                         ]
                     }
                 ]
             };
 
-            wechatAPI.createMenu(menu, function(err){
+            api.createMenu(menu, function(err){
                 console.log("WeChatAPI createMenu done");
                 console.log("WeChatAPI Error : "+err);
             });
@@ -339,12 +338,10 @@ weixin.eventMsg(function(msg) {
         case "CLICK" :
 	     switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-                    break;
-                case "KEY_FOOD" :
-                    // TODO : Link to food page
+                    userShoppingUrl(open_id);					
                     break;
                 case "KEY_TAXI" :
+					console.log('taxi call');
                     // TODO : Link to taxi page
                     break;
             }
@@ -401,7 +398,7 @@ function getUserInfo(open_id) {
     console.log(' createMenu start ');
 
     // get access token for debug
-    wechatAPI.getAccessToken(function(err, token) {
+    api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
             getUserAPI(token.accessToken, open_id);
@@ -463,6 +460,56 @@ function deleteUserInfo(open_id) {
             connection.release();
         })
     });
+}
+
+function userShoppingUrl(open_id) {
+    console.log(' createMenu start ');
+
+    // get access token for debug
+    api.getAccessToken(function(err, token) {
+        if(err == null) {
+            //console.log("Access Token : "+JSON.stringify(token));
+            getNickName(token.accessToken, open_id);
+        }
+    });
+}
+
+function getNickName(new_token, open_id) {
+    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
+    var pushChatOptions = {
+        method: "GET",
+        url: getUserURL
+    };
+
+    function pushChatCallback (error, response, body) {
+        //console.log("log : " + body);
+        if (!error && response.statusCode == 200) {
+            console.log("Get User API success");
+            
+			bodyObject = JSON.parse(body);      
+	    
+			console.log("Nick name : " + bodyObject.nickname);
+            
+			userShoppingAPI(bodyObject.nickname);
+        }
+    }
+    request(pushChatOptions, pushChatCallback);
+}
+
+function userShoppingAPI(nick_name) {
+    var getUserURL = "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name;
+    var pushChatOptions = {
+        method: "GET",
+        url: getUserURL
+    };
+
+    function shoppingCallback(error, response, body) {
+        //console.log("log : " + body);
+        if (!error && response.statusCode == 200) {
+            console.log("Success Shooping");          
+        }
+    }
+    api.shorturl(getUserURL, shoppingCallback);
 }
 
 module.exports = router;
