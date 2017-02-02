@@ -401,7 +401,7 @@ function getUserInfo(new_token, open_id) {
                             {
                                 "type": "view",
                                 "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation?wechatId=test02"
+                                "url": "http://nbnl.couphone.cn/taxi/myLocation?nick_name=" + nick_name
                             }
                         ]
                     }
