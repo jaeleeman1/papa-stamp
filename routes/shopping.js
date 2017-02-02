@@ -102,7 +102,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var prdctCnt = req.query.prdct_cnt; // product count
         var openId = '';
 
-        if(prdctId != '' || prdctId != null) {
+		if(prdctId != '' || prdctId != null) {
             if(prdctCnt == '' || prdctCnt == null || prdctCnt == undefined) {
                 prdctCnt = 1;
             }
