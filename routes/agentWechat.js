@@ -483,7 +483,7 @@ router.post('/getUserAlias', function (req, res, next) {
     console.log(req.body.agentId);
 
     //agent의 키 를 가져오는 함수
-   getUserListOfAgent("Couphone0004", function(err, result){
+   getUserListOfAgent(req.body.agentId, function(err, result){
         console.log("WeChatAPI getUserListOfAgent done");
         console.log("userList ::::::: ", result);
 
