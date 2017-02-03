@@ -10,6 +10,36 @@
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script>
         $(function() {
+
+            getFollowerList();
+
+            var getFollowerList = function(){
+                var data = {
+                    nickName: $('#nickName').val(),
+                };
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn:8080/wechat/getFollowerList',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+
+                        $.each(data.data, function (index, value) {
+
+                            var openId = value.USER_OPEN_ID;
+                            var wechatId = value.USER_WECHAT_ID;
+                            var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
+
+                            $('#wechatIdTaxi').append(dynamicDom);
+                        });
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });
+            }
+
             $('#btnTaxi').click(function() {
                 if ($('#wechatIdTaxi').val() == "") {
                     $('#alertTaxi').text('Wechat ID를 꼭 입력하세요!');
@@ -94,87 +124,6 @@
                     }
                 });
             });
-
-            // 찾는 중
-            $('#btnFindMessage').click(function () {
-                if ($('#wechatIdMessage').val() == "") {
-                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
-                    $('#wechatIdMessage').focus();
-                    return;
-                }
-
-                var data = {
-                    wechatId: $('#wechatIdMessage').val(),
-                    message: "요청하신 자료 찾기가 쉽지 않아 시간이 조금 더 걸릴 것 같습니다."
-                };
-
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
-                    type: 'POST',
-                    data: data,
-                    success: function (data) {
-                        alert("메시지가 전송되었습니다.");
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        console.log('Error occured');
-                    }
-                });
-            });
-
-            //오래걸림
-            $('#btnDelayMessage').click(function () {
-                if ($('#wechatIdMessage').val() == "") {
-                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
-                    $('#wechatIdMessage').focus();
-                    return;
-                }
-
-                var data = {
-                    wechatId: $('#wechatIdMessage').val(),
-                    message: "지금 요청하신 자료를 찾고 있습니다. 잠시만 기다려 주십시요."
-                };
-
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
-                    type: 'POST',
-                    data: data,
-                    success: function (data) {
-                        alert("메시지가 전송되었습니다.");
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        console.log('Error occured');
-                    }
-                });
-            });
-
-			// 종료 인사
-            $('#btnByeMessage').click(function () {
-                if ($('#wechatIdMessage').val() == "") {
-                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
-                    $('#wechatIdMessage').focus();
-                    return;
-                }
-
-                var data = {
-                    wechatId: $('#wechatIdMessage').val(),
-                    message: "이용해주셔서 감사합니다. 즐거운 여행 되십시요."
-                };
-
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
-                    type: 'POST',
-                    data: data,
-                    success: function (data) {
-                        alert("메시지가 전송되었습니다.");
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        console.log('Error occured');
-                    }
-                });
-            });
         });
 	</script>
 </head>
@@ -183,13 +132,14 @@
 	<div class="row">
 
 		<h1>Wechat Message Tool</h1>
-		<label for="agentId" style="float: right; width: 15%;text-align: center;" id>AgentName : <%= nickName %></label>
+		<label for="agentId" style="float: right; width: 15%;text-align: center;" id="nickName">AgentName : <%= nickName %></label>
 
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
 			<table class="table table-condensed">
 				<tr>
 					<th width="100"><label for="wechatIdTaxi" style="text-align: center;">Wechat ID</label></th>
-					<td><input type="text" name="wechatIdTaxi" id="wechatIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>
+					<!--<td><input type="text" name="wechatIdTaxi" id="wechatIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
+					<td><select name="wechatIdTaxi" id="wechatIdTaxi"></select></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -232,20 +182,7 @@
 				</tr>
 				<tr><td colspan="3" id ='alertMessage' style="color: red"></td></tr>
 				<tr>
-					<td colspan="2"><input type="button" id="btnSendMessage" value="문자전송" style="height: 35px"
-										   class="btn btn-primary"/>
-						<!--</td>-->
-						<!--<td colspan="2">-->
-						<input type="button" id="btnFindMessage" value="찾는중" style="height: 35px"
-							   class="btn btn-primary" />
-						<!--</td>-->
-						<!--<td colspan="2">-->
-						<input type="button" id="btnDelayMessage" value="오래걸림" style="height: 35px"
-							   class="btn btn-primary"/>
-						<!--</td>-->
-						<!--<td colspan="2">-->
-						<input type="button" id="btnByeMessage" value="종료인사" style="height: 35px"
-							   class="btn btn-primary"/> </td>
+					<td colspan="2"><input type="button" id="btnSendMessage" value="문자전송" style="height: 35px" class="btn btn-primary"/>
 				</tr>
 			</table>
 		<!--</form>-->
