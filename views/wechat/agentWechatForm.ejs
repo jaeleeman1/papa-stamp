@@ -131,13 +131,35 @@
 		$(function() {
 		    $("#btnDeleteMessage").click(
 			function() {
-			    $("#sendWechatId").text('id');
-			    $("#sendMessage").text('message');
+				$.ajax({
+				    url: $("#url").val()+'/wechat/sendMessage',
+				    type: 'POST',
+				    dataType: 'json',
+				    data: dataString,
+				    success: function(data) {
+				    	var wechatId = $("#wechat_id").val();
+				    	var sendMessage = $("#send_message").val();
+					    
+					    
+					$("#sendWechatId").text(wechatId);
+			    		$("#sendMessage").text(sendMessage);
+				    },
+				    error: function(request, status, error) {
+					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					console.log('Error occured');
+				    }
+				})
 			}
 		    );
 		});
 	    </script>
 </head>
+
+<form action="/shopping" method="post" style="display:none" name="buy_setting" id="buy_setting">
+    <input type="hidden" name="send_message" id="send_message" value="<%= sendMessage %>"/>
+    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
+</form>
+
 <body>
 <div class="container">
 	<div class="row">
