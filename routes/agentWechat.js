@@ -7,6 +7,10 @@ var express = require('express'),
     getConnection = require('../lib/db_connection'),
     wechatAPI = require('../lib/wechatApi');
 
+var config = require('../lib/config');
+var WechatAPI = require('wechat-api');
+var api = new WechatAPI(config.appID, config.appsecret);
+
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
@@ -40,7 +44,7 @@ router.post('/taxiDepartSend', function (req, res, next) {
                 var contents = {
                     fromUserName : "",
                     toUserName : openId,
-                    msgtype : "text",
+                    msgType : "text",
                     content : taxiMsg,
                     funcFlag : 0
                 };
