@@ -122,8 +122,8 @@
                     <input type="hidden" id="foodId" value=<%=arrive.id%>>
                     <input type="hidden" id="duration" value=<%=duration%>>
                     <input type="hidden" id="distance" value=<%=distance%>>
-                    <input type="hidden" id="arriveLat" value=<%=arrive.walkingLat%>>
-                    <input type="hidden" id="arriveLong" value=<%=arrive.walkingLong%>>
+                    <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
+                    <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
                  <%}else if('taxi' == transportType){%>
                 <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
@@ -148,10 +148,10 @@
                 foodId : $('#foodId').val(),
                 duration : $('#duration').val(),
                 distance : $('#distance').val(),
-                arriveName : $('#arrive').text(),
-                arriveAddr : $('#arriveAddr').text(),
-                arriveLat : $('#arriveLat').val(),
-                arriveLong : $('#arriveLong').val()
+                departAddr : $('#departAddr').text(),
+                departLat : $('#departLat').val(),
+                departLong : $('#departLong').val(),
+                arriveName : $('#arrive').text()
             }
 
             $.post( "/wechat/sendFoodMap", data);

@@ -200,11 +200,11 @@ router.post('/sendFoodMap', function (req, res, next) {
     var duration = req.body.duration;
     var distance = req.body.distance;
     var arriveName = req.body.arriveName;
-    var arriveAddr = req.body.arriveAddr;
-    var arriveLat = req.body.arriveLat;
-    var arriveLong = req.body.arriveLong;
+    var departAddr = req.body.departAddr;
+    var departLat = req.body.departLat;
+    var departLong = req.body.departLong;
 
-    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + arriveAddr + '&lat=' + arriveLat + '&lng=' + arriveLong;
+    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong;
     var message    =    "약 " +    duration +" "+ distance  +  "\n";
     message     +=  '도착지 : ' + arriveName;
 
