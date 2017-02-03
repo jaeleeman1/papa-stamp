@@ -519,20 +519,17 @@ var getUserListOfAgent = function(agentNickName, callback){
                             var data = listResult.sessionlist;
 
                             // [ a1, a2,a3,0 ]
-                            var indata = ' [';
-                            for(var j =0; j< data.length - 1;j++){
-                                indata += data[j].openid;
-                                indata += ',';
+                            var indata = new Array();
+                            for(var j =0; j< data.length;j++){
+                                indata.push(data[j].openid);
                             }
 
-                            indata +=  data[data.length-1].openid + '  ]';
                             var charN ='N';
                             console.log('indata :: ' , indata);
 
                             getConnection(function (err, connection) {
                                 //위챗 아디로 open id 가져오기
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' " + "AND  USER_OPEN_ID IN (?)  ";
-
+                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN (?)  ";
 
                                 connection.query(query, indata, function (err, rows) {
                                     if (err) {
