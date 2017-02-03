@@ -38,11 +38,11 @@ router.post('/taxiDepartSend', function (req, res, next) {
             } else {
                 var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
                 var contents = {
-                    "touser" : openId,
-                    "msgtype": "text",
-                    "text": {
-                        "content": taxiMsg
-                    }
+                    fromUserName : "",
+                    toUserName : openId,
+                    msgtype : "text",
+                    content : taxiMsg,
+                    funcFlag : 0
                 };
 
                 weixin.sendMsg(contents);
@@ -145,20 +145,20 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
 
                                                 var contents = {
-                                                                    "touser" : openId,
-                                                                    "msgtype" : "news",
-                                                                    "news" : {
-                                                                    "articles": [
+                                                                    toUserName : openId,
+                                                                    msgtype : "news",
+                                                                    news : {
+                                                                    articles: [
                                                                         {
-                                                                            "title": message,
+                                                                            title : message,
                                                                             // "description": message,
-                                                                            "url": mapUrl,
-                                                                            "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                            url : mapUrl,
+                                                                            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         },
                                                                         {
-                                                                            "title": "중국어로 목적지 보기",
-                                                                            "url": messageUrl,
-                                                                            "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                            title : "중국어로 목적지 보기",
+                                                                            url : messageUrl,
+                                                                            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
                                                                         }
 
                                                                         ]
@@ -227,11 +227,10 @@ router.post('/sendMessage',function (req, res, next) {
     //         } else {
     //             var openId = row[0].USER_OPEN_ID;
                 var contents = {
-                    "touser" : openId,
-                    "msgtype": "text",
-                    "text": {
-                        "content": message
-                    }
+                    toUserName : openId,
+                    msgtype: "text",
+                    content : message,
+                    funcFlag : 0
                 };
 
                 weixin.sendMsg(contents);
