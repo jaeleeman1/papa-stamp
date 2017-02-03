@@ -197,46 +197,30 @@ router.post('/sendFoodMap', function (req, res, next) {
     var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
     // var wechatId  = 'couphone0001';
     var foodId = req.body.foodId;
-    var departLat = req.body.departLat;
-    var departLong = req.body.departLong;
+    var duration = req.body.duration;
+    var distance = req.body.distance;
     var arriveName = req.body.arriveName;
     var arriveAddr = req.body.arriveAddr;
     var arriveLat = req.body.arriveLat;
     var arriveLong = req.body.arriveLong;
 
-    host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
-        + departLat +','+ departLong + '&destinations='+ arriveLat + ',' + arriveLong + '&ak=' + ak;
-
-    request.get({'url': host}, function(error, req, body){
-        if(!error){
-            var jsonBody = JSON.parse(body);
-
-            var duration = getDuration(jsonBody.result[0].duration.value);
-            var distance = getDistance(jsonBody.result[0].distance.value);
-
-            console.log(" UPDATE SUCESS ");
-
-            var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + arriveAddr + '&lat=' + arriveLat + '&lng=' + arriveLong;
-            var message    =    "약 " +    duration +" "+ distance  +  "\n";
-            message     +=  '도착지 : ' + arriveName;
-            var articles = [
-                {
-                    title : message,
-                    url : mapUrl,
-                    picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                }
-
-            ];
-
-            wechatAPI.sendNews(openId, articles, function () {
-                console.log('complete food msg');
-            });
-            // weixin.sendMsg(contents);
-            // api.sender.msgSend(openId, contents);
+    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + arriveAddr + '&lat=' + arriveLat + '&lng=' + arriveLong;
+    var message    =    "약 " +    duration +" "+ distance  +  "\n";
+    message     +=  '도착지 : ' + arriveName;
+    var articles = [
+        {
+            title : message,
+            url : mapUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
         }
-    }).on('error', function(e){
-        console.log(e)
-    }).end()
+
+    ];
+
+    wechatAPI.sendNews(openId, articles, function () {
+        console.log('complete food msg');
+    });
+    // weixin.sendMsg(contents);
+    // api.sender.msgSend(openId, contents);
 });
 
 var getDuration = function(duration) {
