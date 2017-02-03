@@ -54,23 +54,10 @@
                     }
                 }
             );
-
-            $("#btn_confirm").click(
-                function() {
-                    $("#buy_setting").submit();
-                }
-            );
         });
     </script>
 
 </head>
-<form action="/shopping/shoppingBuyList" method="post" style="display:none" name="buy_setting" id="buy_setting">
-    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
-    <input type="hidden" name="prdct_id" id="prdct_id" value="<%= prdctId %>"/>
-    <input type="hidden" name="image" id="image" value="<%= image %>"/>
-    <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="<%= prdctCnt %>"/>
-    <input type="hidden" name="price" id="price" value="<%= price %>"/>
-</form>
 
 <body id="back_setup">
 <div id="container_popup">
@@ -90,7 +77,8 @@
                 </ul>
                 <ul class="clear_both"></ul>
             </div>
-            <p class="btn_txt"><a href="javascript:history.back()"><span>취소</span></a><a href="#"><span class="confirm" id="btn_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="javascript:history.back()"><span>취소</span></a>
+            <a href="/shopping/shoppingBuyList?wechat_id=<%= wechatId %>&prdct_id=<%= prdctId %>&price=<%= price %>&image=<%= image %>&prdct_cnt=<%= prdctCnt %>"><span class="confirm">확인</span></a></p>
         </div>
     </div>
 
