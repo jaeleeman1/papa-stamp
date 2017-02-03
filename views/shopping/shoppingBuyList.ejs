@@ -38,8 +38,9 @@
             $("#btn_delete").click(
                 function() {
                     var dataString = {'wechat_id': wechatId};
+                    var buyLength = $("#length").val();
 
-                    if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
+                    if (confirm("전체 "+ buyLength +"개 상품을 삭제하시겠습니까?") == true) {
                         $.ajax({
                             url: $("#url").val()+'/shopping/shoppingDeleteAll',
                             type: 'POST',
