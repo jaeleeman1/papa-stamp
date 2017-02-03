@@ -35,6 +35,7 @@
         $(function() {
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
+            var buyLength = $("#length").val();
 //            console.log('url' + $("#url").val());
 
             $("#btn_confirm").click(
@@ -73,7 +74,7 @@
                             '}';
                     }
                   if(buySum != '￥ 0구매') {     
-                    if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
+                    if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
                             url: $("#url").val()+'/wechat/shoppingResultSend',
                             type: 'POST',
