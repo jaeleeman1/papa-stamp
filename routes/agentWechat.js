@@ -344,31 +344,31 @@ router.post('/getFollowerList', function (req, res, next) {
 
                             if(data.length < 1){
                                 res.send({data : false});
-                            }
+                            }else{
+                                getConnection(function (err, connection) {
+                                    //위챗 아디로 open id 가져오기
 
-                            getConnection(function (err, connection) {
-                                //위챗 아디로 open id 가져오기
-
-                                var indata = '';
-                                for(var j =0; j< data.length;j++){
-                                    indata += "'" + data[j].openid + "',";
-                                }
-                                indata = indata = indata.slice(0, -1);
-
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
-
-                                connection.query(query, function (err, rows) {
-                                    if (err) {
-                                        console.error("err : " + err);
-                                        throw err;
-                                    } else {
-
-                                        console.error("rows : ", rows);
-                                        res.send({data : rows});
+                                    var indata = '';
+                                    for(var j =0; j< data.length;j++){
+                                        indata += "'" + data[j].openid + "',";
                                     }
-                                    connection.release();
+                                    indata = indata = indata.slice(0, -1);
+
+                                    var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
+
+                                    connection.query(query, function (err, rows) {
+                                        if (err) {
+                                            console.error("err : " + err);
+                                            throw err;
+                                        } else {
+
+                                            console.error("rows : ", rows);
+                                            res.send({data : rows});
+                                        }
+                                        connection.release();
+                                    })
                                 })
-                            })
+                            }
                         }
                     });
                     break;
