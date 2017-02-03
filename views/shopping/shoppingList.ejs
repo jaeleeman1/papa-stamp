@@ -90,7 +90,6 @@
                                     data: dataString,
                                     success: function(data) {
                                         console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
-                                        window.location.href = $("#url").val()+'/shopping';
                                     },
                                     error: function(request, status, error) {
                                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -109,7 +108,8 @@
 //                                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 //                                        console.log('Error occured');
 //                                    }
-//                                })  
+//                                })
+                                  window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
