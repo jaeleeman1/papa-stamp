@@ -213,7 +213,7 @@ a:active{text-decoration:none; }
 #restaurant_find_local_list .res_name .kor {font-family: 'Noto Sans KR', sans-serif; font-size: 15px; color: #171717; letter-spacing: 0.42px; line-height: 22px;}
 #restaurant_find_local_list .res_detail UL {margin-bottom:22px}
 
-#restaurant_find_local_list_wrap_empty {top:352px; height:calc( 100% - 352px); position:relative; }
+#restaurant_find_local_list_wrap_empty {top:352px; height:calc( 100% - 352px); }
 
 #restaurant_find_local_list .fir {float:left; width:28px; margin-right:10px; margin-top:21px}
 #restaurant_find_local_list .fir .ic_last_pin {
@@ -344,7 +344,7 @@ a:active{text-decoration:none; }
 .fontsize16 {font-size:16px}
 .fontmedium {font-weight:500;}
 
-.ic_buy_basket_middle {margin-top:-46px}
+.ic_buy_basket_middle {margin-top:100px}
 .ic_buy_basket {margin-bottom:16px;}
 .ic_buy_basket img {width:58px;}
 
