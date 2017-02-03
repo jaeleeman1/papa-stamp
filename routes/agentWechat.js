@@ -306,6 +306,11 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("sessionListResult" , listResult);
 
                             var data = listResult.sessionlist;
+
+                            if(data.size() < 1){
+                                res.send({data : false});
+                            }
+
                             var indata = new Array();
                             for(var j =0; j< data.length;j++){
                                 indata.push( data[j].openid.replace("'", ""));

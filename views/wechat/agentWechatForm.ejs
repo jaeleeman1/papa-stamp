@@ -20,16 +20,19 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
+						console.log('data.data', data);
+						console.log('!!data.data', !!data.data);
+                        if(!!data.data){
+                            $.each(data.data, function (index, value) {
 
-                        $.each(data.data, function (index, value) {
+                                var openId = value.USER_OPEN_ID;
+                                var wechatId = value.USER_WECHAT_ID;
+                                var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
 
-                            var openId = value.USER_OPEN_ID;
-                            var wechatId = value.USER_WECHAT_ID;
-                            var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
-
-                            $('#openIdTaxi').append(dynamicDom);
-                            $('#openIdMessage').append(dynamicDom);
-                        });
+                                $('#openIdTaxi').append(dynamicDom);
+                                $('#openIdMessage').append(dynamicDom);
+                            });
+						}
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
