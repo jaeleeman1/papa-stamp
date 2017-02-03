@@ -131,13 +131,29 @@
 		$(function() {
 		    $("#btnDeleteMessage").click(
 			function() {
-			    $("#sendWechatId").text('id');
-			    $("#sendMessage").text('message');
+				var dataString = {'historyWechatId': 'historyWechatId', 'historyMessage': 'historyMessage'}; 
+				$.ajax({
+				    url: 'http://nbnl.couphone.cn/wechat/historyMessage',
+				    type: 'POST',
+				    dataType: 'json',
+				    data: dataString,
+				    success: function(data) {
+				    	console.log(data);
+					    
+					$("#sendWechatId").text(historyWechatId);
+			    		$("#sendMessage").text(historyMessage);
+				    },
+				    error: function(request, status, error) {
+					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					console.log('Error occured');
+				    }
+				})
 			}
 		    );
 		});
 	    </script>
 </head>
+
 <body>
 <div class="container">
 	<div class="row">
