@@ -131,6 +131,7 @@
 		$(function() {
 		    $("#btnDeleteMessage").click(
 			function() {
+				var dataString = {'historyWechatId': 'historyWechatId', 'historyMessage': 'historyMessage'}; 
 				$.ajax({
 				    url: $("#url").val()+'/wechat/historyMessage',
 				    type: 'POST',
