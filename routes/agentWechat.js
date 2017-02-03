@@ -316,12 +316,9 @@ router.post('/getFollowerList', function (req, res, next) {
 
                                 var indata = '';
                                 for(var j =0; j< data.length;j++){
-                                    indata += data[j].openid + ',';
+                                    indata += "'" + data[j].openid + "',";
                                 }
-
-                                indata.slice(0, -1);
-
-                                var charN ='N';
+                                indata = indata = indata.slice(0, -1);
 
                                 var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
 
