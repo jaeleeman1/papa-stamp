@@ -137,11 +137,11 @@
 				    dataType: 'json',
 				    data: dataString,
 				    success: function(data) {
-				    	var wechatId = $("#wechat_id").val();
+				    	var historyWechatId = $("#histor_wechatId").val();
 				    	var historyMessage = $("#history_message").val();
 					    
 					    
-					$("#sendWechatId").text(wechatId);
+					$("#sendWechatId").text(historyWechatId);
 			    		$("#sendMessage").text(historyMessage);
 				    },
 				    error: function(request, status, error) {
@@ -156,7 +156,7 @@
 </head>
 
 <form style="display:none" name="buy_setting" id="buy_setting">
-    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
+    <input type="hidden" name="histor_wechatId" id="histor_wechatId" value="<%= historyWechatId %>"/>
     <input type="hidden" name="history_message" id="history_message" value="<%= historyMessage %>"/>
 </form>
 
