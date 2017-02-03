@@ -14,7 +14,7 @@ router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
 });
 
-router.post('/sendMessage', function(req, res, next) {
+router.post('/historyMessage', function(req, res, next) {
     var wechatId = 'wechatId';//req.body.wechatId;
     var sendMessage = 'test sendMessage';//req.body.sendMessage;
     console.log('SendMessage' + sendMessage);
