@@ -149,31 +149,6 @@ router.get('/shoppingBuyList', function (req, res, next) {
     });
 });
 
-///POST Shopping Buy List
-router.post('/shoppingBuyList', function (req, res, next) {
-    getConnection(function (err, connection){
-        var wechatId = req.body.wechat_id; // wechat Id
-        var prdctId = req.body.prdct_id; // product Id
-	var image = req.body.image; // image
-        var prdctCnt = req.body.prdct_cnt; // product count
-        var price = req.body.price; // price
-	    
-	// Update Buy List
-        var updateQuery = 'update TB_SHOPPING_BUY_LIST SET SHOPPING_CNT ='+ prdctCnt +' where USER_WECHAT_ID="' + wechatId +'" and PRDCT_ID = ?';
-        connection.query(updateQuery, prdctId, function (err, row) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            }else{
-				console.log("### Update Shopping Buy List ###");	
-				//console.log("### Data Success ### " + JSON.stringify(row));				
-				res.redirect('/shopping/shoppingBuyList?wechat_id='+ wechatId +'&prdct_id='+ prdctId +'&image=' + image +'&prdct_cnt=' + prdctCnt +'&price=' + price);
-            }
-            connection.release();
-        })
-    });
-});
-
 //GET Shopping Setting
 router.get('/shoppingSetting', function (req, res, next) {
     var wechatId = req.query.wechat_id; // wechat Id
