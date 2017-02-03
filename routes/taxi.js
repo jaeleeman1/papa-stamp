@@ -7,7 +7,7 @@ var getConnection = require('../lib/db_connection');
 var request = require('request');
 
 router.get('/location', function (req, res, next) {
-    res.render('myLocation');
+    res.render('location');
 });
 
 router.get('/myLocation', function (req, res, next) {
