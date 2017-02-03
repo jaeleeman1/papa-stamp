@@ -16,9 +16,10 @@ router.get('/agentLogin', function(req, res, next) {
 
 router.post('/historyMessage', function(req, res, next) {
     var wechatId = 'wechatId';//req.body.wechatId;
-    var sendMessage = 'test sendMessage';//req.body.sendMessage;
-    console.log('SendMessage' + sendMessage);
-    res.render('wechat/loginForm', {sendMessage: sendMessage, wechatId: wechatId});
+    var historyMessage = 'test historyMessage';//req.body.historyMessage;
+    console.log('wechatId' + wechatId);
+    console.log('SendMessage' + historyMessage);
+    res.render('wechat/loginForm', {wechatId: wechatId, historyMessage: historyMessage});
 });
 
 router.post('/loginSend', function(req, res, next) {
