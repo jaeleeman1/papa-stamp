@@ -307,7 +307,7 @@ router.post('/getFollowerList', function (req, res, next) {
 
                             var data = listResult.sessionlist;
 
-                            if(data.size() < 1){
+                            if(data.length < 1){
                                 res.send({data : false});
                             }
 
