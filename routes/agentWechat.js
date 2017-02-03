@@ -14,6 +14,12 @@ router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
 });
 
+router.post('/sendMessage', function(req, res, next) {
+    var sendMessage = 'test sendMessage';//req.body.sendMessage;
+    console.log('SendMessage' + sendMessage);
+    res.render('wechat/loginForm', {sendMessage: sendMessage});
+});
+
 router.post('/loginSend', function(req, res, next) {
     res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
 });
