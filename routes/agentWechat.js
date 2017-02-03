@@ -37,16 +37,16 @@ router.post('/taxiDepartSend', function (req, res, next) {
                 throw err;
             } else {
                 var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
-                var contents = {
-                    fromUserName : "",
-                    toUserName : openId,
-                    msgType : "text",
-                    content : taxiMsg,
-                    funcFlag : 0
-                };
+                // var contents = {
+                //     fromUserName : "",
+                //     toUserName : openId,
+                //     msgType : "text",
+                //     content : taxiMsg,
+                //     funcFlag : 0
+                // };
 
                 wechatAPI.sendText(openId, taxiMsg, function(){
-                    console.log('complete message');
+                    console.log('complete depart msg');
                 });
                 // api.sender.msgSend(openId, contents);
             }
@@ -146,27 +146,46 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
 
-                                                var contents = {
-                                                                    toUserName : openId,
-                                                                    msgtype : "news",
-                                                                    news : {
-                                                                    articles: [
-                                                                        {
-                                                                            title : message,
-                                                                            // "description": message,
-                                                                            url : mapUrl,
-                                                                            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                                        },
-                                                                        {
-                                                                            title : "중국어로 목적지 보기",
-                                                                            url : messageUrl,
-                                                                            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                                        }
+                                                // var contents = {
+                                                //                     toUserName : openId,
+                                                //                     msgtype : "news",
+                                                //                     news : {
+                                                //                     articles: [
+                                                //                         {
+                                                //                             title : message,
+                                                //                             // "description": message,
+                                                //                             url : mapUrl,
+                                                //                             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                //                         },
+                                                //                         {
+                                                //                             title : "중국어로 목적지 보기",
+                                                //                             url : messageUrl,
+                                                //                             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                //                         }
+                                                //
+                                                //                         ]
+                                                //                      }
+                                                //                 }
 
-                                                                        ]
-                                                                     }
-                                                                }
-                                                weixin.sendMsg(contents);
+                                                var articles = [
+                                                                    {
+                                                                        title : message,
+                                                                        // "description": message,
+                                                                        url : mapUrl,
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                    },
+                                                                    {
+                                                                        title : "중국어로 목적지 보기",
+                                                                        url : messageUrl,
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                    }
+
+                                                                ];
+
+                                                wechatAPI.sendNews(openId, articles, function () {
+                                                    console.log('complete arrival msg');
+                                                });
+                                                // weixin.sendMsg(contents);
                                                 // api.sender.msgSend(openId, contents);
                                             }
                                         }).on('error', function(e){
@@ -228,14 +247,18 @@ router.post('/sendMessage',function (req, res, next) {
     //             throw err;
     //         } else {
     //             var openId = row[0].USER_OPEN_ID;
-                var contents = {
-                    toUserName : openId,
-                    msgtype: "text",
-                    content : message,
-                    funcFlag : 0
-                };
+    //             var contents = {
+    //                 toUserName : openId,
+    //                 msgtype: "text",
+    //                 content : message,
+    //                 funcFlag : 0
+    //             };
 
-                weixin.sendMsg(contents);
+
+                wechatAPI.sendText(openId, message, function(){
+                    console.log('complete basic message');
+                });
+                // weixin.sendMsg(contents);
                 // api.sender.msgSend(openId, contents);
             // }
         // })
