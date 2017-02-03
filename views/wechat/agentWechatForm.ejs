@@ -15,7 +15,7 @@
 
             var getFollowerList = function(){
                 var data = {
-                    nickName: $('#nickName').text()
+                    nickName: $('#nickName').text();
                 };
 
                 $.ajax({
@@ -42,12 +42,13 @@
 
             getFollowerList();
 
+            $('#wechatIdTaxi').click(function(){
+                $('#wechatIdTaxi').empty();
+                getFollowerList();
+			})
+
             $('#btnTaxi').click(function() {
-                if ($('#wechatIdTaxi').val() == "") {
-                    $('#alertTaxi').text('Wechat ID를 꼭 입력하세요!');
-                    $('#wechatIdTaxi').focus();
-                    return;
-                } else if ($('#endNameCn').val() == "") {
+                if ($('#endNameCn').val() == "") {
                     $('#alertTaxi').text('도착지 이름(중국어)를 꼭 입력하세요!');
                     $('#endNameCn').focus();
                     return;
