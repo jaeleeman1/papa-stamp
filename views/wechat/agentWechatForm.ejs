@@ -137,9 +137,7 @@
 				    dataType: 'json',
 				    data: dataString,
 				    success: function(data) {
-				    	var historyWechatId = $("#histor_wechatId").val();
-				    	var historyMessage = $("#history_message").val();
-					    
+				    	console.log(data);
 					    
 					$("#sendWechatId").text(historyWechatId);
 			    		$("#sendMessage").text(historyMessage);
