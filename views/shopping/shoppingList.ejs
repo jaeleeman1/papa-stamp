@@ -81,6 +81,7 @@
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
+                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                                 var dataString = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -89,6 +90,7 @@
                                     data: dataString,
                                     success: function(data) {
                                         console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
+                                        window.location.href = $("#url").val()+'/shopping';
                                     },
                                     error: function(request, status, error) {
                                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -108,8 +110,6 @@
 //                                        console.log('Error occured');
 //                                    }
 //                                })  
-                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                                window.location.href = $("#url").val()+'/shopping';
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
