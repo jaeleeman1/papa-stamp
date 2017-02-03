@@ -126,6 +126,17 @@
             });
         });
 	</script>
+	    
+	    <script type ="text/javascript">
+		$(function() {
+		    $("#btnDeleteMessage").click(
+			function() {
+			    $("#sendWechatId").text('id');
+			    $("#sendMessage").text('message');
+			}
+		    );
+		});
+	    </script>
 </head>
 <body>
 <div class="container">
@@ -195,8 +206,8 @@
 					<th width="100"><label for="complateMessage">Message</label></th>
 				</tr>				
 				<tr>
-					<th width="100"><label for="sendWechatId" id="complateWechatId">Wechat ID</label></th>
-					<th width="100"><label for="sendMessage" id="complateMessage">Message</label></th>
+					<th width="100"><label for="sendWechatId" id="sendWechatId"></label></th>
+					<th width="100"><label for="sendMessage" id="sendMessage"></label></th>
 				</tr>
 			    </tr>
 			</table>
