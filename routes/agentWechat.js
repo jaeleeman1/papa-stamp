@@ -489,15 +489,18 @@ router.post('/getUserAlias', function (req, res, next) {
    //
    //  });
 
-    var userList = getUserListOfAgent(req.body.agentId);
-    console.log("userList ::::::: ", userList);
-    // res.render('wechat/agentWechatForm');
+    // var userList = getUserListOfAgent(req.body.agentId);
+    console.log("userList ::::::: ", getUserListOfAgent(req.body.agentId));
+
 
 });
 
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName){
     // get agent account using agentNickName
+    var resultset = new Object();
+
+
     wechatAPI.getCustomServiceList(function(err, result) {
         console.log("WeChatAPI getCustomServiceList done");
         console.log("WeChatAPI getCustomServiceList "+err);
@@ -509,7 +512,7 @@ var getUserListOfAgent = function(agentNickName){
                 console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
                     " kf_nick("+result.kf_list[i].kf_nick+")");
                 if(result.kf_list[i].kf_nick == agentNickName) {
-                    console.log("Nick Name Matched");
+                    console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
                         if(sessionListError != null) {
                             console.log("WeChatAPI getCustomerSessionList Error : "+sessionListError);
@@ -531,7 +534,7 @@ var getUserListOfAgent = function(agentNickName){
 
                             getConnection(function (err, connection) {
                                 //위챗 아디로 open id 가져오기
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN (?)  ";
+                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ( ? )  ";
 
                                 connection.query(query, indata, function (err, rows) {
                                     if (err) {
@@ -540,8 +543,7 @@ var getUserListOfAgent = function(agentNickName){
                                     } else {
 
                                         console.error("rows : ", rows);
-
-                                        return rows;
+                                        resultset = rows;
 
                                         // console.log("rows1 : " + JSON.stringify(rows));
                                         // var Array = JSON.parse(JSON.stringify(rows));
@@ -564,7 +566,9 @@ var getUserListOfAgent = function(agentNickName){
             }
         }
     });
-    // get user's of agent using agent account
+
+    return resultset;
+    console.error("resultset : ", resultset);
 }
 
 
