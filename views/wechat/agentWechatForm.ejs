@@ -10,12 +10,9 @@
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script>
         $(function() {
-
-
-
             var getFollowerList = function(){
                 var data = {
-                    nickName: $('#nickName').text();
+                    nickName: $('#nickName').text()
                 };
 
                 $.ajax({
@@ -48,6 +45,8 @@
 			})
 
             $('#btnTaxi').click(function() {
+
+
                 if ($('#endNameCn').val() == "") {
                     $('#alertTaxi').text('도착지 이름(중국어)를 꼭 입력하세요!');
                     $('#endNameCn').focus();
@@ -80,6 +79,7 @@
                 };
 
                 $.ajax({
+
                     url: 'http://nbnl.couphone.cn:8080/wechat/sendTaxiMap',
                     type: 'POST',
                     data: data,
@@ -99,6 +99,7 @@
 
             // 일반 메시지 전송
             $('#btnSendMessage').click(function () {
+
                 if ($('#wechatIdMessage').val() == "") {
                     $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
                     $('#wechatIdMessage').focus();
@@ -190,16 +191,21 @@
 			</table>
 		<!--</form>-->
 
-		<!--<form action="/wechat/agentWechat" method="post" id="sendform3"-->
-			  <!--class="form-inline">-->
-			<!--<input type="hidden" id="message" name="message" value="3">-->
-			<!--<table class="table table-condensed">-->
-				<!--<tr>-->
-					<!--<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"-->
-										   <!--class="btn btn-primary"    /> </td>-->
-				<!--</tr>-->
-			<!--</table>-->
-		<!--</form>-->
+
+		<!--<form action="/wechat/receiveMessageConfirm" method="post" id="sendform3"-->
+		<table class="table table-condensed">
+			<tr>
+				<th width="100"><label for="confirmAlias" style="...">WeChat대화명</label></th>
+				<td><input type="text" name="confirmAlias" id="confirmAlias" size="100"
+						   maxlength="100" class="form-control"  value="초기값"/></td>
+
+				<th width="100"><label for="confirmMessage" style="...">Send Message</label></th>
+				<td><input type="text" name="confirmMessage" id="confirmMessage" size="100"
+						   maxlength="100" class="form-control" value="초기값"  /></td>
+
+			</tr>
+		</table>
+
 
 	</div>
 </div>
