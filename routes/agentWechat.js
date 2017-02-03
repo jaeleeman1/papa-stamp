@@ -22,7 +22,7 @@ router.post('/loginSend', function(req, res, next) {
 router.post('/taxiDepartSend', function (req, res, next) {
     console.log('##### Post  taxi Start #####');
     // console.log('req ::::::: ', req.body);
-    var wechatId = 'couphone0001';
+    var nickName = 'couphone0001';
     var openId = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
     var addr = req.body.addr;
     var lat = req.body.lat;
@@ -31,7 +31,7 @@ router.post('/taxiDepartSend', function (req, res, next) {
     getConnection(function (err, connection) {
         var insertQuery = 'INSERT INTO TB_ROAD_INFO (USER_WECHAT_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
         // Insert Buy List
-        connection.query(insertQuery, [wechatId, addr, addr, lng, lat, lng, lat], function (err, row) {
+        connection.query(insertQuery, [nickName, addr, addr, lng, lat, lng, lat], function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
@@ -52,7 +52,8 @@ router.post('/taxiDepartSend', function (req, res, next) {
 });
 
 router.post('/sendTaxiMap', function (req, res, next) {
-    var wechatId  = req.body.wechatId;
+    var openId  = req.body.openId;
+    var wechatId  = 'couphone0001';
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
@@ -212,18 +213,18 @@ var getDistance = function (distance) {
 }
 
 router.post('/sendMessage',function (req, res, next) {
-    var wechatId = req.body.wechatId;
+    var opendId = req.body.opendId;
     var message = req.body.message;
 
-    getConnection(function (err, connection) {
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
-        // selectQuery Open ID
-        connection.query(selectQuery, wechatId, function (err, row) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            } else {
-                var openId = row[0].USER_OPEN_ID;
+    // getConnection(function (err, connection) {
+    //     var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
+    //     // selectQuery Open ID
+    //     connection.query(selectQuery, wechatId, function (err, row) {
+    //         if (err) {
+    //             console.error("err : " + err);
+    //             throw err;
+    //         } else {
+    //             var openId = row[0].USER_OPEN_ID;
                 var contents = {
                     "touser" : openId,
                     "msgtype": "text",
@@ -231,11 +232,10 @@ router.post('/sendMessage',function (req, res, next) {
                         "content": message
                     }
                 };
-
                 api.sender.msgSend(openId, contents);
-            }
-        })
-    });
+            // }
+        // })
+    // });
 })
 
 router.post('/shoppingResultSend', function (req, res, next) {

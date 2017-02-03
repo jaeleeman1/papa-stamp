@@ -27,8 +27,8 @@
                             var wechatId = value.USER_WECHAT_ID;
                             var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
 
-                            $('#wechatIdTaxi').append(dynamicDom);
-                            $('#wechatIdMessage').append(dynamicDom);
+                            $('#openIdTaxi').append(dynamicDom);
+                            $('#openIdMessage').append(dynamicDom);
                         });
                     },
                     error: function (request, status, error) {
@@ -40,8 +40,8 @@
 
             getFollowerList();
 
-//            $('#wechatIdTaxi').click(function(){
-//                $('#wechatIdTaxi').empty();
+//            $('#openIdTaxi').click(function(){
+//                $('#openIdTaxi').empty();
 //                getFollowerList();
 //			});
 
@@ -69,7 +69,7 @@
                 }
 
                 var data = {
-                    wechatId: $('#wechatIdTaxi').val(),
+                    openId: $('#openIdTaxi').val(),
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
@@ -104,7 +104,7 @@
                 }
 
                 var data = {
-                    wechatId: $('#wechatIdMessage').val(),
+                    openId: $('#openIdMessage').val(),
                     message: $('#message').val()
                 };
 
@@ -134,9 +134,9 @@
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
 			<table class="table table-condensed">
 				<tr>
-					<th width="100"><label for="wechatIdTaxi" style="text-align: center;">Wechat ID</label></th>
-					<!--<td><input type="text" name="wechatIdTaxi" id="wechatIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-					<td><select name="wechatIdTaxi" id="wechatIdTaxi"></select></td>
+					<th width="100"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
+					<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
+					<td><select name="openIdTaxi" id="openIdTaxi"></select></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -168,8 +168,8 @@
 		<!--<form action="/wechat/agentWechat" method="post" id="sendform2"-->
 			<table class="table table-condensed">
 				<tr>
-					<th width="100"><label for="wechatIdMessage">Wechat ID</label></th>
-					<td><select name="wechatIdMessage" id="wechatIdMessage"></select></td>
+					<th width="100"><label for="openIdMessage">Wechat ID</label></th>
+					<td><select name="openIdMessage" id="openIdMessage"></select></td>
 				</tr>
 				<tr>
 					<th width="100"><label for="message">Message</label></th>
