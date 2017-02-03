@@ -45,7 +45,8 @@ router.post('/taxiDepartSend', function (req, res, next) {
                     }
                 };
 
-                api.sender.msgSend(openId, contents);
+                weixin.sendMsg(contents);
+                // api.sender.msgSend(openId, contents);
             }
         })
     });
@@ -163,8 +164,8 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                         ]
                                                                      }
                                                                 }
-
-                                                api.sender.msgSend(openId, contents);
+                                                weixin.sendMsg(contents);
+                                                // api.sender.msgSend(openId, contents);
                                             }
                                         }).on('error', function(e){
                                             console.log(e)
@@ -232,7 +233,9 @@ router.post('/sendMessage',function (req, res, next) {
                         "content": message
                     }
                 };
-                api.sender.msgSend(openId, contents);
+
+                weixin.sendMsg(contents);
+                // api.sender.msgSend(openId, contents);
             // }
         // })
     // });
