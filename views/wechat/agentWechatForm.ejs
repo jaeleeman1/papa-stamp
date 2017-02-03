@@ -10,12 +10,9 @@
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script>
         $(function() {
-
-
-
             var getFollowerList = function(){
                 var data = {
-                    nickName: $('#nickName').text();
+                    nickName : $('#nickName').text()
                 };
 
                 $.ajax({
@@ -45,7 +42,7 @@
             $('#wechatIdTaxi').click(function(){
                 $('#wechatIdTaxi').empty();
                 getFollowerList();
-			})
+			});
 
             $('#btnTaxi').click(function() {
                 if ($('#endNameCn').val() == "") {
