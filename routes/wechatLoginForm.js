@@ -26,36 +26,11 @@ router.get('/', function(req, res, next) {
             console.log("Access Token : "+JSON.stringify(token));
         }
     });
-
-		// wechatAPI.getCustomServiceList( function(err, result){
-    //     if(err) {
-    //         console.log("getCustomServiceList Error  : "+err);
-    //     } else {
-    //         console.log("getCustomServiceList Sucess : "+ JSON.stringify(result));
-    //     }
-    // });
-
 });
 
-router.get('/loginSend', function(req, res, next) {
-    console.log('start2');
-  res.render('wechat/loginForm', {wechatSendTitle: 'Couphone Agent Login'});
-
-
-
-
-
-});
- 
 router.post('/loginSend', function(req, res, next) {
 
-    console.log(' Agent Login start req.body.agentId: ', req.body.agentId );
-
-    // res.render('wechat/agentForm', {wechatSendTitle: 'Couphone Agent Login'});
-
-
-    res.render('wechat/agentWechatForm',{agentId: req.body.agentId });
-
+    res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
 });
 
 //

@@ -12,11 +12,20 @@ var express = require('express'),
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
-/* GET Agent Wechat Init Page. */
-router.get('/agentForm', function (req, res, next) {
-    console.log('##### Ger Agent Wechat Start #####');
-    res.render('wechat/agentWechatForm');
+router.get('/agentLogin', function(req, res, next) {
+    res.render('wechat/loginForm');
 });
+
+router.post('/loginSend', function(req, res, next) {
+    res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
+});
+
+//
+// /* GET Agent Wechat Init Page. */
+// router.get('/agentForm', function (req, res, next) {
+//     console.log('##### Ger Agent Wechat Start #####');
+//     res.render('wechat/agentWechatForm');
+// });
 
 router.post('/sendTaxiMap', function (req, res, next) {
     var wechatId  = req.body.wechatId;
@@ -480,17 +489,8 @@ var getDistance = function (distance) {
 ////////////////////////////////////
 router.post('/getUserAlias', function (req, res, next) {
     console.log('##### Post  getUserAlias Start #####');
-    console.log('agentId #### ', req.body.agentId);
-
-    //agent의 키 를 가져오는 함수
-   // getUserListOfAgent(req.body.agentId, function(err, result){
-   //      console.log("WeChatAPI getUserListOfAgent done");
-   //      console.log("userList ::::::: ", result);
-   //
-   //  });
-
-    // var userList = getUserListOfAgent(req.body.agentId);
-    console.log("userList ::::::: ", getUserListOfAgent(req.body.agentId));
+    console.log('agentId #### ', req.body.nickName);
+    getUserListOfAgent(req.body.nickName);
 
 
 });
@@ -498,13 +498,10 @@ router.post('/getUserAlias', function (req, res, next) {
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName){
     // get agent account using agentNickName
-    var resultset = new Object();
-
-
     wechatAPI.getCustomServiceList(function(err, result) {
         console.log("WeChatAPI getCustomServiceList done");
-        console.log("WeChatAPI getCustomServiceList "+err);
-        console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
+        // console.log("WeChatAPI getCustomServiceList "+err);
+        // console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
         if(err) {
             console.log("WeChatAPI getCustomServiceList Error : "+err);
         } else {
@@ -543,16 +540,7 @@ var getUserListOfAgent = function(agentNickName){
                                     } else {
 
                                         console.error("rows : ", rows);
-                                        resultset = rows;
-
-                                        // console.log("rows1 : " + JSON.stringify(rows));
-                                        // var Array = JSON.parse(JSON.stringify(rows));
-                                        //
-                                        // //화면에 적재
-                                        //
-                                        // for (var k=0; k< Array.length; k++){
-                                        //     console.log( k + Array[k].USER_OPEN_ID + Array[k].USER_WECHAT_ID + '\N');
-                                        // }
+                                        res.send({userList : rows});
                                     }
                                     connection.release();
                                 })
@@ -566,9 +554,6 @@ var getUserListOfAgent = function(agentNickName){
             }
         }
     });
-
-    return resultset;
-    console.error("resultset : ", resultset);
 }
 
 
