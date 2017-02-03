@@ -488,8 +488,10 @@ router.post('/getUserAlias', function (req, res, next) {
         console.log("userList ::::::: ", result);
 
     });
-});
 
+    // res.render('wechat/agentWechatForm');
+
+});
 
 // callback(err, result)
 var getUserListOfAgent = function(agentNickName, callback){
@@ -512,18 +514,18 @@ var getUserListOfAgent = function(agentNickName, callback){
                         } else {
                             // return user's info using callback
                             console.log("sessionListResult" , listResult);
-                            console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(listResult) + "cnt :" + listResult.sessionlist.length);
+                            // console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(listResult) + "cnt :" + listResult.sessionlist.length);
 
                             var data = listResult.sessionlist;
 
                             // [ a1, a2,a3,0 ]
                             var indata = ' [';
                             for(var j =0; j< data.length - 1;j++){
-                                indata += data[j];
+                                indata += data[j].openid;
                                 indata += ',';
                             }
 
-                            indata +=  data[data.length-1] + '  ]';
+                            indata +=  data[data.length-1].openid + '  ]';
                             var charN ='N';
                             console.log('indata :: ' , indata);
 
