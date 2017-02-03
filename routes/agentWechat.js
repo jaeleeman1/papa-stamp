@@ -235,7 +235,7 @@ var getDistance = function (distance) {
 }
 
 router.post('/sendMessage',function (req, res, next) {
-    var opendId = req.body.opendId;
+    var openId = req.body.openId;
     var message = req.body.message;
 
     // getConnection(function (err, connection) {
