@@ -45,6 +45,7 @@
         <!--<form id='transport' action="/food/transport" method="post" enctype="application/x-www-form-urlencoded">-->
             <div id="restaurant_find_local_list_wrap"></div>
         <!--</form>-->
+        <div id="restaurant_find_local_list_wrap_empty"></div>
     </div>
 </div>
 </body>
@@ -138,6 +139,17 @@
                 $('#restaurant_find_local_list_wrap').empty();
 
                 var geoCodeSet = new Array();
+
+                console.log("data.data : ", data.data);
+                if(data.data.length < 1){
+
+                 var dynamicDom = '<div class="body_middle ic_buy_basket_middle">' +
+                                        '<p class="ic_buy_basket"><img src="images/ic_food_empty@3x.png"></p>' +
+                                        '<p class="fontsize16 fontmedium dimmed_btn">근처에 추천 맛집이 없습니다.</p>' +
+                                    '</div>'
+                    $('#restaurant_find_local_list_wrap_empty').append(dynamicDom);
+                }
+
                 $.each(data.data, function (index, value) {
                     var foodId = value.FOOD_ID;
                     var foodNameCn = value.FOOD_NAME_CN;
