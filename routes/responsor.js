@@ -299,19 +299,19 @@ weixin.eventMsg(function(msg) {
                         "name": "Request",
                         "sub_button": [
                             {
-                                "type": "click",
+                                "type": "view",
                                 "name": "쇼핑",
-                                "key": "KEY_SHOPPING"
+                                "url": "http://nbnl.couphone.cn/shopping"
                             },
                             {
                                 "type": "view",
                                 "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food/"
+                                "url": "http://nbnl.couphone.cn/food"
                             },
                             {
-                                "type": "click",
+                                "type": "view",
                                 "name": "택시",
-                                "key": "KEY_TAXI"
+                                "url": "http://nbnl.couphone.cn/taxi"
                             }
                         ]
                     }
@@ -460,56 +460,6 @@ function deleteUserInfo(open_id) {
             connection.release();
         })
     });
-}
-
-function userShoppingUrl(open_id) {
-    console.log(' createMenu start ');
-
-    // get access token for debug
-    api.getAccessToken(function(err, token) {
-        if(err == null) {
-            //console.log("Access Token : "+JSON.stringify(token));
-            getNickName(token.accessToken, open_id);
-        }
-    });
-}
-
-function getNickName(new_token, open_id) {
-    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
-    var pushChatOptions = {
-        method: "GET",
-        url: getUserURL
-    };
-
-    function pushChatCallback (error, response, body) {
-        //console.log("log : " + body);
-        if (!error && response.statusCode == 200) {
-            console.log("Get User API success");
-            
-			bodyObject = JSON.parse(body);      
-	    
-			console.log("Nick name : " + bodyObject.nickname);
-            
-			userShoppingAPI(bodyObject.nickname);
-        }
-    }
-    request(pushChatOptions, pushChatCallback);
-}
-
-function userShoppingAPI(nick_name) {
-    var getUserURL = "http://nbnl.couphone.cn/shopping?nick_name="+ nick_name;
-    var pushChatOptions = {
-        method: "GET",
-        url: getUserURL
-    };
-
-    function shoppingCallback(error, response, body) {
-        //console.log("log : " + body);
-        if (!error && response.statusCode == 200) {
-            console.log("Success Shooping");          
-        }
-    }
-    request(getUserURL, shoppingCallback);
 }
 
 module.exports = router;
