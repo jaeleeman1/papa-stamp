@@ -114,16 +114,16 @@
             <!-- 시간E -->
 
         </div>
+                <input type="hidden" id="foodId" value=<%arrive.id%>>
+                <input type="hidden" id="departLat" value=<%depart.walkingLat%>>
+                <input type="hidden" id="departLong" value=<%depart.walkingLong%>>
+                <input type="hidden" id="arriveLat" value=<%arrive.walkingLat%>>
+                <input type="hidden" id="arriveLong" value=<%arrive.walkingLong%>>
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
                 <% if('food' == transportType) {%>
                     <a href=""><div id="btn_put">메세지로 경로 받기</div></a>
-                    <input type="hidden" id="foodId" value=<%arrive.id%>>
-                    <input type="hidden" id="departLat" value=<%depart.walkingLat%>>
-                    <input type="hidden" id="departLong" value=<%depart.walkingLong%>>
-                    <input type="hidden" id="arriveLat" value=<%arrive.walkingLat%>>
-                    <input type="hidden" id="arriveLong" value=<%arrive.walkingLong%>>
                  <%}else if('taxi' == transportType){%>
                 <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
