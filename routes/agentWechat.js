@@ -311,18 +311,21 @@ router.post('/getFollowerList', function (req, res, next) {
                                 res.send({data : false});
                             }
 
-                            var indata = new Array();
-                            for(var j =0; j< data.length;j++){
-                                indata.push( data[j].openid.replace("'", ""));
-                            }
-
-                            var charN ='N';
-
                             getConnection(function (err, connection) {
                                 //위챗 아디로 open id 가져오기
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ( ? )";
 
-                                connection.query(query, indata, function (err, rows) {
+                                var indata = '';
+                                for(var j =0; j< data.length;j++){
+                                    indata += data[j].openid + ',';
+                                }
+
+                                indata.slice(0, -1);
+
+                                var charN ='N';
+
+                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
+
+                                connection.query(query, function (err, rows) {
                                     if (err) {
                                         console.error("err : " + err);
                                         throw err;
