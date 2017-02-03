@@ -141,32 +141,10 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                                 console.log(" UPDATE SUCESS ");
 
-                                                var mapUrl = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
-                                                var messageUrl = 'http://nbnl.couphone.cn:8080/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
+                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var messageUrl = 'http://nbnl.couphone.cn/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
-
-                                                // var contents = {
-                                                //                     toUserName : openId,
-                                                //                     msgtype : "news",
-                                                //                     news : {
-                                                //                     articles: [
-                                                //                         {
-                                                //                             title : message,
-                                                //                             // "description": message,
-                                                //                             url : mapUrl,
-                                                //                             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                //                         },
-                                                //                         {
-                                                //                             title : "중국어로 목적지 보기",
-                                                //                             url : messageUrl,
-                                                //                             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                //                         }
-                                                //
-                                                //                         ]
-                                                //                      }
-                                                //                 }
-
                                                 var articles = [
                                                                     {
                                                                         title : message,
@@ -202,6 +180,55 @@ router.post('/sendTaxiMap', function (req, res, next) {
             });
         }
     });
+});
+
+router.post('/sendFoodMap', function (req, res, next) {
+
+    console.log('req.body food send msg ', req.body);
+
+    var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    // var wechatId  = 'couphone0001';
+    var foodId = req.body.foodId;
+    var departLat = req.body.departLat;
+    var departLong = req.body.departLong;
+    var arriveName = req.body.arriveName;
+    var arriveAddr = req.body.arriveAddr;
+    var arriveLat = req.body.arriveLat;
+    var arriveLong = req.body.arriveLong;
+
+    host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
+        + departLat +','+ departLong + '&destinations='+ arriveLat + ',' + arriveLong + '&ak=' + ak;
+
+    request.get({'url': host}, function(error, req, body){
+        if(!error){
+            var jsonBody = JSON.parse(body);
+
+            var duration = getDuration(jsonBody.result[0].duration.value);
+            var distance = getDistance(jsonBody.result[0].distance.value);
+
+            console.log(" UPDATE SUCESS ");
+
+            var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + arriveAddr + '&lat=' + arriveLat + '&lng=' + arriveLong;
+            var message    =    "약 " +    duration +" "+ distance  +  "\n";
+            message     +=  '도착지 : ' + arriveName;
+            var articles = [
+                {
+                    title : message,
+                    url : mapUrl,
+                    picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                }
+
+            ];
+
+            wechatAPI.sendNews(openId, articles, function () {
+                console.log('complete food msg');
+            });
+            // weixin.sendMsg(contents);
+            // api.sender.msgSend(openId, contents);
+        }
+    }).on('error', function(e){
+        console.log(e)
+    }).end()
 });
 
 var getDuration = function(duration) {

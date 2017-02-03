@@ -115,10 +115,17 @@
 
         </div>
         <!-- map_body E -->
-
         <!--지도영역-->
         <div id="l-map"></div>
-                <a href="#"><div id="btn_put">메세지로 경로 받기</div></a>
+                <% if('food' == transportType) {%>
+                    <a href=""><div id="btn_put">메세지로 경로 받기</div></a>
+                    <input type="hidden" id="foodId" value=<%arrive.id%>>
+                    <input type="hidden" id="departLat" value=<%depart.walkingLat%>>
+                    <input type="hidden" id="departLong" value=<%depart.walkingLong%>>
+                    <input type="hidden" id="arriveLat" value=<%arrive.walkingLat%>>
+                    <input type="hidden" id="arriveLong" value=<%arrive.walkingLong%>>
+                 <%}else if('taxi' == transportType){%>
+                <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
     </div>
 </div>
@@ -134,6 +141,21 @@
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
         }
         transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
+
+        $('#btn_put').click(function(){
+
+            var data = {
+                foodId : $('#foodId').val(),
+                departLat : $('#departLat').val(),
+                departLong : $('#departLong').val(),
+                arriveName : $('#arrive').text(),
+                arriveAddr : $('#arriveAddr').text(),
+                arriveLat : $('#arriveLat').val(),
+                arriveLong : $('#arriveLong').val()
+            }
+
+            $.post( "/wechat/sendFoodMap", data);
+        })
     });
 </script>
 </html>
