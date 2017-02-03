@@ -207,11 +207,17 @@ router.post('/sendFoodMap', function (req, res, next) {
     var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + arriveAddr + '&lat=' + arriveLat + '&lng=' + arriveLong;
     var message    =    "약 " +    duration +" "+ distance  +  "\n";
     message     +=  '도착지 : ' + arriveName;
+
     var articles = [
         {
             title : message,
             url : mapUrl,
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+        },
+        {
+            title : "",
+            url : mapUrl,
+            picurl : ""
         }
 
     ];
