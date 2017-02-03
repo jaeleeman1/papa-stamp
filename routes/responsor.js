@@ -338,10 +338,15 @@ weixin.eventMsg(function(msg) {
         case "CLICK" :
 	     switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    userShoppingAPI('felix');					
+                    console.log('shopping call');	
+		    // TODO : Link to shopping page
+                    break;
+		case "KEY_FOOD" :
+		    console.log('food call');	
+                    // TODO : Link to food page
                     break;
                 case "KEY_TAXI" :
-					console.log('taxi call');
+		    console.log('taxi call');
                     // TODO : Link to taxi page
                     break;
             }
@@ -360,15 +365,6 @@ weixin.eventMsg(function(msg) {
                     // TODO : Link to taxi page
                     break;
             }
-
-			////////////////////////////////////
-			// Test for getUserListOfAgent
-			////////////////////////////////////
-			getUserListOfAgent("Couphone0004", function(err, result){
-				console.log("WeChatAPI getUserListOfAgent done");
-				console.log(JSON.stringify(result));
-			});
-			////////////////////////////////////
             break;
         case "scancode_push" :
             break;
