@@ -436,17 +436,15 @@ router.post('/getFollowerList', function (req, res, next) {
             console.log("WeChatAPI getCustomServiceList Error : "+err);
         } else {
             for(var i = 0; i < result.kf_list.length; i++) {
-                console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
-                    " kf_nick("+result.kf_list[i].kf_nick+")");
+                console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+" kf_nick("+result.kf_list[i].kf_nick+")");
                 if(result.kf_list[i].kf_nick == agentNickName) {
                     console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
                         if(sessionListError != null) {
                             console.log("WeChatAPI getCustomerSessionList Error : "+sessionListError);
                         } else {
-                            // return user's info using callback
+
                             console.log("sessionListResult" , listResult);
-                            // console.log("WeChatAPI getCustomerSessionList Done" + JSON.stringify(listResult) + "cnt :" + listResult.sessionlist.length);
 
                             var data = listResult.sessionlist;
                             var indata = new Array();
