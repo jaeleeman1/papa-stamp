@@ -89,20 +89,22 @@
         var addressComponent = geolocationControl.getAddressComponent();
 
         var address = '';
-        var addressComponent = {
-            province : '上海市',
-            city : '上海市',
-            district : '黄浦区',
-            street : '百翎路',
-            streetNumber :'1号'
-        }
+       // var addressComponent = {
+       //     province : '上海市',
+       //     city : '上海市',
+       //     district : '黄浦区',
+       //     street : '百翎路',
+       //     streetNumber :'1号'
+       // }
 
         address += addressComponent.province;
         address += addressComponent.city;
         address += addressComponent.district;
         address += addressComponent.street;
         address += addressComponent.streetNumber;
-
+        
+        $('#address').text(address);
+        
         if(address != '' && address != undefined && address!= null){
 
             $.ajax({
@@ -127,7 +129,7 @@
                     var mkr = new BMap.Marker(mPoint);
                     map.addOverlay(mkr);
 
-                    $('#address').text(address);
+                    
                     $('#lng').val(lng);
                     $('#addr').val(address);
                     $('#lat').val(lat);
