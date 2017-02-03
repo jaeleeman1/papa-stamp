@@ -483,18 +483,20 @@ router.post('/getUserAlias', function (req, res, next) {
     console.log('agentId #### ', req.body.agentId);
 
     //agent의 키 를 가져오는 함수
-   getUserListOfAgent(req.body.agentId, function(err, result){
-        console.log("WeChatAPI getUserListOfAgent done");
-        console.log("userList ::::::: ", result);
+   // getUserListOfAgent(req.body.agentId, function(err, result){
+   //      console.log("WeChatAPI getUserListOfAgent done");
+   //      console.log("userList ::::::: ", result);
+   //
+   //  });
 
-    });
-
+    var userList = getUserListOfAgent(req.body.agentId);
+    console.log("userList ::::::: ", userList);
     // res.render('wechat/agentWechatForm');
 
 });
 
 // callback(err, result)
-var getUserListOfAgent = function(agentNickName, callback){
+var getUserListOfAgent = function(agentNickName){
     // get agent account using agentNickName
     wechatAPI.getCustomServiceList(function(err, result) {
         console.log("WeChatAPI getCustomServiceList done");
@@ -529,7 +531,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 
                             getConnection(function (err, connection) {
                                 //위챗 아디로 open id 가져오기
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ?  ";
+                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN (?)  ";
 
                                 connection.query(query, indata, function (err, rows) {
                                     if (err) {
