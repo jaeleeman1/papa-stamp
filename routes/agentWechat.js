@@ -23,7 +23,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnl server', function (sendData) {
         console.log('nbnl server : ' + sendData);
 	var strArr = sendData.split(',');
-        socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1]});
+        socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
     });
 });
 
