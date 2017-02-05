@@ -118,9 +118,9 @@
 		var currnt_time = new Date();
 		socket.emit('nbnl server', 'felix,' + $('#message').val() + ',' + currnt_time);		
 		socket.on('nbnl agent', function (sodata) {
-			$("#sendWechatId").text(sodata.historyWechatId);
-			$("#sendMessage").text(sodata.historyMessage);
-			$("#sendTime").text(sodata.historyTime);
+			$("#sendId").append('<tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
+					'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
+					'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr>');
 		});
 
                 $.ajax({
@@ -239,7 +239,7 @@
 			</table>
 			
 			<table class="table table-condensed">
-			    <tr>
+			    <tr id="sendId">
 			    	<tr>
 					<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
 				</tr>
