@@ -22,7 +22,8 @@ var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
     socket.on('nbnl server', function (sendData) {
         console.log('nbnl server : ' + sendData);
-        socket.emit('nbnl agent', {historyWechatId: 'historyWechatId', historyMessage: 'historyMessage'});
+	var strArr = string.split(',');
+        socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1]});
     });
 });
 
