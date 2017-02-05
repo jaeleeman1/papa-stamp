@@ -115,7 +115,7 @@
                     message: $('#message').val()
                 };
 		
-		socket.emit('nbnl server', $('felix,' + $('#message').val());		
+		socket.emit('nbnl server', 'felix,' + $('#message').val());		
 		socket.on('nbnl agent', function (sodata) {
 			$("#sendWechatId").text(sodata.historyWechatId);
 			$("#sendMessage").text(sodata.historyMessage);
