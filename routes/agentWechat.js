@@ -5,10 +5,26 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
     getConnection = require('../lib/db_connection'),
-    wechatAPI = require('../lib/wechatApi');
+    wechatAPI = require('../lib/wechatApi'),
+    app = express(),
+    path = require('path'),
+    http = require('http');
 
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
+
+app.use(express.static(path.join(__dirname, 'public')));
+var httpServer = http.createServer(app).listen(8070, function(req,res){
+	console.log('Socket Connect Success');
+});
+
+var io = require('socket.io').listen(httpServer);
+io.sockets.on('connection', function (socket) {
+    socket.on('nbnl server', function (sendData) {
+        console.log('nbnl server : ' + sendData);
+        socket.emit('nbnl agent', {message: sendData});
+    });
+});
 
 router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
@@ -19,7 +35,8 @@ router.post('/historyMessage', function(req, res, next) {
     var historyMessage = req.body.historyMessage;
     console.log('historyWechatId' + historyWechatId);
     console.log('historyMessage' + historyMessage);
-    res.render('wechat/loginForm', {historyWechatId: historyWechatId, historyMessage: historyMessage});
+
+    //res.render('wechat/loginForm', {historyWechatId: historyWechatId, historyMessage: historyMessage});
 });
 
 router.post('/loginSend', function(req, res, next) {
