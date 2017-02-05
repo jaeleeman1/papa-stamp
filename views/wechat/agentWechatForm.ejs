@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="/js/jquery-1.11.2.min.js"></script>
+	<script src="http://52.79.56.181:8070/socket.io/socket.io.js"></script>
+
 	<script>
         $(function() {
             var getFollowerList = function(){
@@ -128,9 +130,18 @@
 	</script>
 	    
 	    <script type ="text/javascript">
+		var socket = io.connect('http://52.79.56.181:8070');
+
 		$(function() {
 		    $("#btnDeleteMessage").click(
 			function() {
+				socket.emit('nbnl server', 'historyWechatId, historyMessage');
+				
+				socket.on('nbnl agent', function (sodata) {
+					$("#sendWechatId").text(sodata.historyWechatId);
+			    		$("#sendMessage").text(sodata.historyMessage);
+				}
+				
 				var dataString = {'historyWechatId': 'historyWechatId', 'historyMessage': 'historyMessage'}; 
 				$.ajax({
 				    url: 'http://nbnl.couphone.cn/wechat/historyMessage',
