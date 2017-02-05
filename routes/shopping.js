@@ -6,7 +6,8 @@ var config = require('../lib/config');
 //GET Shopping List
 router.get('/', function (req, res, next) {
     getConnection(function (err, connection){
-        var wechatId = 'couphone0001';//req.query.nick_name; // wechat Id
+        //var wechatId = 'couphone0001';//req.query.nick_name; // wechat Id
+	var wechatId = 'felix';//req.query.nick_name; // wechat Id
         var openId = '';
         var buyData = '';
     	var buyPrdctCnt;
