@@ -110,18 +110,12 @@
                 }
 
                 var data = {
-                    //openId: $('#openIdMessage').val(),
-		    openId: 'felix',
+                    openId: $('#openIdMessage').val(),
                     message: $('#message').val()
                 };
 		
 		var currnt_time = new Date();
-		socket.emit('nbnl server', 'felix,' + $('#message').val() + ',' + currnt_time);		
-		socket.on('nbnl agent', function (sodata) {
-			$("#sendId").append('<tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
-					'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
-					'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr>');
-		});
+		socket.emit('nbnl server', $('#openIdMessage').val()+ ',' + $('#message').val() + ',' + currnt_time);		
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendMessage',
@@ -136,48 +130,20 @@
                     }
                 });
             });
+	    
 	    $("#btnDeleteMessage").click(
 		function() {
-		
+		    $("#sendId").text('');	
 		}
 	    );
+	    
+	    socket.on('nbnl agent', function (sodata) {
+		$("#sendId").append('<tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
+			'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
+			'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr>');
+	    });
         });
 	</script>
-	    
-	    <script type ="text/javascript">
-		var socket = io.connect('http://52.79.56.181:8070');
-
-		$(function() {
-		    $("#btnDeleteMessageeeeeeeeeeeee").click(
-			function() {
-				socket.emit('nbnl server', 'historyWechatId, historyMessage');
-				
-				socket.on('nbnl agent', function (sodata) {
-					$("#sendWechatId").text(sodata.historyWechatId);
-			    		$("#sendMessage").text(sodata.historyMessage);
-				});
-				
-				var dataString = {'historyWechatId': 'historyWechatId', 'historyMessage': 'historyMessage'}; 
-				$.ajax({
-				    url: 'http://nbnl.couphone.cn/wechat/historyMessage',
-				    type: 'POST',
-				    dataType: 'json',
-				    data: dataString,
-				    success: function(data) {
-				    	console.log(data);
-					    
-					$("#sendWechatId").text(historyWechatId);
-			    		$("#sendMessage").text(historyMessage);
-				    },
-				    error: function(request, status, error) {
-					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					console.log('Error occured');
-				    }
-				})
-			}
-		    );
-		});
-	    </script>
 </head>
 
 <body>
@@ -238,7 +204,7 @@
 				</tr>
 			</table>
 			
-			<table class="table table-condensed" id="sendId">
+			<table class="table table-condensed">
 			    <tr>
 			    	<tr>
 					<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
@@ -249,6 +215,8 @@
 					<th width="100"><label for="complateTime">Time</label></th>
 				</tr>				
 			    </tr>
+			</table>
+			<table class="table table-condensed" id="sendId" >
 			</table>
 
 		<!--</form>-->
