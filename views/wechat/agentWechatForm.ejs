@@ -115,10 +115,12 @@
                     message: $('#message').val()
                 };
 		
-		socket.emit('nbnl server', 'felix,' + $('#message').val());		
+		var currnt_time = new Date();
+		socket.emit('nbnl server', 'felix,' + $('#message').val() + ',' + currnt_time);		
 		socket.on('nbnl agent', function (sodata) {
 			$("#sendWechatId").text(sodata.historyWechatId);
 			$("#sendMessage").text(sodata.historyMessage);
+			$("#sendTime.text(sodata.historyTime);
 		});
 
                 $.ajax({
