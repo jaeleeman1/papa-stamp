@@ -10,7 +10,8 @@
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="http://52.79.56.181:8070/socket.io/socket.io.js"></script>
 
-	<script>
+	<script type ="text/javascript">
+	var socket = io.connect('http://52.79.56.181:8070');
         $(function() {
             var getFollowerList = function(){
                 var data = {
@@ -112,12 +113,18 @@
                     openId: $('#openIdMessage').val(),
                     message: $('#message').val()
                 };
+		
+		socket.emit('nbnl server', $('#openIdMessage').val() + ',' + $('#message').val());		
+		socket.on('nbnl agent', function (sodata) {
+			$("#sendWechatId").text(sodata.historyWechatId);
+			$("#sendMessage").text(sodata.historyMessage);
+		}
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendMessage',
                     type: 'POST',
                     data: data,
-                    success: function (data) {
+		    success: function (data) {
                         $('#message').val("");
                     },
                     error: function (request, status, error) {
@@ -126,6 +133,11 @@
                     }
                 });
             });
+	    $("#btnDeleteMessage").click(
+		function() {
+		
+		}
+	    );
         });
 	</script>
 	    
@@ -133,7 +145,7 @@
 		var socket = io.connect('http://52.79.56.181:8070');
 
 		$(function() {
-		    $("#btnDeleteMessage").click(
+		    $("#btnDeleteMessageeeeeeeeeeeee").click(
 			function() {
 				socket.emit('nbnl server', 'historyWechatId, historyMessage');
 				
