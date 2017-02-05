@@ -110,15 +110,16 @@
                 }
 
                 var data = {
-                    openId: $('#openIdMessage').val(),
+                    //openId: $('#openIdMessage').val(),
+		    openId: 'felix',
                     message: $('#message').val()
                 };
 		
-		socket.emit('nbnl server', $('#openIdMessage').val() + ',' + $('#message').val());		
+		socket.emit('nbnl server', $('felix,' + $('#message').val());		
 		socket.on('nbnl agent', function (sodata) {
 			$("#sendWechatId").text(sodata.historyWechatId);
 			$("#sendMessage").text(sodata.historyMessage);
-		}
+		});
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendMessage',
@@ -152,7 +153,7 @@
 				socket.on('nbnl agent', function (sodata) {
 					$("#sendWechatId").text(sodata.historyWechatId);
 			    		$("#sendMessage").text(sodata.historyMessage);
-				}
+				});
 				
 				var dataString = {'historyWechatId': 'historyWechatId', 'historyMessage': 'historyMessage'}; 
 				$.ajax({
