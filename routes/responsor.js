@@ -465,7 +465,7 @@ function printSessionList(agentName) {
         } else {
             console.log("*** printSessionList("+agentName+") Fail ***");
         }
-    })
+    });
 }
 
 setInterval(printSessionList("couphone0002"), 10000);
