@@ -14,7 +14,7 @@ var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
 app.use(express.static(path.join(__dirname, 'public')));
-var httpServer = http.createServer(app).listen(8070, function(req,res){
+var httpServer = http.createServer(app).listen(8060, function(req,res){
 	console.log('Socket Connect Success');
 });
 
@@ -23,7 +23,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnl server', function (sendData) {
         console.log('nbnl server : ' + sendData);
 	var strArr = sendData.split(',');
-        socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+        socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
     });
 });
 
