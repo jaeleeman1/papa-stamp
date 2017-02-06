@@ -65,6 +65,7 @@
 <script type ="text/javascript">
 
     $(function(){
+        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("taxi_find_local_map");
 
         var navigationControl = new BMap.NavigationControl({
@@ -133,8 +134,6 @@
                     $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
-
-                        var socket = io.connect('http://52.79.56.181:8060');
                         var currnt_time = new Date();
                         var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
                         socket.emit('nbnl server', 'couphone0001,' + taxiMsg + ',' + currnt_time);

@@ -133,6 +133,7 @@
 </body>
 <script type="text/javascript">
     $(function(){
+        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
@@ -144,8 +145,6 @@
         transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
 
         $('#btn_put').click(function(){
-            var socket = io.connect('http://52.79.56.181:8060');
-
             var data = {
                 foodId : $('#foodId').val(),
                 duration : $('#duration').val(),
