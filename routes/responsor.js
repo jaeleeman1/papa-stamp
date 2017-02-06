@@ -458,4 +458,17 @@ function deleteUserInfo(open_id) {
     });
 }
 
+function printSessionList() {
+    getUserListOfAgent("couphone0002", function(err, result) {
+        if(!err) {
+            console.log("*** printSessionList Success ***");
+            console.log(result);
+        } else {
+            console.log("*** printSessionList Fail ***");
+        }
+    })
+}
+
+setInterval(printSessionList, 10000);
+
 module.exports = router;
