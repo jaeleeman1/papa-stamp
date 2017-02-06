@@ -36,6 +36,7 @@
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
+    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 </head>
 
 <body id="back_100_hidden">
@@ -143,6 +144,7 @@
         transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
 
         $('#btn_put').click(function(){
+            var socket = io.connect('http://52.79.56.181:8060');
 
             var data = {
                 foodId : $('#foodId').val(),
@@ -153,6 +155,11 @@
                 departLong : $('#departLong').val(),
                 arriveName : $('#arrive').text()
             }
+
+            var currnt_time = new Date();
+            var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
+            socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
+            socket.disconnect();
 
             $.post( "/wechat/sendFoodMap", data);
         })

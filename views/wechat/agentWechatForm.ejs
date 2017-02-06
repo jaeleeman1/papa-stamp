@@ -88,6 +88,11 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
+
+                        var currnt_time = new Date();
+                        var foodMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
+                        socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
+
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");

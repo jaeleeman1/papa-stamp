@@ -35,6 +35,7 @@
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
+    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 </head>
 
 <body id="back_100">
@@ -127,13 +128,19 @@
                     var mkr = new BMap.Marker(mPoint);
                     map.addOverlay(mkr);
 
-                    
                     $('#lng').val(lng);
                     $('#addr').val(address);
                     $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
-                            $('#myLocation').submit();
+
+                        var socket = io.connect('http://52.79.56.181:8060');
+                        var currnt_time = new Date();
+                        var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
+                        socket.emit('nbnl server', 'couphone0001,' + taxiMsg + ',' + currnt_time);
+                        socket.disconnect();
+                        
+                        $('#myLocation').submit();
                     })
                 },
                 error: function (request, status, error) {
