@@ -99,9 +99,9 @@
                             '"Length":' + length +
                             '}';
                     }
-                    
+                    var purchaItem = Prdct_Nm + ',' + Prdct_Cnt;
                     var currnt_time = new Date();
-            		socket.emit('nbnl server', wechatId+ ',' + dataStr + ',' + currnt_time);	
+            		socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
 
                     if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
