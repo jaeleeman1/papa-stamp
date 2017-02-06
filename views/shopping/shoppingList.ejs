@@ -88,7 +88,7 @@
                                 if(length == 1) {
                                     purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + ' 구입';
                                 }else {
-                                    purchaItem = $("#prdct_nm_0").val() + ': ' + $("#prdct_cnt_0").val() + '개 외에 여러개 구입';
+                                    purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                                 }
                                 var currnt_time = new Date();
             		            socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
