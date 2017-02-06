@@ -2,11 +2,24 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var config = require('../lib/config');
+var api = require("../lib/api");
+
+//GET Shopping init
+router.get('/init', function (req, res, next) {
+    api.sender.shoppingInitSend(req, res, next)
+    {
+        console.log(res.statusCode);
+        if (res.statusCode != 200) {
+            console.log('##### SHOPPING INIT SEND ERROR  #####');
+        }
+        res.status(200).send('***** Shopping Init Send Sucess *****');
+    }
+});
 
 //GET Shopping List
 router.get('/', function (req, res, next) {
     getConnection(function (err, connection){
-        var wechatId = 'couphone0001';//req.query.nick_name; // wechat Id
+        var wechatId = req.query.nick_name; // wechat Id
         var openId = '';
         var buyData = '';
     	var buyPrdctCnt;
@@ -101,7 +114,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
         var prdctCnt = req.query.prdct_cnt; // product count
         var openId = '';
 
-	if(prdctId != '' || prdctId != null) {
+	    if(prdctId != '' || prdctId != null) {
             if(prdctCnt == '' || prdctCnt == null || prdctCnt == undefined) {
                 prdctCnt = 1;
             }
