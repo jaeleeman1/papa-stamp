@@ -30,11 +30,14 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
     <script type ="text/javascript">
+        var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
+            var buyLength = $("#length").val();
 //            console.log('url' + $("#url").val());
 
             $("#btn_confirm").click(
@@ -72,14 +75,25 @@
                             '"Length":' + length +
                             '}';
                     }
+               
+
                   if(buySum != '￥ 0구매') {     
-                    if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
+                    if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
                             url: $("#url").val()+'/wechat/shoppingResultSend',
                             type: 'POST',
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
+                                if(length == 1) {
+                                    purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + ' 구입';
+                                }else {
+                                    purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
+                                }
+                                var currnt_time = new Date();
+            		            socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
+                                
+                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                                 var dataString = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -106,9 +120,8 @@
 //                                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 //                                        console.log('Error occured');
 //                                    }
-//                                })  
-                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                                window.location.href = $("#url").val()+'/shopping';
+//                                })
+                                  window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -161,7 +174,7 @@
     </div>
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>개</div>
+        <div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
 </div>

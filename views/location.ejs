@@ -27,6 +27,7 @@
     <meta itemprop="description" content="">
     <meta itemprop="keywords" content="">
 
+
     <style type="text/css">
         #taxi_find_local_map{width:100%;height:100%;}
     </style>
@@ -35,13 +36,15 @@
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
-    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 </head>
 
 <body id="back_100">
 
+
 <!--<div>-->
     <form id="myLocation" action="/wechat/taxiDepartSend" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" id="openId" name="openId" value="">
+        <input type="hidden" id="wechatId" name="wechatId" value="">
         <input type="hidden" id="addr" name="addr" value="">
         <input type="hidden" id="lat" name="lat" value="">
         <input type="hidden" id="lng" name="lng" value="">
@@ -65,7 +68,6 @@
 <script type ="text/javascript">
 
     $(function(){
-        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("taxi_find_local_map");
 
         var navigationControl = new BMap.NavigationControl({
@@ -89,13 +91,13 @@
         var addressComponent = geolocationControl.getAddressComponent();
 
         var address = '';
-        var addressComponent = {
-            province : '上海市',
-            city : '上海市',
-            district : '黄浦区',
-            street : '百翎路',
-            streetNumber :'1号'
-        }
+       // var addressComponent = {
+       //     province : '上海市',
+       //     city : '上海市',
+       //     district : '黄浦区',
+       //     street : '百翎路',
+       //     streetNumber :'1号'
+       // }
 
         address += addressComponent.province;
         address += addressComponent.city;
@@ -129,17 +131,13 @@
                     var mkr = new BMap.Marker(mPoint);
                     map.addOverlay(mkr);
 
+                    
                     $('#lng').val(lng);
                     $('#addr').val(address);
                     $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
-                        var currnt_time = new Date();
-                        var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
-                        socket.emit('nbnl server', 'couphone0001,' + taxiMsg + ',' + currnt_time);
-//                        socket.disconnect();
-
-                        $('#myLocation').submit();
+                            $('#myLocation').submit();
                     })
                 },
                 error: function (request, status, error) {

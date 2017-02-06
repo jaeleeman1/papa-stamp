@@ -5,21 +5,85 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
     getConnection = require('../lib/db_connection'),
-    wechatAPI = require('../lib/wechatApi');
+    wechatAPI = require('../lib/wechatApi'),
+    app = express(),
+    path = require('path'),
+    http = require('http');
 
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
+app.use(express.static(path.join(__dirname, 'public')));
+var httpServer = http.createServer(app).listen(8060, function(req,res){
+	console.log('Socket Connect Success');
+});
+
+var io = require('socket.io').listen(httpServer);
+io.sockets.on('connection', function (socket) {
+    socket.on('nbnl server', function (sendData) {
+        console.log('nbnl server : ' + sendData);
+	var strArr = sendData.split(',');
+	socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+        socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+    });
+});
+
 router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
+});
+
+router.post('/historyMessage', function(req, res, next) {
+    var historyWechatId = req.body.historyWechatId;
+    var historyMessage = req.body.historyMessage;
+    console.log('historyWechatId' + historyWechatId);
+    console.log('historyMessage' + historyMessage);
+
+    //res.render('wechat/loginForm', {historyWechatId: historyWechatId, historyMessage: historyMessage});
 });
 
 router.post('/loginSend', function(req, res, next) {
     res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
 });
 
+// 택시 출발지 메시지 전송 ( 사용자 -> Agent )
+router.post('/taxiDepartSend', function (req, res, next) {
+    console.log('##### Post  taxi Start #####');
+    // console.log('req ::::::: ', req.body);
+    var nickName = 'couphone0001';
+    var openId = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    var addr = req.body.addr;
+    var lat = req.body.lat;
+    var lng = req.body.lng;
+
+    getConnection(function (err, connection) {
+        var insertQuery = 'INSERT INTO TB_ROAD_INFO (USER_WECHAT_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
+        // Insert Buy List
+        connection.query(insertQuery, [nickName, addr, addr, lng, lat, lng, lat], function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+                var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
+                // var contents = {
+                //     fromUserName : "",
+                //     toUserName : openId,
+                //     msgType : "text",
+                //     content : taxiMsg,
+                //     funcFlag : 0
+                // };
+
+                wechatAPI.sendText(openId, taxiMsg, function(){
+                    console.log('complete depart msg');
+                });
+                // api.sender.msgSend(openId, contents);
+            }
+        })
+    });
+});
+
 router.post('/sendTaxiMap', function (req, res, next) {
-    var wechatId  = req.body.wechatId;
+    var openId  = req.body.openId;
+    var wechatId  = 'couphone0001';
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
@@ -104,33 +168,30 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                                 console.log(" UPDATE SUCESS ");
 
-                                                var mapUrl = 'http://nbnl.couphone.cn:8080/taxi/transport?id=' + wechatId +'&type=driving'
-                                                var messageUrl = 'http://nbnl.couphone.cn:8080/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
+                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var messageUrl = 'http://nbnl.couphone.cn/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
+                                                var articles = [
+                                                                    {
+                                                                        title : message,
+                                                                        // "description": message,
+                                                                        url : mapUrl,
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                    },
+                                                                    {
+                                                                        title : "중국어로 목적지 보기",
+                                                                        url : messageUrl,
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                    }
 
-                                                var contents = {
-                                                                    "touser" : openId,
-                                                                    "msgtype" : "news",
-                                                                    "news" : {
-                                                                    "articles": [
-                                                                        {
-                                                                            "title": message,
-                                                                            // "description": message,
-                                                                            "url": mapUrl,
-                                                                            "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                                        },
-                                                                        {
-                                                                            "title": "중국어로 목적지 보기",
-                                                                            "url": messageUrl,
-                                                                            "picurl": "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-                                                                        }
+                                                                ];
 
-                                                                        ]
-                                                                     }
-                                                                }
-
-                                                api.sender.msgSend(openId, contents);
+                                                wechatAPI.sendNews(openId, articles, function () {
+                                                    console.log('complete arrival msg');
+                                                });
+                                                // weixin.sendMsg(contents);
+                                                // api.sender.msgSend(openId, contents);
                                             }
                                         }).on('error', function(e){
                                             console.log(e)
@@ -148,246 +209,44 @@ router.post('/sendTaxiMap', function (req, res, next) {
     });
 });
 
-router.post('/sendMessage',function (req, res, next) {
-    var wechatId = req.body.wechatId;
-    var message = req.body.message;
+router.post('/sendFoodMap', function (req, res, next) {
 
-    getConnection(function (err, connection) {
-        var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
-        // selectQuery Open ID
-        connection.query(selectQuery, wechatId, function (err, row) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            } else {
-                var openId = row[0].USER_OPEN_ID;
-                var contents = {
-                    "touser" : openId,
-                    "msgtype": "text",
-                    "text": {
-                        "content": message
-                    }
-                };
+    console.log('req.body food send msg ', req.body);
 
-                api.sender.msgSend(openId, contents);
-            }
-        })
-    });
-})
+    var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    // var wechatId  = 'couphone0001';
+    var foodId = req.body.foodId;
+    var duration = req.body.duration;
+    var distance = req.body.distance;
+    var arriveName = req.body.arriveName;
+    var departAddr = req.body.departAddr;
+    var departLat = req.body.departLat;
+    var departLong = req.body.departLong;
 
-router.post('/shoppingResultSend', function (req, res, next) {
-    console.log('##### Post  shoppingResSend Start #####');
-    api.sender.shoppingResSend(req, res, next)
-    {
-        console.log(res.statusCode);
-        if (res.statusCode != 200) {
-            console.log('##### SEND ERROR  #####');
+    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong;
+    var message    =    "약 " +    duration +" "+ distance  +  "\n";
+    message     +=  '도착지 : ' + arriveName;
+
+    var articles = [
+        {
+            title : message,
+            url : mapUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+        },
+        {
+            title : "",
+            url : mapUrl,
+            picurl : ""
         }
 
-        res.status(200).send('Send Sucess');
-    }
-});
+    ];
 
-// 택시 출발지 메시지 전송 ( 사용자 -> Agent )
-router.post('/taxiDepartSend', function (req, res, next) {
-    console.log('##### Post  taxi Start #####');
-    // console.log('req ::::::: ', req.body);
-    var wechatId = req.body.wechatId;
-    var openId = req.body.openId;
-    var addr = req.body.addr;
-    var lat = req.body.lat;
-    var lng = req.body.lng;
-
-    getConnection(function (err, connection) {
-        var insertQuery = 'INSERT INTO TB_ROAD_INFO (USER_WECHAT_ID, START_TAXI_ADDR_CN, START_WALK_ADDR_CN, START_LONGITUDE_WALK, START_LATITUDE_WALK, START_LONGITUDE_TAXI, START_LATITUDE_TAXI) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
-        // Insert Buy List
-        connection.query(insertQuery, [wechatId, addr, addr, lng, lat, lng, lat], function (err, row) {
-            if (err) {
-                console.error("err : " + err);
-                throw err;
-            } else {
-                var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
-                var contents = {
-                                    "touser" : openId,
-                                    "msgtype": "text",
-                                    "text": {
-                                                "content": taxiMsg
-                                            }
-                                };
-
-                api.sender.msgSend(openId, contents);
-            }
-        })
+    wechatAPI.sendNews(openId, articles, function () {
+        console.log('complete food msg');
     });
+    // weixin.sendMsg(contents);
+    // api.sender.msgSend(openId, contents);
 });
-//
-// function getRoadInfo(wechatId) {
-//     console.log('##### get Road info #####');
-//
-//     var returnData;
-//     var getUserInfoURL = "http://nbnl.couphone.cn:8080/api/getRoadInfo?wechatId=" + wechatId;
-//     var getUserInfoOptions = {
-//         method: "GET",
-//         url: getUserInfoURL,
-//     };
-//
-//     function getUserInfoCallback(error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             var data = JSON.parse(body);
-//             console.log('*****' + data.USER_OPEN_ID + '*****');
-//             RETURN_DATA.openId = data.USER_OPEN_ID;
-//         }
-//     }
-//
-//     request(getUserInfoOptions, getUserInfoCallback);
-// }
-//
-// function getUserInfo(wechatId) {
-//     console.log('##### get user info #####');
-//
-//     var returnData;
-//     var getUserInfoURL = "http://nbnl.couphone.cn:8080/api/getUserInfo?wechatId=" + wechatId;
-//     var getUserInfoOptions = {
-//         method: "GET",
-//         url: getUserInfoURL,
-//     };
-//
-//     function getUserInfoCallback(error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             var data = JSON.parse(body);
-//             console.log('*****' + data.USER_OPEN_ID + '*****');
-//             RETURN_DATA.openId = data.USER_OPEN_ID;
-//         }
-//     }
-//
-//     request(getUserInfoOptions, getUserInfoCallback);
-// }
-//
-// function getToken(openId, sendMessage) {
-//     console.log('##### get token #####');
-//     var res;
-//     // 단말 couphone 1번
-//     // var appID = 'wx87ac1cef286fb38d';
-//     // var appsecret = '39278936f9e35c2e82ed57f25a05717f';
-//
-//
-//     // config.appID = 'wx9aa7c34851e950de';
-//     // config.appsecret = '84f007b293a60d3d90919308ac29a033';
-//
-//
-//     var appID = config.appID;
-//     var appsecret = config.appsecret;
-//
-//
-//
-//     var accessTokenURL = "https://api.wechat.com/cgi-bin/token?grant_type=client_credential&appid=" + appID + "&secret=" + appsecret;
-//     var accessTokenOptions = {
-//         method: "GET",
-//         url: accessTokenURL,
-//     };
-//
-//     function accessTokenCallback(error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             var data = JSON.parse(body);
-//             ACCESS_TOKEN.access_token = data.access_token;
-//             ACCESS_TOKEN.expiration = (new Date().getTime()) + (data.expires_in - 10) * 1000;
-//
-//             console.log("@@@ 4 ");
-//             res = pushChat(openId, sendMessage);
-//             console.log("@@@ 5 " + res);
-//         }
-//     }
-//
-//     request(accessTokenOptions, accessTokenCallback);
-//     return res;
-// };
-//
-// function pushChat(wechatId, sendMessage) {
-//     console.log('##### pushChat start #####');
-//     var res;
-//     var formatted_message = sendMessage;
-//     var pushChatURL = "https://api.wechat.com/cgi-bin/message/custom/send?access_token=" + ACCESS_TOKEN.access_token;
-//
-//     var pushChatOptions = {
-//         method: "POST",
-//         url: pushChatURL,
-//         body: JSON.stringify({
-//             "touser": wechatId,
-//             "msgtype": "text",
-//             "text": {
-//                 "content": formatted_message
-//             }
-//
-//         })
-//     };
-//
-//     function pushChatCallback(error, response, body) {
-//         console.log("log : " + body);
-//         if (!error && response.statusCode == 200) {
-//             bodyObject = JSON.parse(body);
-//             if (bodyObject.errmsg === "ok") {
-//                 console.log("Message successfully delivered--" + formatted_message);
-//                 return true;
-//
-//             } else {
-//                 console.log(" There was an error delivering the message: " + formatted_message
-//                     + "  statusCode: " + response.statusCode + " error :" + error);
-//
-//                 console.log("@@@ 1 ");
-//
-//                 return bodyObject.errcode;
-//             }
-//         }
-//     }
-//     request(pushChatOptions, pushChatCallback);
-//     return res;
-// }
-//
-// function SendMessage(req, res, next) {
-//
-//     var openID;
-//     //wechat id로 open id 가져오기
-//     getOpenId(req, res, next);
-//     console.log("RETURN_DATA.openId " + RETURN_DATA.openId);
-//     // //오픈아디,메세지로 전송하기
-//     // getToken(RETURN_DATA.openId, req.body.StartMessage);
-//     res.status(200).send('Send Message Sucess');
-//     // res.redirect('/');
-//     return true;
-// }
-//
-// function getOpenId(req, res, next) {
-//     getConnection(function (err, connection) {
-//         //위챗 아디로 open id 가져오기
-//         var query = 'SELECT * FROM TB_USER_INFO WHERE  USER_WECHAT_ID = ?  ORDER BY USER_SEQ DESC LIMIT 1';
-//         var id = req.body.wechatId;
-//
-//         connection.query(query, id, function (err, rows) {
-//             if (err) {
-//                 console.error("err : " + err);
-//                 throw err;
-//             } else {
-//                 console.log("rows1 : " + JSON.stringify(rows));
-//                 var Array = JSON.parse(JSON.stringify(rows));
-//
-//                 RETURN_DATA.openId = Array[0]["USER_OPEN_ID"];
-//                 console.log("Array USER_OPEN_ID ", Array[0]["USER_OPEN_ID"]);
-//                 // res.render('taxiAddressLandscape', { rows : rows });
-//
-//                 req.body.openId = Array[0]["USER_OPEN_ID"];
-//                 //화면에서 주소 등록 인경우 처리
-//
-//                 if (req.body.message == '2') {
-//                     //오픈아디,메세지로 전송하기
-//                     getToken(req.body.openId, req.body.StartMessage);
-//                 }
-//             }
-//             connection.release();
-//         })
-//     })
-//     console.log("openID : " + RETURN_DATA.openId);
-//     return true;
-// }
 
 var getDuration = function(duration) {
 
@@ -419,6 +278,50 @@ var getDistance = function (distance) {
     return result;
 }
 
+router.post('/sendMessage',function (req, res, next) {
+    var openId = req.body.openId;
+    var message = req.body.message;
+
+    // getConnection(function (err, connection) {
+    //     var selectQuery = 'SELECT USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
+    //     // selectQuery Open ID
+    //     connection.query(selectQuery, wechatId, function (err, row) {
+    //         if (err) {
+    //             console.error("err : " + err);
+    //             throw err;
+    //         } else {
+    //             var openId = row[0].USER_OPEN_ID;
+    //             var contents = {
+    //                 toUserName : openId,
+    //                 msgtype: "text",
+    //                 content : message,
+    //                 funcFlag : 0
+    //             };
+
+
+                wechatAPI.sendText(openId, message, function(){
+                    console.log('complete basic message');
+                });
+                // weixin.sendMsg(contents);
+                // api.sender.msgSend(openId, contents);
+            // }
+        // })
+    // });
+})
+
+router.post('/shoppingResultSend', function (req, res, next) {
+    console.log('##### Post  shoppingResSend Start #####');
+    api.sender.shoppingResSend(req, res, next)
+    {
+        console.log(res.statusCode);
+        if (res.statusCode != 200) {
+            console.log('##### SEND ERROR  #####');
+        }
+
+        res.status(200).send('Send Sucess');
+    }
+});
+
 // get follower sessionList
 router.post('/getFollowerList', function (req, res, next) {
     console.log('##### Post  getFollowerList Start #####');
@@ -447,29 +350,34 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("sessionListResult" , listResult);
 
                             var data = listResult.sessionlist;
-                            var indata = new Array();
-                            for(var j =0; j< data.length;j++){
-                                indata.push( data[j].openid.replace("'", ""));
-                            }
 
-                            var charN ='N';
+                            if(data.length < 1){
+                                res.send({data : false});
+                            }else{
+                                getConnection(function (err, connection) {
+                                    //위챗 아디로 open id 가져오기
 
-                            getConnection(function (err, connection) {
-                                //위챗 아디로 open id 가져오기
-                                var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ( ? )";
-
-                                connection.query(query, indata, function (err, rows) {
-                                    if (err) {
-                                        console.error("err : " + err);
-                                        throw err;
-                                    } else {
-
-                                        console.error("rows : ", rows);
-                                        res.send({data : rows});
+                                    var indata = '';
+                                    for(var j =0; j< data.length;j++){
+                                        indata += "'" + data[j].openid + "',";
                                     }
-                                    connection.release();
+                                    indata = indata = indata.slice(0, -1);
+
+                                    var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
+
+                                    connection.query(query, function (err, rows) {
+                                        if (err) {
+                                            console.error("err : " + err);
+                                            throw err;
+                                        } else {
+
+                                            console.error("rows : ", rows);
+                                            res.send({data : rows});
+                                        }
+                                        connection.release();
+                                    })
                                 })
-                            })
+                            }
                         }
                     });
                     break;
@@ -480,146 +388,5 @@ router.post('/getFollowerList', function (req, res, next) {
         }
     });
 });
-
-//
-// // callback(err, result)
-// var getUserListOfAgent = function(agentNickName){
-//
-// }
-
-
-//
-// function RoadAddressInsert(req, res, next) {
-//     console.log(" Start!! RoadAddressInsert ");
-//
-//     getConnection(function (err, connection) {
-//         if (JSON.stringify(req.body) == '{}') {
-//             res.status(404);
-//             res.json({
-//                 "success": 0,
-//                 "message": "Parameters missing"
-//             });
-//             return false;
-//         }
-//         //입력할 값 셋팅
-//         var road_info_set =
-//             {
-//                 'USER_WECHAT_ID': req.body.wechatId,
-//                 'START_NM_CN': req.body.StartCn,
-//                 'START_NM_KR': req.body.StartKr,
-//                 'END_NM_CN': req.body.EndCn,
-//                 'END_NM_KR': req.body.EndKr
-//             };
-//
-//         //insert 문장
-//         var query = 'INSERT INTO TB_ROAD_INFO SET  ?';
-//
-//         connection.query(query, road_info_set, function (err, rows) {
-//             if (err) {
-//                 console.error("err : " + err);
-//                 throw err;
-//             } else {
-//                 console.log(" INSERT SUCESS ");
-//                 res.status(200).send('Insert Sucess');
-//
-//                 return true;
-//             }
-//             connection.release();
-//         });
-//     });
-//
-//     return true;
-// }
-
-//
-// function RoadAddressUpdate(req, res, next) {
-//     console.log(" Start!! RoadAddressUpdate ");
-//
-//     getConnection(function (err, connection) {
-//         if (JSON.stringify(req.body) == '{}') {
-//             res.status(404);
-//             res.json({
-//                 "success": 0,
-//                 "message": "Parameters missing"
-//             });
-//             return false;
-//         }
-//
-//         //입력할 값 셋팅 update입력값과 insert 입력값 포맷이 다름 {}, [] 괄호도 다름
-//         var road_info_set =
-//             [
-//                 req.body.EndCn,
-//                 req.body.EndKr,
-//                 req.body.LargeAddrCn,
-//                 req.body.roadSeq,
-//                 req.body.wechatId
-//             ];
-//
-//         //insert 문장
-//         var query = ' UPDATE TB_ROAD_INFO ' +
-//             ' SET  END_NM_CN      = ?, ' +
-//             'END_NM_KR       = ?, ' +
-//             'LARGE_ADDR_CN   = ?  ' +
-//             ' WHERE  ROAD_SEQ     = ?  ' +
-//             ' AND  USER_WECHAT_ID  = ?  ';
-//
-//
-//         connection.query(query, road_info_set, function (err, rows) {
-//             if (err) {
-//                 console.error("err : " + err);
-//                 throw err;
-//             } else {
-//                 console.log(" UPDATE SUCESS ");
-//                 res.status(200).send('UPDATE Sucess');
-//
-//                 return true;
-//             }
-//             connection.release();
-//         });
-//     });
-//
-//     return true;
-// }
-
-//
-// function SelectMaxSeq(req, res, next) {
-//
-//     getConnection(function (err, connection) {
-//
-//         //위챗 아디로 max seq 가져오기
-//         var query = ' SELECT A.ROAD_SEQ   ' +
-//             'FROM  TB_ROAD_INFO  A ' +
-//             'WHERE A.USER_WECHAT_ID = ?         ' +
-//             'ORDER BY A.ROAD_SEQ   DESC        LIMIT 1';
-//
-//         var id = req.body.wechatId;
-//
-//
-//         connection.query(query, id, function (err, rows) {
-//             if (err) {
-//                 //  console.error("err : " + err);
-//                 throw err;
-//             } else {
-//                 console.log("rows1 : " + JSON.stringify(rows));
-//
-//                 var Array = JSON.parse(JSON.stringify(rows));
-//
-//                 req.body.roadSeq = Array[0]["ROAD_SEQ"];
-//                 //화면에서 주소 등록 인경우 처리
-//                 if (req.body.message == '1') {
-//                     console.log(" Before!! RoadAddress Update ");
-//                     RoadAddressUpdate(req, res, next);
-//                 }
-//
-//             }
-//
-//             connection.release();
-//         })
-//     })
-//
-//
-//     console.log("openID : " + RETURN_DATA.openId);
-//     return true;
-// }
 
 module.exports = router;

@@ -311,7 +311,7 @@ weixin.eventMsg(function(msg) {
                             {
                                 "type": "view",
                                 "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi"
+                                "url": "http://nbnl.couphone.cn/taxi/myLocation"
                             }
                         ]
                     }

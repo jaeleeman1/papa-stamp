@@ -171,7 +171,7 @@ a:active{text-decoration:none; }
 
 #shopping_detail_body {padding:225px 5.6% 64px 5.3%}
 #shopping_detail_body .info {margin-bottom:24px}
-#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 80px; }
+#shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 36px; }
 #shopping_detail_body .price {font-size:13px; line-height: 19px; }
 #shopping_detail_body .star {padding-top:6px; line-height:0}
 #shopping_detail_body .star img{width:14px; margin-right:2px;}
@@ -196,10 +196,10 @@ a:active{text-decoration:none; }
 #shopping_detail_body .res_detail UL {margin-bottom:22px}
 
 /**** 매장지도찾기 ***/
-#restaurant_find_local_map {position:fixed; top:0; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
+#restaurant_find_local_map {position:fixed; top:48px; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 
-#restaurant_find_local_list_wrap {padding:0px 6% 15px 4.4%; }
+#restaurant_find_local_list_wrap {padding: 50px 6% 15px 4.4%; }
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}
@@ -213,11 +213,13 @@ a:active{text-decoration:none; }
 #restaurant_find_local_list .res_name .kor {font-family: 'Noto Sans KR', sans-serif; font-size: 15px; color: #171717; letter-spacing: 0.42px; line-height: 22px;}
 #restaurant_find_local_list .res_detail UL {margin-bottom:22px}
 
+#restaurant_find_local_list_wrap_empty {top:352px; height:calc( 100% - 352px); }
+
 #restaurant_find_local_list .fir {float:left; width:28px; margin-right:10px; margin-top:21px}
 #restaurant_find_local_list .fir .ic_last_pin {
 	display:inline-block; width:18.5px; height:24px; color: #FFFFFF; padding:4px 0 0 9.5px; line-height: 16px; 
 	background: url('../images/ic_list_pin@3x.png') no-repeat 0px 0px; background-size:28px 28px; z-index:777;  font-family: 'Roboto', sans-serif;}
-#restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px+ 10.4%) );}
+#restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px + 10.4%) );}
 #restaurant_find_local_list .thi { float:right; width:19px; margin-left:10px; margin-top:25px; z-index:11}
 #restaurant_find_local_list .thi img {width:19px; opacity:0.55; }
 
@@ -290,6 +292,7 @@ a:active{text-decoration:none; }
 /*** 팝업 ***/
 #container_popup {height:100%; position:relative;}
 #pop_up_wrap {margin:0 5%; position:absolute;  top:50%; margin-top:-107px; background:#FFF; height:214px; width:90%}
+.pop_up-154 {margin-top:-77px !important; height:154px  !important; }
 #pop_up_wrap .pop_up_body {padding:18.5px 6.7% 17.4px}
 #pop_up_wrap .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
 #pop_up_wrap .pop_up_body .set_num {border: 1px solid #979797;}
@@ -300,7 +303,50 @@ a:active{text-decoration:none; }
 #pop_up_wrap .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
 #pop_up_wrap .pop_up_body .btn_txt {margin-top:45px; text-align:right}
 #pop_up_wrap .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#pop_up_wrap .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
 .confirm {color: #1AAD19 !important;}
+#pop_up_wrap .pop_up_body .btn_txt_nor {text-align:right; }
+#pop_up_wrap .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+
+.pt5 {padding-top:5px !important}
+.pt10 {padding-top:10px !important}
+.pt15 {padding-top:15px !important}
+.pt20 {padding-top:20px !important}
+.pt25 {padding-top:25px !important}
+.pt30 {padding-top:30px !important}
+
+.pb5 {padding-bottom:5px !important}
+.pb10 {padding-bottom:10px !important}
+.pb15 {padding-bottom:15px !important}
+.pb20 {padding-bottom:20px !important}
+.pb25 {padding-bottom:25px !important}
+.pb30 {padding-bottom:30px !important}
+
+.mt5 {margin-top:5px !important}
+.mt10 {margin-top:10px !important}
+.mt15 {margin-top:15px !important}
+.mt20 {margin-top:20px !important}
+.mt25 {margin-top:25px !important}
+.mt30 {margin-top:30px !important}
+
+.mb5 {margin-bottom:5px !important}
+.mb10 {margin-bottom:10px !important}
+.mb15 {margin-bottom:15px !important}
+.mb20 {margin-bottom:20px !important}
+.mb25 {margin-bottom:25px !important}
+.mb30 {margin-bottom:30px !important}
+
+.dimmed_btn {color:#9B9B9B !important;}
+.cell_box {    position: relative;    width: 100%;    height: 100%;    display: table;	text-align:center;}
+.cell_middle {    display: table-cell;    vertical-align: middle;}
+.body_middle {position:absolute; top:50%; text-align:center; width:100%;}
+.height100 {height:100%}
+.fontsize16 {font-size:16px}
+.fontmedium {font-weight:500;}
+
+.ic_buy_basket_middle {margin-top:250px}
+.ic_buy_basket {margin-bottom:16px;}
+.ic_buy_basket img {width:58px;}
 
 /*** 버튼 ***/
 #btn_call {position:fixed; left:0; bottom:0px; width:100%; height:113px; text-align:center;   font-size:12px; }
@@ -320,6 +366,8 @@ a:active{text-decoration:none; }
 #btn_buy .price_buy {width:calc( 50% - 5px ); height:48px; text-align:center; display:inline-block}
 #btn_buy  a {color:#353535}
 #btn_buy .ic_price {margin-right:10px; display:inline-block; color: #9B9B9B;  font-weight:normal;}
+
+#toast_popup {position:fixed; left:50%; margin-left:-32%; bottom:73px; width:calc( 64% - 10px); padding:5px 5px 7px; line-height:24px; background:rgba(0,0,0,0.9); border-radius: 4px; font-size:16px; color: #FFF; text-align:center;}
 
 .btn_close {position:absolute; top:10px; right:11px}
 .btn_close img {width:28px}

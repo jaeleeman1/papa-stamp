@@ -6,28 +6,33 @@ var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
 
+router.get('/location', function (req, res, next) {
+    res.render('location');
+});
+
 router.get('/myLocation', function (req, res, next) {
         res.render('taxiMyLocation');
-//     var wechatId = req.query.nick_name;
-//     getConnection(function (err, connection) {
-//         var selectQuery = 'SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
-//         // selectQuery Open ID
-//         connection.query(selectQuery, wechatId, function (err, row) {
-//             if (err) {
-//                 console.error("err : " + err);
-//                 throw err;
-//             } else {
-//                 console.log('row ::: ', row);
-//                 var openId = row[0].USER_OPEN_ID;
-//                 var wechatId = row[0].USER_WECHAT_ID;
+    // var wechatId = req.query.nick_name;
+    // getConnection(function (err, connection) {
+    //     var selectQuery = 'SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
+    //     // selectQuery Open ID
+    //     connection.query(selectQuery, wechatId, function (err, row) {
+    //         if (err) {
+    //             console.error("err : " + err);
+    //             throw err;
+    //         } else {
+    //             console.log('row ::: ', row);
+    //             var openId = row[0].USER_OPEN_ID;
+    //             var wechatId = row[0].USER_WECHAT_ID;
+    //
+    //             console.log("taxi openId :::: ", openId)
+    //             console.log("taxi wechatId :::: ", wechatId)
 
-//                 console.log("taxi openId :::: ", openId)
-//                 console.log("taxi wechatId :::: ", wechatId)
-
-//                 res.render('taxiMyLocation', {openId: openId, wechatId: wechatId});
-//             }
-//         })
-//     });
+                // res.render('taxiMyLocation', {openId: openId, wechatId: wechatId});
+                res.render('taxiMyLocation');
+            // }
+        // })
+    // });
 });
 
 router.get('/taxiaddress', function (req, res, next) {

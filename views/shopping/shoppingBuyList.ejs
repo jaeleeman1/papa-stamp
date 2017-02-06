@@ -30,16 +30,19 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
     <script type ="text/javascript">
+        var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
             var wechatId = $("#wechat_id").val();
+            var buyLength = $("#length").val();
 
             $("#btn_delete").click(
                 function() {
-                    var dataString = {'wechat_id': wechatId};
+                    var dataString = {'wechat_id': wechatId};                    
 
-                    if (confirm("장바구니를 모두 비우시겠습니까?") == true) {
+                    if (confirm("전체 "+ buyLength +"개 상품을 삭제하시겠습니까?") == true) {
                         $.ajax({
                             url: $("#url").val()+'/shopping/shoppingDeleteAll',
                             type: 'POST',
@@ -97,13 +100,22 @@
                             '}';
                     }
 
-                    if (confirm("선택하신 상품을 모두 구매 하시겠습니까?") == true) {
+                    if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
                             url: $("#url").val()+'/wechat/shoppingResultSend',
                             type: 'POST',
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
+                                var purchaItem;
+                                if(length == 1) {
+                                    purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
+                                }else {
+                                    purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
+                                }
+                                var currnt_time = new Date();
+            		            socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
+                                
                                 var dataString = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
