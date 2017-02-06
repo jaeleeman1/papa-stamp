@@ -99,9 +99,6 @@
                             '"Length":' + length +
                             '}';
                     }
-                    var purchaItem = Prdct_Nm + ',' + Prdct_Cnt;
-                    var currnt_time = new Date();
-            		socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
 
                     if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
@@ -110,6 +107,10 @@
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
+                                var purchaItem = Prdct_Nm + '\n' + Prdct_Cnt;
+                                var currnt_time = new Date();
+            		            socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
+                                
                                 var dataString = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
