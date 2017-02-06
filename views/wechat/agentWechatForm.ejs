@@ -83,14 +83,14 @@
                     translationAddrCn: $('#translationAddrCn').val()
                 };
 
+		var currnt_time = new Date();
+                socket.emit('nbnl server', $('#openIdTaxi').val()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
+
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
                     type: 'POST',
                     data: data,
                     success: function (data) {
-			var currnt_time = new Date();
-                        socket.emit('nbnl server', $('#openIdTaxi').val()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
-
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");
@@ -118,7 +118,7 @@
                 };
 		
 		var currnt_time = new Date();
-		socket.emit('nbnl server', $('#openIdMessage').val()+ ',' + $('#message').val() + ',' + currnt_time);		
+		socket.emit('nbnl server', $('#openIdMessage').text()+ ',' + $('#message').val() + ',' + currnt_time);		
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendMessage',
