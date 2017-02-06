@@ -30,7 +30,7 @@
 
                                 var openId = value.USER_OPEN_ID;
                                 var wechatId = value.USER_WECHAT_ID;
-                                var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
+                                var dynamicDom = '<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>';
 
                                 $('#openIdTaxi').append(dynamicDom);
                                 $('#openIdMessage').append(dynamicDom);
@@ -74,8 +74,10 @@
                     return;
                 }
 
+                var openWechatId = $('#openIdTaxi').val().split(',');
+
                 var data = {
-                    openId: $('#openIdTaxi').val(),
+                    openId: openWechatId[0],
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
@@ -83,8 +85,8 @@
                     translationAddrCn: $('#translationAddrCn').val()
                 };
 
-		var currnt_time = new Date();
-                socket.emit('nbnl server', $('#openIdTaxi').text()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
+		        var currnt_time = new Date();
+                socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
@@ -92,9 +94,10 @@
                     data: data,
                     success: function (data) {
 
+                        var openWechatId = $('#openIdTaxi').val().split(',');
                         var currnt_time = new Date();
                         var foodMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
-                        socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
+                        socket.emit('nbnl server', openWechatId[1]+ ',' + foodMsg + ',' + currnt_time);
 
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
@@ -117,13 +120,15 @@
                     return;
                 }
 
+                var openWechatId = $('#openIdTaxi').val().split(',');
+
                 var data = {
-                    openId: $('#openIdMessage').val(),
+                    openId: openWechatId[0],
                     message: $('#message').val()
                 };
-		
-		var currnt_time = new Date();
-		socket.emit('nbnl server', $('#openIdMessage').text()+ ',' + $('#message').val() + ',' + currnt_time);		
+
+                var currnt_time = new Date();
+                socket.emit('nbnl server', openWechatId[1]+ ',' + $('#message').val() + ',' + currnt_time);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendMessage',
