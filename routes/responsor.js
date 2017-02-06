@@ -457,7 +457,8 @@ function deleteUserInfo(open_id) {
     });
 }
 
-function printSessionList(agentName) {
+function printSessionList() {
+    var agentName = "couphone0002";
     getUserListOfAgent(agentName, function(err, result) {
         if(!err) {
             console.log("*** printSessionList("+agentName+") Success ***");
@@ -468,6 +469,6 @@ function printSessionList(agentName) {
     });
 }
 
-setInterval(printSessionList("couphone0002"), 10000);
+setInterval(printSessionList, 10000);
 
 module.exports = router;
