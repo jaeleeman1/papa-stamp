@@ -84,7 +84,7 @@
                 };
 
 		var currnt_time = new Date();
-                socket.emit('nbnl server', $('#openIdTaxi').val()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
+                socket.emit('nbnl server', $('#openIdTaxi').text()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
