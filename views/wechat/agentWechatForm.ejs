@@ -151,9 +151,9 @@
 	    );
 	    
 	    socket.on('nbnl agent', function (sodata) {
-		$("#sendId").append('<tr><th width="50"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
-			'<th width="130"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
-			'<th width="120"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr>');
+		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
+			'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
+			'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr></tr>');
 	    });
         });
 	</script>
@@ -223,9 +223,9 @@
 					<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
 				</tr>
 				<tr>
-					<th width="50"><label for="complateWechatId">Wechat ID</label></th>
-					<th width="130"><label for="complateMessage">Message</label></th>
-					<th width="120"><label for="complateTime">Time</label></th>
+					<th width="100"><label for="complateWechatId">Wechat ID</label></th>
+					<th width="100"><label for="complateMessage">Message</label></th>
+					<th width="100"><label for="complateTime">Time</label></th>
 				</tr>				
 			    </tr>
 			</table>
