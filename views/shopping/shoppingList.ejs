@@ -30,10 +30,10 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
-    <script src="http://52.79.56.181:8070/socket.io/socket.io.js"></script>
+    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
     <script type ="text/javascript">
-        var socket = io.connect('http://52.79.56.181:8070');
+        var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
@@ -77,7 +77,7 @@
                     }
                     
                     var currnt_time = new Date();
-            		socket.emit('nbnl server', openId+ ',' + dataStr + ',' + currnt_time);	
+            		socket.emit('nbnl server', wechatId+ ',' + dataStr + ',' + currnt_time);	
 
                   if(buySum != '￥ 0구매') {     
                     if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
