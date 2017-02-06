@@ -138,8 +138,8 @@
                         var currnt_time = new Date();
                         var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
                         socket.emit('nbnl server', 'couphone0001,' + taxiMsg + ',' + currnt_time);
-                        socket.disconnect();
-                        
+//                        socket.disconnect();
+
                         $('#myLocation').submit();
                     })
                 },

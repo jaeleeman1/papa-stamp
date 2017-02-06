@@ -159,7 +159,7 @@
             var currnt_time = new Date();
             var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
             socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
-            socket.disconnect();
+//            socket.disconnect();
 
             $.post( "/wechat/sendFoodMap", data);
         })
