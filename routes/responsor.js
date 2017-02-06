@@ -106,9 +106,9 @@ var checkUserAndConnectSeesion = function(user, server) {
 var getUserListOfAgent = function(agentNickName, callback){
 	// get agent account using agentNickName
 	api.getCustomServiceList(function(err, result) {
-		console.log("WeChatAPI getCustomServiceList done");
-		console.log("WeChatAPI getCustomServiceList "+err);
-		console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
+		// console.log("WeChatAPI getCustomServiceList done");
+		// console.log("WeChatAPI getCustomServiceList "+err);
+		// console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
 		if(err) {
 			console.log("WeChatAPI getCustomServiceList Error : "+err);
 		} else {
@@ -116,13 +116,12 @@ var getUserListOfAgent = function(agentNickName, callback){
 				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
 					" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
-					console.log("Nick Name Matched");
+					console.log("Nick Name Matched("+agentNickName+")");
 					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 != null) {
 							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
 							// return user's info using callback
-							console.log("WeChatAPI getCustomerSessionList Done");
 							callback(err0, result0);
 						}
 					});				
@@ -458,17 +457,17 @@ function deleteUserInfo(open_id) {
     });
 }
 
-function printSessionList() {
-    getUserListOfAgent("couphone0002", function(err, result) {
+function printSessionList(agentName) {
+    getUserListOfAgent(agentName, function(err, result) {
         if(!err) {
-            console.log("*** printSessionList Success ***");
+            console.log("*** printSessionList("+agentName+") Success ***");
             console.log(result);
         } else {
-            console.log("*** printSessionList Fail ***");
+            console.log("*** printSessionList("+agentName+") Fail ***");
         }
     })
 }
 
-setInterval(printSessionList, 10000);
+setInterval(printSessionList("couphone0002"), 10000);
 
 module.exports = router;
