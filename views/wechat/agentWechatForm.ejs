@@ -88,6 +88,9 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
+			var currnt_time = new Date();
+                        socket.emit('nbnl server', $('#openIdTaxi').val()+ ',' + $('#translationAddrCn').val() + ',' + currnt_time);
+
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");
