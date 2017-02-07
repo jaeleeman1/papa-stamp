@@ -118,15 +118,15 @@
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
-                <% if('food' == transportType) {%>
+                <% if('!@#$' != nickName) {%>
                     <a href=""><div id="btn_put">메세지로 경로 받기</div></a>
                     <input type="hidden" id="foodId" value=<%=arrive.id%>>
                     <input type="hidden" id="duration" value=<%=duration%>>
                     <input type="hidden" id="distance" value=<%=distance%>>
                     <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
                     <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
-                 <%}else if('taxi' == transportType){%>
-                <%}%>
+                    <input type="hidden" id="nickName" value=<%=nickName%>>
+                 <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
     </div>
 </div>
@@ -158,7 +158,6 @@
             var currnt_time = new Date();
             var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
             socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
-//            socket.disconnect();
 
             $.post( "/wechat/sendFoodMap", data);
         })

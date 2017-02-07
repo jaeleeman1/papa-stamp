@@ -153,7 +153,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         arrive.drivingLat = rows[0].END_LATITUDE_TAXI;
 
                                         var openId = rows[0].USER_OPEN_ID;
-                                        var wechatId = rows[0].USER_WECHAT_ID;
+                                        var nickName = rows[0].USER_WECHAT_ID;
                                         var translationAddrCn = rows[0].TRANSLATION_ADDR_CN;
                                         console.log('arrive', arrive);
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
@@ -168,7 +168,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                                 console.log(" UPDATE SUCESS ");
 
-                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?nickName=' + nickName +'&type=driving'
                                                 var messageUrl = 'http://nbnl.couphone.cn/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
@@ -209,10 +209,9 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
 router.post('/sendFoodMap', function (req, res, next) {
 
-    console.log('req.body food send msg ', req.body);
-
-    var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    // var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
     // var wechatId  = 'couphone0001';
+    var nickName = req.body.nickName;
     var foodId = req.body.foodId;
     var duration = req.body.duration;
     var distance = req.body.distance;
@@ -221,29 +220,39 @@ router.post('/sendFoodMap', function (req, res, next) {
     var departLat = req.body.departLat;
     var departLong = req.body.departLong;
 
-    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong;
-    var message    =    "약 " +    duration +" "+ distance  +  "\n";
-    message     +=  '도착지 : ' + arriveName;
+    getConnection(function (err, connection) {
+        var selectQuery = "SELECT A.USER_OPEN_ID, B.IMG_URL FROM TB_USER_INFO A, TB_FOOD_SHOP_LIST B WHERE A.USER_WECHAT_ID = ? AND B.FOOD_ID = ? AND A.USER_TYPE = '01'";
+        connection.query(selectQuery, [nickName, foodId], function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
 
-    var articles = [
-        {
-            title : message,
-            url : mapUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-        },
-        {
-            title : "",
-            url : mapUrl,
-            picurl : ""
-        }
+                var openId = row[0].USER_OPEN_ID;
+                var pictureUrl = row[0].IMG_URL;
 
-    ];
+                var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong + '&nickName="!@#$"';
+                var message    =    "약 " +    duration +" "+ distance  +  "\n";
+                message     +=  '도착지 : ' + arriveName;
 
-    wechatAPI.sendNews(openId, articles, function () {
-        console.log('complete food msg');
+                var articles = [
+                    {
+                        title : message,
+                        url : mapUrl,
+                        picurl : pictureUrl
+                    },
+                    {
+                        title : "",
+                        url : mapUrl,
+                        picurl : ""
+                    }
+                ];
+                wechatAPI.sendNews(openId, articles, function () {
+                    console.log('complete food msg');
+                });// sendNews end
+            };// select query end
+        });// query connection end
     });
-    // weixin.sendMsg(contents);
-    // api.sender.msgSend(openId, contents);
 });
 
 var getDuration = function(duration) {

@@ -37,14 +37,9 @@
 
 <body>
 <div id="container">
-    <!--<a href="/food"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></a>-->
-    <!--<div id="header">-->
-        <!--<span class="part"></span><span class="head_ti">맛집</span>-->
-    <!--</div>-->
+        <input type="hidden" id='nickName' value=<%=nickName%>
         <div id="restaurant_find_local_map"></div>
-        <!--<form id='transport' action="/food/transport" method="post" enctype="application/x-www-form-urlencoded">-->
             <div id="restaurant_find_local_list_wrap"></div>
-        <!--</form>-->
         <div id="restaurant_find_local_list_wrap_empty"></div>
     </div>
 </div>
@@ -52,11 +47,8 @@
 </html>
 
 <script type ="text/javascript">
-
-
     $(function(){
         var map = new BMap.Map("restaurant_find_local_map");
-
         var navigationControl = new BMap.NavigationControl({
             anchor: BMAP_ANCHOR_BOTTOM_LEFT,
             type: BMAP_NAVIGATION_CONTROL_SMALL,
@@ -108,7 +100,6 @@
                         }
                         isFirst = false;
                     });
-
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -141,9 +132,6 @@
 
                 var geoCodeSet = new Array();
 
-                console.log("data.data : ", data.data);
-                console.log("data.data.length : ", data.data.length);
-
                 if(data.data.length < 1){
                  var dynamicDom = '<div class="body_middle ic_buy_basket_middle">' +
                                         '<p class="ic_buy_basket"><img src="/images/ic_food_empty@3x.png"></p>' +
@@ -164,16 +152,16 @@
                         var lat = value.LAT;
                         var lng = value.LNG;
                         var parameter = "'transport" + (index + 1) + "'";
-
                         var dynamicDom = '<form id="transport' + (index + 1) + '" action="/food/transport" method="get" enctype="application/x-www-form-urlencoded">' +
                             '<input type="hidden" name="id" value="' + foodId + '">' +
                             '<input type="hidden" name="type" value="walking">' +
                             '<input type="hidden" name="address" value="'+ address+'">' +
                             '<input type="hidden" name="lat" value="'+ lat +'">' +
                             '<input type="hidden" name="lng" value="'+ lng +'">' +
+                            '<input type="hidden" name="nickName" value="'+ $('#nickName').val() +'">' +
                             '<div id="restaurant_find_local_list">' +
                             '<div class="fir"><span class="ic_last_pin">' + (index + 1) + '</span></div>' +
-                            '<a href = "/food/shopInfo?id=' + foodId + '&address=' + address +'&lat='+lat +'&lng='+lng+'"><div class="sec"><ul class="info">' +
+                            '<a href = "/food/shopInfo?id=' + foodId + '&address=' + address +'&lat='+lat +'&lng='+lng+'&nickName='+ $('#nickName').val() +'"><div class="sec"><ul class="info">' +
                             '<li class="res_name">' + foodNameCn + '<span class="kor">' + '(' + foodNameKr + ')' + '</span></li>' +
                             '<li class="price">' + foodTypeKr + '</li>' +
                             '<li class="star">';

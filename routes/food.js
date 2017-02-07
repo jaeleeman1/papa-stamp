@@ -8,7 +8,8 @@ var request = require('request');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
-      res.render('foodShopList');
+    var nickName = req.query.nickName;
+      res.render('foodShopList', {nickName:nickName});
 });
 
 //POST get my current location
@@ -28,7 +29,6 @@ router.post('/currentLocation', function (req, res, next) {
             res.send({lat:lat, lng:lng});
         }
     });
-    // res.send({lat:31.232280291456389, lng:121.49815490071883});
 })
 
 //POST foodShopList
@@ -80,6 +80,7 @@ router.get('/shopInfo', function (req, res, next) {
         var address = req.query.address; // foodList Id
         var lat = req.query.lat; // foodList Id
         var lng = req.query.lng; // foodList Id
+        var nickName = req.query.nickName;
 
         connection.query(query, [address, lat, lng, id], function (err, rows) {
             if (err) {
@@ -89,7 +90,7 @@ router.get('/shopInfo', function (req, res, next) {
                // console.log("rows : " + JSON.stringify(rows));
 
                 if(rows.length > 0){
-                    res.render('foodShopInfo', {rows : rows, length:rows.length});
+                    res.render('foodShopInfo', {rows : rows, length:rows.length, nickName:nickName});
                 }else{
                     res.render('foodShopList');
                 }
@@ -107,6 +108,7 @@ router.get('/transport', function (req, res, next) {
         var address = req.query.address;
         var lat = req.query.lat;
         var lng = req.query.lng;
+        var nickName = req.query.nickName;
 
         if(address == null || address == undefined){
             address = '';
@@ -164,7 +166,7 @@ router.get('/transport', function (req, res, next) {
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'food'});
+                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'food', nickName: nickName});
                         }
                     }).on('error', function(e){
                         console.log(e)
