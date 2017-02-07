@@ -291,28 +291,18 @@ weixin.eventMsg(function(msg) {
                 "button": [
                     {
                         "type": "view",
-                        "name": "전화",
-                        "url": "http://v.qq.com/"
+                        "name": "쇼핑",
+                        "url": "http://nbnl.couphone.cn/shopping"
                     },
                     {
-                        "name": "Request",
-                        "sub_button": [
-                            {
-                                "type": "view",
-                                "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping"
-                            },
-                            {
-                                "type": "view",
-                                "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food"
-                            },
-                            {
-                                "type": "view",
-                                "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation"
-                            }
-                        ]
+                        "type": "view",
+                        "name": "맛집",
+                        "url": "http://nbnl.couphone.cn/food"
+                    },
+                    {
+                        "type": "view",
+                        "name": "택시",
+                        "url": "http://nbnl.couphone.cn/taxi/myLocation"
                     }
                 ]
             };
