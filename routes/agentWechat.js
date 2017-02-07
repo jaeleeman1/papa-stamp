@@ -47,10 +47,7 @@ router.post('/loginSend', function(req, res, next) {
 
 // 택시 출발지 메시지 전송 ( 사용자 -> Agent )
 router.post('/taxiDepartSend', function (req, res, next) {
-    console.log('##### Post  taxi Start #####');
-    // console.log('req ::::::: ', req.body);
-    var nickName = 'couphone0001';
-    var openId = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    var nickName = req.body.nickName;
     var addr = req.body.addr;
     var lat = req.body.lat;
     var lng = req.body.lng;
@@ -63,19 +60,22 @@ router.post('/taxiDepartSend', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
-                // var contents = {
-                //     fromUserName : "",
-                //     toUserName : openId,
-                //     msgType : "text",
-                //     content : taxiMsg,
-                //     funcFlag : 0
-                // };
+                getConnection(function (err, connection) {
+                    var selectQuery = "SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ? AND USER_TYPE = '01'";
+                    connection.query(selectQuery, nickName, function (err, row) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        } else {
+                            var openId = row[0].USER_OPEN_ID;
+                            var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
 
-                wechatAPI.sendText(openId, taxiMsg, function(){
-                    console.log('complete depart msg');
+                            wechatAPI.sendText(openId, taxiMsg, function() {
+                                console.log('complete depart msg');
+                            }); // senText end
+                        };// select query end
+                    });// query connection end
                 });
-                // api.sender.msgSend(openId, contents);
             }
         })
     });
@@ -83,7 +83,7 @@ router.post('/taxiDepartSend', function (req, res, next) {
 
 router.post('/sendTaxiMap', function (req, res, next) {
     var openId  = req.body.openId;
-    var wechatId  = 'couphone0001';
+    var wechatId  = req.body.wechatId;
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
@@ -177,12 +177,12 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                         title : message,
                                                                         // "description": message,
                                                                         url : mapUrl,
-                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     },
                                                                     {
                                                                         title : "중국어로 목적지 보기",
                                                                         url : messageUrl,
-                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     }
 
                                                                 ];
@@ -190,8 +190,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 wechatAPI.sendNews(openId, articles, function () {
                                                     console.log('complete arrival msg');
                                                 });
-                                                // weixin.sendMsg(contents);
-                                                // api.sender.msgSend(openId, contents);
                                             }
                                         }).on('error', function(e){
                                             console.log(e)

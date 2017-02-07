@@ -44,9 +44,8 @@
         <input type="hidden" id="addr" name="addr" value="">
         <input type="hidden" id="lat" name="lat" value="">
         <input type="hidden" id="lng" name="lng" value="">
-        <!--<a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>-->
+        <input type="hidden" id="nickName" name="nickName" value=<%=nickName%>>
         <div id="header">
-            <!--<span class="part"></span><span class="head_ti">출발지 지정</span>-->
             <p class="btn_send" id="btnSend">보내기</p>
             <div class="address" name="address" id ='address'></div>
         </div>
@@ -80,8 +79,6 @@
         })
 
         map.addControl(navigationControl);
-//        map.addControl(new BMap.ScaleControl());
-//        map.addControl(new BMap.OverviewMapControl());
         map.addControl(geolocationControl);
 
         var geolocationControl = new BMap.GeolocationControl();
@@ -113,7 +110,6 @@
                 data: {addr : address},
                 success: function (data) {
 //                    var mPoint = new BMap.Point(data.lng, data.lat);
-
                     var lng = 121.49815490071883;
                     var lat = 31.232280291456389;
 
@@ -125,6 +121,7 @@
 //                        anchor: new BMap.Size(10, 30),
 //                        infoWindowAnchor: new BMap.Size(10, 0)
 //                    });
+
                     var mkr = new BMap.Marker(mPoint);
                     map.addOverlay(mkr);
 
@@ -136,7 +133,6 @@
                         var currnt_time = new Date();
                         var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
                         socket.emit('nbnl server', 'couphone0001,' + taxiMsg + ',' + currnt_time);
-//                        socket.disconnect();
 
                         $('#myLocation').submit();
                     })
