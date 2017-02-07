@@ -406,13 +406,13 @@ router.post('/', function(req, res) {
 });
 
 function shoppingUserInfo(open_id) {
-    console.log(' createMenu start ');
+    console.log(' Shopping User Info start ');
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            getUserAPI(token.accessToken, open_id);
+            shoppingSendAPI(token.accessToken, open_id);
         }
     });
 }
