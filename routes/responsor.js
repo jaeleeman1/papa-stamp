@@ -287,33 +287,48 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-	    var menu =  {
+	        var menu =  {
                 "button": [
                     {
-                        "type": "view",
-                        "name": "전화",
-                        "url": "http://v.qq.com/"
+                        "type": "click",
+                        "name": "쇼핑",
+                        "key": "KEY_SHOPPING"
                     },
                     {
-                        "name": "Request",
-                        "sub_button": [
-                            {
-                                "type": "view",
-                                "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping"
-                            },
-                            {
-                                "type": "view",
-                                "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food"
-                            },
-                            {
-                                "type": "view",
-                                "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation"
-                            }
-                        ]
+                        "type": "click",
+                        "name": "맛집",
+                        "key": "KEY_FOOD"
+                    },
+                    {
+                        "type": "click",
+                        "name": "택시",
+                        "key": "KEY_TAXI"
                     }
+                    // {
+                    //     "type": "view",
+                    //     "name": "전화",
+                    //     "url": "http://v.qq.com/"
+                    // },
+                    // {
+                    //     "name": "Request",
+                    //     "sub_button": [
+                    //         {
+                    //             "type": "view",
+                    //             "name": "쇼핑",
+                    //             "url": "http://nbnl.couphone.cn/shopping"
+                    //         },
+                    //         {
+                    //             "type": "view",
+                    //             "name": "맛집",
+                    //             "url": "http://nbnl.couphone.cn/food"
+                    //         },
+                    //         {
+                    //             "type": "view",
+                    //             "name": "택시",
+                    //             "url": "http://nbnl.couphone.cn/taxi/myLocation"
+                    //         }
+                    //     ]
+                    // }
                 ]
             };
 
@@ -336,18 +351,19 @@ weixin.eventMsg(function(msg) {
             break;
         case "CLICK" :
 	     switch(msg.eventKey) {
-                case "KEY_SHOPPING" :
-                    console.log('shopping call');	
-		    // TODO : Link to shopping page
-                    break;
-		case "KEY_FOOD" :
-		    console.log('food call');	
-                    // TODO : Link to food page
-                    break;
-                case "KEY_TAXI" :
-		    console.log('taxi call');
-                    // TODO : Link to taxi page
-                    break;
+            case "KEY_SHOPPING" :
+                console.log('shopping call');
+
+		        // TODO : Link to shopping page
+                break;
+		    case "KEY_FOOD" :
+		        console.log('food call');
+                // TODO : Link to food page
+                break;
+            case "KEY_TAXI" :
+		        console.log('taxi call');
+                // TODO : Link to taxi page
+                break;
             }
             break;
         case "VIEW" :
@@ -355,13 +371,14 @@ weixin.eventMsg(function(msg) {
             // TODO : Need to check do we need to add user id into link
             switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    // TODO :  Link to shopping page
+                    // TODO :  Send to shopping message
+                    shoppingUserInfo(open_id);
                     break;
                 case "KEY_FOOD" :
-                    // TODO : Link to food page
+                    // TODO : Send to food message
                     break;
                 case "KEY_TAXI" :
-                    // TODO : Link to taxi page
+                    // TODO : Send to taxi message
                     break;
             }
             break;
@@ -389,6 +406,63 @@ router.post('/', function(req, res) {
     console.log("POST end");
 });
 
+function shoppingUserInfo(open_id) {
+    console.log(' createMenu start ');
+
+    // get access token for debug
+    api.getAccessToken(function(err, token) {
+        if(err == null) {
+            //console.log("Access Token : "+JSON.stringify(token));
+            getUserAPI(token.accessToken, open_id);
+        }
+    });
+}
+
+function shoppingSendAPI(new_token, open_id) {
+    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
+    var pushChatOptions = {
+        method: "GET",
+        url: getUserURL
+    };
+
+    function pushChatCallback (error, response, body) {
+        //console.log("log : " + body);
+        if (!error && response.statusCode == 200) {
+            console.log("Get User API success");
+
+            bodyObject = JSON.parse(body);
+
+            console.log("Nick name : " + bodyObject.nickname);
+
+            shoppingSendMessage(bodyObject.nickname, open_id);
+        }
+    }
+    request(pushChatOptions, pushChatCallback);
+}
+
+function shoppingSendMessage(nick_name, open_id) {
+    console.log('Start shopping Init send  ');
+    var shoppingInitUrl = 'http://nbnl.couphone.cn/shopping?nick_name=' + nick_name;
+    var shoppingTitle = "쇼핑 홈페이지로 이동";
+    var articles = [
+        {
+            title : shoppingTitle,
+            // "description": message,
+            url : shoppingInitUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face02.png"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete shopping Init send');
+        }
+    });
+}
+
 function getUserInfo(open_id) {
     console.log(' createMenu start ');
 
@@ -412,11 +486,11 @@ function getUserAPI(new_token, open_id) {
         //console.log("log : " + body);
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
-            
-	    bodyObject = JSON.parse(body);      
-	    
+
+	    bodyObject = JSON.parse(body);
+
 	    console.log("Nick name : " + bodyObject.nickname);
-            
+
             insertUserInfo(bodyObject.nickname, open_id);
         }
     }
