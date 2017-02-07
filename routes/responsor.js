@@ -352,17 +352,17 @@ weixin.eventMsg(function(msg) {
         case "CLICK" :
 	     switch(msg.eventKey) {
             case "KEY_SHOPPING" :
+                // TODO :  Send to shopping messagg
                 console.log('shopping call');
-
-		        // TODO : Link to shopping page
+                shoppingUserInfo(open_id);
                 break;
 		    case "KEY_FOOD" :
+                // TODO : Send to food message
 		        console.log('food call');
-                // TODO : Link to food page
                 break;
             case "KEY_TAXI" :
-		        console.log('taxi call');
-                // TODO : Link to taxi page
+                // TODO : Send to taxi message
+                console.log('taxi call');
                 break;
             }
             break;
@@ -371,14 +371,13 @@ weixin.eventMsg(function(msg) {
             // TODO : Need to check do we need to add user id into link
             switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    // TODO :  Send to shopping message
-                    shoppingUserInfo(open_id);
+                    // TODO : Link to shopping page
                     break;
                 case "KEY_FOOD" :
-                    // TODO : Send to food message
+                    // TODO : Link to food page
                     break;
                 case "KEY_TAXI" :
-                    // TODO : Send to taxi message
+                    // TODO : Link to taxi page
                     break;
             }
             break;
