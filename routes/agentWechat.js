@@ -20,10 +20,15 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
-    socket.on('nbnlServer', function (sendData) {
+    socket.on('nbnlServer', function (data) {
 	    
-	  console.log('nbnlServer :::: sendData ', sendData);
-         socket.emit('saveMsg', sendData);
+	  console.log('nbnlServer :::: data ', data);
+	    if(sendData.type == 'saveMsg'){
+		socket.emit('saveMsg', data);
+	    }else if(sendData.type == 'turnRed'){
+		socket.emit('turnRed', data);    
+	    }
+         
         // socket.broadcast.emit('nbnl agent', sendData);
     });
 });
@@ -407,9 +412,7 @@ router.post('/saveMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                io.sockets.on('connection', function (socket) {
-			socket.emit('turnRed', toNickName);
-		});
+                res.send({data : true);
             }
         })
     });
@@ -417,8 +420,6 @@ router.post('/saveMessage', function (req, res, next) {
 
 // 대화내용 
 router.post('/readMessage', function (req, res, next) {
-	console.log("readMessage :: ", req.body);
-	
 	var agent = req.body.agent;
 	var user = req.body.user;
 
@@ -438,7 +439,6 @@ router.post('/readMessage', function (req, res, next) {
 			console.error("err : " + err);
 			throw err;
 		    } else {
-			    console.log('selectRow ::: ', selectRow);
 			res.send({data : selectRow});
 		    }
         	})
