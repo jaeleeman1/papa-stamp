@@ -34,6 +34,26 @@
                                 var wechatId = value.USER_WECHAT_ID;
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
+			    
+			    $('#userList').change(function(){
+			    	$.ajax({
+				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
+				    type: 'POST',
+				    data: data,
+				    success: function (data) {
+				    console.log('data %%%%%%%%%% ', data);
+				    	$.each(data.data, function (index, value) {
+					$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
+					'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
+					'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>');
+                    			});
+				    },
+				    error: function (request, status, error) {
+					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					console.log('Error occured');
+				    }
+				});	
+			    });
 			}
                     },
                     error: function (request, status, error) {
