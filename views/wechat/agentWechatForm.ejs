@@ -75,6 +75,7 @@
 
                 var data = {
                     openId: openWechatId[0],
+					nickName : openWechatId[1],
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
@@ -117,12 +118,12 @@
 	    
 	    socket.on('dialogue', function (data) {
 
-	     console.log('data ::: ', data);
-//
-//		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
-//			'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
-//			'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr></tr>');
-//	    });
+	     console.log('data :::############################### ', data);
+
+		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ data.toNickName +'</label></th>' +
+			'<th width="100"><label for="sendMessage">'+ data.contentType +'</label></th>' +
+			'<th width="100"><label for="sendTime">'+ data.contents +'</label></th></tr></tr>');
+	    });
         });
 	</script>
 </head>

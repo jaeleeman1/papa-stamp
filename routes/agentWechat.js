@@ -86,8 +86,11 @@ router.post('/taxiDepartSend', function (req, res, next) {
 });
 
 router.post('/sendTaxiMap', function (req, res, next) {
+
+    console.log('req.body ::: ', req.body);
+
     var openId  = req.body.openId;
-    var wechatId  = req.body.wechatId;
+    var nickName  = req.body.nickName;
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
@@ -127,7 +130,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                             'TRANSLATION_ADDR_CN = ? ' +
                             ' WHERE  ROAD_SEQ = (select ROAD_SEQ from (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1) as TEMP)';
 
-                connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, wechatId], function (err, rows) {
+                connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, nickName], function (err, rows) {
                     if (err) {
                         console.error("err : " + err);
                         throw err;
@@ -136,7 +139,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                         getConnection(function (err, connection) {
                             var query = 'select * from TB_ROAD_INFO A, TB_USER_INFO B where A.USER_WECHAT_ID = ? and  A.USER_WECHAT_ID = B.USER_WECHAT_ID  order by A.ROAD_SEQ DESC limit 1;';
 
-                            connection.query(query, wechatId, function (err, rows) {
+                            connection.query(query, nickName, function (err, rows) {
                                 if (err) {
                                     //  console.error("err : " + err);
                                     throw err;
