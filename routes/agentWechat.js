@@ -19,17 +19,16 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 });
 
 var io = require('socket.io').listen(httpServer);
-// io.sockets.on('connection', function (socket) {
-    // socket.on('nbnl server', function (sendData) {
-    //     var strArr = sendData.split(',');
+io.sockets.on('connection', function (socket) {
+    socket.on('dialogue', function (sendData) {
+        var strArr = sendData.split(',');
 
 
-     //    console.log('nbnl server : ' + sendData);
-	// var strArr = sendData.split(',');
+        console.log('nbnl server ################# ' + sendData);
 	// socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
      //    socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
-    // });
-// });
+    });
+});
 
 router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
@@ -87,8 +86,6 @@ router.post('/taxiDepartSend', function (req, res, next) {
 
 router.post('/sendTaxiMap', function (req, res, next) {
 
-    console.log('req.body ::: ', req.body);
-
     var openId  = req.body.openId;
     var nickName  = req.body.nickName;
     var endNameCn = req.body.endNameCn;
@@ -96,8 +93,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
     var endAddrCn = req.body.endAddrCn;
     var endAddrKr = req.body.endAddrKr;
     var translationAddrCn = req.body.translationAddrCn;
-
-    console.log(" Start!! RoadAddressUpdate ");
 
     // GET 위도,경도 via BaiduMap
     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
@@ -150,8 +145,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         depart.drivingLong = rows[0].START_LONGITUDE_TAXI ;
                                         depart.drivingLat = rows[0].START_LATITUDE_TAXI;
 
-                                        console.log('depart', depart);
-
                                         var arrive = {};
                                         arrive.nameCn = rows[0].END_NM_CN;
                                         arrive.nameKr = rows[0].END_NM_KR ;
@@ -162,7 +155,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         var openId = rows[0].USER_OPEN_ID;
                                         var nickName = rows[0].USER_WECHAT_ID;
                                         var translationAddrCn = rows[0].TRANSLATION_ADDR_CN;
-                                        console.log('arrive', arrive);
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                                             + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
 
@@ -172,8 +164,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
                                                 var duration = getDuration(jsonBody.result[0].duration.value);
                                                 var distance = getDistance(jsonBody.result[0].distance.value);
-
-                                                console.log(" UPDATE SUCESS ");
 
                                                 var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?nickName=' + nickName +'&type=driving'
                                                 var messageUrl = 'http://nbnl.couphone.cn/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
