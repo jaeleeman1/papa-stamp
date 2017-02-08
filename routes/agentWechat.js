@@ -188,6 +188,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                 ];
 
                                                 wechatAPI.sendNews(openId, articles, function () {
+						    res.send('complete arrival msg');
                                                     console.log('complete arrival msg');
                                                 });
                                             }
