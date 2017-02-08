@@ -20,13 +20,13 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
-    socket.on('dialogue', function (sendData) {
+    socket.on('nbnlServer', function (sendData) {
         var strArr = sendData.split(',');
 
 
         console.log('nbnl server ################# ' + sendData);
-	// socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
-     //    socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+        // socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+        // socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
     });
 });
 
