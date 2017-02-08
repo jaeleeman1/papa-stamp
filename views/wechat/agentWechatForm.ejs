@@ -135,6 +135,22 @@
                     }
                 });	
 	    });
+	    
+	    socket.on('turnRed', function (data) {
+	     	var selectUserList = $('#openIdTaxi');
+		var length = selectUserList.length;
+		
+		console.log('selectUserData ::: ', data);
+		console.log('selectUserList ::: ', selectUserList);
+		
+		for(var i=0; i< length; i ++){
+			console.log('selectUserList[i].text()', selectUserList[i].text());
+			if(selectUserList[i].text() == data){
+				selectUserList[i].css('color', 'red');
+				break;
+			}
+		}
+	    });
         });
 	</script>
 </head>
