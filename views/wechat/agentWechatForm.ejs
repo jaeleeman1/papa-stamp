@@ -35,7 +35,7 @@
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
 			    
-			    $('#userList).find("option:eq(0)").prop('selected', true);
+			    $("#userList option:eq(0)").prop("selected", true);
 			    
 			    $('#userList').change(function(){
 			    	var openWechatId = $('#openIdTaxi').val().split(',');
