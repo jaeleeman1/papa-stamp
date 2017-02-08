@@ -23,8 +23,6 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
-						console.log('data.data', data);
-						console.log('!!data.data', !!data.data);
                         if(!!data.data){
 
                             $('#userList').empty();
@@ -36,8 +34,7 @@
                                 var wechatId = value.USER_WECHAT_ID;
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
-
-						}
+			}
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -125,12 +122,18 @@
 	    );
 	    
 	    socket.on('saveMsg', function (data) {
-
-	     console.log('saveMsg - data :::############################### ', data);
-
-		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ data.toNickName +'</label></th>' +
-			'<th width="100"><label for="sendMessage">'+ data.contentType +'</label></th>' +
-			'<th width="100"><label for="sendTime">'+ data.contents +'</label></th></tr></tr>');
+	      $.ajax({
+                    url: 'http://nbnl.couphone.cn/wechat/saveMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+			console.log('save success');
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });	
 	    });
         });
 	</script>
