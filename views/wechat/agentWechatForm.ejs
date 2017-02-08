@@ -230,13 +230,13 @@
 		console.log('selectUserList ::: ', selectUserList);
 		console.log('selectUserList.text()', selectUserList.text(data.toNickName));
 		
-		for(var i=0; i< length; i ++){
+	//	for(var i=0; i< length; i ++){
 			
-			if(selectUserList.text() == data){
-				selectUserList.text().css('color', 'red');
-				break;
-			}
-		}
+	//		if(selectUserList.text() == data){
+				selectUserList.text(data.toNickName).css('color', 'red');
+		//		break;
+	//		}
+	//	}
 	    });
         });
 	</script>
