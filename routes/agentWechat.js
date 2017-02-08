@@ -29,7 +29,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 router.get('/agentLogin', function(req, res, next) {
-    res.render('wechat/loginForm', {lengths : 0});
+    res.render('wechat/loginForm', {listLength : 0});
 });
 
 router.post('/historyMessage', function(req, res, next) {
@@ -380,7 +380,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                         } else {
 
                                             console.error("rows : ", rows);
-                                            res.send({data : rows, lengths: rows.length});
+                                            res.send({data : rows, listLength: rows.length});
                                         }
                                         connection.release();
                                     })
