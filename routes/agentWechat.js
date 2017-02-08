@@ -47,6 +47,7 @@ router.post('/loginSend', function(req, res, next) {
 
 // 택시 출발지 메시지 전송 ( 사용자 -> Agent )
 router.post('/taxiDepartSend', function (req, res, next) {
+
     var nickName = req.body.nickName;
     var addr = req.body.addr;
     var lat = req.body.lat;
@@ -379,7 +380,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                         } else {
 
                                             console.error("rows : ", rows);
-                                            res.send({data : rows});
+                                            res.send({data : rows, length: rows.length});
                                         }
                                         connection.release();
                                     })

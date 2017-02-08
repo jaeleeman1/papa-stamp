@@ -106,38 +106,6 @@
                     }
                 });
             });
-
-            // 일반 메시지 전송
-            $('#btnSendMessage').click(function () {
-                if ($('#message').val() == "") {
-                    $('#alertMessage').text('Message 를 꼭 입력하세요!');
-                    $('#message').focus();
-                    return;
-                }
-
-                var openWechatId = $('#openIdTaxi').val().split(',');
-
-                var data = {
-                    openId: openWechatId[0],
-                    message: $('#message').val()
-                };
-
-                var currnt_time = new Date();
-                socket.emit('nbnl server', openWechatId[1]+ ',' + $('#message').val() + ',' + currnt_time);
-
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn/wechat/sendMessage',
-                    type: 'POST',
-                    data: data,
-		    success: function (data) {
-                        $('#message').val("");
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        console.log('Error occured');
-                    }
-                });
-            });
 	    
 	    $("#btnDeleteMessage").click(
 		function() {
@@ -166,7 +134,7 @@
 				<tr>
 					<th width="100"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
 					<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-					<td><select name="openIdTaxi" id="openIdTaxi"></select></td>
+					<td><select name="openIdTaxi" id="openIdTaxi" size=<%=length%>></select></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -194,23 +162,6 @@
 				</tr>
 			</table>
 		<!--</form>-->
-
-		<!--<form action="/wechat/agentWechat" method="post" id="sendform2"-->
-			<table class="table table-condensed">
-				<tr>
-					<th width="100"><label for="openIdMessage">Wechat ID</label></th>
-					<td><select name="openIdMessage" id="openIdMessage"></select></td>
-				</tr>
-				<tr>
-					<th width="100"><label for="message">Message</label></th>
-					<td><input type="text" name="message" id="message" size="100"
-							   maxlength="100" class="form-control"  /></td>
-				</tr>
-				<tr><td colspan="3" id ='alertMessage' style="color: red"></td></tr>
-				<tr>
-					<td colspan="2"><input type="button" id="btnSendMessage" value="문자전송" style="height: 35px" class="btn btn-primary"/>
-				</tr>
-			</table>
 			
 			<table class="table table-condensed">
 			    <tr>
