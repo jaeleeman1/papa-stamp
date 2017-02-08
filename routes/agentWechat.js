@@ -423,7 +423,7 @@ router.post('/readMessage', function (req, res, next) {
 	var user = req.body.user;
 
     getConnection(function (err, connection) {
-        var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC;
+        var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
