@@ -39,7 +39,7 @@
 			    
 			    $('#userList').change(function(){
 			    	var openWechatId = $('#openIdTaxi').val().split(',');
-				$('#openIdTaxi').text(data.toNickName).css('color', 'black');
+				$('#openIdTaxi').text(openWechatId[1]).css('color', 'black');
 				
 				var data = {
 				 agent : $('#nickName').text(),
