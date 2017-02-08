@@ -115,6 +115,10 @@
             <!-- 시간E -->
 
         </div>
+                <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
+                <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
+                <input type="hidden" id="arriveLat" value=<%=arrive.walkingLong%>>
+                <input type="hidden" id="arriveLong" value=<%=arrive.walkingLong%>>
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
@@ -123,8 +127,6 @@
                     <input type="hidden" id="foodId" value=<%=arrive.id%>>
                     <input type="hidden" id="duration" value=<%=duration%>>
                     <input type="hidden" id="distance" value=<%=distance%>>
-                    <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
-                    <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
                     <input type="hidden" id="nickName" value=<%=nickName%>>
                  <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
@@ -137,12 +139,28 @@
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
+        var departlat = null;
+        var departlng = null;
+        var arrivelat = null;
+        var arrivelng = null;
         if($('#transportType').val() == 'walking'){
-            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
+            departlat = $('#departLat').val();
+            departlng = $('#departLng').val();
+            arrivelat = $('#arriveLat').val();
+            arrivelng = $('#arrivelng').val();
         } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+            departlat = $('#departLat').val();
+            departlng = $('#departLng').val();
+            arrivelat = $('#arriveLat').val();
+            arrivelng = $('#arrivelng').val();
         }
-        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
+        var startpoint = new BMap.Point(departlng, departlat);
+        var endpoint = new BMap.Point(arrivelng, arrivelat);
+
+        transportWay.search(startpoint, endpoint);
+//        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
 
         $('#btn_put').click(function(){
             var data = {
