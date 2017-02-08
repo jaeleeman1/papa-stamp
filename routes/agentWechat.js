@@ -23,9 +23,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
 	    
 	  console.log('nbnlServer :::: data ', data);
-	    if(sendData.type == 'saveMsg'){
+	    if(data.type == 'saveMsg'){
 		socket.emit('saveMsg', data);
-	    }else if(sendData.type == 'turnRed'){
+	    }else if(data.type == 'turnRed'){
 		socket.emit('turnRed', data);    
 	    }
          
