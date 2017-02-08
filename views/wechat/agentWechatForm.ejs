@@ -36,6 +36,13 @@
                             });
 			    
 			    $('#userList').change(function(){
+			    	var openWechatId = $('#openIdTaxi').val().split(',');
+				
+				var data = {
+				 agent : $('#nickName').text(),
+				 user : openWechatId[1]
+			    	}
+			    
 			    	$.ajax({
 				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
 				    type: 'POST',
