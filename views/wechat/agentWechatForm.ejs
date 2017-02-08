@@ -121,15 +121,6 @@
                     translationAddrCn: $('#translationAddrCn').val()
                 };
 		
-                var content = {
-                    fromNickName : $('#nickName').text(),
-                    toNickName : openWechatId[1],
-                    contentType : 'text',
-                    contents : data.translationAddrCn,
-                };
-
-                socket.emit('nbnlServer', content);
-
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
                     type: 'POST',
@@ -138,9 +129,18 @@
 
                         var openWechatId = $('#openIdTaxi').val().split(',');
                         var currnt_time = new Date();
-                        var foodMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
-                        socket.emit('nbnl server', openWechatId[1]+ ',' + foodMsg + ',' + currnt_time);
-
+                        var taxiMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
+        		
+			var content = {
+			    fromNickName : $('#nickName').text(),
+			    toNickName : openWechatId[1],
+			    contentType : 'text',
+			    contents : taxiMsg,
+			    type : 'taxiMap'
+			};
+			
+			socket.emit('nbnlServer', content);
+			
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");
