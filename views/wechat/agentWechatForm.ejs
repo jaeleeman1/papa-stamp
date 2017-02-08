@@ -73,6 +73,43 @@
 				    }
 				});	
 			    });
+			    
+			    $('#userList').click(function(){
+			    	var openWechatId = $('#openIdTaxi').val().split(',');
+				
+				var data = {
+				 agent : $('#nickName').text(),
+				 user : openWechatId[1]
+			    	}
+			    
+			    	$.ajax({
+				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
+				    type: 'POST',
+				    data: data,
+				    success: function (data) {
+				   	$("#sendId").empty();
+				    	$.each(data.data, function (index, value) {
+					
+					var readYN = '';
+					
+					if(value.READ_YN == 'false'){
+					   readYN = '<tr style="color:red">';				
+					}else{
+					   readYN = '<tr>';
+					}
+					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
+						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
+						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+					
+					$("#sendId").append(readYN);
+                    			});
+				    },
+				    error: function (request, status, error) {
+					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					console.log('Error occured');
+				    }
+				});	
+			    });
 			}
                     },
                     error: function (request, status, error) {
@@ -172,7 +209,7 @@
 		    
 			console.log('saveMsg', data);		    
 			var content = {
-			    toNickName : data.toNickName,
+			    toNickName : data,
 			    type : 'turnRed'
 			};
 			
@@ -191,11 +228,12 @@
 		
 		console.log('selectUserData ::: ', data);
 		console.log('selectUserList ::: ', selectUserList);
+		console.log('selectUserList.text()', selectUserList.text(data.toNickName));
 		
 		for(var i=0; i< length; i ++){
-			console.log('selectUserList[i].text()', selectUserList[i].text());
-			if(selectUserList[i].text() == data){
-				selectUserList[i].css('color', 'red');
+			
+			if(selectUserList.text() == data){
+				selectUserList.text().css('color', 'red');
 				break;
 			}
 		}
