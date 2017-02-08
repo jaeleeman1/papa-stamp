@@ -56,15 +56,15 @@
 					var readYN = '';
 					
 					if(value.READ_YN == 'false'){
-					   readYN = '<tr><tr style="color:red">';				
+					   readYN = '<tr style="color:red">';				
 					}else{
-					   readYN = '<tr><tr>';
+					   readYN = '<tr>';
 					}
 					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
 						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
 						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
 					
-					$("#sendId").append();
+					$("#sendId").append(readYN);
                     			});
 				    },
 				    error: function (request, status, error) {
