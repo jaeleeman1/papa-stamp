@@ -121,7 +121,7 @@
         <input type="hidden" id="arriveWalkingLong" value=<%=arrive.walkingLong%>>
         <input type="hidden" id="departDrivingLat" value=<%=depart.drivingLat%>>
         <input type="hidden" id="departDrivingLong" value=<%=depart.drivingLong%>>
-        <input type="hidden" id="arriveDrivingLat" value=<%=arrive.drivingLong%>>
+        <input type="hidden" id="arriveDrivingLat" value=<%=arrive.drivingLat%>>
         <input type="hidden" id="arriveDrivingLong" value=<%=arrive.drivingLong%>>
         <!-- map_body E -->
         <!--지도영역-->
@@ -139,7 +139,7 @@
 </body>
 <script type="text/javascript">
     $(function(){
-        var socket = io.connect('http://52.79.56.181:8060');
+//        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
@@ -180,7 +180,7 @@
 
             var currnt_time = new Date();
             var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
-            socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
+//            socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
 
             $.post( "/wechat/sendFoodMap", data);
         })
