@@ -268,6 +268,7 @@ weixin.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
     
     var open_id =  msg.fromUserName;
+    weixin.sendMsg('');
     
     switch (msg.event) {
         case "kf_create_session" :
@@ -394,7 +395,6 @@ weixin.eventMsg(function(msg) {
         case "location_select" :
             break;
     } 
-    weixin.sendMsg('');
 });
 
 // Start
