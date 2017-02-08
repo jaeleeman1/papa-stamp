@@ -11,12 +11,8 @@
 	<script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
 	<script type ="text/javascript">
-//	var socket = io.connect('http://52.79.56.181:8060');
+	var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
-
-            var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size=0></select>';
-            $('#userList').append(dynamicDom);
-
             var getFollowerList = function(){
                 var data = {
                     nickName : $('#nickName').text()
@@ -38,10 +34,9 @@
 
                                 var openId = value.USER_OPEN_ID;
                                 var wechatId = value.USER_WECHAT_ID;
-                                dynamicDom += '<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>';
-
-                                $('#userList').append(dynamicDom);
+                                dynamicDom.append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
+                            $('#userList').append(dynamicDom);
 						}
                     },
                     error: function (request, status, error) {
@@ -88,7 +83,7 @@
                 };
 
 		        var currnt_time = new Date();
-//                socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
+                socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
@@ -141,7 +136,7 @@
 				<tr>
 					<th width="100"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
 					<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-					<td id="userList"></td>
+					<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select></td>
 				</tr>
 				<tr>
 					<td colspan="3">
