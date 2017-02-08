@@ -39,43 +39,7 @@
 			    
 			    $('#userList').change(function(){
 			    	var openWechatId = $('#openIdTaxi').val().split(',');
-				
-				var data = {
-				 agent : $('#nickName').text(),
-				 user : openWechatId[1]
-			    	}
-			    
-			    	$.ajax({
-				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
-				    type: 'POST',
-				    data: data,
-				    success: function (data) {
-				   	$("#sendId").empty();
-				    	$.each(data.data, function (index, value) {
-					
-					var readYN = '';
-					
-					if(value.READ_YN == 'false'){
-					   readYN = '<tr style="color:red">';				
-					}else{
-					   readYN = '<tr>';
-					}
-					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
-					
-					$("#sendId").append(readYN);
-                    			});
-				    },
-				    error: function (request, status, error) {
-					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-					console.log('Error occured');
-				    }
-				});	
-			    });
-			    
-			    $('#userList').click(function(){
-			    	var openWechatId = $('#openIdTaxi').val().split(',');
+				$('#openIdTaxi').text(data.toNickName).css('color', 'black');
 				
 				var data = {
 				 agent : $('#nickName').text(),
@@ -223,20 +187,7 @@
 	    });
 	    
 	    socket.on('turnRed', function (data) {
-	     	var selectUserList = $('#openIdTaxi');
-		var length = selectUserList.length;
-		
-		console.log('selectUserData ::: ', data);
-		console.log('selectUserList ::: ', selectUserList);
-		console.log('selectUserList.text()', selectUserList.text(data.toNickName));
-		
-	//	for(var i=0; i< length; i ++){
-			
-	//		if(selectUserList.text() == data){
-				selectUserList.text(data.toNickName).css('color', 'red');
-		//		break;
-	//		}
-	//	}
+		$('#openIdTaxi').text(data.toNickName).css('color', 'red');
 	    });
         });
 	</script>
