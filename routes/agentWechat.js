@@ -391,4 +391,28 @@ router.post('/getFollowerList', function (req, res, next) {
     });
 });
 
+// 대화내용 저장
+router.post('/saveMessage', function (req, res, next) {
+	console.log("saveMessage :: ", req.body);
+	
+	var fromNickName = req.body.fromNickName;
+	var toNickName = req.body.toNickName;
+	var contentType = req.body.contentType;
+	var contents = req.body.contents;
+
+    getConnection(function (err, connection) {
+        var insertQuery = 'INSERT INTO TB_WECHAT_HIS_DIALOGUE (FROM_OPEN_ID, TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT) VALUES ( ?, ?, ?, ?)';
+        connection.query(insertQuery, [fromNickName, toNickName, contentType, contents], function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+                io.sockets.on('connection', function (socket) {
+			socket.emit('turnRed', "true");
+		});
+            }
+        })
+    });
+});
+
 module.exports = router;
