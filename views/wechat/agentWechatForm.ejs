@@ -48,7 +48,7 @@
 				    type: 'POST',
 				    data: data,
 				    success: function (data) {
-				    console.log('data %%%%%%%%%% ', data);
+				   	$("#sendId").empty();
 				    	$.each(data.data, function (index, value) {
 					$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
 					'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
