@@ -412,7 +412,7 @@ router.post('/saveMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                res.send({data : toNickName);
+                res.send({data : toNickName});
             }
         })
     });
