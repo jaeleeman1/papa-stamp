@@ -21,7 +21,9 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (sendData) {
-        // socket.emit('dialog', sendData);
+	    
+	  console.log('nbnlServer :::: sendData ', sendData);
+         socket.emit('saveMsg', sendData);
         // socket.broadcast.emit('nbnl agent', sendData);
     });
 });
