@@ -136,7 +136,7 @@
 			    toNickName : openWechatId[1],
 			    contentType : 'text',
 			    contents : taxiMsg,
-			    type : 'taxiMap'
+			    type : 'saveMsg'
 			};
 			
 			socket.emit('nbnlServer', content);
@@ -160,13 +160,21 @@
 		}
 	    );
 	    
+	    // save message
 	    socket.on('saveMsg', function (data) {
 	      $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',
                     data: data,
                     success: function (data) {
-			console.log('save success');
+		    
+			console.log('saveMsg', data);		    
+			var content = {
+			    toNickName : data.toNickName,
+			    type : 'turnRed'
+			};
+			
+			socket.emit('nbnlServer', content);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
