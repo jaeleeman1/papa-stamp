@@ -29,7 +29,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 router.get('/agentLogin', function(req, res, next) {
-    res.render('wechat/loginForm', {listLength : 0});
+    res.render('wechat/loginForm');
 });
 
 router.post('/historyMessage', function(req, res, next) {
@@ -42,7 +42,7 @@ router.post('/historyMessage', function(req, res, next) {
 });
 
 router.post('/loginSend', function(req, res, next) {
-    res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
+    res.render('wechat/agentWechatForm',{nickName: req.body.nickName, listLength : 0 });
 });
 
 // 택시 출발지 메시지 전송 ( 사용자 -> Agent )

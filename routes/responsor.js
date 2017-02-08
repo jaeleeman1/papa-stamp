@@ -110,16 +110,16 @@ var getUserListOfAgent = function(agentNickName, callback){
 		// console.log("WeChatAPI getCustomServiceList "+err);
 		// console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
 		if(err) {
-			console.log("WeChatAPI getCustomServiceList Error : "+err);
+			// console.log("WeChatAPI getCustomServiceList Error : "+err);
 		} else {
 			for(var i = 0; i < result.kf_list.length; i++) {
-				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
-					" kf_nick("+result.kf_list[i].kf_nick+")");
+				// console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
+				// 	" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
-					console.log("Nick Name Matched("+agentNickName+")");
+					// console.log("Nick Name Matched("+agentNickName+")");
 					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 != null) {
-							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
+							// console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
 							// return user's info using callback
 							callback(err0, result0);
@@ -534,14 +534,14 @@ function printSessionList() {
     var agentName = "couphone0002";
     getUserListOfAgent(agentName, function(err, result) {
         if(!err) {
-            console.log("*** printSessionList("+agentName+") Success ***");
-            console.log(result);
+            // console.log("*** printSessionList("+agentName+") Success ***");
+            // console.log(result);
         } else {
             console.log("*** printSessionList("+agentName+") Fail ***");
         }
     });
 }
 
-// setInterval(printSessionList, 1000000);
+ setInterval(printSessionList, 1000000);
 
 module.exports = router;
