@@ -39,7 +39,7 @@
 			    
 			    $('#userList').change(function(){
 			    	var openWechatId = $('#openIdTaxi').val().split(',');
-				$('#openIdTaxi').text(openWechatId[1]).css('color', 'black');
+			//	$('#openIdTaxi').text(openWechatId[1]).css('color', 'black');
 				
 				var data = {
 				 agent : $('#nickName').text(),
@@ -187,7 +187,17 @@
 	    });
 	    
 	    socket.on('turnRed', function (data) {
-		$('#openIdTaxi').text(data.toNickName).css('color', 'red');
+	//	$('#openIdTaxi').text(data.toNickName).css('color', 'red');
+		 var selectAgentAdNo=$('#openIdTaxi');
+			var len = selectAgentAdNo.length;
+
+			for(i=0;i<len;i++){
+			console.log('selectAgentAdNo.options[i]', selectAgentAdNo.options[i]);
+			 if(selectAgentAdNo.options[i].text == data){
+			  selectAgentAdNo.options[i].css('color', 'red');
+			 }
+
+			}
 	    });
         });
 	</script>
