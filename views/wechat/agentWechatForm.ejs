@@ -70,7 +70,9 @@
                     $('#translationAddrCn').focus();
                     return;
                 }
-
+		
+		console.log('$('#openIdTaxi').val() :::: ', $('#openIdTaxi').val());
+		
                 var openWechatId = $('#openIdTaxi').val().split(',');
 
                 var data = {
@@ -82,9 +84,7 @@
                     endAddrKr: $('#endAddrKr').val(),
                     translationAddrCn: $('#translationAddrCn').val()
                 };
-
-		        var currnt_time = new Date();
-
+		
                 var content = {
                     fromNickName : $('#nickName').text(),
                     toNickName : openWechatId[1],
@@ -92,8 +92,7 @@
                     contents : data.translationAddrCn,
                 };
 
-//              socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
-                socket.broadcast.emit('dialogue', content);
+                socket.emit('nbnlServer', content);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
@@ -127,7 +126,7 @@
 	    
 	    socket.on('dialogue', function (data) {
 
-	     console.log('data :::############################### ', data);
+	     console.log('dialogue - data :::############################### ', data);
 
 		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ data.toNickName +'</label></th>' +
 			'<th width="100"><label for="sendMessage">'+ data.contentType +'</label></th>' +
