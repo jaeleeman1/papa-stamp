@@ -415,4 +415,35 @@ router.post('/saveMessage', function (req, res, next) {
     });
 });
 
+// 대화내용 
+router.post('/readMessage', function (req, res, next) {
+	console.log("readMessage :: ", req.body);
+	
+	var agent = req.body.agent;
+	var user = req.body.user;
+
+    getConnection(function (err, connection) {
+        var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC;
+	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
+                            "  SET READ_YN = ? "+
+                            " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
+
+        connection.query(selectQuery, [agent, user], function (err, selectRow) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+		connection.query(updateQuery, [true, agent, user], function (err, updateRow) {
+		    if (err) {
+			console.error("err : " + err);
+			throw err;
+		    } else {
+			    console.log('selectRow ::: ', selectRow);
+			res.send({data : selectRow});
+		    }
+        	})
+            }//end if(err)
+        });
+    });
+});
 module.exports = router;
