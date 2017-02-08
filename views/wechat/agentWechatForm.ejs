@@ -124,9 +124,9 @@
 		}
 	    );
 	    
-	    socket.on('dialogue', function (data) {
+	    socket.on('saveMsg', function (data) {
 
-	     console.log('dialogue - data :::############################### ', data);
+	     console.log('saveMsg - data :::############################### ', data);
 
 		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ data.toNickName +'</label></th>' +
 			'<th width="100"><label for="sendMessage">'+ data.contentType +'</label></th>' +
