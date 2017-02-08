@@ -54,12 +54,12 @@
                 <% if('walking'== type){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>">도보</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="fir">택시</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>">택시</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>">택시</a></li>
                     <%}%>
                 </ul>
             </div>
@@ -126,7 +126,7 @@
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
-                <% if('!@#$' != nickName) {%>
+                <% if('food' == transportType) {%>
                     <a href=""><div id="btn_put">메세지로 경로 받기</div></a>
                     <input type="hidden" id="foodId" value=<%=arrive.id%>>
                     <input type="hidden" id="duration" value=<%=duration%>>

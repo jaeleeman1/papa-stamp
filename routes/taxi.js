@@ -20,8 +20,6 @@ router.get('/taxiaddress', function (req, res, next) {
         res.render('taxiAddress', {name : req.query.name, address: req.query.address});
 })
 
-
-
 router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
         var query = 'select * from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ DESC limit 1';
@@ -77,7 +75,7 @@ router.get('/transport', function (req, res, next) {
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'taxi', nickName: "!@#$"});
+                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'taxi', nickName: "nickName"});
                         }
                     }).on('error', function(e){
                         console.log(e)
