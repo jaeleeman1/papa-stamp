@@ -89,11 +89,11 @@
                     fromNickName : $('#nickName').text(),
                     toNickName : openWechatId[1],
                     contentType : 'text',
-                    contents : translationAddrCn,
+                    contents : data.translationAddrCn,
                 };
 
-//                socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
-                socket.emit('nbnlServer', content);
+//              socket.emit('nbnl server', openWechatId[1]+ ',' + data.translationAddrCn + ',' + currnt_time);
+                socket.broadcast.emit('dialogue', content);
 
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
