@@ -433,7 +433,7 @@ router.post('/readMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-		connection.query(updateQuery, [true, agent, user], function (err, updateRow) {
+		connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
 		    if (err) {
 			console.error("err : " + err);
 			throw err;
