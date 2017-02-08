@@ -56,13 +56,13 @@
 					var readYN = '';
 					
 					if(value.READ_YN == 'false'){
-					   readYN = '<tr style="color:red">';				
+					   readYN = '<tr><tr style="color:red">';				
 					}else{
-					   readYN = '<tr>';
+					   readYN = '<tr><tr>';
 					}
 					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
 						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr>';
+						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
 					
 					$("#sendId").append();
                     			});
