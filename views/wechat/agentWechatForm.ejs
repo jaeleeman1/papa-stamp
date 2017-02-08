@@ -115,11 +115,14 @@
 		}
 	    );
 	    
-	    socket.on('nbnl agent', function (sodata) {
-		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
-			'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
-			'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr></tr>');
-	    });
+	    socket.on('dialogue', function (data) {
+
+	     console.log('data ::: ', data);
+//
+//		$("#sendId").append('<tr><tr><th width="100"><label for="sendWechatId">'+ sodata.historyWechatId +'</label></th>' +
+//			'<th width="100"><label for="sendMessage">'+ sodata.historyMessage +'</label></th>' +
+//			'<th width="100"><label for="sendTime">'+ sodata.historyTime +'</label></th></tr></tr>');
+//	    });
         });
 	</script>
 </head>
