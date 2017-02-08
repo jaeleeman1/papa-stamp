@@ -408,7 +408,7 @@ router.post('/saveMessage', function (req, res, next) {
                 throw err;
             } else {
                 io.sockets.on('connection', function (socket) {
-			socket.emit('turnRed', "true");
+			socket.emit('turnRed', toNickName);
 		});
             }
         })
