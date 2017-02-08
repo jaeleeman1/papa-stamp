@@ -115,10 +115,14 @@
             <!-- 시간E -->
 
         </div>
-                <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
-                <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
-                <input type="hidden" id="arriveLat" value=<%=arrive.walkingLong%>>
-                <input type="hidden" id="arriveLong" value=<%=arrive.walkingLong%>>
+        <input type="hidden" id="departWalkingLat" value=<%=depart.walkingLat%>>
+        <input type="hidden" id="departWalkingLong" value=<%=depart.walkingLong%>>
+        <input type="hidden" id="arriveWalkingLat" value=<%=arrive.walkingLong%>>
+        <input type="hidden" id="arriveWalkingLong" value=<%=arrive.walkingLong%>>
+        <input type="hidden" id="departDrivingLat" value=<%=depart.drivingLat%>>
+        <input type="hidden" id="departDrivingLong" value=<%=depart.drivingLong%>>
+        <input type="hidden" id="arriveDrivingLat" value=<%=arrive.drivingLong%>>
+        <input type="hidden" id="arriveDrivingLong" value=<%=arrive.drivingLong%>>
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
@@ -143,18 +147,19 @@
         var departlng = null;
         var arrivelat = null;
         var arrivelng = null;
+
         if($('#transportType').val() == 'walking'){
             transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
-            departlat = $('#departLat').val();
-            departlng = $('#departLng').val();
-            arrivelat = $('#arriveLat').val();
-            arrivelng = $('#arrivelng').val();
+            departlat = $('#departWalkingLat').val();
+            departlng = $('#departWalkingLong').val();
+            arrivelat = $('#arriveWalkingLat').val();
+            arrivelng = $('#arriveWalkingLong').val();
         } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
-            departlat = $('#departLat').val();
-            departlng = $('#departLng').val();
-            arrivelat = $('#arriveLat').val();
-            arrivelng = $('#arrivelng').val();
+            departlat = $('#departDrivingLat').val();
+            departlng = $('#departDrivingLong').val();
+            arrivelat = $('#arriveDrivingLat').val();
+            arrivelng = $('#arriveDrivingLong').val();
         }
         var startpoint = new BMap.Point(departlng, departlat);
         var endpoint = new BMap.Point(arrivelng, arrivelat);
@@ -168,8 +173,8 @@
                 duration : $('#duration').val(),
                 distance : $('#distance').val(),
                 departAddr : $('#departAddr').text(),
-                departLat : $('#departLat').val(),
-                departLong : $('#departLong').val(),
+                departLat : $('#departWalkingLat').val(),
+                departLong : $('#departWalkingLong').val(),
                 arriveName : $('#arrive').text()
             }
 
