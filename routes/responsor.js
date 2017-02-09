@@ -594,6 +594,6 @@ function printSessionList() {
     });
 }
 
- setInterval(printSessionList, 1000000);
+ setInterval(printSessionList, 10000);
 
 module.exports = router;
