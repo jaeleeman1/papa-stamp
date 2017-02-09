@@ -40,7 +40,6 @@
 
 <body id="back_100">
 <!--<div>-->
-    <form id="myLocation" action="/wechat/taxiDepartSend" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" id="addr" name="addr" value="">
         <input type="hidden" id="lat" name="lat" value="">
         <input type="hidden" id="lng" name="lng" value="">
@@ -49,7 +48,6 @@
             <p class="btn_send" id="btnSend">보내기</p>
             <div class="address" name="address" id ='address'></div>
         </div>
-    </form>
 
     <!--<span class="dot_location"></span>-->
     <!-- Focus -->
@@ -130,21 +128,35 @@
                     $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
-                        var currnt_time = new Date();
-                        var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
+                            var data = {
+                                addr : $('#addr').val(),
+                                lat : $('#lat').val(),
+                                lng : $('#lng').val(),
+                                nickName : $('#nickName').val()
+                            }
+                            $.ajax({
+                                url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
+                                type: 'POST',
+                                data: data,
+                                success: function (data) {
 
-                        var content = {
-                          fromNickName : '',
-                          toNickName : $('#nickName').val(),
-                          contentType : 'text',
-                          contents : taxiMsg,
-                            type : 'saveMsg'
-                        };
+                                    var taxiMsg = "택시 안내 요청 \n현위치 : " + address;
 
-                        socket.emit('nbnlServer', content);
-
-                        $('#myLocation').submit();
-                    })
+                                    var content = {
+                                        fromNickName : '',
+                                        toNickName : data,
+                                        contentType : 'text',
+                                        contents : taxiMsg,
+                                        type : 'saveMsg'
+                                    };
+                                    socket.emit('nbnlServer', content);
+                                },
+                                error: function (request, status, error) {
+                                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                    console.log('Error occured');
+                                }
+                            });
+                        });
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

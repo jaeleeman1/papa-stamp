@@ -77,7 +77,7 @@ router.post('/taxiDepartSend', function (req, res, next) {
                             var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
 
                             wechatAPI.sendText(openId, taxiMsg, function() {
-                                res.send({result : 'success'});
+                                res.send({nickName : nickName});
                             }); // senText end
                         };// select query end
                     });// query connection end
