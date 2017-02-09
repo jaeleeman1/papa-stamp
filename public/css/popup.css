@@ -1,5 +1,5 @@
 #layerDelPop{border:4px solid #eee; background:#fff; display:none; z-index:100;}
 #layerDelPop .close{position:absolute; bottom:5px;right:5px;}
-#layerAllDelpop{border:4px solid #eee; background:#fff; display:none; z-index:100;}
+#layerAllDelPop{border:4px solid #eee; background:#fff; display:none; z-index:100;}
 #layerAllDelPop .close{position:absolute; bottom:5px;right:5px;}
 #deemed{width:100%; height:100%; position:absolute; top:0; left:0; filter:Alpha(opacity=50);opacity:0.5; background:#000; z-index:1;}
