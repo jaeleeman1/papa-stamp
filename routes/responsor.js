@@ -268,8 +268,12 @@ weixin.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
     
     var open_id =  msg.fromUserName;
-    weixin.sendMsg('');
-    
+    api.sendText(open_id, "", function(err) {
+        if(!err) {
+            console.log("sending message failed");
+        }
+    });
+
     switch (msg.event) {
         case "kf_create_session" :
             // TODO : we can show greeting again
