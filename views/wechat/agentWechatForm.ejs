@@ -8,30 +8,75 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="/js/jquery-1.11.2.min.js"></script>
-	<script>
+	<script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
+
+	<script type ="text/javascript">
+	var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
-
-
-
             var getFollowerList = function(){
                 var data = {
-                    nickName: $('#nickName').text();
+                    nickName : $('#nickName').text()
                 };
 
                 $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/getFollowerList',
+                    url: 'http://nbnl.couphone.cn/wechat/getFollowerList',
                     type: 'POST',
                     data: data,
                     success: function (data) {
+                        if(!!data.data){
 
-                        $.each(data.data, function (index, value) {
+                            $('#userList').empty();
+                            var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select>';
+                            $('#userList').append(dynamicDom);
+                            $.each(data.data, function (index, value) {
 
-                            var openId = value.USER_OPEN_ID;
-                            var wechatId = value.USER_WECHAT_ID;
-                            var dynamicDom = '<option value=' + openId + '>' + wechatId + '</option>';
+                                var openId = value.USER_OPEN_ID;
+                                var wechatId = value.USER_WECHAT_ID;
+                                $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
+                            });
+			    
+//			    $("#userList option:eq(0)").prop("selected", true);
+			    
+			     $('#userList').click(function(){
+			    	var openWechatId = $('#openIdTaxi').val().split(',');
+				
+				var data = {
+				 agent : $('#nickName').text(),
+				 user : openWechatId[1]
+			    	}
+			    
+			    	$.ajax({
+				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
+				    type: 'POST',
+				    data: data,
+				    success: function (data) {
+				   	$("#sendId").empty();
+				    	$.each(data.data, function (index, value) {
+									var readYN = '';
 
-                            $('#wechatIdTaxi').append(dynamicDom);
-                        });
+									if(value.READ_YN == 'false'){
+									   readYN = '<tr style="color:red">';
+									}else{
+									   readYN = '<tr>';
+									}
+									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
+										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
+										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+
+									$("#sendId").append(readYN);
+
+                                    $("#openIdTaxi").find("option").filter(function(index) {
+                                        return openWechatId[1] == $(this).text();
+                                    }).css("color", "black");
+                    			});
+				    },
+				    error: function (request, status, error) {
+					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					console.log('Error occured');
+				    }
+				});	
+			    });
+			}
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -40,12 +85,7 @@
                 });
             }
 
-            getFollowerList();
-
-            $('#wechatIdTaxi').click(function(){
-                $('#wechatIdTaxi').empty();
-                getFollowerList();
-			})
+           getFollowerList(); // 리스트 호출
 
             $('#btnTaxi').click(function() {
                 if ($('#endNameCn').val() == "") {
@@ -69,21 +109,43 @@
                     $('#translationAddrCn').focus();
                     return;
                 }
+		
+		console.log("$('#openIdTaxi').val() :::: ", $('#openIdTaxi').val());
+		
+                var openWechatId = $('#openIdTaxi').val().split(',');
 
                 var data = {
-                    wechatId: $('#wechatIdTaxi').val(),
+                    openId: openWechatId[0],
+					nickName : openWechatId[1],
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
                     endAddrKr: $('#endAddrKr').val(),
                     translationAddrCn: $('#translationAddrCn').val()
                 };
-
+		
                 $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/sendTaxiMap',
+                    url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
                     type: 'POST',
                     data: data,
                     success: function (data) {
+
+                        var openWechatId = $('#openIdTaxi').val().split(',');
+                        var currnt_time = new Date();
+                        var taxiMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
+        		
+			var content = {
+			    fromNickName : $('#nickName').text(),
+			    toNickName : openWechatId[1],
+			    contentType : 'text',
+			    contents : taxiMsg,
+			    type : 'saveMsg'
+			};
+			
+			console.log('taxi ### ', content);
+			
+			socket.emit('nbnlServer', content);
+			
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");
@@ -96,40 +158,45 @@
                     }
                 });
             });
+	    
+	    $("#btnDeleteMessage").click(
+		function() {
+		    $("#sendId").text('');	
+		}
+	    );
+	    
+	    // save message
+	    socket.on('saveMsg', function (data) {
 
-            // 일반 메시지 전송
-            $('#btnSendMessage').click(function () {
-                if ($('#wechatIdMessage').val() == "") {
-                    $('#alertMessage').text('Wechat ID 를 꼭 입력하세요!');
-                    $('#wechatIdMessage').focus();
-                    return;
-                }else if ($('#message').val() == "") {
-                    $('#alertMessage').text('Message 를 꼭 입력하세요!');
-                    $('#message').focus();
-                    return;
-                }
-
-                var data = {
-                    wechatId: $('#wechatIdMessage').val(),
-                    message: $('#message').val()
-                };
-
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn:8080/wechat/sendMessage',
+            data.fromNickName = $('#nickName').text();
+	      $.ajax({
+                    url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',
                     data: data,
                     success: function (data) {
-                        $('#message').val("");
+			var content = {
+			    toNickName : data,
+			    type : 'turnRed'
+			};
+			
+			socket.emit('nbnlServer', content);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         console.log('Error occured');
                     }
-                });
-            });
+                });	
+	    });
+	    
+	    socket.on('turnRed', function (data) {
+		$("#openIdTaxi").find("option").filter(function(index) {
+			return data.toNickName.data == $(this).text();
+		}).css("color", "red");
+	    });
         });
 	</script>
 </head>
+
 <body>
 <div class="container">
 	<div class="row">
@@ -140,9 +207,9 @@
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
 			<table class="table table-condensed">
 				<tr>
-					<th width="100"><label for="wechatIdTaxi" style="text-align: center;">Wechat ID</label></th>
-					<!--<td><input type="text" name="wechatIdTaxi" id="wechatIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-					<td><select name="wechatIdTaxi" id="wechatIdTaxi"></select></td>
+					<th width="100"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
+					<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
+					<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select></td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -170,24 +237,22 @@
 				</tr>
 			</table>
 		<!--</form>-->
-
-		<!--<form action="/wechat/agentWechat" method="post" id="sendform2"-->
+			
 			<table class="table table-condensed">
-				<tr>
-					<th width="100"><label for="wechatIdMessage">Wechat ID</label></th>
-					<td><input type="text" name="wechatIdMessage" id="wechatIdMessage" size="50"
-							   maxlength="12" class="form-control" value="test02" /></td>
+			    <tr>
+			    	<tr>
+					<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
 				</tr>
 				<tr>
-					<th width="100"><label for="message">Message</label></th>
-					<td><input type="text" name="message" id="message" size="100"
-							   maxlength="100" class="form-control"  /></td>
-				</tr>
-				<tr><td colspan="3" id ='alertMessage' style="color: red"></td></tr>
-				<tr>
-					<td colspan="2"><input type="button" id="btnSendMessage" value="문자전송" style="height: 35px" class="btn btn-primary"/>
-				</tr>
+					<th width="100"><label for="complateWechatId">Wechat ID</label></th>
+					<th width="100"><label for="complateMessage">Message</label></th>
+					<th width="100"><label for="complateTime">Time</label></th>
+				</tr>				
+			    </tr>
 			</table>
+			<table class="table table-condensed" id="sendId" >
+			</table>
+
 		<!--</form>-->
 
 		<!--<form action="/wechat/agentWechat" method="post" id="sendform3"-->

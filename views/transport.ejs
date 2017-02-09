@@ -54,12 +54,12 @@
                 <% if('walking'== type){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>">도보</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="fir">택시</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>">택시</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>">택시</a></li>
                     <%}%>
                 </ul>
             </div>
@@ -115,6 +115,14 @@
             <!-- 시간E -->
 
         </div>
+        <input type="hidden" id="departWalkingLat" value=<%=depart.walkingLat%>>
+        <input type="hidden" id="departWalkingLong" value=<%=depart.walkingLong%>>
+        <input type="hidden" id="arriveWalkingLat" value=<%=arrive.walkingLat%>>
+        <input type="hidden" id="arriveWalkingLong" value=<%=arrive.walkingLong%>>
+        <input type="hidden" id="departDrivingLat" value=<%=depart.drivingLat%>>
+        <input type="hidden" id="departDrivingLong" value=<%=depart.drivingLong%>>
+        <input type="hidden" id="arriveDrivingLat" value=<%=arrive.drivingLat%>>
+        <input type="hidden" id="arriveDrivingLong" value=<%=arrive.drivingLong%>>
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
@@ -123,26 +131,41 @@
                     <input type="hidden" id="foodId" value=<%=arrive.id%>>
                     <input type="hidden" id="duration" value=<%=duration%>>
                     <input type="hidden" id="distance" value=<%=distance%>>
-                    <input type="hidden" id="departLat" value=<%=depart.walkingLat%>>
-                    <input type="hidden" id="departLong" value=<%=depart.walkingLong%>>
-                 <%}else if('taxi' == transportType){%>
-                <%}%>
+                    <input type="hidden" id="nickName" value=<%=nickName%>>
+                 <%}%>
         <!--<div type="hidden" id="r-result"></div>-->
     </div>
 </div>
 </body>
 <script type="text/javascript">
     $(function(){
-        var socket = io.connect('http://52.79.56.181:8060');
+//        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
+        var departlat = null;
+        var departlng = null;
+        var arrivelat = null;
+        var arrivelng = null;
+
         if($('#transportType').val() == 'walking'){
-            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
+            departlat = $('#departWalkingLat').val();
+            departlng = $('#departWalkingLong').val();
+            arrivelat = $('#arriveWalkingLat').val();
+            arrivelng = $('#arriveWalkingLong').val();
         } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+            departlat = $('#departDrivingLat').val();
+            departlng = $('#departDrivingLong').val();
+            arrivelat = $('#arriveDrivingLat').val();
+            arrivelng = $('#arriveDrivingLong').val();
         }
-        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
+        var startpoint = new BMap.Point(departlng, departlat);
+        var endpoint = new BMap.Point(arrivelng, arrivelat);
+
+        transportWay.search(startpoint, endpoint);
+//        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
 
         $('#btn_put').click(function(){
             var data = {
@@ -150,17 +173,34 @@
                 duration : $('#duration').val(),
                 distance : $('#distance').val(),
                 departAddr : $('#departAddr').text(),
-                departLat : $('#departLat').val(),
-                departLong : $('#departLong').val(),
+                departLat : $('#departWalkingLat').val(),
+                departLong : $('#departWalkingLong').val(),
                 arriveName : $('#arrive').text()
             }
 
-            var currnt_time = new Date();
-            var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
-            socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
-//            socket.disconnect();
+            $.ajax({
+                url: 'http://nbnl.couphone.cn/wechat/sendFoodMap',
+                type: 'POST',
+                data: data,
+                success: function (result) {
 
-            $.post( "/wechat/sendFoodMap", data);
+                    var foodMsg = "맛집 안내 지도 전송: " + result.arriveName;
+
+                    var content = {
+                        fromNickName : '',
+                        toNickName : result.nickName,
+                        contentType : 'text',
+                        contents : foodMsg,
+                        type : 'saveMsg'
+                    };
+                    socket.emit('nbnlServer', content);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            });
+
         })
     });
 </script>

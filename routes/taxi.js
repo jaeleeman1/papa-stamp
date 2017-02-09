@@ -10,44 +10,23 @@ router.get('/location', function (req, res, next) {
     res.render('location');
 });
 
+// taxi 자기 위치 찾기
 router.get('/myLocation', function (req, res, next) {
-        res.render('taxiMyLocation');
-    // var wechatId = req.query.nick_name;
-    // getConnection(function (err, connection) {
-    //     var selectQuery = 'SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ?';
-    //     // selectQuery Open ID
-    //     connection.query(selectQuery, wechatId, function (err, row) {
-    //         if (err) {
-    //             console.error("err : " + err);
-    //             throw err;
-    //         } else {
-    //             console.log('row ::: ', row);
-    //             var openId = row[0].USER_OPEN_ID;
-    //             var wechatId = row[0].USER_WECHAT_ID;
-    //
-    //             console.log("taxi openId :::: ", openId)
-    //             console.log("taxi wechatId :::: ", wechatId)
-
-                // res.render('taxiMyLocation', {openId: openId, wechatId: wechatId});
-                res.render('taxiMyLocation');
-            // }
-        // })
-    // });
+    var nickName = req.query.nickName; // User의 닉네임
+    res.render('taxiMyLocation', {nickName: nickName});
 });
 
 router.get('/taxiaddress', function (req, res, next) {
         res.render('taxiAddress', {name : req.query.name, address: req.query.address});
 })
 
-
-
 router.get('/transport', function (req, res, next) {
     getConnection(function (err, connection) {
         var query = 'select * from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ DESC limit 1';
-        var id = req.query.id; // user open id
+        var nickName = req.query.nickName; // user open id
         var type = req.query.type;
 
-        connection.query(query, id, function (err, rows) {
+        connection.query(query, nickName, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
                 throw err;
@@ -96,7 +75,7 @@ router.get('/transport', function (req, res, next) {
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'taxi'});
+                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'taxi', nickName: nickName});
                         }
                     }).on('error', function(e){
                         console.log(e)

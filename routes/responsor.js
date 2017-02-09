@@ -3,6 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     router = express.Router();
 var config = require('../lib/config');
+var getWechatAPI = require('../lib/wechatApi');
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
 var request = require('request');
@@ -106,23 +107,22 @@ var checkUserAndConnectSeesion = function(user, server) {
 var getUserListOfAgent = function(agentNickName, callback){
 	// get agent account using agentNickName
 	api.getCustomServiceList(function(err, result) {
-		console.log("WeChatAPI getCustomServiceList done");
-		console.log("WeChatAPI getCustomServiceList "+err);
-		console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
+		// console.log("WeChatAPI getCustomServiceList done");
+		// console.log("WeChatAPI getCustomServiceList "+err);
+		// console.log("WeChatAPI getCustomServiceList "+JSON.stringify(result));
 		if(err) {
-			console.log("WeChatAPI getCustomServiceList Error : "+err);
+			// console.log("WeChatAPI getCustomServiceList Error : "+err);
 		} else {
 			for(var i = 0; i < result.kf_list.length; i++) {
-				console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
-					" kf_nick("+result.kf_list[i].kf_nick+")");
+				// console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+
+				// 	" kf_nick("+result.kf_list[i].kf_nick+")");
 				if(result.kf_list[i].kf_nick == agentNickName) {
-					console.log("Nick Name Matched");
+					// console.log("Nick Name Matched("+agentNickName+")");
 					api.getCustomerSessionList(result.kf_list[i].kf_account, function(err0, result0) {
 						if(err0 != null) {
-							console.log("WeChatAPI getCustomerSessionList Error : "+err0);
+							// console.log("WeChatAPI getCustomerSessionList Error : "+err0);
 						} else {
 							// return user's info using callback
-							console.log("WeChatAPI getCustomerSessionList Done");
 							callback(err0, result0);
 						}
 					});				
@@ -269,7 +269,7 @@ weixin.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
     
     var open_id =  msg.fromUserName;
-    
+
     switch (msg.event) {
         case "kf_create_session" :
             // TODO : we can show greeting again
@@ -288,33 +288,48 @@ weixin.eventMsg(function(msg) {
             break;
         case "subscribe" :
             // create menu
-	    var menu =  {
+	        var menu =  {
                 "button": [
                     {
-                        "type": "view",
-                        "name": "전화",
-                        "url": "http://v.qq.com/"
+                        "type": "click",
+                        "name": "쇼핑",
+                        "key": "KEY_SHOPPING"
                     },
                     {
-                        "name": "Request",
-                        "sub_button": [
-                            {
-                                "type": "view",
-                                "name": "쇼핑",
-                                "url": "http://nbnl.couphone.cn/shopping"
-                            },
-                            {
-                                "type": "view",
-                                "name": "맛집",
-                                "url": "http://nbnl.couphone.cn/food"
-                            },
-                            {
-                                "type": "view",
-                                "name": "택시",
-                                "url": "http://nbnl.couphone.cn/taxi/myLocation"
-                            }
-                        ]
+                        "type": "click",
+                        "name": "맛집",
+                        "key": "KEY_FOOD"
+                    },
+                    {
+                        "type": "click",
+                        "name": "택시",
+                        "key": "KEY_TAXI"
                     }
+                    // {
+                    //     "type": "view",
+                    //     "name": "전화",
+                    //     "url": "http://v.qq.com/"
+                    // },
+                    // {
+                    //     "name": "Request",
+                    //     "sub_button": [
+                    //         {
+                    //             "type": "view",
+                    //             "name": "쇼핑",
+                    //             "url": "http://nbnl.couphone.cn/shopping"
+                    //         },
+                    //         {
+                    //             "type": "view",
+                    //             "name": "맛집",
+                    //             "url": "http://nbnl.couphone.cn/food"
+                    //         },
+                    //         {
+                    //             "type": "view",
+                    //             "name": "택시",
+                    //             "url": "http://nbnl.couphone.cn/taxi/myLocation"
+                    //         }
+                    //     ]
+                    // }
                 ]
             };
 
@@ -334,29 +349,30 @@ weixin.eventMsg(function(msg) {
             break;
         case "unsubscribe" :
             deleteUserInfo(open_id);
+            // If there are no message to reply, empty message should be sent
+            weixin.sendResponseEmptyMsg();
             break;
         case "CLICK" :
 	     switch(msg.eventKey) {
-                case "KEY_SHOPPING" :
-                    console.log('shopping call');	
-		    // TODO : Link to shopping page
-                    break;
-		case "KEY_FOOD" :
-		    console.log('food call');	
-                    // TODO : Link to food page
-                    break;
-                case "KEY_TAXI" :
-		    console.log('taxi call');
-                    // TODO : Link to taxi page
-                    break;
+            case "KEY_SHOPPING" :
+                sendFirstMsg(open_id, "SHOPPING");
+                break;
+		    case "KEY_FOOD" :
+                sendFirstMsg(open_id, "FOOD");
+                break;
+            case "KEY_TAXI" :
+                sendFirstMsg(open_id, "TAXI");
+                break;
             }
+            // If there are no message to reply, empty message should be sent
+            weixin.sendResponseEmptyMsg();
             break;
         case "VIEW" :
             // View event Key
             // TODO : Need to check do we need to add user id into link
             switch(msg.eventKey) {
                 case "KEY_SHOPPING" :
-                    // TODO :  Link to shopping page
+                    // TODO : Link to shopping page
                     break;
                 case "KEY_FOOD" :
                     // TODO : Link to food page
@@ -365,6 +381,8 @@ weixin.eventMsg(function(msg) {
                     // TODO : Link to taxi page
                     break;
             }
+            // If there are no message to reply, empty message should be sent
+            weixin.sendResponseEmptyMsg();
             break;
         case "scancode_push" :
             break;
@@ -379,7 +397,6 @@ weixin.eventMsg(function(msg) {
         case "location_select" :
             break;
     } 
-    weixin.sendMsg('');
 });
 
 // Start
@@ -389,6 +406,113 @@ router.post('/', function(req, res) {
     weixin.loop(req, res);
     console.log("POST end");
 });
+
+function sendFirstMsg(open_id, type) {
+    console.log(' Get User Info start ');
+
+    // get access token for debug
+    api.getAccessToken(function(err, token) {
+        if(err == null) {
+            //console.log("Access Token : "+JSON.stringify(token));
+            getNickName(token.accessToken, open_id, type);
+        }
+    });
+}
+
+function getNickName(new_token, open_id, type) {
+    var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
+    var pushChatOptions = {
+        method: "GET",
+        url: getUserURL
+    };
+
+    function pushChatCallback (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log("Get User API success");
+            bodyObject = JSON.parse(body);
+            console.log("Nick name : " + bodyObject.nickname);
+
+            switch(type) {
+                case "SHOPPING" :
+                    shoppingSendMessage(bodyObject.nickname, open_id);
+                    break;
+                case "FOOD" :
+                    foodSendMessage(bodyObject.nickname, open_id);
+                    break;
+                case "TAXI" :
+                    taxiSendMessage(bodyObject.nickname, open_id);
+                    break;
+            }
+        }
+    }
+    request(pushChatOptions, pushChatCallback);
+}
+
+function shoppingSendMessage(nick_name, open_id) {
+    console.log('Start shopping Init send  ');
+    var shoppingInitUrl = 'http://nbnl.couphone.cn/shopping?nick_name=' + nick_name;
+    var shoppingTitle = "쇼핑 홈페이지로 이동";
+    var articles = [
+        {
+            title : shoppingTitle,
+            // "description": message,
+            url : shoppingInitUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face02.png"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete shopping Init send');
+        }
+    });
+}
+
+function foodSendMessage(nick_name, open_id) {
+    var InitUrl = 'http://nbnl.couphone.cn/food?nickName=' + nick_name;
+    var title = "맛집 페이지로 이동";
+    var articles = [
+        {
+            title : title,
+            url : InitUrl,
+            picurl : "http://img.newspim.com/news/2015/12/16/20151216135135.jpg"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete food Init send');
+        }
+    });
+}
+
+function taxiSendMessage(nick_name, open_id) {
+    var InitUrl = 'http://nbnl.couphone.cn/taxi/myLocation?nickName=' + nick_name;
+    var title = "택시 페이지로 이동";
+    var articles = [
+        {
+            title : title,
+            url : InitUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete taxi Init send');
+        }
+    });
+}
+
 
 function getUserInfo(open_id) {
     console.log(' createMenu start ');
@@ -413,11 +537,11 @@ function getUserAPI(new_token, open_id) {
         //console.log("log : " + body);
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
-            
-	    bodyObject = JSON.parse(body);      
-	    
+
+	    bodyObject = JSON.parse(body);
+
 	    console.log("Nick name : " + bodyObject.nickname);
-            
+
             insertUserInfo(bodyObject.nickname, open_id);
         }
     }
@@ -457,5 +581,19 @@ function deleteUserInfo(open_id) {
         })
     });
 }
+
+function printSessionList() {
+    var agentName = "couphone0004";
+    getUserListOfAgent(agentName, function(err, result) {
+        if(!err) {
+            console.log("*** printSessionList("+agentName+") Success ***");
+            console.log(result);
+        } else {
+            console.log("*** printSessionList("+agentName+") Fail ***");
+        }
+    });
+}
+
+ setInterval(printSessionList, 10000);
 
 module.exports = router;

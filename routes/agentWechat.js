@@ -20,11 +20,10 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
-    socket.on('nbnl server', function (sendData) {
-        console.log('nbnl server : ' + sendData);
-	var strArr = sendData.split(',');
-	socket.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
-        socket.broadcast.emit('nbnl agent', {historyWechatId: strArr[0], historyMessage: strArr[1], historyTime: strArr[2]});
+    socket.on('nbnlServer', function (data) {
+	    
+	  console.log('nbnlServer :::: data ', data);
+        socket.broadcast.emit(data.type, data);
     });
 });
 
@@ -42,15 +41,13 @@ router.post('/historyMessage', function(req, res, next) {
 });
 
 router.post('/loginSend', function(req, res, next) {
-    res.render('wechat/agentWechatForm',{nickName: req.body.nickName });
+    res.render('wechat/agentWechatForm',{nickName: req.body.nickName, listLength : 0 });
 });
 
 // 택시 출발지 메시지 전송 ( 사용자 -> Agent )
 router.post('/taxiDepartSend', function (req, res, next) {
-    console.log('##### Post  taxi Start #####');
-    // console.log('req ::::::: ', req.body);
-    var nickName = 'couphone0001';
-    var openId = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+
+    var nickName = req.body.nickName;
     var addr = req.body.addr;
     var lat = req.body.lat;
     var lng = req.body.lng;
@@ -63,34 +60,36 @@ router.post('/taxiDepartSend', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
-                // var contents = {
-                //     fromUserName : "",
-                //     toUserName : openId,
-                //     msgType : "text",
-                //     content : taxiMsg,
-                //     funcFlag : 0
-                // };
+                getConnection(function (err, connection) {
+                    var selectQuery = "SELECT USER_WECHAT_ID, USER_OPEN_ID FROM TB_USER_INFO WHERE USER_WECHAT_ID = ? AND USER_TYPE = '01'";
+                    connection.query(selectQuery, nickName, function (err, row) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        } else {
+                            var openId = row[0].USER_OPEN_ID;
+                            var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
 
-                wechatAPI.sendText(openId, taxiMsg, function(){
-                    console.log('complete depart msg');
+                            wechatAPI.sendText(openId, taxiMsg, function() {
+                                res.send({nickName : nickName});
+                            }); // senText end
+                        };// select query end
+                    });// query connection end
                 });
-                // api.sender.msgSend(openId, contents);
             }
         })
     });
 });
 
 router.post('/sendTaxiMap', function (req, res, next) {
+
     var openId  = req.body.openId;
-    var wechatId  = 'couphone0001';
+    var nickName  = req.body.nickName;
     var endNameCn = req.body.endNameCn;
     var endNameKr = req.body.endNameKr;
     var endAddrCn = req.body.endAddrCn;
     var endAddrKr = req.body.endAddrKr;
     var translationAddrCn = req.body.translationAddrCn;
-
-    console.log(" Start!! RoadAddressUpdate ");
 
     // GET 위도,경도 via BaiduMap
     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
@@ -123,7 +122,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                             'TRANSLATION_ADDR_CN = ? ' +
                             ' WHERE  ROAD_SEQ = (select ROAD_SEQ from (select ROAD_SEQ from TB_ROAD_INFO where USER_WECHAT_ID = ? order by ROAD_SEQ desc limit 1) as TEMP)';
 
-                connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, wechatId], function (err, rows) {
+                connection.query(query, [endNameCn, endNameKr, endAddrCn, endAddrKr, endAddrCn, endAddrKr, lng, lat, lng, lat, translationAddrCn, nickName], function (err, rows) {
                     if (err) {
                         console.error("err : " + err);
                         throw err;
@@ -132,7 +131,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                         getConnection(function (err, connection) {
                             var query = 'select * from TB_ROAD_INFO A, TB_USER_INFO B where A.USER_WECHAT_ID = ? and  A.USER_WECHAT_ID = B.USER_WECHAT_ID  order by A.ROAD_SEQ DESC limit 1;';
 
-                            connection.query(query, wechatId, function (err, rows) {
+                            connection.query(query, nickName, function (err, rows) {
                                 if (err) {
                                     //  console.error("err : " + err);
                                     throw err;
@@ -143,8 +142,6 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         depart.drivingLong = rows[0].START_LONGITUDE_TAXI ;
                                         depart.drivingLat = rows[0].START_LATITUDE_TAXI;
 
-                                        console.log('depart', depart);
-
                                         var arrive = {};
                                         arrive.nameCn = rows[0].END_NM_CN;
                                         arrive.nameKr = rows[0].END_NM_KR ;
@@ -153,9 +150,8 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         arrive.drivingLat = rows[0].END_LATITUDE_TAXI;
 
                                         var openId = rows[0].USER_OPEN_ID;
-                                        var wechatId = rows[0].USER_WECHAT_ID;
+                                        var nickName = rows[0].USER_WECHAT_ID;
                                         var translationAddrCn = rows[0].TRANSLATION_ADDR_CN;
-                                        console.log('arrive', arrive);
                                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
                                             + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
 
@@ -166,9 +162,7 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                 var duration = getDuration(jsonBody.result[0].duration.value);
                                                 var distance = getDistance(jsonBody.result[0].distance.value);
 
-                                                console.log(" UPDATE SUCESS ");
-
-                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?id=' + wechatId +'&type=driving'
+                                                var mapUrl = 'http://nbnl.couphone.cn/taxi/transport?nickName=' + nickName +'&type=driving'
                                                 var messageUrl = 'http://nbnl.couphone.cn/taxi/taxiaddress?name='+ arrive.nameCn +'&address='+ translationAddrCn;  //중국어 보여주는 url
                                                 var message    =    "약 " +    duration +" "+ distance  +  "\n";
                                                      message     +=  '도착지 : ' + arrive.nameCn + ' (' + arrive.nameKr + ')';
@@ -177,21 +171,20 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                         title : message,
                                                                         // "description": message,
                                                                         url : mapUrl,
-                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     },
                                                                     {
                                                                         title : "중국어로 목적지 보기",
                                                                         url : messageUrl,
-                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
+                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     }
 
                                                                 ];
 
                                                 wechatAPI.sendNews(openId, articles, function () {
+						    res.send('complete arrival msg');
                                                     console.log('complete arrival msg');
                                                 });
-                                                // weixin.sendMsg(contents);
-                                                // api.sender.msgSend(openId, contents);
                                             }
                                         }).on('error', function(e){
                                             console.log(e)
@@ -211,10 +204,9 @@ router.post('/sendTaxiMap', function (req, res, next) {
 
 router.post('/sendFoodMap', function (req, res, next) {
 
-    console.log('req.body food send msg ', req.body);
-
-    var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
+    // var openId  = 'omHN6wbyhFp4du9PD1xKdI6JGdnE';
     // var wechatId  = 'couphone0001';
+    var nickName = req.body.nickName;
     var foodId = req.body.foodId;
     var duration = req.body.duration;
     var distance = req.body.distance;
@@ -223,29 +215,39 @@ router.post('/sendFoodMap', function (req, res, next) {
     var departLat = req.body.departLat;
     var departLong = req.body.departLong;
 
-    var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong;
-    var message    =    "약 " +    duration +" "+ distance  +  "\n";
-    message     +=  '도착지 : ' + arriveName;
+    getConnection(function (err, connection) {
+        var selectQuery = "SELECT A.USER_OPEN_ID, B.IMG_URL FROM TB_USER_INFO A, TB_FOOD_SHOP_LIST B WHERE A.USER_WECHAT_ID = ? AND B.FOOD_ID = ? AND A.USER_TYPE = '01'";
+        connection.query(selectQuery, [nickName, foodId], function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
 
-    var articles = [
-        {
-            title : message,
-            url : mapUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face.png"
-        },
-        {
-            title : "",
-            url : mapUrl,
-            picurl : ""
-        }
+                var openId = row[0].USER_OPEN_ID;
+                var pictureUrl = row[0].IMG_URL;
 
-    ];
+                var mapUrl = 'http://nbnl.couphone.cn/food/transport?id='+ foodId + '&type=walking&address=' + departAddr + '&lat=' + departLat + '&lng=' + departLong + '&nickName="!@#$"';
+                var message    =    "약 " +    duration +" "+ distance  +  "\n";
+                message     +=  '도착지 : ' + arriveName;
 
-    wechatAPI.sendNews(openId, articles, function () {
-        console.log('complete food msg');
+                var articles = [
+                    {
+                        title : message,
+                        url : mapUrl,
+                        picurl : pictureUrl
+                    },
+                    {
+                        title : "",
+                        url : mapUrl,
+                        picurl : ""
+                    }
+                ];
+                wechatAPI.sendNews(openId, articles, function () {
+                    res.send({nickName : nickName, arriveName:arriveName});
+                });// sendNews end
+            };// select query end
+        });// query connection end
     });
-    // weixin.sendMsg(contents);
-    // api.sender.msgSend(openId, contents);
 });
 
 var getDuration = function(duration) {
@@ -372,7 +374,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                         } else {
 
                                             console.error("rows : ", rows);
-                                            res.send({data : rows});
+                                            res.send({data : rows, listLength: rows.length});
                                         }
                                         connection.release();
                                     })
@@ -389,4 +391,54 @@ router.post('/getFollowerList', function (req, res, next) {
     });
 });
 
+// 대화내용 저장
+router.post('/saveMessage', function (req, res, next) {
+	console.log("saveMessage :: ", req.body);
+	
+	var fromNickName = req.body.fromNickName;
+	var toNickName = req.body.toNickName;
+	var contentType = req.body.contentType;
+	var contents = req.body.contents;
+
+    getConnection(function (err, connection) {
+        var insertQuery = 'INSERT INTO TB_WECHAT_HIS_DIALOGUE (FROM_OPEN_ID, TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT) VALUES ( ?, ?, ?, ?)';
+        connection.query(insertQuery, [fromNickName, toNickName, contentType, contents], function (err, row) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+                res.send({data : toNickName});
+            }
+        })
+    });
+});
+
+// 대화내용 
+router.post('/readMessage', function (req, res, next) {
+	var agent = req.body.agent;
+	var user = req.body.user;
+
+    getConnection(function (err, connection) {
+        var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC';
+	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
+                            "  SET READ_YN = ? "+
+                            " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
+
+        connection.query(selectQuery, [agent, user], function (err, selectRow) {
+            if (err) {
+                console.error("err : " + err);
+                throw err;
+            } else {
+		connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
+		    if (err) {
+			console.error("err : " + err);
+			throw err;
+		    } else {
+			res.send({data : selectRow});
+		    }
+        	})
+            }//end if(err)
+        });
+    });
+});
 module.exports = router;
