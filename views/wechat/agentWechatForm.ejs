@@ -188,7 +188,7 @@
 	    
 	    socket.on('turnRed', function (data) {
 		$("#openIdTaxi").find("option").filter(function(index) {
-			return data === $(this).text();
+			return data.toNickName.data == $(this).text();
 		}).css("color", "red");
 	    });
         });
