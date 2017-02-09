@@ -269,13 +269,7 @@ weixin.eventMsg(function(msg) {
     
     var open_id =  msg.fromUserName;
     var retMsg = msg;
-    api.sendText(open_id, null, function(err) {
-        if(!err) {
-            console.log("sending message failed");
-        } else {
-            console.log("sending message successed");
-        }
-    });
+    weixin.sendResponseEmptyMsg();
 
     switch (msg.event) {
         case "kf_create_session" :
