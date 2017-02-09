@@ -239,9 +239,8 @@ router.post('/shoppingDeleteProduct', function (req, res, next) {
         var wechatId = req.body.wechat_id; // wechat_id
         var prdctId = req.body.prdct_id; // wechat_id
 
-        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        // Delete Shopping Buy List
-        var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID = ? and PRDCT_ID ='+ prdctId;
+        // Delete Shopping Buy Product
+        var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where PRDCT_ID ="'+ prdctId + '" and USER_WECHAT_ID = ?';
         connection.query(deleteQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("err : " + err);
