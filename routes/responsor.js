@@ -437,7 +437,7 @@ function getNickName(new_token, open_id, type) {
                     shoppingSendMessage(bodyObject.nickname, open_id);
                     break;
                 case "FOOD" :
-                    foodSendStartMsg(bodyObject.nickname, open_id);
+                    foodSendMessage(bodyObject.nickname, open_id);
                     break;
                 case "TAXI" :
                     taxiSendMessage(bodyObject.nickname, open_id);
