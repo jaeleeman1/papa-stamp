@@ -348,6 +348,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "unsubscribe" :
             deleteUserInfo(open_id);
+            weixin.sendResponseEmptyMsg();
             break;
         case "CLICK" :
 	     switch(msg.eventKey) {
