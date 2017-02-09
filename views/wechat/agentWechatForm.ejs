@@ -52,23 +52,22 @@
 				    success: function (data) {
 				   	$("#sendId").empty();
 				    	$.each(data.data, function (index, value) {
-					
-					var readYN = '';
-					
-					if(value.READ_YN == 'false'){
-					   readYN = '<tr style="color:red">';				
-					}else{
-					   readYN = '<tr>';
-					}
-					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
-					
-					$("#sendId").append(readYN);
-					
-					$("#openIdTaxi").find("option").filter(function(index) {
-						return openWechatId[1] == $(this).text();
-					}).css("color", "black");
+
+									$("#openIdTaxi").find("option").filter(function(index) {
+										return openWechatId[1] == $(this).text();
+									}).css("color", "black");
+									var readYN = '';
+
+									if(value.READ_YN == 'false'){
+									   readYN = '<tr style="color:red">';
+									}else{
+									   readYN = '<tr>';
+									}
+									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
+										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
+										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+
+									$("#sendId").append(readYN);
                     			});
 				    },
 				    error: function (request, status, error) {
@@ -93,23 +92,22 @@
 				    success: function (data) {
 				   	$("#sendId").empty();
 				    	$.each(data.data, function (index, value) {
-					
-					var readYN = '';
-					
-					if(value.READ_YN == 'false'){
-					   readYN = '<tr style="color:red">';				
-					}else{
-					   readYN = '<tr>';
-					}
-					   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-						'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-						'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
-					
-					$("#sendId").append(readYN);
-					
-					$("#openIdTaxi").find("option").filter(function(index) {
-						return openWechatId[1] == $(this).text();
-					}).css("color", "black");
+
+									$("#openIdTaxi").find("option").filter(function(index) {
+										return openWechatId[1] == $(this).text();
+									}).css("color", "black");
+									var readYN = '';
+
+									if(value.READ_YN == 'false'){
+									   readYN = '<tr style="color:red">';
+									}else{
+									   readYN = '<tr>';
+									}
+									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
+										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
+										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+
+									$("#sendId").append(readYN);
                     			});
 				    },
 				    error: function (request, status, error) {
@@ -211,8 +209,6 @@
 	    socket.on('saveMsg', function (data) {
 
             data.fromNickName = $('#nickName').text();
-            console.log('###### save Msg data ############################', data);
-
 	      $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',
