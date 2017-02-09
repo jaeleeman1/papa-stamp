@@ -23,13 +23,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
 	    
 	  console.log('nbnlServer :::: data ', data);
-	    if(data.type == 'saveMsg'){
-		socket.emit('saveMsg', data);
-	    }else if(data.type == 'turnRed'){
-		socket.emit('turnRed', data);    
-	    }
-         
-        // socket.broadcast.emit('nbnl agent', sendData);
+        socket.broadcast.emit(data.type, data);
     });
 });
 

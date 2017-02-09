@@ -210,15 +210,14 @@
 	    // save message
 	    socket.on('saveMsg', function (data) {
 
-	        console.log('svaeMsg data', data);
+            data.fromNickName = $('#nickName').text();
+            console.log('###### save Msg data ############################', data);
 
 	      $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',
                     data: data,
                     success: function (data) {
-		    
-			console.log('saveMsg', data);		    
 			var content = {
 			    toNickName : data,
 			    type : 'turnRed'
