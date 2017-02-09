@@ -23,6 +23,6 @@ function closeLayer( IdName ){
     var momEl = parent.dEI("wrapper");
     momEl.removeChild(clearEl);
     setTimeout(function() {
-        //window.history.back();
-    }, 30);
+        window.history.back();
+    }, 500);
 }
