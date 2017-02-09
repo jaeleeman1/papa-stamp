@@ -165,7 +165,7 @@
                     $("#delete_setting").submit();
                     var prdctId = $("#prdct_id").val();
                     $("#buy_wrap_"+ prdctId).remove();
-                    closeLayer('layerPop');
+                    closeLayer('layerDelPop');
                 }
             );
         });
@@ -225,7 +225,7 @@
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
-                <a href="#"><img src="/images/ic_card_delete@3x.png" class="ic_card" onclick="openLayer('layerPop',300,50);deleteProduct('<%= data[i].PRDCT_ID%>');"></a>
+                <a href="#"><img src="/images/ic_card_delete@3x.png" class="ic_card" onclick="openLayer('layerDelPop',300,50);deleteProduct('<%= data[i].PRDCT_ID%>');"></a>
                 <div class="clear_both"></div>
             </div>
         <% } %>
@@ -236,7 +236,7 @@
         <div class="pop_up_body">
             <p class="ti">상품 삭제<p>
                 상품을 삭제하시겠습니까?
-            <p class="btn_txt"><a href="#" onclick="closeLayer('layerPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="#" onclick="closeLayer('layerDelPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_confirm">확인</span></a></p>
         </div>
     </div>
 
