@@ -348,6 +348,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "unsubscribe" :
             deleteUserInfo(open_id);
+            // If there are no message to reply, empty message should be sent
             weixin.sendResponseEmptyMsg();
             break;
         case "CLICK" :
@@ -366,6 +367,7 @@ weixin.eventMsg(function(msg) {
                 console.log('taxi call');
                 break;
             }
+            // If there are no message to reply, empty message should be sent
             weixin.sendResponseEmptyMsg();
             break;
         case "VIEW" :
@@ -382,6 +384,8 @@ weixin.eventMsg(function(msg) {
                     // TODO : Link to taxi page
                     break;
             }
+            // If there are no message to reply, empty message should be sent
+            weixin.sendResponseEmptyMsg();
             break;
         case "scancode_push" :
             break;
