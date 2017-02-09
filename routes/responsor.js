@@ -583,17 +583,17 @@ function deleteUserInfo(open_id) {
 }
 
 function printSessionList() {
-    var agentName = "couphone0002";
+    var agentName = "couphone0004";
     getUserListOfAgent(agentName, function(err, result) {
         if(!err) {
-            // console.log("*** printSessionList("+agentName+") Success ***");
-            // console.log(result);
+            console.log("*** printSessionList("+agentName+") Success ***");
+            console.log(result);
         } else {
             console.log("*** printSessionList("+agentName+") Fail ***");
         }
     });
 }
 
- setInterval(printSessionList, 1000000);
+ setInterval(printSessionList, 10000);
 
 module.exports = router;
