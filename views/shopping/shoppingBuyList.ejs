@@ -48,8 +48,11 @@
             var buyLength = $("#length").val();
 
             $("#btn_delete_popup").click(
-                openLayer('layerAllPop',300,50);
+                function() {
+                    openLayer('layerAllPop',300,50);
+                }
             );
+            
             $("#btn_delete_all_confirm").click(
                 function() {
                     var dataString = {'wechat_id': wechatId};                    
