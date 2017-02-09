@@ -47,28 +47,27 @@
             var wechatId = $("#wechat_id").val();
             var buyLength = $("#length").val();
 
-            $("#btn_delete_all").click(
+            $("#btn_delete_popup").click(
+                openLayer('layerAllPop',300,50);
+            );
+            $("#btn_delete_all_confirm").click(
                 function() {
                     var dataString = {'wechat_id': wechatId};                    
 
-                    if (confirm("전체 "+ buyLength +"개 상품을 삭제하시겠습니까?") == true) {
-                        $.ajax({
-                            url: $("#url").val()+'/shopping/shoppingDeleteAll',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: dataString,
-                            success: function(data) {
-                                console.log("*** delete all shoppingBuyList ***");
-                                changeEmptyAttr(0);
-                            },
-                            error: function(request, status, error) {
-                                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                                console.log('Error occured');
-                            }
-                        })
-                    } else {
-                        return;
-                    }
+                    $.ajax({
+                        url: $("#url").val()+'/shopping/shoppingDeleteAll',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: dataString,
+                        success: function(data) {
+                            console.log("*** delete all shoppingBuyList ***");
+                            changeEmptyAttr(0);
+                        },
+                        error: function(request, status, error) {
+                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            console.log('Error occured');
+                        }
+                    })
                 }
             );
 
@@ -238,10 +237,18 @@
         </div>
     </div>
 
+    <div id="layerAllPop">
+        <div class="pop_up_body">
+            <p class="ti">상품 삭제<p>
+                 전체 상품을 삭제하시겠습니까?
+            <p class="btn_txt"><a href="#" onclick="closeLayer('layerAllPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_all_confirm">확인</span></a></p>
+        </div>
+    </div>
+    
     <!-- 하단버튼 -->
     <div id="btn_cart">
         <div class="total_wrap" id="prdct_sum">합계<span class="right">￥<%= prdctSum%></span></div>
-        <a href="#"><div class="view_product" id="btn_delete_all">장바구니 비우기</div></a>
+        <a href="#"><div class="view_product" id="btn_delete_popup">장바구니 비우기</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm">구매하기</div></a>
     </div>
 
