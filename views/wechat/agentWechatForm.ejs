@@ -209,6 +209,9 @@
 	    
 	    // save message
 	    socket.on('saveMsg', function (data) {
+
+	        console.log('svaeMsg data', data);
+
 	      $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',

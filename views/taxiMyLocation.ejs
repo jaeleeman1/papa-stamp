@@ -138,9 +138,8 @@
                           toNickName : $('#nickName').val(),
                           contentType : 'text',
                           contents : taxiMsg,
+                            type : 'saveMsg'
                         };
-
-                        console.log('dial content', content);
 
                         socket.emit('nbnlServer', content);
 
