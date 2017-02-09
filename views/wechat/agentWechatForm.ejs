@@ -35,47 +35,7 @@
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
 			    
-			    $("#userList option:eq(0)").prop("selected", true);
-			    
-			    $('#userList').change(function(){
-			    	var openWechatId = $('#openIdTaxi').val().split(',');
-				
-				var data = {
-				 agent : $('#nickName').text(),
-				 user : openWechatId[1]
-			    	}
-			    
-			    	$.ajax({
-				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
-				    type: 'POST',
-				    data: data,
-				    success: function (data) {
-				   	$("#sendId").empty();
-				    	$.each(data.data, function (index, value) {
-
-									$("#openIdTaxi").find("option").filter(function(index) {
-										return openWechatId[1] == $(this).text();
-									}).css("color", "black");
-									var readYN = '';
-
-									if(value.READ_YN == 'false'){
-									   readYN = '<tr style="color:red">';
-									}else{
-									   readYN = '<tr>';
-									}
-									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
-
-									$("#sendId").append(readYN);
-                    			});
-				    },
-				    error: function (request, status, error) {
-					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-					console.log('Error occured');
-				    }
-				});	
-			    });
+//			    $("#userList option:eq(0)").prop("selected", true);
 			    
 			     $('#userList').click(function(){
 			    	var openWechatId = $('#openIdTaxi').val().split(',');
@@ -92,10 +52,6 @@
 				    success: function (data) {
 				   	$("#sendId").empty();
 				    	$.each(data.data, function (index, value) {
-
-									$("#openIdTaxi").find("option").filter(function(index) {
-										return openWechatId[1] == $(this).text();
-									}).css("color", "black");
 									var readYN = '';
 
 									if(value.READ_YN == 'false'){
@@ -108,6 +64,10 @@
 										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
 
 									$("#sendId").append(readYN);
+
+                                    $("#openIdTaxi").find("option").filter(function(index) {
+                                        return openWechatId[1] == $(this).text();
+                                    }).css("color", "black");
                     			});
 				    },
 				    error: function (request, status, error) {
