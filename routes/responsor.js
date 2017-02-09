@@ -268,9 +268,12 @@ weixin.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
     
     var open_id =  msg.fromUserName;
-    api.sendText(open_id, "", function(err) {
+    var retMsg = msg;
+    api.sendText(open_id, null, function(err) {
         if(!err) {
             console.log("sending message failed");
+        } else {
+            console.log("sending message successed");
         }
     });
 
