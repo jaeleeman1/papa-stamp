@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" id="wrapper">
 <head>
 
     <title>Samsung</title>
@@ -29,17 +29,90 @@
 
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/swiper.min.css">
+    <link rel="stylesheet" href="/css/popup.css" type="text/css">
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type ="text/javascript" src="/js/popup.js"></script>
+    <script type ="text/javascript" src="/js/toastr.js"></script>
+    <script type ="text/javascript">
+        $( document ).ready(function() {
+            if($("#toast_status").val() == 'show') {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-center",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.info('장바구니에 상품이 담겼습니다.');
+            }
+        });
+
+        $(function() {
+            $("#btn_plus").click(
+                function() {
+                    var cnt =$("#set_cnt").text();
+                    cnt++;
+                    $("#set_cnt").text(cnt);
+                    $("#prdct_cnt").val(cnt);
+                }
+            );
+
+            $("#btn_minus").click(
+                function() {
+                    var cnt =$("#set_cnt").text();
+                    cnt--;
+                    if(cnt > 0) {
+                        $("#set_cnt").text(cnt);
+                        $("#prdct_cnt").val(cnt);
+                    }else {
+                        alert('상품은 1개 이상 선택해야 합니다.');
+                    }
+                }
+            );
+
+            $("#btn_set_confirm").click(
+                function() {
+                    $("#buy_setting").submit();
+                }
+            );
+        });
+
+        function dataMatch(prdctId, imgData, price) {
+            $("#prdct_id").val(prdctId);
+            $("#image").val(imgData);
+            $("#price").val(price);
+        }
+    </script>
 
 </head>
 <form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
 </form>
 
+<form action="/shopping/shoppingDetailInsert" method="get" style="display:none" name="buy_setting" id="buy_setting">
+    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
+    <input type="hidden" name="prdct_id" id="prdct_id" value=""/>
+    <input type="hidden" name="image" id="image" value=""/>
+    <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="1"/>
+    <input type="hidden" name="price" id="price" value=""/>
+    <input type="hidden" name="toast_status" id="toast_status" value="<%= toastStatus %>"/>
+</form>
+
 <body>
 <div id="container">
-    <div id="shopping_detail_wrap">
-        <a href="javascript:history.back()"><p class="back_arrow detail"><img src="/images/btn_back_w@3x.png"></p></a>
+    <!--<div id="shopping_detail_wrap">
+        <a href="javascript:history.back()"><p class="back_arrow detail"><img src="/images/btn_back_w@3x.png"></p></a>-->
 
         <!--슬라이드 S-->
         <div id="swiper-container_fix">
@@ -114,7 +187,25 @@
             </ul>
         </div>
     </div>
-    <a href="/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data.PRDCT_ID%>&image=<%= data.IMG_URL %>&price=<%= data.PRICE %>&prdct_cnt=<%= data.SHOPPING_CNT %>"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>
+    <a href="#" onclick="openLayer('layerPop',300,50);dataMatch('<%= data.PRDCT_ID%>','<%= data.IMG_URL %>','<%= data.PRICE %>');"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>
+    <!--<a href="/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data.PRDCT_ID%>&image=<%= data.IMG_URL %>&price=<%= data.PRICE %>&prdct_cnt=<%= data.SHOPPING_CNT %>"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>-->
+
+    <!-- 팝업 설정 -->
+    <div id="layerPop">
+        <div class="pop_up_body">
+            <p class="ti">개수 설정<p>
+            <div class="set_num">
+                <ul>
+                    <li class="fir"><a href="#"><img src="/images/ic_popup_minus.png" id="btn_minus"></a></li>
+                    <li class="sec" id="set_cnt">1</li>
+                    <li class="thi"><a href="#"><img src="/images/ic_popup_plus.png" id="btn_plus"></a></li>
+                </ul>
+                <ul class="clear_both"></ul>
+            </div>
+            <p class="btn_txt"><a href="#" onclick="closeLayer('layerPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
+        </div>
+    </div>
+
 </div>
 </body>
 
