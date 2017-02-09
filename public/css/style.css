@@ -293,7 +293,7 @@ a:active{text-decoration:none; }
 
 /*** 팝업 ***/
 #container_popup {height:100%; position:relative;}
-#layerPop {margin:0 5%; position:absolute;  top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
+#layerPop {margin:0 5%; position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
 .pop_up-154 {margin-top:-77px !important; height:154px  !important; }
 #layerPop .pop_up_body {padding:18.5px 6.7% 17.4px}
 #layerPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
