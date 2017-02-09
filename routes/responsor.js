@@ -3,6 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     router = express.Router();
 var config = require('../lib/config');
+var getWechatAPI = require('../lib/wechatApi');
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
 var request = require('request');
@@ -354,17 +355,13 @@ weixin.eventMsg(function(msg) {
         case "CLICK" :
 	     switch(msg.eventKey) {
             case "KEY_SHOPPING" :
-                // TODO :  Send to shopping messagg
-                console.log('shopping call');
-                shoppingUserInfo(open_id);
+                sendFirstMsg(open_id, "SHOPPING");
                 break;
 		    case "KEY_FOOD" :
-                // TODO : Send to food message
-		        console.log('food call');
+                sendFirstMsg(open_id, "FOOD");
                 break;
             case "KEY_TAXI" :
-                // TODO : Send to taxi message
-                console.log('taxi call');
+                sendFirstMsg(open_id, "TAXI");
                 break;
             }
             // If there are no message to reply, empty message should be sent
@@ -410,19 +407,19 @@ router.post('/', function(req, res) {
     console.log("POST end");
 });
 
-function shoppingUserInfo(open_id) {
-    console.log(' Shopping User Info start ');
+function sendFirstMsg(open_id, type) {
+    console.log(' Get User Info start ');
 
     // get access token for debug
     api.getAccessToken(function(err, token) {
         if(err == null) {
             //console.log("Access Token : "+JSON.stringify(token));
-            shoppingSendAPI(token.accessToken, open_id);
+            getNickName(token.accessToken, open_id, type);
         }
     });
 }
 
-function shoppingSendAPI(new_token, open_id) {
+function getNickName(new_token, open_id, type) {
     var getUserURL = "https://api.wechat.com/cgi-bin/user/info?access_token="+ new_token +"&openid="+open_id+"&lang=en_US";
     var pushChatOptions = {
         method: "GET",
@@ -430,15 +427,22 @@ function shoppingSendAPI(new_token, open_id) {
     };
 
     function pushChatCallback (error, response, body) {
-        //console.log("log : " + body);
         if (!error && response.statusCode == 200) {
             console.log("Get User API success");
-
             bodyObject = JSON.parse(body);
-
             console.log("Nick name : " + bodyObject.nickname);
 
-            shoppingSendMessage(bodyObject.nickname, open_id);
+            switch(type) {
+                case "SHOPPING" :
+                    shoppingSendMessage(bodyObject.nickname, open_id);
+                    break;
+                case "FOOD" :
+                    foodSendStartMsg(bodyObject.nickname, open_id);
+                    break;
+                case "TAXI" :
+                    taxiSendMessage(bodyObject.nickname, open_id);
+                    break;
+            }
         }
     }
     request(pushChatOptions, pushChatCallback);
@@ -466,6 +470,49 @@ function shoppingSendMessage(nick_name, open_id) {
         }
     });
 }
+
+function foodSendMessage(nick_name, open_id) {
+    var InitUrl = 'http://nbnl.couphone.cn/food?nickName=' + nick_name;
+    var title = "맛집 페이지로 이동";
+    var articles = [
+        {
+            title : title,
+            url : InitUrl,
+            picurl : "http://img.newspim.com/news/2015/12/16/20151216135135.jpg"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete food Init send');
+        }
+    });
+}
+
+function taxiSendMessage(nick_name, open_id) {
+    var InitUrl = 'http://nbnl.couphone.cn/taxi/myLocation?nickName=' + nick_name;
+    var title = "택시 페이지로 이동";
+    var articles = [
+        {
+            title : title,
+            url : InitUrl,
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
+        }
+    ];
+
+    api.sendNews(open_id, articles, function (err) {
+        if (err) {
+            console.error("err : " + err);
+            throw err;
+        }else {
+            console.log('Complete taxi Init send');
+        }
+    });
+}
+
 
 function getUserInfo(open_id) {
     console.log(' createMenu start ');
