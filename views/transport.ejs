@@ -178,11 +178,29 @@
                 arriveName : $('#arrive').text()
             }
 
-            var currnt_time = new Date();
-            var foodMsg = "맛집 안내 지도 전송: " + data.arriveName;
-//            socket.emit('nbnl server', 'couphone0001,' + foodMsg + ',' + currnt_time);
+            $.ajax({
+                url: 'http://nbnl.couphone.cn/wechat/sendFoodMap',
+                type: 'POST',
+                data: data,
+                success: function (result) {
 
-            $.post( "/wechat/sendFoodMap", data);
+                    var foodMsg = "맛집 안내 지도 전송: " + result.arriveName;
+
+                    var content = {
+                        fromNickName : '',
+                        toNickName : result.nickName,
+                        contentType : 'text',
+                        contents : foodMsg,
+                        type : 'saveMsg'
+                    };
+                    socket.emit('nbnlServer', content);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            });
+
         })
     });
 </script>

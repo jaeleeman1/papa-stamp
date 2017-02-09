@@ -243,7 +243,7 @@ router.post('/sendFoodMap', function (req, res, next) {
                     }
                 ];
                 wechatAPI.sendNews(openId, articles, function () {
-                    console.log('complete food msg');
+                    res.send({nickName : nickName, arriveName:arriveName});
                 });// sendNews end
             };// select query end
         });// query connection end
