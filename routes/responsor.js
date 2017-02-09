@@ -268,8 +268,6 @@ weixin.eventMsg(function(msg) {
     console.log(JSON.stringify(msg));
     
     var open_id =  msg.fromUserName;
-    var retMsg = msg;
-    weixin.sendResponseEmptyMsg();
 
     switch (msg.event) {
         case "kf_create_session" :
@@ -367,6 +365,7 @@ weixin.eventMsg(function(msg) {
                 console.log('taxi call');
                 break;
             }
+            weixin.sendResponseEmptyMsg();
             break;
         case "VIEW" :
             // View event Key
