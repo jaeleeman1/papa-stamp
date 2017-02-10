@@ -168,7 +168,7 @@
 
             $("#btn_set_confirm").click(
                 function() {
-                    var buyCount =$("#prdct_cnt").val();
+                    var buyCount =$("#length").val();
                     var buySumPrice =$("#buySum_price").val();
                     buyCount++;
                     var btnBuy = document.getElementById("btn_buy");
@@ -293,9 +293,8 @@
     <!-- 하단버튼 -->
     <div id="btn_buy">
         <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div>
-        <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
+            <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
-
 </div>
 </body>
 
