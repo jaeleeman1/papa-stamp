@@ -293,6 +293,23 @@ a:active{text-decoration:none; }
 
 /*** 팝업 ***/
 #container_popup {height:100%; position:relative;}
+#layerPop {margin:0 5%; position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
+.pop_up-154 {margin-top:-77px !important; height:154px  !important; }
+#layerPop .pop_up_body {padding:18.5px 6.7% 17.4px}
+#layerPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+#layerPop .pop_up_body .set_num {border: 1px solid #979797;}
+#layerPop .pop_up_body .set_num ul li {float:left}
+#layerPop .pop_up_body .set_num img {width:59px}
+#layerPop .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+#layerPop .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+#layerPop .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+#layerPop .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+#layerPop .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#layerPop .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
+.confirm {color: #1AAD19 !important;}
+#layerPop .pop_up_body .btn_txt_nor {text-align:right; }
+#layerPop .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+
 #layerDelPop {margin:0 5%; position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
 .pop_up-154 {margin-top:-77px !important; height:154px  !important; }
 #layerDelPop .pop_up_body {padding:18.5px 6.7% 17.4px}
