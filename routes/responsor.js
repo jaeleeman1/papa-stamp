@@ -605,7 +605,6 @@ function printSessionList() {
 }
 
 function printAccessToken() {
-  api.
   api.getLatestToken(function(err, result) {
     if(!err) {
       console.log("[AccessToken] "+result.isValid()+" ("+result.accessToken+") expireTime("+result.expireTime+") ***");
