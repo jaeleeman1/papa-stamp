@@ -387,7 +387,7 @@ weixin.eventMsg(function(msg) {
             weixin.sendResponseEmptyMsg();
             break;
         case "LOCATION" :
-            console.log("[LOCATION EVENT]["+open_id+"] : ("+latitude+", "+longitude+", "+precision+")");
+            console.log("[LOCATION EVENT]["+open_id+"] : ("+msg.latitude+", "+msg.longitude+", "+msg.precision+")");
             weixin.sendResponseEmptyMsg();
             break;
         case "scancode_push" :
