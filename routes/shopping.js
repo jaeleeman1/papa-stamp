@@ -115,7 +115,7 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
                 console.log("### Insert Buy List ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
 
-                res.redirect('/shopping?nick_name=' + wechatId + '&toastStatus=show');
+                //res.redirect('/shopping?nick_name=' + wechatId + '&toastStatus=show');
             }
             connection.release();
         })
