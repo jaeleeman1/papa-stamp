@@ -6,6 +6,8 @@ var config = require('../lib/config');
 var getWechatAPI = require('../lib/wechatApi');
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
+
+
 var request = require('request');
 var getConnection = require('../lib/db_connection');
 
@@ -457,7 +459,7 @@ function shoppingSendMessage(nick_name, open_id) {
             title : shoppingTitle,
             // "description": message,
             url : shoppingInitUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face02.png"
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         }
     ];
 
@@ -478,7 +480,8 @@ function foodSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
-            picurl : "http://img.newspim.com/news/2015/12/16/20151216135135.jpg"
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food_img.jpg"
+
         }
     ];
 
@@ -499,7 +502,7 @@ function taxiSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi_img.jpg"
         }
     ];
 
