@@ -386,6 +386,10 @@ weixin.eventMsg(function(msg) {
             // If there are no message to reply, empty message should be sent
             weixin.sendResponseEmptyMsg();
             break;
+        case "LOCATION" :
+            console.log("[LOCATION EVENT]["+open_id+"] : ("+latitude+", "+longitude+", "+precision+")");
+            weixin.sendResponseEmptyMsg();
+            break;
         case "scancode_push" :
             break;
         case "scancode_waitmsg" :
@@ -601,15 +605,16 @@ function printSessionList() {
 }
 
 function printAccessToken() {
+  api.
   api.getLatestToken(function(err, result) {
     if(!err) {
-      console.log("*** accessToken("+result.accessToken+") expireTime("+result.expireTime+" ***");
+      console.log("[AccessToken] "+result.isValid()+" ("+result.accessToken+") expireTime("+result.expireTime+") ***");
     } else {
       console.log("*** printAccessToken failed("+err+")***");
     }
   });
 }
 
-setInterval(printAccessToken, 5000);
+setInterval(printAccessToken, 60000);
 
 module.exports = router;
