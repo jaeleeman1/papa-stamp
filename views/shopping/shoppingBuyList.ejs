@@ -64,7 +64,7 @@
                         data: dataString,
                         success: function(data) {
                             console.log("*** delete all shoppingBuyList ***");
-                            changeEmptyAttr(0);
+                            changeEmptyAttr();
                             closeLayer('layerAllDelPop');
                         },
                         error: function(request, status, error) {
@@ -175,7 +175,7 @@
             $("#prdct_id").val(prdctId);
         }
 
-        function changeEmptyAttr(length) {
+        function changeEmptyAttr() {
             var btnCart = document.getElementById("btn_cart");
             var buyWrap = document.getElementById("shopping_buy_wrap");
             $("#EBEBEB").addClass('height100');
@@ -245,7 +245,7 @@
         <div class="pop_up_body">
             <p class="ti">상품 삭제<p>
                  전체 상품을 삭제하시겠습니까?
-            <p class="btn_txt"><a href="#" onclick="closeLayer('layerAllPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_all_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="#" onclick="closeLayer('layerAllDelPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_all_confirm">확인</span></a></p>
         </div>
     </div>
     

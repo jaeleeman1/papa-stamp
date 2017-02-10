@@ -168,6 +168,17 @@
 
             $("#btn_set_confirm").click(
                 function() {
+                    var buyCount =$("#prdct_cnt").val();
+                    var buySumPrice =$("#buySum_price").val();
+                    buyCount++;
+                    var btnBuy = document.getElementById("btn_buy");
+                    var selectPrdctCnt = Number($("#prdct_cnt").val());
+                    var selectPrice = Number($("#price").val());
+                    var btnConfirm = document.getElementById("btn_confirm");
+                    var result = Number(buySumPrice);
+                    result += selectPrdctCnt*selectPrice;
+                    btnBuy.innerHTML = '<div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품'+ buyCount +'종</div>' +
+                        '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥'+  result +'</span>구매</div></a>';
                     $("#buy_setting").submit();
                     closeLayer('layerDelPop');
                     toastPopup();
