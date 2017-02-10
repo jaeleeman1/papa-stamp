@@ -177,8 +177,8 @@
                     var btnConfirm = document.getElementById("btn_confirm");
                     var result = Number(buySumPrice);
                     result += selectPrdctCnt*selectPrice;
-                    btnBuy.innerHTML = '<div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품'+ buyCount +'종</div>' +
-                        '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥'+  result +'</span>구매</div></a>';
+                    btnBuy.innerHTML = '<a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품'+ buyCount +'종</div></a>' +
+                        '<a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥'+  result +'</span>구매</div></a>';
                     $("#buy_setting").submit();
                     closeLayer('layerDelPop');
                     toastPopup();
@@ -292,8 +292,8 @@
 
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div>
-            <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
+        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
+        <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
 </div>
 </body>
