@@ -127,7 +127,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 							// return user's info using callback
 							callback(err0, result0);
 						}
-					});				
+					});
 					break;
 				} else {
 
@@ -136,7 +136,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 		}
 	});
 	// get user's of agent using agent account
-} 
+}
 
 // 接入验证
 router.get('/', function(req, res) {
@@ -269,7 +269,7 @@ weixin.urlMsg(function(msg) {
 weixin.eventMsg(function(msg) {
     console.log("eventMsg received");
     console.log(JSON.stringify(msg));
-    
+
     var open_id =  msg.fromUserName;
 
     switch (msg.event) {
@@ -398,7 +398,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "location_select" :
             break;
-    } 
+    }
 });
 
 // Start
@@ -600,6 +600,16 @@ function printSessionList() {
     });
 }
 
- setInterval(printSessionList, 10000);
+function printAccessToken() {
+  api.getLatestToken(function(err, result) {
+    if(!err) {
+      console.log("*** accessToken("+result.accessToken+") expireTime("+result.expireTime+" ***");
+    } else {
+      console.log("*** printAccessToken failed("+err+")***");
+    }
+  });
+}
+
+setInterval(printAccessToken, 5000);
 
 module.exports = router;
