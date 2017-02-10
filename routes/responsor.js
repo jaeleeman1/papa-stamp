@@ -459,6 +459,7 @@ function shoppingSendMessage(nick_name, open_id) {
             title : shoppingTitle,
             // "description": message,
             url : shoppingInitUrl,
+            description :"쇼핑하러 가기",
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         }
     ];
@@ -480,6 +481,7 @@ function foodSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
+            description :"맛집 찾으러가기",
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food_img.jpg"
 
         }
@@ -502,6 +504,7 @@ function taxiSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
+            description :"택시요청하기",
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi_img.jpg"
         }
     ];
