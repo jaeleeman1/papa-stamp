@@ -22,4 +22,7 @@ function closeLayer( IdName ){
     var clearEl=parent.dEI("deemed");
     var momEl = parent.dEI("wrapper");
     momEl.removeChild(clearEl);
+    setTimeout(function() {
+        window.history.back();
+    }, 500);
 }

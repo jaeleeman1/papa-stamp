@@ -35,29 +35,6 @@
     <script type ="text/javascript" src="/js/popup.js"></script>
     <script type ="text/javascript" src="/js/toastr.js"></script>
     <script type ="text/javascript">
-        $( document ).ready(function() {
-            if($("#toast_status").val() == 'show') {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-bottom-center",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                toastr.info('장바구니에 상품이 담겼습니다.');
-            }
-        });
-
         $(function() {
             $("#btn_plus").click(
                 function() {
@@ -84,6 +61,8 @@
             $("#btn_set_confirm").click(
                 function() {
                     $("#buy_setting").submit();
+                    closeLayer('layerPop');
+                    toastPopup();
                 }
             );
         });
@@ -93,6 +72,27 @@
             $("#image").val(imgData);
             $("#price").val(price);
         }
+
+        function toastPopup() {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.info('장바구니에 상품이 담겼습니다.');
+        }
     </script>
 
 </head>
@@ -100,13 +100,12 @@
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
 </form>
 
-<form action="/shopping/shoppingDetailInsert" method="get" style="display:none" name="buy_setting" id="buy_setting">
+<form action="/shopping/shoppingDetailInsert" method="post" style="display:none" name="buy_setting" id="buy_setting">
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="prdct_id" id="prdct_id" value=""/>
     <input type="hidden" name="image" id="image" value=""/>
     <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="1"/>
     <input type="hidden" name="price" id="price" value=""/>
-    <input type="hidden" name="toast_status" id="toast_status" value="<%= toastStatus %>"/>
 </form>
 
 <body>

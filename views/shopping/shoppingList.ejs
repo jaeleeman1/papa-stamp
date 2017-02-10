@@ -44,27 +44,6 @@
                 btnConfirm.removeAttribute("id");
                 btnConfirm.innerHTML = '<span class="ic_price">￥ <%= buySumPrice %> 구매</span></div></a>';
             }
-
-            if($("#toast_status").val() == 'show') {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-bottom-center",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                toastr.info('장바구니에 상품이 담겼습니다.');
-            }
         });
 
         $(function() {
@@ -190,6 +169,8 @@
             $("#btn_set_confirm").click(
                 function() {
                     $("#buy_setting").submit();
+                    closeLayer('layerPop');
+                    toastPopup();
                 }
             );
 
@@ -209,6 +190,27 @@
             $("#image").val(imgData);
             $("#price").val(price);
         }
+
+        function toastPopup() {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.info('장바구니에 상품이 담겼습니다.');
+        }
     </script>
 </head>
 <form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
@@ -217,7 +219,6 @@
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
     <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
-    <input type="hidden" name="toast_status" id="toast_status" value="<%= toastStatus %>"/>
     <% for(var i = 0; i < buyData.length; i++) { %>
         <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
         <input type="hidden" name="price_<%=i%>" id="price_<%=i%>" value="<%= buyData[i].PRICE %>"/>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" id="wrapper">
+<html lang="ko">
 <head>
 
     <title>Samsung</title>
@@ -36,43 +36,20 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
+
         $( document ).ready(function() {
-            var length = $("#length").val();
-            if(length == 0) {
-                changeEmptyAttr();
+            if($("#buySum_price").val() == '0') {
+                var btnConfirm = document.getElementById("btn_confirm");
+                btnConfirm.removeAttribute("id");
+                btnConfirm.innerHTML = '<span class="ic_price">￥ <%= buySumPrice %> 구매</span></div></a>';
             }
         });
 
         $(function() {
             var wechatId = $("#wechat_id").val();
+            var buySum = $("#btn_confirm").text();
             var buyLength = $("#length").val();
-
-            $("#btn_delete_popup").click(
-                function() {
-                    openLayer('layerAllPop',300,50);
-                }
-            );
-            
-            $("#btn_delete_all_confirm").click(
-                function() {
-                    var dataString = {'wechat_id': wechatId};                    
-
-                    $.ajax({
-                        url: $("#url").val()+'/shopping/shoppingDeleteAll',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: dataString,
-                        success: function(data) {
-                            console.log("*** delete all shoppingBuyList ***");
-                            changeEmptyAttr(0);
-                        },
-                        error: function(request, status, error) {
-                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                            console.log('Error occured');
-                        }
-                    })
-                }
-            );
+//            console.log('url' + $("#url").val());
 
             $("#btn_confirm").click(
                 function() {
@@ -95,22 +72,21 @@
                     }
                     
                     if(length == 1) {
-                        var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
-                            '"User_Open_Id":"' + openId +'", ' +
+                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
                             '"Prdct_Nm":' + Prdct_Nm +', ' +
                             '"Prdct_Cnt":' + Prdct_Cnt +', ' +
                             '"Price":' + Price +', ' +
                             '"Length":' + length +
                             '}';
                     } else {
-                        var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
-                            '"User_Open_Id":"' + openId +'", ' +
+                        var dataStr = '{"User_Open_Id":"' + openId +'", ' +
                             '"Prdct_Nm":[' + Prdct_Nm +'], ' +
                             '"Prdct_Cnt":[' + Prdct_Cnt +'], ' +
                             '"Price":[' + Price +'], ' +
                             '"Length":' + length +
                             '}';
                     }
+
 
                     if (confirm("전체 "+ buyLength +"개 상품을 주문하시겠습니까?") == true) {
                         $.ajax({
@@ -119,15 +95,15 @@
                             traditional:true,
                             data: JSON.parse(dataStr),
                             success: function(data) {
-                                var purchaItem;
                                 if(length == 1) {
-                                    purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
+                                    purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + ' 구입';
                                 }else {
                                     purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                                 }
                                 var currnt_time = new Date();
-            		            socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);	
-                                
+                                socket.emit('nbnl server', wechatId+ ',' + purchaItem + ',' + currnt_time);
+
+                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                                 var dataString = {'wechat_id': wechatId};
                                 $.ajax({
                                     url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -142,8 +118,20 @@
                                         console.log('Error occured');
                                     }
                                 })
-                                console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                                window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
+//                                $.ajax({
+//                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
+//                                    type: 'POST',
+//                                    dataType: 'json',
+//                                    data: JSON.parse(dataStr),
+//                                   success: function(data) {
+//                                        console.log("*** insert shoppingBuyHistory *** - wechatId : " + wechatId);
+//                                   },
+//                                    error: function(request, status, error) {
+//                                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+//                                        console.log('Error occured');
+//                                    }
+//                                })
+                                  window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -155,106 +143,71 @@
                     }
                 }
             );
-
-            $("#btn_delete_confirm").click(
-                function() {
-                    var length = $("#length").val();
-                    if(length == 1) {
-                        changeEmptyAttr();
-                    }
-                    $("#delete_setting").submit();
-                    var prdctId = $("#prdct_id").val();
-                    $("#buy_wrap_"+ prdctId).remove();
-                    closeLayer('layerDelPop');
-                }
-            );
         });
-
-        function deleteProduct(prdctId) {
-            $("#prdct_id").val(prdctId);
-        }
-
-        function changeEmptyAttr(length) {
-            var btnCart = document.getElementById("btn_cart");
-            var buyWrap = document.getElementById("shopping_buy_wrap");
-            $("#EBEBEB").addClass('height100');
-            $("#container").addClass('height100');
-            $("#shopping_buy_wrap").addClass('body_middle ic_buy_basket_middle');
-            $("#prdct_sum").remove();
-            btnCart.innerHTML = '<div class="view_product dimmed_btn">장바구니 비우기</div>' +
-                '<div class="price_buy dimmed_btn">구매하기</div></a>';
-            buyWrap.innerHTML = '<p class="ic_buy_basket"><img src="/images/ic_buy_basket@3x.png"></p>' +
-                '<p class="fontsize16 fontmedium dimmed_btn">장바구니가 비었습니다.</p>';
-            btnCart.setAttribute("id", "btn_buy");
-        }
     </script>
-
 </head>
-<form action="/shopping" method="post" style="display:none" name="buy_setting" id="buy_setting">
+<form action="/" method="get" style="display:none" name="list_setting" id="list_setting">
     <input type="hidden" name="open_Id" id="open_Id" value="<%= openId %>"/>
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
-    <input type="hidden" name="length" id="length" value="<%= data.length %>"/>
-    <% for(var i = 0; i < data.length; i++) { %>
-        <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= data[i].PRDCT_NM %>"/>
-        <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= data[i].SHOPPING_CNT %>"/>
-        <input type="hidden" name="price_<%=i%>" id="price_<%=i%>" value="<%= data[i].PRICE %>"/>
+    <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
+    <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
+    <% for(var i = 0; i < buyData.length; i++) { %>
+        <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
+        <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>
+        <input type="hidden" name="price_<%=i%>" id="price_<%=i%>" value="<%= buyData[i].PRICE %>"/>
     <% } %>
 </form>
 
-<form action="/shopping/shoppingDeleteProduct" method="post" style="display:none" name="delete_setting" id="delete_setting">
-    <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
-    <input type="hidden" name="prdct_id" id="prdct_id" value=""/>
-</form>
-
-<body id="EBEBEB">
+<body>
 <div id="container">
-    <!--<a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
+    <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
     <div id="header">
-        <span class="part"></span><span class="head_ti">장바구니</span>
-    </div>-->
-
+        <span class="part"></span><span class="head_ti">쇼핑</span>
+    </div>
+    <!-- Shopping list -->
     <div id="shopping_buy_wrap">
-        <% var prdctSum = 0 %>
         <% for(var i = 0; i < data.length; i++) { %>
-            <% prdctSum += (data[i].PRICE * data[i].SHOPPING_CNT) %>
-            <div class="buy_wrap" id="buy_wrap_<%= data[i].PRDCT_ID %>">
-                <img src="<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+            <div class="buy_wrap">
+                <img src="/images/photo_buy_0<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
-                        <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
+                        <li class="price">￥<%= data[i].PRICE %><li>
                     </ul>
-                <a href="#"><img src="/images/ic_card_delete@3x.png" class="ic_card" onclick="openLayer('layerDelPop',300,50);deleteProduct('<%= data[i].PRDCT_ID%>');"></a>
-                <div class="clear_both"></div>
+                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>&image=<%= data[i].IMG_URL %>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>
+                    <div class="clear_both"></div>
             </div>
         <% } %>
     </div>
 
-    <!-- 팝업 설정 -->
-    <div id="layerDelPop">
-        <div class="pop_up_body">
-            <p class="ti">상품 삭제<p>
-                상품을 삭제하시겠습니까?
-            <p class="btn_txt"><a href="#" onclick="closeLayer('layerDelPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_confirm">확인</span></a></p>
+    <a href="#layer2" class="btn-example">딤처리 팝업레이어</a>
+    <div class="dim-layer">
+        <div class="dimBg"></div>
+        <div id="layer2" class="pop-layer">
+            <div class="pop-container">
+                <div class="pop-conts">
+                    <!--content //-->
+                    <p class="ctxt mb20">Thank you.<br>
+                        Your registration was submitted successfully.<br>
+                        Selected invitees will be notified by e-mail on JANUARY 24th.<br><br>
+                        Hope to see you soon!
+                    </p>
+
+                    <div class="btn-r">
+                        <a href="#" class="btn-layerClose">Close</a>
+                    </div>
+                    <!--// content-->
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="layerAllDelPop">
-        <div class="pop_up_body">
-            <p class="ti">상품 삭제<p>
-                 전체 상품을 삭제하시겠습니까?
-            <p class="btn_txt"><a href="#" onclick="closeLayer('layerAllPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_all_confirm">확인</span></a></p>
-        </div>
-    </div>
-    
     <!-- 하단버튼 -->
-    <div id="btn_cart">
-        <div class="total_wrap" id="prdct_sum">합계<span class="right">￥<%= prdctSum%></span></div>
-        <a href="#"><div class="view_product" id="btn_delete_popup">장바구니 비우기</div></a>
-        <a href="#"><div class="price_buy" id="btn_confirm">구매하기</div></a>
+    <div id="btn_buy">
+        <div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div>
+        <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
-
 </div>
 </body>
 

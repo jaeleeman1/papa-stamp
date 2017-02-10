@@ -12,12 +12,6 @@ router.get('/', function (req, res, next) {
         var buyData = '';
     	var buyPrdctCnt;
 	    var buyPrdctSumPrice = 0;
-        var toastStatus = req.query.toastStatus;
-
-        if(toastStatus != 'show') {
-            toastStatus = 'pass';
-        }
-
         // Select Shopping Buy List
         var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
         connection.query(buyQuery, wechatId, function (err, row) {
@@ -68,7 +62,7 @@ router.get('/', function (req, res, next) {
             }else{
                 console.log("### Shopping List ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, toastStatus: toastStatus});
+                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
             }
             connection.release();
         })
@@ -85,11 +79,7 @@ router.get('/shoppingDetail', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = req.query.wechat_id; // wechat Id
         var prdctId = req.query.prdct_id; // product Id
-        var toastStatus = req.query.toastStatus;
-        console.log('YYYYYYYYYYYYYYYYYYYYYYYY' + toastStatus);
-        if(toastStatus != 'show') {
-            toastStatus = 'pass';
-        }
+
         // Select Shopping Detail
         var detailQuery = 'select * from TB_SHOPPING_LIST AS TSL where TSL.PRDCT_ID = ?';
         connection.query(detailQuery, prdctId, function (err, row) {
@@ -99,7 +89,7 @@ router.get('/shoppingDetail', function (req, res, next) {
             }else{
                 console.log("### Shopping Detail ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-                res.render('shopping/shoppingDetail', {data:row[0], wechatId:wechatId, toastStatus: toastStatus});
+                res.render('shopping/shoppingDetail', {data:row[0], wechatId:wechatId});
             }
             connection.release();
         })
@@ -133,13 +123,15 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
 });
 
 //GET Shopping Detail Insert
-router.get('/shoppingDetailInsert', function (req, res, next) {
+router.post('/shoppingDetailInsert', function (req, res, next) {
     getConnection(function (err, connection){
-        var wechatId = req.query.wechat_id; // wechat Id
-        var prdctId = req.query.prdct_id; // product Id
-        var price = req.query.price; // product price
-        var image = req.query.image; // image
-        var prdctCnt = req.query.prdct_cnt; // product count
+        var wechatId = req.body.wechat_id; // wechat Id
+        var prdctId = req.body.prdct_id; // product Id
+        var price = req.body.price; // product price
+        var image = req.body.image; // image
+        var prdctCnt = req.body.prdct_cnt; // product count
+
+        console.log(prdctId + ": " + price  + ": " + image  + ": " + prdctCnt);
 
         // Insert Buy List
         var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
@@ -150,8 +142,7 @@ router.get('/shoppingDetailInsert', function (req, res, next) {
             }else{
                 console.log("### Insert Buy List ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-
-                res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
+                //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
             }
             connection.release();
         })
@@ -237,8 +228,7 @@ router.get('/shoppingBuyList', function (req, res, next) {
 router.post('/shoppingDeleteProduct', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = req.body.wechat_id; // wechat_id
-        var prdctId = req.body.prdct_id; // wechat_id
-
+        var prdctId = req.body.prdct_id; // prdct_id
         // Delete Shopping Buy Product
         var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where PRDCT_ID ="'+ prdctId + '" and USER_WECHAT_ID = ?';
         connection.query(deleteQuery, wechatId, function (err, row) {
@@ -248,7 +238,7 @@ router.post('/shoppingDeleteProduct', function (req, res, next) {
             } else {
                 console.log("### Delete Shopping Buy Product ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-                res.redirect('/shopping/shoppingBuyList?wechat_id=' + wechatId);
+                //res.redirect('/shopping/shoppingBuyList?wechat_id=' + wechatId);
             }
             connection.release();
         })
