@@ -62,7 +62,7 @@ router.get('/', function (req, res, next) {
             }else{
                 console.log("### Shopping List ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
+                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, historyCheck: false});
             }
             connection.release();
         })
