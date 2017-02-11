@@ -37,8 +37,13 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
-
+        var historyLength = window.history.length;
+        var historyCheck = $("#history_check").val();
         $( document ).ready(function() {
+            if(historyLength == 4 && historyCheck) {
+                $("#history_check").val(false);
+                location.reload();
+            }    
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
                 btnConfirm.removeAttribute("id");
@@ -112,6 +117,7 @@
                                     data: dataString,
                                     success: function(data) {
                                         console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
+                                        location.reload();
                                     },
                                     error: function(request, status, error) {
                                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -131,7 +137,6 @@
 //                                        console.log('Error occured');
 //                                    }
 //                                })
-                                  window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
                             },
                             error: function(request, status, error) {
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -168,6 +173,7 @@
 
             $("#btn_set_confirm").click(
                 function() {
+                     $("#history_check").val(true);
                     var buyCount =$("#length").val();
                     var buySumPrice =$("#buySum_price").val();
                     buyCount++;
@@ -230,6 +236,7 @@
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
     <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
+    <input type="hidden" name="history_check" id="history_check" value="<%= historyCheck %>"/>
     <% for(var i = 0; i < buyData.length; i++) { %>
         <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
         <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>
