@@ -234,7 +234,6 @@
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
     <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
-    <input type="hidden" name="history_check" id="history_check" value="<%= historyCheck %>"/>
     <% for(var i = 0; i < buyData.length; i++) { %>
         <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
         <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>
