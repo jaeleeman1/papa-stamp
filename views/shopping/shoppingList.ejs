@@ -179,10 +179,12 @@
                     result += selectPrdctCnt*selectPrice;
                     
                     var btnCount = document.getElementById("btn_count");
-        		    var btnConfirm = document.getElementById("btn_confirm");
-		            btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
-		            btnConfirm = '<span class="ic_price">￥ '+ result + '</span>구매';
-
+        	    var btnConfirm = document.getElementById("btn_confirm");
+		    btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
+		    btnConfirm = '<span class="ic_price">￥ '+ result + '</span>구매';
+		   
+		    buySumPrice++;
+		    $("#buySum_price").val(buySumPrice);    		    
                     $("#buy_setting").submit();
                     closeLayer('layerDelPop');
                     toastPopup();
