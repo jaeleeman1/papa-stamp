@@ -232,6 +232,7 @@
     <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
     <% for(var i = 0; i < buyData.length; i++) { %>
         <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
+        <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>
         <input type="hidden" name="price_<%=i%>" id="price_<%=i%>" value="<%= buyData[i].PRICE %>"/>
     <% } %>
 </form>
