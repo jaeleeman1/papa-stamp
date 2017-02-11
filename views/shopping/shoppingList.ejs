@@ -180,8 +180,8 @@
                     
                     var btnCount = document.getElementById("btn_count");
         		    var btnConfirm = document.getElementById("btn_confirm");
-		            btnCount.innerHTML = "상품 "+ buyCount +"종";
-		            btnConfirm = "￥ "+ result + "구매";
+		            btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
+		            btnConfirm = '<span class="ic_price">￥ '+ result + '</span>구매';
 
                     $("#buy_setting").submit();
                     closeLayer('layerDelPop');
