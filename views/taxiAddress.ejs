@@ -28,7 +28,15 @@
         <meta itemprop="keywords" content="">
 
         <link rel="stylesheet" href="/css/style.css" type="text/css">
-		<script type="text/javascript" src="/js/ios_scalable.js"></script>
+	<script type="text/javascript" src="/js/ios_scalable.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			document.getElementById("address_wrap").style.WebkitTransform = "rotate(90deg)";
+			document.getElementById("address_wrap").style.msTransform = "rotate(90deg)";
+			document.getElementById("address_wrap").style.transform = "rotate(90deg)";
+		});
+	</script>
+
 
 </head>
 
