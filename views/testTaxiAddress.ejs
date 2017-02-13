@@ -31,10 +31,13 @@
 	<script type="text/javascript" src="/js/ios_scalable.js"></script>
 	<script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript">
-
         $(document).ready(function() {
-			var width = window.innerWidth;
-			var height = window.innerHeight;
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            window.onresize = function(event) {
+                location.reload();
+            };
 
             if(height >= width) {
                 document.getElementById("address_wrap").style.WebkitTransform = "rotate(90deg)";
@@ -43,7 +46,6 @@
             }
         });
 	</script>
-
 
 </head>
 

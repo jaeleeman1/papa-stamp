@@ -31,36 +31,24 @@
 	<script type="text/javascript" src="/js/ios_scalable.js"></script>
 	<script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
+        $(document).ready(function() {
             var width = window.innerWidth;
             var height = window.innerHeight;
+
+            window.onresize = function(event) {
+                location.reload();
+            };
 
             if(height >= width) {
                 document.getElementById("address_wrap").style.WebkitTransform = "rotate(90deg)";
                 document.getElementById("address_wrap").style.msTransform = "rotate(90deg)";
                 document.getElementById("address_wrap").style.transform = "rotate(90deg)";
-            }else {
-                location.reload();
             }
-		});
+        });
 	</script>
-
-    <script type="text/javascript">
-        var orientation = window.orientation;
-        if(orientation != undefined){
-            if(orientation == 0){
-                // 세로 모드 (평소 사용하는 각도)
-                alert('x');
-            }else if(orientation == -90){
-                // 가로 모드 (동영상 볼때 사용하는 각도)
-                alert('y');
-            }
-        }
-    </script>
-
 </head>
 
-<body>
+<body onresize="resizeFunction()">
 <div id="container">
 	<div class="test" id="address_wrap">
 		<ul class="address">
@@ -70,6 +58,7 @@
 		</ul>
 
 	</div>
+    <p id="demo"></p>
 </div>
 </body>
 
