@@ -57,14 +57,14 @@ router.get('/', function (req, res, next) {
 					//console.log("### Data Success ### " + JSON.stringify(row));
 					res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, dataCheck: 0});
 				    }
-				}
-			    })
-			}
-		    })
-	    	}
-            })		
+				});
+			    }
+			});
+		    }
+	    	});
+            }		
             connection.release();
-        })
+        });
     });
 });
 
@@ -91,7 +91,7 @@ router.get('/shoppingDetail', function (req, res, next) {
                 res.render('shopping/shoppingDetail', {data:row[0], wechatId:wechatId});
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -126,10 +126,10 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
 
                         //res.render({dataCheck:dataCheck});
                     }
-                })
+                });
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -156,7 +156,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                 //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -209,10 +209,10 @@ router.get('/shoppingBuyList', function (req, res, next) {
                         res.render('shopping/shoppingBuyList', {data:row, wechatId:wechatId, url:config.url, openId:openId});
                     }
 
-                })
+                });
             }
             connection.release();
-        })
+        });
         //          }
 
         //     })
@@ -252,7 +252,7 @@ router.post('/shoppingDeleteProduct', function (req, res, next) {
                 //res.redirect('/shopping/shoppingBuyList?wechat_id=' + wechatId);
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -273,7 +273,7 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
                 res.send({wechatId: wechatId});
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -298,7 +298,7 @@ router.post('/shoppingInsertHistory', function (req, res, next) {
                 res.send({wechatId: wechatId});
             }
             connection.release();
-        })
+        });
     });
 });
 
@@ -327,7 +327,7 @@ router.get('/shoppingBuySum', function (req, res, next) {
                 res.send({buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
             }
             connection.release();
-        })
+        });
     });
 });
 
