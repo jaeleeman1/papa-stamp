@@ -41,13 +41,13 @@
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
                 btnConfirm.removeAttribute("id");
-                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm">￥ <%= buySumPrice %> 구매</span></div></a>';
+                btnConfirm.innerHTML = '<span class="ic_price" id="btn_purchase_confirm">￥ <%= buySumPrice %> 구매</span></div></a>';
             }
         });
 
         $(function() {
             var wechatId = $("#wechat_id").val();
-            var buySum = $("#btn_confirm").text();
+            var buySum = $("#btn_purchase_confirm").text();
 //            console.log('url' + $("#url").val());
 
             $("#btn_confirm").click(
@@ -178,7 +178,7 @@
                     result += selectPrdctCnt*selectPrice;
                     
                     var btnCount = document.getElementById("btn_count");
-                    var btnConfirm = document.getElementById("btn_confirm");
+                    var btnConfirm = document.getElementById("btn_purchase_confirm");
                     btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
                     btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
 		   
@@ -299,7 +299,7 @@
     <div id="layerPurchasePop">
         <div class="pop_up_body">
             <p class="ti">구매<p>
-            <p class="copy">￥ <%= buySumPrice %>의 상품을 주문하시겠습니까?</p>
+            <p class="copy">장바구니의 상품을 주문하시겠습니까?</p>
             <p class="btn_txt_nor mt20"><a href="#" onclick="closeLayer('layerPurchasePop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_purchase_confirm">확인</span></a></p>
         </div>
     </div>
