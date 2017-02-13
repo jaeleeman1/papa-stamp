@@ -79,9 +79,6 @@
         map.addControl(navigationControl);
         map.addControl(geolocationControl);
 
-        var geolocationControl = new BMap.GeolocationControl();
-        var addressComponent = geolocationControl.getAddressComponent();
-
         var address = '';
         var addressComponent = {
             province : '上海市',
@@ -97,72 +94,82 @@
         address += addressComponent.street;
         address += addressComponent.streetNumber;
 
-        $('#address').text(address);
+        getLocation();
 
-        if(address != '' && address != undefined && address!= null){
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(getPosition);
+            } else {
+                console.log('Error', 'Geolocation is not supported by this browser."');
+            }
+        }
+
+        function getPosition(position) {
+
+            var longitude = position.coords.longitude;
+            var latitude = position.coords.latitude;
+
+            var mPoint = new BMap.Point(longitude, latitude);
+            map.enableScrollWheelZoom();
+            map.centerAndZoom (mPoint, 20);
+
+            $('#lng').val(longitude);
+            $('#lat').val(latitude);
+
+            var mkr = new BMap.Marker(mPoint);
+            map.addOverlay(mkr);
 
             $.ajax({
-            url: 'http://nbnl.couphone.cn/food/currentLocation',
-//                url: 'http://localhost:8080/food/currentLocation',
+                url: 'http://nbnl.couphone.cn/food/currentLocation',
                 type: 'POST',
-                data: {addr : address},
+                data: {lng : longitude,
+                        lat : latitude},
                 success: function (data) {
-                    var mPoint = new BMap.Point(data.lng, data.lat);
-//                    var lng = 121.49815490071883;
-//                    var lat = 31.232280291456389;
-                    console.log('taxiMyLocation ', data);
-//                    var mPoint = new BMap.Point(lng, lat);
-                    map.enableScrollWheelZoom();
-                    map.centerAndZoom (mPoint, 20);
 
 //                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
 //                        anchor: new BMap.Size(10, 30),
 //                        infoWindowAnchor: new BMap.Size(10, 0)
 //                    });
 
-                    var mkr = new BMap.Marker(mPoint);
-                    map.addOverlay(mkr);
-
-                    $('#lng').val(lng);
                     $('#addr').val(address);
-                    $('#lat').val(lat);
 
                     $('#btnSend').click(function () {
-                            var data = {
-                                addr : $('#addr').val(),
-                                lat : $('#lat').val(),
-                                lng : $('#lng').val(),
-                                nickName : $('#nickName').val()
+                        var data = {
+                            addr : $('#addr').val(),
+                            lat : $('#lat').val(),
+                            lng : $('#lng').val(),
+                            nickName : $('#nickName').val()
+                        }
+                        $.ajax({
+                            url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
+                            type: 'POST',
+                            data: data,
+                            success: function (data) {
+
+                                var taxiMsg = "택시 안내 요청 현위치 : " + address;
+
+                                var content = {
+                                    fromNickName : '',
+                                    toNickName : data.nickName,
+                                    contentType : 'text',
+                                    contents : taxiMsg,
+                                    type : 'saveMsg'
+                                };
+                                socket.emit('nbnlServer', content);
+                            },
+                            error: function (request, status, error) {
+                                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                console.log('Error occured');
                             }
-                            $.ajax({
-                                url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
-                                type: 'POST',
-                                data: data,
-                                success: function (data) {
-
-                                    var taxiMsg = "택시 안내 요청 현위치 : " + address;
-
-                                    var content = {
-                                        fromNickName : '',
-                                        toNickName : data.nickName,
-                                        contentType : 'text',
-                                        contents : taxiMsg,
-                                        type : 'saveMsg'
-                                    };
-                                    socket.emit('nbnlServer', content);
-                                },
-                                error: function (request, status, error) {
-                                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                                    console.log('Error occured');
-                                }
-                            });
                         });
+                    });
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     console.log('Error occured');
                 }
             })
+
         }
     });
 </script>

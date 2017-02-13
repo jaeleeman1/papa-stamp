@@ -38,28 +38,52 @@
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
 </head>
 
-<body id="back_100">
+<body>
+<!--<body id="back_100">-->
 
 
 <!--<div>-->
-    <form id="myLocation" action="/wechat/taxiDepartSend" method="post" enctype="application/x-www-form-urlencoded">
-        <input type="hidden" id="openId" name="openId" value="">
-        <input type="hidden" id="wechatId" name="wechatId" value="">
-        <input type="hidden" id="addr" name="addr" value="">
-        <input type="hidden" id="lat" name="lat" value="">
-        <input type="hidden" id="lng" name="lng" value="">
-        <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
-        <div id="header">
-            <span class="part"></span><span class="head_ti" id="btnSend1"></span>
-            <p class="btn_send" id="btnSend2"></p>
-            <div class="address" name="address" id ='address'></div>
-        </div>
-    </form>
+    <!--<form id="myLocation" action="/wechat/taxiDepartSend" method="post" enctype="application/x-www-form-urlencoded">-->
+        <!--<input type="hidden" id="openId" name="openId" value="">-->
+        <!--<input type="hidden" id="wechatId" name="wechatId" value="">-->
+        <!--<input type="hidden" id="addr" name="addr" value="">-->
+        <!--<input type="hidden" id="lat" name="lat" value="">-->
+        <!--<input type="hidden" id="lng" name="lng" value="">-->
+        <!--<a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>-->
+        <!--<div id="header">-->
+            <!--<span class="part"></span><span class="head_ti" id="btnSend1"></span>-->
+            <!--<p class="btn_send" id="btnSend2"></p>-->
+            <!--<div class="address" name="address" id ='address'></div>-->
+        <!--</div>-->
+    <!--</form>-->
+
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+<script>
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+</script>
 
     <!--<span class="dot_location"></span>-->
     <!-- Focus -->
     <!--<div class="ic_location_wrap"><span class="ic_location"><img src="/images/ic_location@3x.png"></span></div>-->
-    <div id="taxi_find_local_map"></div>
+    <!--<div id="taxi_find_local_map"></div>-->
 <!--</div>-->
 </body>
 
@@ -68,29 +92,30 @@
 <script type ="text/javascript">
 
     $(function(){
-        var map = new BMap.Map("taxi_find_local_map");
+//        var map = new BMap.Map("taxi_find_local_map");
+//
+//        var navigationControl = new BMap.NavigationControl({
+//            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+//            type: BMAP_NAVIGATION_CONTROL_LARGE,
+//            enableGeolocation: true
+//        });
+//
+//        var geolocationControl = new BMap.GeolocationControl({
+//            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+//            type: BMAP_NAVIGATION_CONTROL_LARGE,
+//            enableGeolocation: true
+//        })
 
-        var navigationControl = new BMap.NavigationControl({
-            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
-            type: BMAP_NAVIGATION_CONTROL_LARGE,
-            enableGeolocation: true
-        });
-
-        var geolocationControl = new BMap.GeolocationControl({
-            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-            type: BMAP_NAVIGATION_CONTROL_LARGE,
-            enableGeolocation: true
-        })
-
-        map.addControl(navigationControl);
+//        map.addControl(navigationControl);
 //        map.addControl(new BMap.ScaleControl());
 //        map.addControl(new BMap.OverviewMapControl());
-        map.addControl(geolocationControl);
+//        map.addControl(geolocationControl);
 
-        var geolocationControl = new BMap.GeolocationControl();
-        var addressComponent = geolocationControl.getAddressComponent();
-
-        var address = '';
+//        var geolocationControl = new BMap.GeolocationControl();
+//        console.log('geolocationControl', geolocationControl);
+//        var addressComponent = geolocationControl.getAddressComponent();
+//        console.log('addressComponent', addressComponent);
+//        var address = '';
        // var addressComponent = {
        //     province : '上海市',
        //     city : '上海市',
@@ -99,18 +124,18 @@
        //     streetNumber :'1号'
        // }
 
-        address += addressComponent.province;
-        address += addressComponent.city;
-        address += addressComponent.district;
-        address += addressComponent.street;
-        address += addressComponent.streetNumber;
-
-        $('#btnSend1').text(geolocationControl.getAddressComponent());
-        $('#btnSend2').text(address);
-
-        $('#address').text(address);
-        
-        if(address != '' && address != undefined && address!= null){
+//        address += addressComponent.province;
+//        address += addressComponent.city;
+//        address += addressComponent.district;
+//        address += addressComponent.street;
+//        address += addressComponent.streetNumber;
+//
+//        $('#btnSend1').text(geolocationControl.getAddressComponent());
+//        $('#btnSend2').text(address);
+//
+//        $('#address').text(address);
+//
+//        if(address != '' && address != undefined && address!= null){
 
 //            $.ajax({
 //            url: 'http://nbnl.couphone.cn/food/currentLocation',
@@ -148,6 +173,6 @@
 //                    console.log('Error occured');
 //                }
 //            })
-        }
+//        }
     });
 </script>
