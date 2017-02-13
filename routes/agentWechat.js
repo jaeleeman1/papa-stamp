@@ -378,7 +378,7 @@ router.post('/getFollowerList', function (req, res, next) {
                             }
                         }
                     });
-                    break;
+                    break;;
                 } else {
 
                 }
