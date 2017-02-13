@@ -50,8 +50,7 @@
         <input type="hidden" id="lng" name="lng" value="">
         <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
         <div id="header">
-            <span class="part"></span><span class="head_ti">출발지 지정</span>
-            <p class="btn_send" id="btnSend1"></p>
+            <span class="part"></span><span class="head_ti" id="btnSend1"></span>
             <p class="btn_send" id="btnSend2"></p>
             <div class="address" name="address" id ='address'></div>
         </div>
@@ -113,42 +112,42 @@
         
         if(address != '' && address != undefined && address!= null){
 
-            $.ajax({
-            url: 'http://nbnl.couphone.cn/food/currentLocation',
-//                url: 'http://localhost:8080/food/currentLocation',
-                type: 'POST',
-                data: {addr : address},
-                success: function (data) {
+//            $.ajax({
+//            url: 'http://nbnl.couphone.cn/food/currentLocation',
+////                url: 'http://localhost:8080/food/currentLocation',
+//                type: 'POST',
+//                data: {addr : address},
+//                success: function (data) {
 //                    var mPoint = new BMap.Point(data.lng, data.lat);
 
-                    var lng = 121.49815490071883;
-                    var lat = 31.232280291456389;
-
-                    var mPoint = new BMap.Point(lng, lat);
-                    map.enableScrollWheelZoom();
-                    map.centerAndZoom (mPoint, 20);
+//                    var lng = 121.49815490071883;
+//                    var lat = 31.232280291456389;
+//
+//                    var mPoint = new BMap.Point(lng, lat);
+//                    map.enableScrollWheelZoom();
+//                    map.centerAndZoom (mPoint, 20);
 
 //                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
 //                        anchor: new BMap.Size(10, 30),
 //                        infoWindowAnchor: new BMap.Size(10, 0)
 //                    });
-                    var mkr = new BMap.Marker(mPoint);
-                    map.addOverlay(mkr);
-
-                    
-                    $('#lng').val(lng);
-                    $('#addr').val(address);
-                    $('#lat').val(lat);
-
-                    $('#btnSend').click(function () {
-                            $('#myLocation').submit();
-                    })
-                },
-                error: function (request, status, error) {
-                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    console.log('Error occured');
-                }
-            })
+//                    var mkr = new BMap.Marker(mPoint);
+//                    map.addOverlay(mkr);
+//
+//
+//                    $('#lng').val(lng);
+//                    $('#addr').val(address);
+//                    $('#lat').val(lat);
+//
+//                    $('#btnSend').click(function () {
+//                            $('#myLocation').submit();
+//                    })
+//                },
+//                error: function (request, status, error) {
+//                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+//                    console.log('Error occured');
+//                }
+//            })
         }
     });
 </script>
