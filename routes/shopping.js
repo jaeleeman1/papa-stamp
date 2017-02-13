@@ -62,7 +62,7 @@ router.get('/', function (req, res, next) {
             }else{
                 console.log("### Shopping List ###");
                 //console.log("### Data Success ### " + JSON.stringify(row));
-                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice});
+                res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, dataCheck: 0});
             }
             connection.release();
         })
@@ -105,17 +105,31 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
         var image = req.query.image; // image
         var prdctCnt = req.query.prdct_cnt; // product count
 
-        // Insert Buy List
-        var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
-        connection.query(insertQuery, prdctId, function (err, row) {
+        console.log(req.query);
+
+        var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
+        connection.query(existsQuery, prdctId, function (err, row) {
+            var dataCheck;
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                console.log("### Insert Buy List ###");
+                dataCheck = row[0].DATA_CHECK;
                 //console.log("### Data Success ### " + JSON.stringify(row));
 
-                //res.redirect('/shopping?nick_name=' + wechatId + '&toastStatus=show');
+                // Insert Buy List
+                var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+                connection.query(insertQuery, prdctId, function (err, row) {
+                    if (err) {
+                        console.error("err : " + err);
+                        throw err;
+                    }else{
+                        console.log("### Insert Buy List ###");
+                        //console.log("### Data Success ### " + JSON.stringify(row));
+
+                        //res.render({dataCheck:dataCheck});
+                    }
+                })
             }
             connection.release();
         })
