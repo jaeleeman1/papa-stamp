@@ -6,6 +6,8 @@ var config = require('../lib/config');
 var getWechatAPI = require('../lib/wechatApi');
 var WechatAPI = require('wechat-api');
 var api = new WechatAPI(config.appID, config.appsecret);
+
+
 var request = require('request');
 var getConnection = require('../lib/db_connection');
 
@@ -125,7 +127,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 							// return user's info using callback
 							callback(err0, result0);
 						}
-					});				
+					});
 					break;
 				} else {
 
@@ -134,7 +136,7 @@ var getUserListOfAgent = function(agentNickName, callback){
 		}
 	});
 	// get user's of agent using agent account
-} 
+}
 
 // 接入验证
 router.get('/', function(req, res) {
@@ -267,7 +269,7 @@ weixin.urlMsg(function(msg) {
 weixin.eventMsg(function(msg) {
     console.log("eventMsg received");
     console.log(JSON.stringify(msg));
-    
+
     var open_id =  msg.fromUserName;
 
     switch (msg.event) {
@@ -384,6 +386,10 @@ weixin.eventMsg(function(msg) {
             // If there are no message to reply, empty message should be sent
             weixin.sendResponseEmptyMsg();
             break;
+        case "LOCATION" :
+            console.log("[LOCATION EVENT]["+open_id+"] : ("+msg.latitude+", "+msg.longitude+", "+msg.precision+")");
+            weixin.sendResponseEmptyMsg();
+            break;
         case "scancode_push" :
             break;
         case "scancode_waitmsg" :
@@ -396,7 +402,7 @@ weixin.eventMsg(function(msg) {
             break;
         case "location_select" :
             break;
-    } 
+    }
 });
 
 // Start
@@ -451,13 +457,13 @@ function getNickName(new_token, open_id, type) {
 function shoppingSendMessage(nick_name, open_id) {
     console.log('Start shopping Init send  ');
     var shoppingInitUrl = 'http://nbnl.couphone.cn/shopping?nick_name=' + nick_name;
-    var shoppingTitle = "쇼핑 홈페이지로 이동";
+    var shoppingTitle = "쇼핑하러 가기";
     var articles = [
         {
             title : shoppingTitle,
             // "description": message,
             url : shoppingInitUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/photo_face02.png"
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         }
     ];
 
@@ -478,7 +484,9 @@ function foodSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
-            picurl : "http://img.newspim.com/news/2015/12/16/20151216135135.jpg"
+            description :"맛집 찾으러가기",
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food_img.jpg"
+
         }
     ];
 
@@ -499,7 +507,8 @@ function taxiSendMessage(nick_name, open_id) {
         {
             title : title,
             url : InitUrl,
-            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
+            description :"택시요청하기",
+            picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi_img.jpg"
         }
     ];
 
@@ -583,17 +592,27 @@ function deleteUserInfo(open_id) {
 }
 
 function printSessionList() {
-    var agentName = "couphone0002";
+    var agentName = "couphone0004";
     getUserListOfAgent(agentName, function(err, result) {
         if(!err) {
-            // console.log("*** printSessionList("+agentName+") Success ***");
-            // console.log(result);
+            console.log("*** printSessionList("+agentName+") Success ***");
+            console.log(result);
         } else {
             console.log("*** printSessionList("+agentName+") Fail ***");
         }
     });
 }
 
- setInterval(printSessionList, 1000000);
+function printAccessToken() {
+  api.getLatestToken(function(err, result) {
+    if(!err) {
+      console.log("[AccessToken] "+result.isValid()+" ("+result.accessToken+") expireTime("+result.expireTime+") ***");
+    } else {
+      console.log("*** printAccessToken failed("+err+")***");
+    }
+  });
+}
+
+setInterval(printAccessToken, 60000);
 
 module.exports = router;

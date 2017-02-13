@@ -4,114 +4,114 @@
 * Noto Sans SC (Chinese Simplified) http://www.google.com/fonts/earlyaccess
  */
 @font-face {
-  font-family: 'Noto Sans SC';
-  font-style: normal;
-  font-weight: 100;
-  src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.otf) format('opentype');
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 100;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Thin.otf) format('opentype');
 }
 @font-face {
-  font-family: 'Noto Sans SC';
-  font-style: normal;
-  font-weight: 300;
-  src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.otf) format('opentype');
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 300;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Light.otf) format('opentype');
 }
 @font-face {
-   font-family: 'Noto Sans SC';
-   font-style: normal;
-   font-weight: 400;
-   src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.otf) format('opentype');
- }
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 400;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Regular.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans SC';
-   font-style: normal;
-   font-weight: 500;
-   src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.otf) format('opentype');
- }
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Medium.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans SC';
-   font-style: normal;
-   font-weight: 700;
-   src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.otf) format('opentype');
- }
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 700;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Bold.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans SC';
-   font-style: normal;
-   font-weight: 900;
-   src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.otf) format('opentype');
- }
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    font-weight: 900;
+    src: url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanssc/v1/NotoSansSC-Black.otf) format('opentype');
+}
 
 /*
 * Noto Sans KR (korean) http://www.google.com/fonts/earlyaccess
  */
 @font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 100;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 100;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
 }
 @font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 300;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 300;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
 }
 @font-face {
-   font-family: 'Noto Sans KR';
-   font-style: normal;
-   /*font-weight: 400;*/
-   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
- }
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    /*font-weight: 400;*/
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans KR';
-   font-style: normal;
-   font-weight: 500;
-   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
- }
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans KR';
-   font-style: normal;
-   font-weight: 700;
-   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
- }
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+}
 @font-face {
-   font-family: 'Noto Sans KR';
-   font-style: normal;
-   font-weight: 900;
-   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),
-        url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
- }
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 900;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
+}
 /* @import url('https://fonts.googleapis.com/css?family=Roboto'); */
 
 /* latin */
 @font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
 
@@ -153,17 +153,19 @@ a:active{text-decoration:none; }
 
 #container {position:relative; /*height:100%*/}
 #header {background: #393A3F; height:48px; position:fixed; z-index:9; width:100%;  z-index:888}
+#header_address {background: rgba(0,0,0,0.50); height:48px; line-height:48px; position:fixed; z-index:9; width:100%;  z-index:888; padding:0 4.7%; color:#fff; font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 16px;}
 #header span {display:inline-block; vertical-align:middle}
 #header .part {height:24px; width:1px; margin-right:12px; margin-left:48px; background: rgba(0,0,0,0.50);}
 #header .head_ti {  font-size: 16px; color: #FFFFFF; letter-spacing: 0; line-height:48px}
-#header .address {background: rgba(0,0,0,0.50); height:36px; line-height:36px; padding:0 4.7%; color:#fff; font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 16px;}
+#header .address {background: rgba(0,0,0,0.50); height:48px; line-height:48px; padding:0 4.7%; color:#fff; font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 16px;}
 
 #header_nor {width:100%; position:fixed; height:48px; top:0; left:0; background:#FFF; z-index:888}
 #header_nor.restaurant {text-align:center}
 #header_nor .tab {display:inline-block; width:41.9% ;border: 1px solid #979797;  font-size:12px; color:#979797; margin-top:12px; /* box-shadow: 0 1px 1px  rgba(0,0,0,0.05); */}
 #header_nor .tab .fir {float:left; width:50%;border-right: 1px solid #979797; line-height:26px}
 #header_nor .tab .sec {float:left; width:calc( 50% - 1px );  line-height:26px}
-#header_nor .tab .disable {color: #000; background:#e5e5e5}
+#header_nor .tab .disable {color: #979797; background:#e5e5e5}
+#header_nor .tab .able {color: #000;}
 
 /**** 쇼핑몰 디테일페이지 ***/
 #shopping_detail_wrap {position:relative}
@@ -181,7 +183,7 @@ a:active{text-decoration:none; }
 #shopping_detail_body p:last-child{padding-bottom:0px}
 
 /**** 쇼핑몰 BUY페이지 ***/
-#shopping_buy_wrap {position:relative; padding:58px 2.77% 54px 2.77%}
+#shopping_buy_wrap {position:relative; padding:10px 2.77% 54px 2.77%}
 #shopping_buy_wrap .buy_wrap {margin-bottom:5px; background: #FFFFFF; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.04);}
 #shopping_buy_wrap .photo_buy {width:88px; margin-right:17px; float:left}
 #shopping_buy_wrap .ic_card  {width:24px; margin:32px 15px; float:right}
@@ -196,10 +198,11 @@ a:active{text-decoration:none; }
 #shopping_detail_body .res_detail UL {margin-bottom:22px}
 
 /**** 매장지도찾기 ***/
+/* #restaurant_find_local_map {position:fixed; top:48px; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; } */
 #restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
-
-#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; }
+/* #restaurant_find_local_list_wrap {padding:352px 6% 15px 4.4%; } */
+#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:352px}
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}
@@ -212,13 +215,12 @@ a:active{text-decoration:none; }
 #restaurant_find_local_list .res_name {display: block; overflow:hidden; word-wrap:break-word; text-overflow:ellipsis; white-space:nowrap; width:100%; }
 #restaurant_find_local_list .res_name .kor {font-family: 'Noto Sans KR', sans-serif; font-size: 15px; color: #171717; letter-spacing: 0.42px; line-height: 22px;}
 #restaurant_find_local_list .res_detail UL {margin-bottom:22px}
-
+/* #restaurant_find_local_list_wrap_empty {top:352px; height:calc( 100% - 352px); position:relative; } */
 #restaurant_find_local_list_wrap_empty {top:352px; height:calc( 100% - 352px); }
-
 #restaurant_find_local_list .fir {float:left; width:28px; margin-right:10px; margin-top:21px}
 #restaurant_find_local_list .fir .ic_last_pin {
-	display:inline-block; width:18.5px; height:24px; color: #FFFFFF; padding:4px 0 0 9.5px; line-height: 16px; 
-	background: url('../images/ic_list_pin@3x.png') no-repeat 0px 0px; background-size:28px 28px; z-index:777;  font-family: 'Roboto', sans-serif;}
+    display:inline-block; width:18.5px; height:24px; color: #FFFFFF; padding:4px 0 0 9.5px; line-height: 16px;
+    background: url('../images/ic_list_pin@3x.png') no-repeat 0px 0px; background-size:28px 28px; z-index:777;  font-family: 'Roboto', sans-serif;}
 #restaurant_find_local_list .sec {float:left; width:calc( 100% - (67px + 10.4%) );}
 #restaurant_find_local_list .thi { float:right; width:19px; margin-left:10px; margin-top:25px; z-index:11}
 #restaurant_find_local_list .thi img {width:19px; opacity:0.55; }
@@ -270,11 +272,11 @@ a:active{text-decoration:none; }
 .start_icon {display:inline-block; width:30px; height:25px; position:absolute; top:90px; left:30px;font-size: 9px; color: #FFFFFF; padding:7px 0 0 2px; line-height: 10px; background: url('../images/pin@3x.png') no-repeat 0px 0px; background-size:32px 32px; z-index:777}
 .arrive_icon {display:inline-block; width:30px; height:25px; position:absolute; top:90px; left:200px;font-size: 9px; color: #FFFFFF; padding:7px 0 0 2px; line-height: 10px; background: url('../images/pin@3x.png') no-repeat 0px 0px; background-size:32px 32px; z-index:777}
 .location_icon_42px {
-	display:inline-block; width:31px; height:39px; position:absolute; top:90px; left:30px; color: #FFFFFF; padding:1px 0 0 9px; font-size:18px; line-height: 31px; background: url('../images/pin@3x.png') no-repeat 0px 0px; 
-	background-size:40px 40px; font-family: 'Roboto', sans-serif; z-index:777}
+    display:inline-block; width:31px; height:39px; position:absolute; top:90px; left:30px; color: #FFFFFF; padding:1px 0 0 9px; font-size:18px; line-height: 31px; background: url('../images/pin@3x.png') no-repeat 0px 0px;
+    background-size:40px 40px; font-family: 'Roboto', sans-serif; z-index:777}
 .location_icon_32px {
-	display:inline-block; width:25px; height:29px; position:absolute; top:150px; left:30px; color: #FFFFFF; padding:3px 0 0 7px; font-size:16px; line-height: 19px; background: url('../images/pin@3x.png') no-repeat 0px 0px; 
-	background-size:32px 32px; font-family: 'Roboto', sans-serif; z-index:777}
+    display:inline-block; width:25px; height:29px; position:absolute; top:150px; left:30px; color: #FFFFFF; padding:3px 0 0 7px; font-size:16px; line-height: 19px; background: url('../images/pin@3x.png') no-repeat 0px 0px;
+    background-size:32px 32px; font-family: 'Roboto', sans-serif; z-index:777}
 .oval_wrap {position:absolute; background: rgba(0,156,255,0.10); border: 1px solid #009CFF; text-align:center; width:196px; height:196px; border-radius: 98px; top:80px; left:80px; z-index:666}
 .dot_location {position:absolute; top:50%; left:50%; margin-top:-9px; margin-left:-9px; background: #FF4B24; box-shadow: 0 2px 2px 0 rgba(0,0,0,0.30); width:18px; height:18px; border-radius: 9px; display:inline-block; line-height:0;  z-index:777}
 .ic_location_wrap {position:absolute; width:47px; height:47px; border-radius: 23.5px; bottom: 16px; right:16px; background: #FFFFFF; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.50); z-index:777}
@@ -291,22 +293,56 @@ a:active{text-decoration:none; }
 
 /*** 팝업 ***/
 #container_popup {height:100%; position:relative;}
-#pop_up_wrap {margin:0 5%; position:absolute;  top:50%; margin-top:-107px; background:#FFF; height:214px; width:90%}
+#layerPop {position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
 .pop_up-154 {margin-top:-77px !important; height:154px  !important; }
-#pop_up_wrap .pop_up_body {padding:18.5px 6.7% 17.4px}
-#pop_up_wrap .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
-#pop_up_wrap .pop_up_body .set_num {border: 1px solid #979797;}
-#pop_up_wrap .pop_up_body .set_num ul li {float:left}
-#pop_up_wrap .pop_up_body .set_num img {width:59px}
-#pop_up_wrap .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
-#pop_up_wrap .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
-#pop_up_wrap .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
-#pop_up_wrap .pop_up_body .btn_txt {margin-top:45px; text-align:right}
-#pop_up_wrap .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
-#pop_up_wrap .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
+#layerPop .pop_up_body {padding:18.5px 6.7% 17.4px}
+#layerPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+#layerPop .pop_up_body .set_num {border: 1px solid #979797;}
+#layerPop .pop_up_body .set_num ul li {float:left}
+#layerPop .pop_up_body .set_num img {width:59px}
+#layerPop .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+#layerPop .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+#layerPop .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+#layerPop .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+#layerPop .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#layerPop .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
 .confirm {color: #1AAD19 !important;}
-#pop_up_wrap .pop_up_body .btn_txt_nor {text-align:right; }
-#pop_up_wrap .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#layerPop .pop_up_body .btn_txt_nor {text-align:right; }
+#layerPop .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+
+#layerDelPop {position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
+.pop_up-154 {margin-top:-77px !important; height:154px  !important; }
+#layerDelPop .pop_up_body {padding:18.5px 6.7% 17.4px}
+#layerDelPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+#layerDelPop .pop_up_body .set_num {border: 1px solid #979797;}
+#layerDelPop .pop_up_body .set_num ul li {float:left}
+#layerDelPop .pop_up_body .set_num img {width:59px}
+#layerDelPop .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+#layerDelPop .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+#layerDelPop .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+#layerDelPop .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+#layerDelPop .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#layerDelPop .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
+.confirm {color: #1AAD19 !important;}
+#layerDelPop .pop_up_body .btn_txt_nor {text-align:right; }
+#layerDelPop .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+
+#layerAllDelPop {position:absolute; top:50%; margin-top:-107px; background:#FFF; height:214px; width:70%}
+.pop_up-154 {margin-top:-77px !important; height:154px  !important; }
+#layerAllDelPop .pop_up_body {padding:18.5px 6.7% 17.4px}
+#layerAllDelPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+#layerAllDelPop .pop_up_body .set_num {border: 1px solid #979797;}
+#layerAllDelPop .pop_up_body .set_num ul li {float:left}
+#layerAllDelPop .pop_up_body .set_num img {width:59px}
+#layerAllDelPop .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+#layerAllDelPop .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+#layerAllDelPop .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+#layerAllDelPop .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+#layerAllDelPop .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+#layerAllDelPop .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
+.confirm {color: #1AAD19 !important;}
+#layerAllDelPop .pop_up_body .btn_txt_nor {text-align:right; }
+#layerAllDelPop .pop_up_body .btn_txt_nor span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
 
 .pt5 {padding-top:5px !important}
 .pt10 {padding-top:10px !important}
@@ -340,11 +376,12 @@ a:active{text-decoration:none; }
 .cell_box {    position: relative;    width: 100%;    height: 100%;    display: table;	text-align:center;}
 .cell_middle {    display: table-cell;    vertical-align: middle;}
 .body_middle {position:absolute; top:50%; text-align:center; width:100%;}
-.height100 {height:100%}
+.body_middle_map {position:absolute; top:calc((100% + 352px ) / 2);  text-align:center; width:100%;}
+.height100 {height:100% !important}
 .fontsize16 {font-size:16px}
 .fontmedium {font-weight:500;}
 
-.ic_buy_basket_middle {margin-top:250px}
+.ic_buy_basket_middle {margin-top:-46px}
 .ic_buy_basket {margin-bottom:16px;}
 .ic_buy_basket img {width:58px;}
 
@@ -391,18 +428,28 @@ a:active{text-decoration:none; }
 #swiper-container_fix {position:fixed; z-index:22; width:213px; width:100%}
 .swiper-container {width: 100%; height: 100%;}
 .swiper-slide {text-align: center; font-size: 18px;
-        background: #fff;        
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+/*** card popup ***/
+.card_popup_wrap {position:relative; margin-right:2.2%; margin-left:2.2%; margin-top:-98px; background: #FFFFFF; border-radius: 4px; padding:11px; top:50%; }
+.card_popup_wrap.chn {position:relative; margin-right:2.2%; margin-left:2.2%; margin-top:-118px; background: #FFFFFF; border-radius: 4px; padding:11px; top:50%; }
+.card_popup_box {position:relative;}
+.card_popup_box img {width:100%; height:174px}
+.card_popup_box .comment {position:absolute; bottom:0; background: rgba(0,0,0,0.50); padding:7px 9px; color:#FFF; width:calc( 100% - 18px );}
+.card_popup_wrap .chn {position:relative; font-size: 14px; color: #353535; letter-spacing: 0; border-top:1px solid #CCCCCC; margin-top:7px; margin-bottom:2px; padding-top:10px}
+.card_popup_wrap .arrow {position:absolute; right:0; top:15px}
+.card_popup_wrap .arrow img {width:8px;}
