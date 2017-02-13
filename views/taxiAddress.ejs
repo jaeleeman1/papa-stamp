@@ -39,16 +39,30 @@
                 document.getElementById("address_wrap").style.WebkitTransform = "rotate(90deg)";
                 document.getElementById("address_wrap").style.msTransform = "rotate(90deg)";
                 document.getElementById("address_wrap").style.transform = "rotate(90deg)";
+            }else {
+                location.reload();
             }
 		});
 	</script>
 
+    <script type="text/javascript">
+        var orientation = window.orientation;
+        if(orientation != undefined){
+            if(orientation == 0){
+                // 세로 모드 (평소 사용하는 각도)
+                alert('x');
+            }else if(orientation == -90){
+                // 가로 모드 (동영상 볼때 사용하는 각도)
+                alert('y');
+            }
+        }
+    </script>
 
 </head>
 
 <body>
 <div id="container">
-	<div id="address_wrap">
+	<div class="test" id="address_wrap">
 		<ul class="address">
 		<li class="fir">我要去ᬯ里<li>
 		<li class="txt"><%= name %><br>
