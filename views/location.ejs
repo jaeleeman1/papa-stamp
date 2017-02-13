@@ -51,7 +51,8 @@
         <a href="javascript:history.back()"><p class="back_arrow"><img src="/images/btn_back_w@3x.png"></p></a>
         <div id="header">
             <span class="part"></span><span class="head_ti">출발지 지정</span>
-            <p class="btn_send" id="btnSend">보내기</p>
+            <p class="btn_send" id="btnSend1"></p>
+            <p class="btn_send" id="btnSend2"></p>
             <div class="address" name="address" id ='address'></div>
         </div>
     </form>
@@ -83,7 +84,7 @@
         })
 
         map.addControl(navigationControl);
-        map.addControl(new BMap.ScaleControl());
+//        map.addControl(new BMap.ScaleControl());
 //        map.addControl(new BMap.OverviewMapControl());
         map.addControl(geolocationControl);
 
@@ -104,7 +105,10 @@
         address += addressComponent.district;
         address += addressComponent.street;
         address += addressComponent.streetNumber;
-        
+
+        $('#btnSend1').text(geolocationControl.getAddressComponent());
+        $('#btnSend2').text(address);
+
         $('#address').text(address);
         
         if(address != '' && address != undefined && address!= null){
