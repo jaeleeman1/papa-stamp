@@ -464,6 +464,11 @@ function shoppingSendMessage(nick_name, open_id) {
             // "description": message,
             url : shoppingInitUrl,
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
+        },
+        {
+            title : "",
+            url : shoppingInitUrl,
+            picurl : ""
         }
     ];
 
@@ -478,15 +483,18 @@ function shoppingSendMessage(nick_name, open_id) {
 }
 
 function foodSendMessage(nick_name, open_id) {
-    var InitUrl = 'http://nbnl.couphone.cn/food?nickName=' + nick_name;
-    var title = "맛집 페이지로 이동";
+    var foodInitUrl = 'http://nbnl.couphone.cn/food?nickName=' + nick_name;
+    var title = "맛집 찾으러가기";
     var articles = [
         {
             title : title,
-            url : InitUrl,
-            description :"맛집 찾으러가기",
+            url : foodInitUrl,
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food_img.jpg"
-
+        },
+        {
+            title : "",
+            url : foodInitUrl,
+            picurl : ""
         }
     ];
 
@@ -501,14 +509,18 @@ function foodSendMessage(nick_name, open_id) {
 }
 
 function taxiSendMessage(nick_name, open_id) {
-    var InitUrl = 'http://nbnl.couphone.cn/taxi/myLocation?nickName=' + nick_name;
-    var title = "택시 페이지로 이동";
+    var taxiInitUrl = 'http://nbnl.couphone.cn/taxi/myLocation?nickName=' + nick_name;
+    var title = "택시 요청하기";
     var articles = [
         {
             title : title,
-            url : InitUrl,
-            description :"택시요청하기",
+            url : taxiInitUrl,
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi_img.jpg"
+        },
+        {
+            title : "",
+            url : taxiInitUrl,
+            picurl : ""
         }
     ];
 
