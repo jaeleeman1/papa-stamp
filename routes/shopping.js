@@ -105,9 +105,7 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
         var image = req.query.image; // image
         var prdctCnt = req.query.prdct_cnt; // product count
 
-        console.log(req.query);
-
-        var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
+	var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
         connection.query(existsQuery, prdctId, function (err, row) {
             var dataCheck;
             if (err) {
