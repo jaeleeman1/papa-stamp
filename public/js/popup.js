@@ -26,3 +26,12 @@ function closeLayer( IdName ){
         window.history.back();
     }, 500);
 }
+
+//레이어 팝엽 닫기
+function initCloseLayer( IdName ){
+    var pop = dEI(IdName);
+    pop.style.display = "none";
+    var clearEl=parent.dEI("deemed");
+    var momEl = parent.dEI("wrapper");
+    momEl.removeChild(clearEl);
+}
