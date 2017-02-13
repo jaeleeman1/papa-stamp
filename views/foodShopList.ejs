@@ -26,36 +26,53 @@
     <meta itemprop="url" content="">
     <meta itemprop="description" content="">
     <meta itemprop="keywords" content="">
+
     <style type="text/css">
         #restaurant_find_local_map{width:100%;height:50%;}
     </style>
+
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
-    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
 </head>
 
 <body>
-<input type="hidden" id='nickName' value=<%=nickName%>
+<div id="restaurant_find_local_map"></div>
 <div id="container">
-        <div id="restaurant_find_local_map"></div>
             <div id="restaurant_find_local_list_wrap"></div>
         <div id="restaurant_find_local_list_wrap_empty"></div>
     </div>
 </div>
+<input type="hidden" id='nickName' value=<%=nickName%>>
 </body>
 </html>
 
 <script type ="text/javascript">
     $(function(){
         var map = new BMap.Map("restaurant_find_local_map");
+
         var navigationControl = new BMap.NavigationControl({
             anchor: BMAP_ANCHOR_BOTTOM_LEFT,
-            type: BMAP_NAVIGATION_CONTROL_SMALL,
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
             enableGeolocation: true
         });
+
+        var geolocationControl = new BMap.GeolocationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            enableGeolocation: true
+        })
+
         map.addControl(navigationControl);
-        var geolocationControl = new BMap.GeolocationControl();
+        map.addControl(geolocationControl);
+//        var navigationControl = new BMap.NavigationControl({
+//            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+//            type: BMAP_NAVIGATION_CONTROL_SMALL,
+//            enableGeolocation: true
+//        });
+//        map.addControl(navigationControl);
+//        var geolocationControl = new BMap.GeolocationControl();
         var addressComponent = geolocationControl.getAddressComponent();
 
         var address = '';
@@ -81,6 +98,8 @@
                 type: 'POST',
                 data: {addr : address},
                 success: function (data) {
+
+                console.log('data mPoint', data);
                     var mPoint = new BMap.Point(data.lng, data.lat);
                     map.addOverlay(mPoint);
                     map.enableScrollWheelZoom();

@@ -96,9 +96,9 @@
         address += addressComponent.district;
         address += addressComponent.street;
         address += addressComponent.streetNumber;
-        
+
         $('#address').text(address);
-        
+
         if(address != '' && address != undefined && address!= null){
 
             $.ajax({
@@ -107,11 +107,11 @@
                 type: 'POST',
                 data: {addr : address},
                 success: function (data) {
-//                    var mPoint = new BMap.Point(data.lng, data.lat);
-                    var lng = 121.49815490071883;
-                    var lat = 31.232280291456389;
-
-                    var mPoint = new BMap.Point(lng, lat);
+                    var mPoint = new BMap.Point(data.lng, data.lat);
+//                    var lng = 121.49815490071883;
+//                    var lat = 31.232280291456389;
+                    console.log('taxiMyLocation ', data);
+//                    var mPoint = new BMap.Point(lng, lat);
                     map.enableScrollWheelZoom();
                     map.centerAndZoom (mPoint, 20);
 
