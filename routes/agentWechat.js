@@ -178,11 +178,10 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                         url : messageUrl,
                                                                         picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     }
-
                                                                 ];
 
                                                 wechatAPI.sendNews(openId, articles, function () {
-						    res.send('complete arrival msg');
+						                            res.send('complete arrival msg');
                                                     console.log('complete arrival msg');
                                                 });
                                             }
@@ -348,10 +347,7 @@ router.post('/getFollowerList', function (req, res, next) {
                         if(sessionListError != null) {
                             console.log("WeChatAPI getCustomerSessionList Error : "+sessionListError);
                         } else {
-
                             console.log("sessionListResult" , listResult);
-
-                            var data = listResult.sessionlist;
 
                             if(data.length < 1){
                                 res.send({data : false});
@@ -419,7 +415,7 @@ router.post('/readMessage', function (req, res, next) {
 	var user = req.body.user;
 
     getConnection(function (err, connection) {
-        var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC';
+    var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";

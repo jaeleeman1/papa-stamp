@@ -3,9 +3,9 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     router = express.Router();
 var config = require('../lib/config');
-var getWechatAPI = require('../lib/wechatApi');
-var WechatAPI = require('wechat-api');
-var api = new WechatAPI(config.appID, config.appsecret);
+var api = require('../lib/wechatApi');
+// var WechatAPI = require('wechat-api');
+// var api = new WechatAPI(config.appID, config.appsecret);
 
 
 var request = require('request');
