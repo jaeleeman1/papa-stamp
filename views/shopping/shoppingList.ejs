@@ -37,13 +37,13 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
-	var currentUrl = window.location.href;
 	
         $( document ).ready(function() {
-	    if(currentUrl != window.location.href){
-		// redirect to site root
+	    if(performance.navigation.type != 1) {
+		//console.log('not reload');
 		location.reload();
 	    }
+
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
                 btnConfirm.removeAttribute("id");
