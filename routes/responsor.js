@@ -457,13 +457,12 @@ function getNickName(new_token, open_id, type) {
 function shoppingSendMessage(nick_name, open_id) {
     console.log('Start shopping Init send  ');
     var shoppingInitUrl = 'http://nbnl.couphone.cn/shopping?nick_name=' + nick_name;
-    var shoppingTitle = "쇼핑 홈페이지로 이동";
+    var shoppingTitle = "쇼핑하러 가기";
     var articles = [
         {
             title : shoppingTitle,
             // "description": message,
             url : shoppingInitUrl,
-            description :"쇼핑하러 가기",
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         }
     ];
