@@ -350,8 +350,7 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("sessionListResult" , listResult);
 
                             var data = listResult.sessionlist;
-                            console.log( "data :",  data );
-
+                            // console.log( "data :",  data );
 
                             if(data.length < 1){
                                 res.send({data : false});
@@ -362,7 +361,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                     var indata = '';
                                     for(var j =0; j< data.length;j++){
                                         indata += "'" + data[j].openid + "',";
-                                        console.log(" LOOP IN data: " ,data[j]);
+                                        // console.log(" LOOP IN data: " ,data[j]);
                                     }
                                     // indata = indata.slice(0, -1);
                                     indata  = indata + " 'default' ";
@@ -423,7 +422,9 @@ router.post('/readMessage', function (req, res, next) {
 	var user = req.body.user;
 
     getConnection(function (err, connection) {
-    var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
+    var selectQuery = 'select DIAL_SEQ, FROM_OPEN_ID, TO_OPEN_ID,CONTENT_TYPE,  DIAL_CONTENT,   READ_YN,   DEL_YN,  '+
+                             'DATE_ADD(  REG_DT , INTERVAL + 8 HOUR )   REG_DT '+
+                      'from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
@@ -438,6 +439,8 @@ router.post('/readMessage', function (req, res, next) {
 			console.error("err : " + err);
 			throw err;
 		    } else {
+		        console.log(" time stamp: " , selectRow[0].REG_DT);
+
 			res.send({data : selectRow});
 		    }
         	})
