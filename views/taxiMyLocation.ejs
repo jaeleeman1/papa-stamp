@@ -119,17 +119,47 @@
             var mkr = new BMap.Marker(mPoint);
             map.addOverlay(mkr);
 
+            map.addEventListener("dragend", function () {
+
+                var neLat = map.getBounds().getNorthEast().lat;
+                var neLng = map.getBounds().getNorthEast().lng;
+                var swLat = map.getBounds().getSouthWest().lat;
+                var swLng = map.getBounds().getSouthWest().lng;
+
+                var longitude = (neLng + swLng) / 2;
+                var latitude = (neLat + swLat) / 2;
+
+                var mPoint = new BMap.Point(longitude, latitude);
+                map.enableScrollWheelZoom();
+                map.centerAndZoom (mPoint, 20);
+
+                $('#lng').val(longitude);
+                $('#lat').val(latitude);
+
+                var mkr = new BMap.Marker(mPoint);
+                map.addOverlay(mkr);
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn/food/currentLocation',
+                    type: 'POST',
+                    data: {lng : longitude,
+                        lat : latitude},
+                    success: function (data) {
+                        $('#addr').val(data.address);
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                })
+            });
+
             $.ajax({
                 url: 'http://nbnl.couphone.cn/food/currentLocation',
                 type: 'POST',
                 data: {lng : longitude,
                     lat : latitude},
                 success: function (data) {
-
-//                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
-//                        anchor: new BMap.Size(10, 30),
-//                        infoWindowAnchor: new BMap.Size(10, 0)
-//                    });
 
                     $('#addr').val(data.address);
 
@@ -169,7 +199,10 @@
                     console.log('Error occured');
                 }
             })
-
         }
     });
+    //                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
+    //                        anchor: new BMap.Size(10, 30),
+    //                        infoWindowAnchor: new BMap.Size(10, 0)
+    //                    });
 </script>
