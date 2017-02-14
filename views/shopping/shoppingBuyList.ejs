@@ -162,7 +162,9 @@
             $("#btn_delete_confirm").click(
                 function() {
                     var length = $("#length").val();
-                    if(length == 1) {
+                    length--;
+                    $("#length").val(length);
+                    if(length == 0) {
                         changeEmptyAttr();
                     }
                     $("#delete_setting").submit();

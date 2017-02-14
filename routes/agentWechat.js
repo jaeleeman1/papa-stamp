@@ -360,6 +360,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                         indata += "'" + data[j].openid + "',";
                                     }
                                     indata = indata = indata.slice(0, -1);
+                                    console.log( "indata :", indata);
 
                                     var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
 
