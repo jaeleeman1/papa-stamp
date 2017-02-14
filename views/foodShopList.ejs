@@ -96,9 +96,7 @@
                 data: {lng : longitude,
                         lat : latitude},
                 success: function (data) {
-
                     var addr = data.address;
-                    console.log('data food myMpoint', addr);
 
                     getFoodShop(map, addr, longitude, latitude);
 
