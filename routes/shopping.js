@@ -104,29 +104,42 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
         var image = req.query.image; // image
         var prdctCnt = req.query.prdct_cnt; // product count
 
-	var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
+        var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
         connection.query(existsQuery, prdctId, function (err, row) {
             var dataCheck;
+            var addCount;
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
                 dataCheck = row[0].DATA_CHECK;
-                //console.log("### Data Success ### " + JSON.stringify(row));
+                if(dataCheck == 1) {
+                    var countQuery = 'select SHOPPING_CNT from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?';
+                    connection.query(countQuery, prdctId, function (err, row) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        }else{
+                            console.log("### Select Shopping Count ###");
+                            //console.log("### Data Success ### " + JSON.stringify(row));
+                            prdctCnt = Number(prdctCnt) + Number(row[0].SHOPPING_CNT);
 
-                // Insert Buy List
-                var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
-                connection.query(insertQuery, prdctId, function (err, row) {
-                    if (err) {
-                        console.error("err : " + err);
-                        throw err;
-                    }else{
-                        console.log("### Insert Buy List ###");
-                        //console.log("### Data Success ### " + JSON.stringify(row));
+                            // Insert Buy List
+                            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+                            connection.query(insertQuery, prdctId, function (err, row) {
+                                if (err) {
+                                    console.error("err : " + err);
+                                    throw err;
+                                }else{
+                                    console.log("### Insert Buy List ###");
+                                    //console.log("### Data Success ### " + JSON.stringify(row));
 
-                        //res.render({dataCheck:dataCheck});
-                    }
-                });
+                                    //res.render({dataCheck:dataCheck});
+                                }
+                            });
+                        }
+                    });
+                }
             }
             connection.release();
         });
@@ -314,6 +327,7 @@ router.get('/shoppingBuySum', function (req, res, next) {
 		var sumQuery = 'select * from TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
         connection.query(sumQuery, wechatId, function (err, row) {
             if (err) {
+
                 console.error("err : " + err);
                 throw err;
             }else{

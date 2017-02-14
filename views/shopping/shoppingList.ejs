@@ -39,10 +39,10 @@
         var socket = io.connect('http://52.79.56.181:8060');
 	
         $( document ).ready(function() {
-	    if(performance.navigation.type != 1) {
-		//console.log('not reload');
-		location.reload();
-	    }
+            if(performance.navigation.type != 1) {
+                //console.log('not reload');
+                location.reload();
+            }
 
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
