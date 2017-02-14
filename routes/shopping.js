@@ -139,6 +139,19 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
                             });
                         }
                     });
+                }else {
+                    var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+                    connection.query(insertQuery, prdctId, function (err, row) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        }else{
+                            console.log("### Insert Buy List ###");
+                            //console.log("### Data Success ### " + JSON.stringify(row));
+
+                            //res.render({dataCheck:dataCheck});
+                        }
+                    });
                 }
             }
             connection.release();
