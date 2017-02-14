@@ -43,7 +43,7 @@
 
             if(performance.navigation.type != 1) {
                 location.reload();
-            }else {location.reload();}
+            }
 
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
@@ -315,7 +315,7 @@
 
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
+        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img async src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
 </div>
