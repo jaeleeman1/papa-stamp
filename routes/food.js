@@ -22,10 +22,7 @@ router.post('/currentLocation', function (req, res, next) {
             var parser = new xml2js.Parser();
 
             parser.parseString(body, function(err, data) {
-                console.log('food data', data);
-                console.log('data result', data.result);
-
-                var address = data.result.formatted_address;
+                var address = data.GeocoderSearchResponse.result[0].formatted_address[0];
                 res.send({address:address});
             });
         }
