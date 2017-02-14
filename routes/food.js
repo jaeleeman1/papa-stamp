@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
+var xml2js = require('xml2js');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
@@ -18,14 +19,15 @@ router.post('/currentLocation', function (req, res, next) {
     var host = 'Http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + req.body.lat +',' + req.body.lng + '&output=xml&pois=1&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
     request.get({'url': host}, function(error, request, body) {
         if (!error) {
+            var parser = new xml2js.Parser();
 
-            var data = JSON.stringify(body);
+            parser.parseString(body, function(err, data) {
+                console.log('food data', data);
+                console.log('data result', data.result);
 
-            console.log('food data', data.find(result));
-            console.log('data result', data.result);
-
-            var address = data.result.formatted_address;
-            res.send({address:address});
+                var address = data.result.formatted_address;
+                res.send({address:address});
+            });
         }
     });
 })
