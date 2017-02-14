@@ -21,7 +21,7 @@ router.post('/currentLocation', function (req, res, next) {
 
             var data = JSON.stringify(body);
 
-            console.log('food data', data);
+            console.log('food data', data.find(result));
             console.log('data result', data.result);
 
             var address = data.result.formatted_address;
