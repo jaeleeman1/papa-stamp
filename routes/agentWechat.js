@@ -349,6 +349,8 @@ router.post('/getFollowerList', function (req, res, next) {
                         } else {
                             console.log("sessionListResult" , listResult);
                             var data = listResult;
+                            console.log( "data :", data);
+
                             if(data.length < 1){
                                 res.send({data : false});
                             }else{
@@ -358,9 +360,11 @@ router.post('/getFollowerList', function (req, res, next) {
                                     var indata = '';
                                     for(var j =0; j< data.length;j++){
                                         indata += "'" + data[j].openid + "',";
+                                        console.log("data: " ,data[j]);
                                     }
                                     // indata = indata.slice(0, -1);
-                                    indata += " 'default' ";
+                                    indata  = indata + " 'default' ";
+
                                     console.log( "indata :", indata);
 
                                     var query = "SELECT USER_OPEN_ID,USER_WECHAT_ID FROM TB_USER_INFO WHERE DEL_YN = 'N' AND  USER_OPEN_ID IN ("  + indata  + ")";
