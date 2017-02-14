@@ -466,9 +466,8 @@ function shoppingSendMessage(nick_name, open_id) {
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         },
         {
-            title : "",
-            url : shoppingInitUrl,
-            picurl : ""
+            title : "다양한 쇼핑 상품을 구경해 보세요!",
+            url : shoppingInitUrl
         }
     ];
 
@@ -492,9 +491,8 @@ function foodSendMessage(nick_name, open_id) {
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food_img.jpg"
         },
         {
-            title : "",
-            url : foodInitUrl,
-            picurl : ""
+            title : "주위에 있는 맛집들을 찾아 보세요!",
+            url : foodInitUrl
         }
     ];
 
@@ -518,9 +516,8 @@ function taxiSendMessage(nick_name, open_id) {
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi_img.jpg"
         },
         {
-            title : "",
-            url : taxiInitUrl,
-            picurl : ""
+            title :  "택시의 가격과 경로를 확인해 보세요!",
+            url : taxiInitUrl
         }
     ];
 

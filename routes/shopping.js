@@ -12,15 +12,14 @@ router.get('/', function (req, res, next) {
         var buyData = '';
         var buyPrdctCnt;
         var buyPrdctSumPrice = 0;
-        // Select Shopping Buy List
-        var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
-        connection.query(buyQuery, wechatId, function (err, row) {
+        // Select Shopping List
+        var shoppingQuery = 'select TSL.* from TB_SHOPPING_LIST AS TSL';
+        connection.query(shoppingQuery, wechatId, function (err, listRow) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             }else{
-                buyData = row;
-                console.log("### Shopping Buy List ###");
+                console.log("### Shopping List ###");
                 //console.log("### Data Success ### " + JSON.stringify(buyData));
                 // Select Open ID
                 var selectQuery = 'select TUI.USER_OPEN_ID from TB_USER_INFO as TUI where TUI.USER_WECHAT_ID = ?';
@@ -46,16 +45,18 @@ router.get('/', function (req, res, next) {
                                 }
                                 console.log("### Shopping Buy Sum ###");
                                 //console.log("### Data Success ### " + JSON.stringify(buyPrdctSumPrice));
-                                // Select Shopping List
-                                var shoppingQuery = 'select TSL.* from TB_SHOPPING_LIST AS TSL';
-                                connection.query(shoppingQuery, wechatId, function (err, row) {
+
+                                // Select Shopping Buy List
+                                var buyQuery = 'select * from TB_SHOPPING_LIST as TSL, TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSL.PRDCT_ID = TSBL.PRDCT_ID and TSBL.USER_WECHAT_ID = ?';
+                                connection.query(buyQuery, wechatId, function (err, buyRow) {
                                     if (err) {
                                         console.error("err : " + err);
                                         throw err;
                                     }else{
-                                        console.log("### Shopping List ###");
+                                        buyData = buyRow;
+                                        console.log("### Shopping Buy List ###");
                                         //console.log("### Data Success ### " + JSON.stringify(row));
-                                        res.render('shopping/shoppingList', {data:row, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, dataCheck: 0});
+                                        res.render('shopping/shoppingList', {data:listRow, url:config.url, wechatId:wechatId, buyData:buyData, openId:openId, buyCnt: buyPrdctCnt, buySumPrice: buyPrdctSumPrice, dataCheck: 0});
                                     }
                                 });
                             }
