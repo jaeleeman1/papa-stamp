@@ -360,7 +360,7 @@ router.post('/getFollowerList', function (req, res, next) {
                                     var indata = '';
                                     for(var j =0; j< data.length;j++){
                                         indata += "'" + data[j].openid + "',";
-                                        console.log("data: " ,data[j]);
+                                        console.log(" LOOP IN data: " ,data[j]);
                                     }
                                     // indata = indata.slice(0, -1);
                                     indata  = indata + " 'default' ";
