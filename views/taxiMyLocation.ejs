@@ -145,7 +145,7 @@
                     data: {lng : longitude,
                         lat : latitude},
                     success: function (data) {
-                        $('#address').val(data.address);
+                        $('#address').text(data.address);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -161,7 +161,7 @@
                     lat : latitude},
                 success: function (data) {
 
-                    $('#address').val(data.address);
+                    $('#address').text(data.address);
 
                     $('#btnSend').click(function () {
                         var data = {
