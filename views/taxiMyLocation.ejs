@@ -40,7 +40,6 @@
 
 <body id="back_100">
 <!--<div>-->
-<input type="hidden" id="addr" name="addr" value="">
 <input type="hidden" id="lat" name="lat" value="">
 <input type="hidden" id="lng" name="lng" value="">
 <input type="hidden" id="nickName" name="nickName" value=<%=nickName%>>
@@ -146,7 +145,7 @@
                     data: {lng : longitude,
                         lat : latitude},
                     success: function (data) {
-                        $('#addr').val(data.address);
+                        $('#address').val(data.address);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -162,11 +161,11 @@
                     lat : latitude},
                 success: function (data) {
 
-                    $('#addr').val(data.address);
+                    $('#address').val(data.address);
 
                     $('#btnSend').click(function () {
                         var data = {
-                            addr : $('#addr').val(),
+                            addr : $('#address').val(),
                             lat : $('#lat').val(),
                             lng : $('#lng').val(),
                             nickName : $('#nickName').val()
