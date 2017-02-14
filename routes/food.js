@@ -19,7 +19,7 @@ router.post('/currentLocation', function (req, res, next) {
     request.get({'url': host}, function(error, request, body) {
         if (!error) {
 
-            var data = body;
+            var data = JSON.stringify(body);
 
             console.log('food data', data);
             console.log('data result', data.result);
