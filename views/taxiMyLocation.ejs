@@ -35,7 +35,7 @@
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
     <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU"></script>
-    <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
+    <!--<script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>-->
 </head>
 
 <body id="back_100">
@@ -55,7 +55,7 @@
 <script type ="text/javascript">
 
     $(function(){
-        var socket = io.connect('http://52.79.56.181:8060');
+//        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("taxi_find_local_map");
 
         var navigationControl = new BMap.NavigationControl({
@@ -86,9 +86,8 @@
             var longitude = position.coords.longitude;
             var latitude = position.coords.latitude;
 
-            setMarker(map, BMap, longitude, latitude);
+            setMarker(map, BMap, longitude, latitude, false);
             map.enableScrollWheelZoom();
-            map.centerAndZoom (mPoint, 20);
 
             $.ajax({
                 url: 'http://nbnl.couphone.cn/food/currentLocation',
@@ -121,7 +120,7 @@
                                     contents : taxiMsg,
                                     type : 'saveMsg'
                                 };
-                                socket.emit('nbnlServer', content);
+//                                socket.emit('nbnlServer', content);
                             },
                             error: function (request, status, error) {
                                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -149,7 +148,7 @@
             var longitude = (neLng + swLng) / 2;
             var latitude = (neLat + swLat) / 2;
 
-            setMarker(map, BMap, longitude, latitude);
+            setMarker(map, BMap, longitude, latitude, true);
 
             $.ajax({
                 url: 'http://nbnl.couphone.cn/food/currentLocation',
@@ -166,13 +165,17 @@
             })
         });
 
-        var setMarker = function(map, bMap, longitude, latitude){
+        var setMarker = function(map, bMap, longitude, latitude, isCenterZoom){
             $('#lng').val(longitude);
             $('#lat').val(latitude);
 
             var mPoint = new BMap.Point(longitude, latitude);
             var mkr = new BMap.Marker(mPoint);
             map.addOverlay(mkr);
+
+            if(!!isCenterZoom){
+                map.centerAndZoom (mPoint, 20);
+            }
         }
     });
 
