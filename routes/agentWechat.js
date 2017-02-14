@@ -423,7 +423,7 @@ router.post('/readMessage', function (req, res, next) {
 
     getConnection(function (err, connection) {
     var selectQuery = 'select DIAL_SEQ, FROM_OPEN_ID, TO_OPEN_ID,CONTENT_TYPE,  DIAL_CONTENT,   READ_YN,   DEL_YN,  '+
-                             'DATE_ADD(  REG_DT , INTERVAL + 8 HOUR )   REG_DT '+
+                             'DATE_ADD(  REG_DT , INTERVAL + 8 HOUR ) REG_DT '+
                       'from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
