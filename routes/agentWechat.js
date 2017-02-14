@@ -348,8 +348,10 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("WeChatAPI getCustomerSessionList Error : "+sessionListError);
                         } else {
                             console.log("sessionListResult" , listResult);
-                            var data = listResult;
+
+                            var data = listResult.sessionlist;
                             console.log( "data :",  data );
+
 
                             if(data.length < 1){
                                 res.send({data : false});
