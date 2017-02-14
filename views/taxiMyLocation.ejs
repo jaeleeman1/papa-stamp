@@ -73,8 +73,6 @@
         map.addControl(navigationControl);
         map.addControl(geolocationControl);
 
-        getLocation();
-
         var getLocation = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(getPosition);
@@ -137,8 +135,9 @@
                     console.log('Error occured');
                 }
             });// end ajax
-
         }
+
+        getLocation();
 
         map.addEventListener("dragend", function () {
 
@@ -165,7 +164,6 @@
                     console.log('Error occured');
                 }
             })
-
         });
 
         var setMarker = function(map, bMap, longitude, latitude){
