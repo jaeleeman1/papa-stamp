@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
-var weixin = require('weixin-api');
 
 router.get('/location', function (req, res, next) {
     res.render('location');
@@ -13,37 +12,8 @@ router.get('/location', function (req, res, next) {
 
 // taxi 자기 위치 찾기
 router.get('/myLocation', function (req, res, next) {
-
-    weixin.eventMsg(function(msg) {
-        console.log(JSON.stringify(msg));
-
-        getConnection(function (err, connection){
-            var nickName = req.query.nickName;
-
-            var query =  "select USER_OPEN_ID from TB_USER_INFO where USER_WECHAT_ID = ? ";
-
-            connection.query(query, nickName, function (err, row) {
-                if (err) {
-                    console.error("err : " + err);
-                    throw err;
-                }else{
-                    var open_id =  msg.fromUserName;
-                    var myOpenId = row[0].USER_OPEN_ID;
-                    switch (msg.event) {
-                        case "LOCATION" :
-                            if(myOpenId == open_id){
-                                res.render('taxiMyLocation', {nickName: nickName, latitude : msg.latitude, longitude : msg.longitude});
-                            }
-                        break;
-                    }
-                }
-                connection.release();
-            })
-        });
-    });
-
-    // var nickName = req.query.nickName; // User의 닉네임
-    // res.render('taxiMyLocation', {nickName: nickName});
+    var nickName = req.query.nickName; // User의 닉네임
+    res.render('taxiMyLocation', {nickName: nickName});
 });
 
 router.get('/taxiaddress', function (req, res, next) {

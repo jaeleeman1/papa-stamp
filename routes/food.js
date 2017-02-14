@@ -23,6 +23,8 @@ router.post('/currentLocation', function (req, res, next) {
 
             parser.parseString(body, function(err, data) {
                 var address = data.GeocoderSearchResponse.result[0].formatted_address[0];
+
+                console.log('currentLocation : ', address);
                 res.send({address:address});
             });
         }
