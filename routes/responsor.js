@@ -466,9 +466,7 @@ function shoppingSendMessage(nick_name, open_id) {
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
         },
         {
-            title : "",
-            url : shoppingInitUrl,
-            picurl : ""
+            url : shoppingInitUrl
         }
     ];
 
