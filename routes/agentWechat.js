@@ -349,7 +349,7 @@ router.post('/getFollowerList', function (req, res, next) {
                         } else {
                             console.log("sessionListResult" , listResult);
                             var data = listResult;
-                            console.log( "data :", data);
+                            console.log( "data :",  data );
 
                             if(data.length < 1){
                                 res.send({data : false});
