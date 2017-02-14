@@ -20,6 +20,10 @@ router.post('/currentLocation', function (req, res, next) {
         if (!error) {
 
             var data = body;
+
+            console.log('food data', data);
+            console.log('data result', data.result);
+
             var address = data.result.formatted_address;
             res.send({address:address});
         }
