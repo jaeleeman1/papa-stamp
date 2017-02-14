@@ -464,6 +464,10 @@ function shoppingSendMessage(nick_name, open_id) {
             // "description": message,
             url : shoppingInitUrl,
             picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping_img.jpg"
+        },
+        {
+            title : "다양한 쇼핑 상품을 구경해 보세요!",
+            url : shoppingInitUrl
         }
     ];
 
