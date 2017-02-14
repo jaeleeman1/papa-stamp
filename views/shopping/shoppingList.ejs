@@ -37,7 +37,13 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
+	
         $( document ).ready(function() {
+	    if(performance.navigation.type != 1) {
+		//console.log('not reload');
+		location.reload();
+	    }
+
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
                 btnConfirm.removeAttribute("id");
@@ -49,12 +55,13 @@
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
 //            console.log('url' + $("#url").val());
-
-            $("#btn_confirm").click(
-                function() {
-                    openLayer('layerPurchasePop',300,50);
-                }
-            );
+	    if($("#buySum_price").val() != '0') {
+            	$("#btn_confirm").click(
+		    function() {
+			openLayer('layerPurchasePop',300,50);
+		    }
+		);
+	    }
 
             $("#btn_purchase_confirm").click(
                 function() {

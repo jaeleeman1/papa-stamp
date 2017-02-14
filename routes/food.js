@@ -15,18 +15,13 @@ router.get('/', function (req, res, next) {
 //POST get my current location
 router.post('/currentLocation', function (req, res, next) {
     var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
-    var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + req.body.addr+ '&output=json&ak=' + ak + '&callback=showLocation';
+    var host = 'Http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + req.body.lat +',' + req.body.lng + '&output=xml&pois=1&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
     request.get({'url': host}, function(error, request, body) {
         if (!error) {
 
             var data = body;
-            var json1 = data.split('(');
-            var json2 = json1[1].split(')');
-            var jsonBody = JSON.parse(json2[0]);
-
-            var lng = jsonBody.result.location.lng;
-            var lat = jsonBody.result.location.lat;
-            res.send({lat:lat, lng:lng});
+            var address = data.result.formatted_address;
+            res.send({address:address});
         }
     });
 })

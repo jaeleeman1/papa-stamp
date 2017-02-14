@@ -66,56 +66,51 @@
 
         map.addControl(navigationControl);
         map.addControl(geolocationControl);
-//        var navigationControl = new BMap.NavigationControl({
-//            anchor: BMAP_ANCHOR_BOTTOM_LEFT,
-//            type: BMAP_NAVIGATION_CONTROL_SMALL,
-//            enableGeolocation: true
-//        });
-//        map.addControl(navigationControl);
-//        var geolocationControl = new BMap.GeolocationControl();
-        var addressComponent = geolocationControl.getAddressComponent();
 
-        var address = '';
-        var addressComponent = {
-            province : '上海市',
-            city : '上海市',
-            district : '黄浦区',
-            street : '百翎路',
-            streetNumber :'1号'
+        getLocation();
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(getPosition);
+            } else {
+                console.log('Error', 'Geolocation is not supported by this browser."');
+            }
         }
 
-        address += addressComponent.province;
-        address += addressComponent.city;
-        address += addressComponent.district;
-        address += addressComponent.street;
-        address += addressComponent.streetNumber;
+        function getPosition(position) {
 
-        if(address != '' && address != undefined && address!= null){
+            var longitude = position.coords.longitude;
+            var latitude = position.coords.latitude;
+
+            var mPoint = new BMap.Point(longitude, latitude);
+            map.enableScrollWheelZoom();
+            map.centerAndZoom(mPoint, 14);
+
+            var mkr = new BMap.Marker(mPoint);
+            map.addOverlay(mkr);
 
             $.ajax({
-            url: 'http://nbnl.couphone.cn/food/currentLocation',
+                url: 'http://nbnl.couphone.cn/food/currentLocation',
 //                url: 'http://localhost:8080/food/currentLocation',
                 type: 'POST',
-                data: {addr : address},
+                data: {lng : longitude,
+                        lat : latitude},
                 success: function (data) {
 
-                console.log('data mPoint', data);
-                    var mPoint = new BMap.Point(data.lng, data.lat);
-                    map.addOverlay(mPoint);
-                    map.enableScrollWheelZoom();
-                    map.centerAndZoom (mPoint, 14);
+                    var addr = data.address;
+                    console.log('data food myMpoint', addr);
 
-                    getFoodShop(map, address, data.lng, data.lat);
+                    getFoodShop(map, addr, longitude, latitude);
 
                     map.addEventListener("dragend", function () {
-                        getFoodShop(map, address, data.lng, data.lat);
+                        getFoodShop(map, addr, longitude, latitude);
                     });
 
                     var isFirst = true;
 
-                    map.addEventListener("zoomend", function() {
-                        if(!isFirst){
-                            getFoodShop(map, address, data.lng, data.lat);
+                    map.addEventListener("zoomend", function () {
+                        if (!isFirst) {
+                            getFoodShop(map, addr, longitude, latitude);
                         }
                         isFirst = false;
                     });
@@ -241,18 +236,4 @@
             map.addOverlay(new BMap.Marker(points[i]));
         }
     }
-
-    //    var getLocation = function() {
-    //        if (navigator.geolocation) {
-    //            navigator.geolocation.getCurrentPosition(showPosition);
-    //        } else {
-    //            console.log('Geolocation is not supported by this browser.');
-    //        }
-    //    }
-    //    var showPosition = function(position) {
-    //        console.log('position', position);
-    //        console.log('latitude', position.coords.latitude);
-    //        console.log('longitude', position.coords.longitude)
-    //        return new BMap.Point(position.coords.longitude, position.coords.latitude);
-    //    }
 </script>
