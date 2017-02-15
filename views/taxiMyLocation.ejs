@@ -177,12 +177,13 @@
                 lng : $('#lng').val(),
                 nickName : $('#nickName').val()
             }
+            console.log(' ########## btnSend click function ###########');
             $.ajax({
                 url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
                 type: 'POST',
                 data: data,
                 success: function (data) {
-
+                    console.log(' ################# taxi depart send click #################');
                     var taxiMsg = "택시 안내 요청 현위치 : " + $('#address').text();
 
                     var content = {
