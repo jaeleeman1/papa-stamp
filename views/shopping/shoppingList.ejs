@@ -2,7 +2,7 @@
 <html lang="ko" id="wrapper">
 <head>
 
-    <title>Samsung</title>
+    <title>쇼핑 목록</title>
     <meta name="title" content="">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,13 +56,13 @@
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
 //            console.log('url' + $("#url").val());
-	    if($("#buySum_price").val() != '0') {
-            	$("#btn_confirm").click(
-		    function() {
-			openLayer('layerPurchasePop',300,50);
-		    }
-		);
-	    }
+            if($("#buySum_price").val() != '0') {
+                $("#btn_confirm").click(
+                    function() {
+                        openLayer('layerPurchasePop',300,50);
+                    }
+                );
+            }
 
             $("#btn_purchase_confirm").click(
                 function() {
@@ -178,22 +178,60 @@
                 function() {
                     $("#set_cnt").text("1");
 
-                    var buyCount =$("#length").val();
-                    buyCount++;
-                    $("#length").val(buyCount);
-
                     var buySumPrice = Number($("#buySum_price").val());
                     var selectPrdctCnt = Number($("#prdct_cnt").val());
                     var selectPrice = Number($("#price").val());
                     var result = buySumPrice + (selectPrdctCnt*selectPrice);
                     $("#buySum_price").val(result);
-                    
-                    var btnCount = document.getElementById("btn_count");
+
+                    var prdctId =$("#prdct_id").val();
+                    var image =$("#image").val();
+                    var prdctCnt =$("#prdct_cnt").val();
+                    var price =$("#price").val();
+                    var dataString = '{"wechat_id":"' + wechatId +'", ' +
+                        '"prdct_id":"' + prdctId +'", ' +
+                        '"image":"' + image +'", ' +
+                        '"prdct_cnt":"' + prdctCnt +'", ' +
+                        '"price":' + price + '}';
+                    $.ajax({
+                        url: $("#url").val()+'/shopping/shoppingBuyInsert',
+                        type: 'POST',
+                        traditional:true,
+                        data: JSON.parse(dataString),
+                        success: function(data) {
+                            console.log('FFFFFFFFFFFFFF' + data.dataCheck);
+                            var buyCount =$("#length").val();
+                            if(data.dataCheck == 0) {
+                                buyCount++;
+                            }
+                            $("#length").val(buyCount);
+
+                            var btnCount = document.getElementById("btn_count");
+                            btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
+
+                            console.log("*** insert shoppingBuyInsert *** - wechatId : " + wechatId);
+                        },
+                        error: function(request, status, error) {
+                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            console.log('Error occured');
+                        }
+                    });
+
                     var btnConfirm = document.getElementById("btn_confirm");
-                    btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
-                    btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
-		   
-                    $("#buy_setting").submit();
+
+                    if(buySumPrice == 0) {
+                        var parentNode = btnConfirm.parentNode.parentNode;
+                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ 40</span>구매</div>'
+
+                        $("#btn_confirm").click(
+                            function() {
+                                openLayer('layerPurchasePop',300,50);
+                            }
+                        );
+                    }else {
+                        btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
+                    }
+
                     initCloseLayer('layerPop');
                     toastPopup();
                 }
@@ -244,6 +282,7 @@
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="length" id="length" value="<%= buyData.length %>"/>
     <input type="hidden" name="buySum_price" id="buySum_price" value="<%= buySumPrice %>"/>
+    <input type="hidden" name="data_check" id="data_check" value="<%= dataCheck %>"/>
     <% for(var i = 0; i < buyData.length; i++) { %>
         <input type="hidden" name="prdct_nm_<%=i%>" id="prdct_nm_<%=i%>" value="<%= buyData[i].PRDCT_NM %>"/>
         <input type="hidden" name="prdct_cnt_<%=i%>" id="prdct_cnt_<%=i%>" value="<%= buyData[i].SHOPPING_CNT %>"/>

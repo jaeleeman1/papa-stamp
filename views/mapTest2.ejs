@@ -76,20 +76,12 @@
         map.addControl(navigationControl);
         map.addControl(geolocationControl);
 
-        getLocation();
+        getPosition();
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(getPosition);
-            } else {
-                console.log('Error', 'Geolocation is not supported by this browser."');
-            }
-        }
+        function getPosition() {
 
-        function getPosition(position) {
-
-            var longitude = 31.230416;
-            var latitude = 121.473701;
+            var longitude = 31.232280291456389;
+            var latitude = 121.49815490071883;
 
             var mPoint = new BMap.Point(longitude, latitude);
             map.enableScrollWheelZoom();

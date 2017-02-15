@@ -97,13 +97,15 @@ router.get('/shoppingDetail', function (req, res, next) {
 });
 
 //GET Shopping Buy Insert
-router.get('/shoppingBuyInsert', function (req, res, next) {
+router.post('/shoppingBuyInsert', function (req, res, next) {
     getConnection(function (err, connection){
-        var wechatId = req.query.wechat_id; // wechat Id
-        var prdctId = req.query.prdct_id; // product Id
-        var price = req.query.price; // product price
-        var image = req.query.image; // image
-        var prdctCnt = req.query.prdct_cnt; // product count
+        console.log('Shopping Buy Insert');
+
+        var wechatId = req.body.wechat_id; // wechat Id
+        var prdctId = req.body.prdct_id; // product Id
+        var price = req.body.price; // product price
+        var image = req.body.image; // image
+        var prdctCnt = req.body.prdct_cnt; // product count
 
         var existsQuery = 'select exists (select * from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID="'+ wechatId+ '" and PRDCT_ID=?) as DATA_CHECK';
         connection.query(existsQuery, prdctId, function (err, row) {
@@ -135,7 +137,7 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
                                     console.log("### Insert Buy List ###");
                                     //console.log("### Data Success ### " + JSON.stringify(row));
 
-                                    //res.render({dataCheck:dataCheck});
+                                    res.send({dataCheck:dataCheck});
                                 }
                             });
                         }
@@ -150,7 +152,7 @@ router.get('/shoppingBuyInsert', function (req, res, next) {
                             console.log("### Insert Buy List ###");
                             //console.log("### Data Success ### " + JSON.stringify(row));
 
-                            //res.render({dataCheck:dataCheck});
+                            res.send({dataCheck:dataCheck});
                         }
                     });
                 }
