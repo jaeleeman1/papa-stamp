@@ -361,8 +361,9 @@ router.post('/getFollowerList', function (req, res, next) {
             for(var i = 0; i < result.kf_list.length; i++) {
                 console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+" kf_nick("+result.kf_list[i].kf_nick+")");
                 console.log(" ==== agent nick name : ===", agentNickName)
-                console.log(" result.kf_list[i].kf_nick =======", result.kf_list[i].kf_nick)
-                console.log(" ==== agent nick name result.kf_list[i].kf_nick : ===", result.kf_list[i].kf_nick == agentNickName)
+                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick)
+                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick == agentNickName)
+                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick.trim() == agentNickName.trim());
 
                 if(result.kf_list[i].kf_nick == agentNickName) {
                     console.log("Nick Name Matched Start");
