@@ -229,7 +229,7 @@
 
                     if(buySumPrice == 0) {
                         var parentNode = btnConfirm.parentNode.parentNode;
-                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ 40</span>구매</div>'
+                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
 
                         $("#btn_confirm").click(
                             function() {
