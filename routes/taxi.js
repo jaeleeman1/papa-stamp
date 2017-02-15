@@ -26,12 +26,18 @@ router.get('/transport', function (req, res, next) {
         var nickName = req.query.nickName; // user open id
         var type = req.query.type;
 
+        console.log('transport nickName', query);
+        console.log('transport type', type);
+
         connection.query(query, nickName, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
                 throw err;
             }else{
                 if(rows.length > 0){
+
+                    console.log('transport row', rows[0]);
+
                     var depart = {};
                     // depart.nameCn = rows[0].START_NM_CN;
                     // depart.nameKr = rows[0].START_NM_KR;
@@ -71,6 +77,8 @@ router.get('/transport', function (req, res, next) {
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
+
+                            console.log('transport jsonBody', jsonBody.result[0]);
 
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
