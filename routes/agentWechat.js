@@ -360,12 +360,12 @@ router.post('/getFollowerList', function (req, res, next) {
         } else {
             for(var i = 0; i < result.kf_list.length; i++) {
                 console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+" kf_nick("+result.kf_list[i].kf_nick+")");
-                console.log(" ==== agent nick name : ===", agentNickName)
-                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick)
-                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick == agentNickName)
-                console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick.trim() == agentNickName.trim());
+                // console.log(" ==== agent nick name : ===", agentNickName)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick == agentNickName)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick.trim() == agentNickName.trim());
 
-                if(result.kf_list[i].kf_nick == agentNickName) {
+                if(result.kf_list[i].kf_nick.trim() == agentNickName.trim()) {
                     console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
                         if(sessionListError != null) {
