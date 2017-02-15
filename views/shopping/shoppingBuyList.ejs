@@ -37,6 +37,10 @@
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
         $( document ).ready(function() {
+            if(performance.navigation.type != 1) {
+                location.reload();
+            }
+
             var length = $("#length").val();
             if(length == 0) {
                 changeEmptyAttr();
