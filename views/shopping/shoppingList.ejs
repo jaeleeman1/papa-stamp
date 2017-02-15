@@ -315,7 +315,7 @@
     <div id="shopping_buy_wrap">
         <% for(var i = 0; i < data.length; i++) { %>
             <div class="buy_wrap">
-                <img src="/images/photo_buy_<%=i+1%>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <img src="<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
