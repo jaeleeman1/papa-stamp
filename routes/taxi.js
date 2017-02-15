@@ -78,7 +78,7 @@ router.get('/transport', function (req, res, next) {
                         if(!error){
                             var jsonBody = JSON.parse(body);
 
-                            console.log('transport jsonBody', jsonBody.result[0]);
+                            console.log('transport jsonBody', jsonBody);
 
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
