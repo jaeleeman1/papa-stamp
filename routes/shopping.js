@@ -168,6 +168,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = req.body.wechat_id; // wechat Id
         var prdctId = req.body.prdct_id; // product Id
+        var prdctNm = req.body.prdct_nm; // product nm
         var price = req.body.price; // product price
         var image = req.body.image; // image
         var prdctCnt = req.body.prdct_cnt; // product count
