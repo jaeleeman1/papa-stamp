@@ -120,8 +120,8 @@
                             };
 
                             socket.emit('nbnlServer', content);
-
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
+			    
                             var dataString = {'wechat_id': wechatId};
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -130,8 +130,7 @@
                                 data: dataString,
                                 success: function(data) {
                                     closeLayer('layerPurchasePop');
-                                    console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
-                                    location.reload();
+                                    console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);                            
                                 },
                                 error: function(request, status, error) {
                                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -139,7 +138,7 @@
                                 }
                             });
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                            window.location.href = $("#url").val()+'/shopping?nick_name='+wechatId;
+                            location.reload();
 //                                $.ajax({
 //                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
 //                                    type: 'POST',
