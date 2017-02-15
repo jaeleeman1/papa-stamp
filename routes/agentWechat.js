@@ -364,7 +364,7 @@ router.post('/getFollowerList', function (req, res, next) {
                 // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick)
                 // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick == agentNickName)
                 // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick.trim() == agentNickName.trim());
-
+                console.log("agentNickName.length: ", agentNickName.length , " agentNickName.trim().length: ", agentNickName.trim().length );
                 if(result.kf_list[i].kf_nick.trim() == agentNickName.trim()) {
                     console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
@@ -448,6 +448,11 @@ router.post('/readMessage', function (req, res, next) {
 	var agent = req.body.agent;
 	var user = req.body.user;
 
+
+    console.log("==agent==: ",agent);
+    console.log("==user==: ",user);
+
+
     getConnection(function (err, connection) {
     var selectQuery = 'SELECT  DIAL_SEQ,FROM_OPEN_ID, TO_OPEN_ID,  CONTENT_TYPE,  DIAL_CONTENT,READ_YN, DEL_YN, substr(REG_DT,1,19),'+
                               'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT '+
@@ -461,7 +466,7 @@ router.post('/readMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                console.log("length : ", selectRow.length );
+                console.log("selectRow.length : ", selectRow.length );
                 if (selectRow.length >  0) {
                     connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
                         if (err) {
