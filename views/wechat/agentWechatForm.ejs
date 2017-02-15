@@ -61,7 +61,7 @@
 									}
 									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
 										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+										'<th width="100"><label for="sendTime">'+ value.REG_DT  +'</label></th></tr></tr>';
 
 									$("#sendId").append(readYN);
 
@@ -180,12 +180,12 @@
                     type: 'POST',
                     data: data,
                     success: function (data) {
-			var content = {
-			    toNickName : data,
-			    type : 'turnRed'
-			};
-			
-			socket.emit('nbnlServer', content);
+						var content = {
+							toNickName : data,
+							type : 'turnRed'
+						};
+
+						socket.emit('nbnlServer', content);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
