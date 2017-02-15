@@ -74,12 +74,13 @@ router.post('/taxiDepartSend', function (req, res, next) {
                                 res.send({nickName : nickName});
                             }); // senText end
                         };// select query end
-                        connection.release();
+
                     });// query connection end
+                    connection.release();
                 });
             }
-            connection.release();
         })
+        connection.release();
     });
 });
 
@@ -192,12 +193,14 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         }).end()
                                     }
                                 }
-                                connection.release();
+
                             })
+                            connection.release();
                         })
                     }
-                    connection.release();
+
                 });
+                connection.release();
             });
         }
     });
@@ -446,7 +449,6 @@ router.post('/readMessage', function (req, res, next) {
                             console.log(" time stamp: " , selectRow[0].REG_DT);
                             res.send({data : selectRow});
                         }
-                            connection.release();
                         })
             }//end if(err)
             connection.release();
