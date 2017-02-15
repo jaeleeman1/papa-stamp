@@ -37,7 +37,7 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
-        var buyIncreaseCount = $("#length").val();
+        var buyIncreaseCount = 0;
 	
         $( document ).ready(function() {
             /*$(".ic_buy").append('<img src="/images/btn_ic_buy@3x.png"></span>');*/
@@ -204,6 +204,10 @@
                         data: JSON.parse(dataString),
                         success: function(data) {
                             var buyCount =$("#length").val();
+                            if(buyCount != 0) {
+                                buyIncreaseCount = buyCount;
+                            }
+
                             if(data.dataCheck == 0) {
                                 buyCount++;
                             }
