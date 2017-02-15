@@ -74,10 +74,13 @@ router.post('/taxiDepartSend', function (req, res, next) {
                                 res.send({nickName : nickName});
                             }); // senText end
                         };// select query end
+
                     });// query connection end
+                    connection.release();
                 });
             }
         })
+        connection.release();
     });
 });
 
@@ -190,12 +193,14 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         }).end()
                                     }
                                 }
-                                connection.release();
+
                             })
+                            connection.release();
                         })
                     }
-                    connection.release();
+
                 });
+                connection.release();
             });
         }
     });
@@ -245,6 +250,7 @@ router.post('/sendFoodMap', function (req, res, next) {
                     res.send({nickName : nickName, arriveName:arriveName});
                 });// sendNews end
             };// select query end
+            connection.release();
         });// query connection end
     });
 });
@@ -413,7 +419,9 @@ router.post('/saveMessage', function (req, res, next) {
             } else {
                 res.send({data : toNickName});
             }
+            connection.release();
         })
+
     });
 });
 
@@ -433,17 +441,17 @@ router.post('/readMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-		connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
-		    if (err) {
-			console.error("err : " + err);
-			throw err;
-		    } else {
-		        console.log(" time stamp: " , selectRow[0].REG_DT);
-
-			res.send({data : selectRow});
-		    }
-        	})
+                    connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        } else {
+                            console.log(" time stamp: " , selectRow[0].REG_DT);
+                            res.send({data : selectRow});
+                        }
+                        })
             }//end if(err)
+            connection.release();
         });
     });
 });
