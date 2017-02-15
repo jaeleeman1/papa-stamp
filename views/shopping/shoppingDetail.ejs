@@ -146,7 +146,7 @@
         <div id="shopping_detail_body">
             <ul class="info">
                 <li class="name"><%= data.PRDCT_NM %></li>
-                <li class="price"><%= data.PRICE %></li>
+                <li class="price">￥ <%= data.PRICE %></li>
                 <li class="star">
                     <% var shoppingScope = data.SHOPPING_SCOPE; %>
                     <% getRating = function (shoppingScope) {
