@@ -219,13 +219,18 @@ router.post('/sendFoodMap', function (req, res, next) {
     var departLat = req.body.departLat;
     var departLong = req.body.departLong;
 
+
+
     getConnection(function (err, connection) {
         var selectQuery = "SELECT A.USER_OPEN_ID, B.IMG_URL FROM TB_USER_INFO A, TB_FOOD_SHOP_LIST B WHERE A.USER_WECHAT_ID = ? AND B.FOOD_ID = ? AND A.USER_TYPE = '01'";
+
         connection.query(selectQuery, [nickName, foodId], function (err, row) {
             if (err) {
                 console.error("err : " + err);
                 throw err;
             } else {
+
+                console.log('sendFoorMap ::::::::::::::::: ', row[0]);
 
                 var openId = row[0].USER_OPEN_ID;
                 var pictureUrl = row[0].IMG_URL;
