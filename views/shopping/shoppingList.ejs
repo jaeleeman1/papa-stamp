@@ -37,7 +37,7 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
-        var buyIncreaseCount = 0;
+        var buyIncreaseCount = $("#length").val();
 	
         $( document ).ready(function() {
             /*$(".ic_buy").append('<img src="/images/btn_ic_buy@3x.png"></span>');*/
@@ -215,7 +215,7 @@
                             $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
                                 '<input type="hidden" name="prdct_cnt_'+buyIncreaseCount+'" id="prdct_cnt_'+buyIncreaseCount+'" value="'+selectPrdctCnt+'"/>' +
                                 '<input type="hidden" name="price_'+buyIncreaseCount+'" id="price_'+buyIncreaseCount+'" value="'+selectPrice+'"/>');
-
+                            buyIncreaseCount++;
                             console.log("*** insert shoppingBuyInsert *** - wechatId : " + wechatId);
                         },
                         error: function(request, status, error) {
