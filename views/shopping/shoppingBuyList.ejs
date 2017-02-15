@@ -123,6 +123,23 @@
                             '}';
                     }
 
+                    var purchaItem;
+                    if(length == 1) {
+                        purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
+                    }else {
+                        purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
+                    }
+
+                    var content = {
+                        fromNickName : '',
+                        toNickName : wechatId,
+                        contentType : 'text',
+                        contents : purchaItem,
+                        type : 'saveMsg'
+                    };
+
+                    socket.emit('nbnl server', content);
+
                     $.ajax({
                         url: $("#url").val()+'/wechat/shoppingResultSend',
                         type: 'POST',
@@ -137,23 +154,6 @@
                                 data: dataString,
                                 success: function(data) {
                                     console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
-
-                                    var purchaItem;
-                                    if(length == 1) {
-                                        purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
-                                    }else {
-                                        purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
-                                    }
-
-                                    var content = {
-                                        fromNickName : '',
-                                        toNickName : wechatId,
-                                        contentType : 'text',
-                                        contents : purchaItem,
-                                        type : 'saveMsg'
-                                    };
-
-                                    socket.emit('nbnl server', content);
                                 },
                                 error: function(request, status, error) {
                                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
