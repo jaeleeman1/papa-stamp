@@ -65,7 +65,6 @@
 
             $("#btn_purchase_confirm").click(
                 function() {
-		    wechatId = $("#wechat_id").val();
                     var openId = $("#open_Id").val();
                     var length = $("#length").val();
                     var Prdct_Nm = [];
@@ -139,7 +138,9 @@
                                 }
                             });
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                            location.reload();
+			    setTimeout(function() {
+        			location.reload();
+    			    }, 50);                  
 //                                $.ajax({
 //                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
 //                                    type: 'POST',
