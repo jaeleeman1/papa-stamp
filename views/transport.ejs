@@ -144,11 +144,17 @@
         var arrivelng = null;
 
         if($('#transportType').val() == 'walking'){
-            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             departlat = $('#departWalkingLat').val();
             departlng = $('#departWalkingLong').val();
             arrivelat = $('#arriveWalkingLat').val();
             arrivelng = $('#arriveWalkingLong').val();
+
+            console.log('walking departlat',departlat);
+            console.log('walking departlng',departlng);
+            console.log('walking arrivelat',arrivelat);
+            console.log('walking arrivelng',arrivelng);
+
         } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             departlat = $('#departDrivingLat').val();
@@ -160,7 +166,6 @@
         var endpoint = new BMap.Point(arrivelng, arrivelat);
 
         transportWay.search(startpoint, endpoint);
-//        transportWay.search($('#departAddr').text(), $('#arriveAddr').text());
 
         $('#btn_put').click(function(){
             var data = {
