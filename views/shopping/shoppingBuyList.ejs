@@ -87,7 +87,6 @@
 
             $("#btn_purchase_confirm").click(
                 function() {
-                    var wechatId = $("#wechat_id").val();
                     var openId = $("#open_Id").val();
                     var length = $("#length").val();
                     var Prdct_Nm = [];
@@ -130,23 +129,6 @@
                         traditional:true,
                         data: JSON.parse(dataStr),
                         success: function(data) {
-                            var purchaItem;
-                            if(length == 1) {
-                                purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
-                            }else {
-                                purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
-                            }
-
-                            var content = {
-                                fromNickName : '',
-                                toNickName : wechatId,
-                                contentType : 'text',
-                                contents : purchaItem,
-                                type : 'saveMsg'
-                            };
-
-                            socket.emit('nbnl server', content);
-
                             var dataString = {'wechat_id': wechatId};
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -155,6 +137,23 @@
                                 data: dataString,
                                 success: function(data) {
                                     console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
+
+                                    var purchaItem;
+                                    if(length == 1) {
+                                        purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
+                                    }else {
+                                        purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
+                                    }
+
+                                    var content = {
+                                        fromNickName : '',
+                                        toNickName : wechatId,
+                                        contentType : 'text',
+                                        contents : purchaItem,
+                                        type : 'saveMsg'
+                                    };
+
+                                    socket.emit('nbnl server', content);
                                 },
                                 error: function(request, status, error) {
                                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
