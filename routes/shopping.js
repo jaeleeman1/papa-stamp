@@ -103,6 +103,7 @@ router.post('/shoppingBuyInsert', function (req, res, next) {
 
         var wechatId = req.body.wechat_id; // wechat Id
         var prdctId = req.body.prdct_id; // product Id
+        var prdctNm = req.body.prdct_nm; // product nm
         var price = req.body.price; // product price
         var image = req.body.image; // image
         var prdctCnt = req.body.prdct_cnt; // product count
@@ -128,7 +129,7 @@ router.post('/shoppingBuyInsert', function (req, res, next) {
                             prdctCnt = Number(prdctCnt) + Number(row[0].SHOPPING_CNT);
 
                             // Insert Buy List
-                            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+                            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRDCT_NM, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', "' + prdctNm + '", ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
                             connection.query(insertQuery, prdctId, function (err, row) {
                                 if (err) {
                                     console.error("err : " + err);
@@ -143,7 +144,7 @@ router.post('/shoppingBuyInsert', function (req, res, next) {
                         }
                     });
                 }else {
-                    var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
+                    var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRDCT_NM, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' +  ', ?' + ', "' + prdctNm + '", ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = '+ prdctCnt;
                     connection.query(insertQuery, prdctId, function (err, row) {
                         if (err) {
                             console.error("err : " + err);
@@ -192,7 +193,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                             prdctCnt = Number(prdctCnt) + Number(row[0].SHOPPING_CNT);
 
                             // Insert Buy List
-                            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' + ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = ' + prdctCnt;
+                            var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRDCT_NM, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' + ', ?' + ', "' + prdctNm + '", ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = ' + prdctCnt;
                             connection.query(insertQuery, prdctId, function (err, row) {
                                 if (err) {
                                     console.error("err : " + err);
@@ -207,7 +208,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                     });
                 } else {
                     // Insert Buy List
-                    var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' + ', ?' + ', ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = ' + prdctCnt;
+                    var insertQuery = 'insert into TB_SHOPPING_BUY_LIST (USER_WECHAT_ID, PRDCT_ID, PRDCT_NM, PRICE, IMG_URL, SHOPPING_CNT) values ("' + wechatId + '"' + ', ?' + ', "' + prdctNm + '", ' + price + ', "' + image + '", ' + prdctCnt + ') on DUPLICATE KEY update SHOPPING_CNT = ' + prdctCnt;
                     connection.query(insertQuery, prdctId, function (err, row) {
                         if (err) {
                             console.error("err : " + err);

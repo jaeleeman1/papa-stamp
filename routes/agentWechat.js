@@ -435,28 +435,31 @@ router.post('/readMessage', function (req, res, next) {
     getConnection(function (err, connection) {
     var selectQuery = 'SELECT  DIAL_SEQ,FROM_OPEN_ID, TO_OPEN_ID,  CONTENT_TYPE,  DIAL_CONTENT,READ_YN, DEL_YN, substr(REG_DT,1,19),'+
                               'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT '+
-                      'FROM TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
+                      'FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
 
         connection.query(selectQuery, [agent, user], function (err, selectRow) {
-            if (err) {
+            if ( err ) {
                 console.error("err : " + err);
                 throw err;
             } else {
+                console.log("length : ", selectRow.length );
+                if (selectRow.length >  0) {
                     connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
                         if (err) {
                             console.error("err : " + err);
                             throw err;
                         } else {
-                            console.log(" time stamp: " , selectRow[0].REG_DT);
-                            res.send({data : selectRow});
+                            console.log(" time stamp: ", selectRow[0].REG_DT);
+                            res.send({data: selectRow});
                         }
-                        })
+                    })
+                }
             }//end if(err)
-            connection.release();
         });
+        connection.release();
     });
 });
 module.exports = router;
