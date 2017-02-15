@@ -164,6 +164,12 @@
 		    $("#sendId").text('');	
 		}
 	    );
+
+		$("#btnReload").click(
+			function() {
+				location.reload();
+			}
+		);
 	    
 	    // save message
 	    socket.on('saveMsg', function (data) {
@@ -202,7 +208,8 @@
 	<div class="row">
 
 		<h1>Wechat Message Tool</h1>
-		<label for="agentId" style="float: right; width: 100%;text-align: right; margin-right: 15px;" id="nickName"><%= nickName %></label>
+		<label for="agentId" style="background-color: #e2e2e2; float: right; width: 100%;text-align: right;" id="nickName"><%= nickName %><input type="button" id="btnReload" value="새로고침" style="float: right; height: 35px; margin-left: 10px;" class="btn btn-primary"/>
+			<input onclick="location.href='/wechat/agentLogin'" type="button" id="btnLogout" value="로그아웃" style="float: right; height: 35px; margin-left: 10px;" class="btn btn-primary"/></label>
 
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
 			<table class="table table-condensed">
