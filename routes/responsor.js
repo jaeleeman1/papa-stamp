@@ -267,8 +267,8 @@ weixin.urlMsg(function(msg) {
 
 // 监听事件消息
 weixin.eventMsg(function(msg) {
-    console.log("eventMsg received");
-    console.log(JSON.stringify(msg));
+   // console.log("eventMsg received");
+   // console.log(JSON.stringify(msg));
 
     var open_id =  msg.fromUserName;
 
@@ -336,8 +336,8 @@ weixin.eventMsg(function(msg) {
             };
 
             api.createMenu(menu, function(err){
-                console.log("WeChatAPI createMenu done");
-                console.log("WeChatAPI Error : "+err);
+       //         console.log("WeChatAPI createMenu done");
+        //        console.log("WeChatAPI Error : "+err);
             });
 
             templateGreetingMsg.fromUserName = msg.toUserName;
@@ -387,7 +387,7 @@ weixin.eventMsg(function(msg) {
             weixin.sendResponseEmptyMsg();
             break;
         case "LOCATION" :
-            console.log("[LOCATION EVENT]["+open_id+"] : ("+msg.latitude+", "+msg.longitude+", "+msg.precision+")");
+            // console.log("[LOCATION EVENT]["+open_id+"] : ("+msg.latitude+", "+msg.longitude+", "+msg.precision+")");
             weixin.sendResponseEmptyMsg();
             break;
         case "scancode_push" :

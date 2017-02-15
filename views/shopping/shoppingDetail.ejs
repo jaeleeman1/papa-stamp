@@ -67,8 +67,9 @@
             );
         });
 
-        function dataMatch(prdctId, imgData, price) {
+        function dataMatch(prdctId, prdctNm, imgData, price) {
             $("#prdct_id").val(prdctId);
+            $("#prdct_nm").val(prdctNm);
             $("#image").val(imgData);
             $("#price").val(price);
         }
@@ -103,6 +104,7 @@
 <form action="/shopping/shoppingDetailInsert" method="post" style="display:none" name="buy_setting" id="buy_setting">
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="prdct_id" id="prdct_id" value=""/>
+    <input type="hidden" name="prdct_nm" id="prdct_nm" value=""/>
     <input type="hidden" name="image" id="image" value=""/>
     <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="1"/>
     <input type="hidden" name="price" id="price" value=""/>
@@ -186,8 +188,7 @@
             </ul>
         </div>
     </div>
-    <a href="#" onclick="openLayer('layerPop',300,50);dataMatch('<%= data.PRDCT_ID%>','<%= data.IMG_URL %>','<%= data.PRICE %>');"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>
-    <!--<a href="/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data.PRDCT_ID%>&image=<%= data.IMG_URL %>&price=<%= data.PRICE %>&prdct_cnt=<%= data.SHOPPING_CNT %>"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>-->
+    <a href="#" onclick="openLayer('layerPop',300,50);dataMatch('<%= data.PRDCT_ID%>','<%= data.PRDCT_NM %>','<%= data.IMG_URL %>','<%= data.PRICE %>');"><div id="btn_put"><span class="ic_add"><img src="/images/ic_add@3x.png"></span>담기</div></a>
 
     <!-- 팝업 설정 -->
     <div id="layerPop">
