@@ -144,7 +144,7 @@
         var arrivelng = null;
 
         if($('#transportType').val() == 'walking'){
-            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             departlat = $('#departWalkingLat').val();
             departlng = $('#departWalkingLong').val();
             arrivelat = $('#arriveWalkingLat').val();
