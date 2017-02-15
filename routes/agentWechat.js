@@ -445,8 +445,8 @@ router.post('/saveMessage', function (req, res, next) {
 
 // 대화내용 
 router.post('/readMessage', function (req, res, next) {
-	var agent = req.body.agent;
-	var user = req.body.user;
+	var agent = req.body.agent.trim();
+	var user = req.body.user.trim();
 
 
     console.log("==agent==: ",agent);
@@ -457,7 +457,9 @@ router.post('/readMessage', function (req, res, next) {
     var selectQuery = 'SELECT  DIAL_SEQ,FROM_OPEN_ID, TO_OPEN_ID,  CONTENT_TYPE,  DIAL_CONTENT,READ_YN, DEL_YN, substr(REG_DT,1,19),'+
                               'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT '+
                       'FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
-	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
+
+
+        var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
 
