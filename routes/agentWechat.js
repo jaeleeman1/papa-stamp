@@ -350,19 +350,19 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("sessionListResult" , listResult);
 
                             var data = listResult.sessionlist;
-                            console.log( "data :",  data );
-
+                            console.log( "data  : " +  data.length,  data  );
 
                             if(data.length < 1){
                                 res.send({data : false});
                             }else{
                                 getConnection(function (err, connection) {
+                                    console.log( " getConnection err  : " ,  err );
                                     //위챗 아디로 open id 가져오기
 
                                     var indata = '';
                                     for(var j =0; j< data.length;j++){
                                         indata += "'" + data[j].openid + "',";
-                                        console.log(" LOOP IN data: " ,data[j]);
+                                        // console.log(" LOOP IN data: " ,data[j]);
                                     }
                                     // indata = indata.slice(0, -1);
                                     indata  = indata + " 'default' ";
@@ -438,6 +438,8 @@ router.post('/readMessage', function (req, res, next) {
 			console.error("err : " + err);
 			throw err;
 		    } else {
+		        console.log(" time stamp: " , selectRow[0].REG_DT);
+
 			res.send({data : selectRow});
 		    }
         	})
