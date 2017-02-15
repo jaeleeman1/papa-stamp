@@ -37,6 +37,7 @@
 
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
+        var buyIncreaseCount = 0;
 	
         $( document ).ready(function() {
             /*$(".ic_buy").append('<img src="/images/btn_ic_buy@3x.png"></span>');*/
@@ -179,17 +180,20 @@
                     $("#set_cnt").text("1");
 
                     var buySumPrice = Number($("#buySum_price").val());
+                    var selectPrdctNm = Number($("#prdct_nm").val());
                     var selectPrdctCnt = Number($("#prdct_cnt").val());
                     var selectPrice = Number($("#price").val());
                     var result = buySumPrice + (selectPrdctCnt*selectPrice);
                     $("#buySum_price").val(result);
 
                     var prdctId =$("#prdct_id").val();
+                    var prdctNm =$("#prdct_nm").val();
                     var image =$("#image").val();
                     var prdctCnt =$("#prdct_cnt").val();
                     var price =$("#price").val();
                     var dataString = '{"wechat_id":"' + wechatId +'", ' +
                         '"prdct_id":"' + prdctId +'", ' +
+                        '"prdct_nm":"' + prdctNm +'", ' +
                         '"image":"' + image +'", ' +
                         '"prdct_cnt":"' + prdctCnt +'", ' +
                         '"price":' + price + '}';
@@ -199,7 +203,6 @@
                         traditional:true,
                         data: JSON.parse(dataString),
                         success: function(data) {
-                            console.log('FFFFFFFFFFFFFF' + data.dataCheck);
                             var buyCount =$("#length").val();
                             if(data.dataCheck == 0) {
                                 buyCount++;
@@ -208,6 +211,10 @@
 
                             var btnCount = document.getElementById("btn_count");
                             btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
+
+                            $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
+                                '<input type="hidden" name="prdct_cnt_'+buyIncreaseCount+'" id="prdct_cnt_'+buyIncreaseCount+'" value="'+selectPrdctCnt+'"/>' +
+                                '<input type="hidden" name="price_'+buyIncreaseCount+'" id="price_'+buyIncreaseCount+'" value="'+selectPrice+'"/>');
 
                             console.log("*** insert shoppingBuyInsert *** - wechatId : " + wechatId);
                         },
@@ -248,8 +255,9 @@
             );
         });
 
-        function dataMatch(prdctId, imgData, price) {
+        function dataMatch(prdctId, prdctNm, imgData, price) {
             $("#prdct_id").val(prdctId);
+            $("#prdct_nm").val(prdctNm);
             $("#image").val(imgData);
             $("#price").val(price);
         }
@@ -293,6 +301,7 @@
 <form action="/shopping/shoppingBuyInsert" method="get" style="display:none" name="buy_setting" id="buy_setting">
     <input type="hidden" name="wechat_id" id="wechat_id" value="<%= wechatId %>"/>
     <input type="hidden" name="prdct_id" id="prdct_id" value=""/>
+    <input type="hidden" name="prdct_nm" id="prdct_nm" value=""/>
     <input type="hidden" name="image" id="image" value=""/>
     <input type="hidden" name="prdct_cnt" id="prdct_cnt" value="1"/>
     <input type="hidden" name="price" id="price" value=""/>
@@ -321,7 +330,7 @@
                         <li class="name"><%= data[i].PRDCT_NM %><li>
                         <li class="price">￥<%= data[i].PRICE %><li>
                     </ul>
-                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="openLayer('layerPop',300,50);dataMatch('<%= data[i].PRDCT_ID%>','<%= data[i].IMG_URL %>','<%= data[i].PRICE %>');"></a>
+                    <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="openLayer('layerPop',300,50);dataMatch('<%= data[i].PRDCT_ID%>','<%= data[i].PRDCT_NM %>','<%= data[i].IMG_URL %>','<%= data[i].PRICE %>');"></a>
                     <!--<a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>&image=<%= data[i].IMG_URL %>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>-->
                     <div class="clear_both"></div>
             </div>
