@@ -227,6 +227,8 @@ router.post('/sendFoodMap', function (req, res, next) {
                 throw err;
             } else {
 
+                console.log('sendFoorMap ::::::::::::::::: ', row[0]);
+
                 var openId = row[0].USER_OPEN_ID;
                 var pictureUrl = row[0].IMG_URL;
 
