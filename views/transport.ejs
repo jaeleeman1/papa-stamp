@@ -42,11 +42,6 @@
 <body id="back_100_hidden">
 <div id="container">
     <div id="shopping_detail_wrap">
-        <% if('food' == transportType) {%>
-            <a href="/food/shopInfo?id=<%=arrive.id%>">
-        <%}else if('taxi' == transportType){%>
-            <a href=”#” onclick="javascript:self.close();">
-        <%}%><p class="back_arrow"><img src="/images/btn_back_b@3x.png"></p></a>
         <div id="header_nor" class="restaurant">
             <input id='transportType' type="hidden" value=<%=type%>>
             <div class="tab">
@@ -73,7 +68,7 @@
                     <li class="mark"><span class="txt">출발</span><li>
                         <!-- width보다 글자 길어질 경우 ... 처리 -->
                     <li class="add_name_sc">
-                        <!--<p id="depart"><=depart.nameCn> ( <=depart.nameKr> )</p>-->
+                        <p id="depart">출발지 위치</p>
                         <p class="add_detail_sc" id="departAddr"><%=depart.addrWalking%></p>
                     <li>
                 </ul>
