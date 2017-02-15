@@ -36,7 +36,7 @@ router.get('/transport', function (req, res, next) {
             }else{
                 if(rows.length > 0){
 
-                    consoel.log('transport row', rows[0]);
+                    console.log('transport row', rows[0]);
 
                     var depart = {};
                     // depart.nameCn = rows[0].START_NM_CN;
@@ -78,7 +78,7 @@ router.get('/transport', function (req, res, next) {
                         if(!error){
                             var jsonBody = JSON.parse(body);
 
-                            consoel.log('transport jsonBody', jsonBody.result[0]);
+                            console.log('transport jsonBody', jsonBody.result[0]);
 
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
