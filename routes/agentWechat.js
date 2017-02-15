@@ -23,7 +23,15 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
 	    
 	  console.log('nbnlServer :::: data ', data);
+
+	    //나를 제외한 다른 소캣에 전체 전송하는경우
+        //리스닝된 소캣에서 작업을 수행.
         socket.broadcast.emit(data.type, data);
+
+        //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
+        //  sockets(socket_id).emit('이벤트명',function(data){ });
+
+
     });
 });
 
@@ -352,6 +360,10 @@ router.post('/getFollowerList', function (req, res, next) {
         } else {
             for(var i = 0; i < result.kf_list.length; i++) {
                 console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+" kf_nick("+result.kf_list[i].kf_nick+")");
+                console.log(" ==== agent nick name : ===", agentNickName)
+                console.log(" result.kf_list[i].kf_nick =======", result.kf_list[i].kf_nick)
+                console.log(" ==== agent nick name result.kf_list[i].kf_nick : ===", result.kf_list[i].kf_nick == agentNickName)
+
                 if(result.kf_list[i].kf_nick == agentNickName) {
                     console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
@@ -415,6 +427,7 @@ router.post('/saveMessage', function (req, res, next) {
 	var contentType = req.body.contentType;
 	var contents = req.body.contents;
 
+	console.log( " bef   ::  /saveMessage ");
     getConnection(function (err, connection) {
         var insertQuery = 'INSERT INTO TB_WECHAT_HIS_DIALOGUE (FROM_OPEN_ID, TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT) VALUES ( ?, ?, ?, ?)';
         connection.query(insertQuery, [fromNickName, toNickName, contentType, contents], function (err, row) {
@@ -424,9 +437,8 @@ router.post('/saveMessage', function (req, res, next) {
             } else {
                 res.send({data : toNickName});
             }
-            connection.release();
         })
-
+        connection.release();
     });
 });
 
