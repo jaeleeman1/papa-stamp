@@ -104,7 +104,7 @@
                     if(length == 1) {
                         var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
                             '"User_Open_Id":"' + openId +'", ' +
-                            '"Prdct_Nm":"' + Prdct_Nm +'", ' +
+                            '"Prdct_Nm":' + Prdct_Nm +', ' +
                             '"Prdct_Cnt":' + Prdct_Cnt +', ' +
                             '"Price":' + Price +', ' +
                             '"Length":' + length +
@@ -112,7 +112,7 @@
                     } else {
                         var dataStr = '{"Wechat_Id":"' + wechatId +'", ' +
                             '"User_Open_Id":"' + openId +'", ' +
-                            '"Prdct_Nm":["' + Prdct_Nm +'"], ' +
+                            '"Prdct_Nm":[' + Prdct_Nm +'], ' +
                             '"Prdct_Cnt":[' + Prdct_Cnt +'], ' +
                             '"Price":[' + Price +'], ' +
                             '"Length":' + length +
