@@ -74,10 +74,13 @@ router.post('/taxiDepartSend', function (req, res, next) {
                                 res.send({nickName : nickName});
                             }); // senText end
                         };// select query end
+
                     });// query connection end
+                    connection.release();
                 });
             }
         })
+        connection.release();
     });
 });
 
@@ -190,12 +193,14 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                         }).end()
                                     }
                                 }
-                                connection.release();
+
                             })
+                            connection.release();
                         })
                     }
-                    connection.release();
+
                 });
+                connection.release();
             });
         }
     });
@@ -245,6 +250,7 @@ router.post('/sendFoodMap', function (req, res, next) {
                     res.send({nickName : nickName, arriveName:arriveName});
                 });// sendNews end
             };// select query end
+            connection.release();
         });// query connection end
     });
 });
@@ -350,12 +356,13 @@ router.post('/getFollowerList', function (req, res, next) {
                             console.log("sessionListResult" , listResult);
 
                             var data = listResult.sessionlist;
-                            // console.log( "data :",  data );
+                            console.log( "data  : " +  data.length,  data  );
 
                             if(data.length < 1){
                                 res.send({data : false});
                             }else{
                                 getConnection(function (err, connection) {
+                                    console.log( " getConnection err  : " ,  err );
                                     //위챗 아디로 open id 가져오기
 
                                     var indata = '';
@@ -412,7 +419,9 @@ router.post('/saveMessage', function (req, res, next) {
             } else {
                 res.send({data : toNickName});
             }
+            connection.release();
         })
+
     });
 });
 
@@ -422,9 +431,7 @@ router.post('/readMessage', function (req, res, next) {
 	var user = req.body.user;
 
     getConnection(function (err, connection) {
-    var selectQuery = 'select DIAL_SEQ, FROM_OPEN_ID, TO_OPEN_ID,CONTENT_TYPE,  DIAL_CONTENT,   READ_YN,   DEL_YN,  '+
-                             'DATE_ADD(  REG_DT , INTERVAL + 8 HOUR ) REG_DT '+
-                      'from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
+    var selectQuery = 'select * from TB_WECHAT_HIS_DIALOGUE where FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
@@ -434,17 +441,17 @@ router.post('/readMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-		connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
-		    if (err) {
-			console.error("err : " + err);
-			throw err;
-		    } else {
-		        console.log(" time stamp: " , selectRow[0].REG_DT);
-
-			res.send({data : selectRow});
-		    }
-        	})
+                    connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
+                        if (err) {
+                            console.error("err : " + err);
+                            throw err;
+                        } else {
+                            console.log(" time stamp: " , selectRow[0].REG_DT);
+                            res.send({data : selectRow});
+                        }
+                        })
             }//end if(err)
+            connection.release();
         });
     });
 });
