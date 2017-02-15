@@ -110,8 +110,16 @@
                             }else {
                                 purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                             }
-                            var currnt_time = new Date();
-                            socket.emit('nbnlServer', purchaItem);
+
+                            var content = {
+                                fromNickName : '',
+                                toNickName : wechatId,
+                                contentType : 'text',
+                                contents : purchaItem,
+                                type : 'saveMsg'
+                            };
+
+                            socket.emit('nbnlServer', content);
 
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                             var dataString = {'wechat_id': wechatId};
