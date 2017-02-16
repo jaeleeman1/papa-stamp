@@ -27,9 +27,6 @@ router.get('/transport', function (req, res, next) {
         var nickName = req.query.nickName; // user open id
         var type = req.query.type;
 
-        console.log('transport nickName', query);
-        console.log('transport type', type);
-
         connection.query(query, nickName, function (err, rows) {
             if (err) {
                 //  console.error("err : " + err);
