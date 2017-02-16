@@ -123,21 +123,22 @@
                             };
 
                             socket.emit('nbnlServer', content);
-
-                            $.ajax({
-                                url: $("#url").val()+'/shopping/shoppingDeleteAll',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: dataString,
-                                success: function(data) {
-                                    closeLayer('layerPurchasePop');
-                                    console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);                            
-                                },
-                                error: function(request, status, error) {
-                                    console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                                    console.log('Error occured');
-                                }
-                            })
+                            setTimeout(function() {
+                                $.ajax({
+                                    url: $("#url").val()+'/shopping/shoppingDeleteAll',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: dataString,
+                                    success: function(data) {
+                                        closeLayer('layerPurchasePop');
+                                        console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
+                                    },
+                                    error: function(request, status, error) {
+                                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                                        console.log('Error occured');
+                                    }
+                                })
+                            }, 100);
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
         			        location.reload();
 //                                $.ajax({
