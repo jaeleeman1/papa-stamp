@@ -285,9 +285,25 @@ a:active{text-decoration:none; }
 .ic_location img {width:19px; height:19px}
 
 /*** 택스주소 ***/
-#address_wrap {padding:69px 7.1% 76px 7.3%; text-align:center; position:relative}
+#address_wrap { text-align:center; position:relative; width:calc( 100% + 50% ); height: 100%;  display: table; margin-left:-25%}
 #address_wrap .fir {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 36px; color: #9B9B9B; line-height: 64px;}
 #address_wrap .txt {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 38px; color: #353535; line-height: 64px;}
+
+/** 170215추가**/
+.transform{ display: table-cell; vertical-align: middle;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.scroll_x_none {overflow-x:hidden}
+.btn_close_rotate {position:absolute; bottom:10px; right:calc( 20% - 7px  );}
+.btn_close_rotate img {width:28px}
+@media all and (min-width:320px) and (max-width:359px) {
+    #address_wrap { text-align:center; position:relative; width:calc( 100% + 20% ); height: 100%;  display: table; margin-left:-10%}
+    .btn_close_rotate {position:absolute; bottom:10px; right:calc( 12% - 3px  );}
+}
 
 /*** mylocation ****/
 #container_mylocation {height:100%; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover;}
