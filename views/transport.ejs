@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/swiper.min.css">
     <style type="text/css">
-        #l-map{60:600px;width:100%;}
+        #l-map{height:50%;width:100%;}
         /*#r-result,#r-result table{width:100%;}*/
     </style>
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
@@ -49,7 +49,7 @@
                     <% if('walking'== type){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="fir disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="fir">택시</li>
@@ -175,7 +175,7 @@
                 departAddr : $('#departAddr').text(),
                 departLat : $('#departWalkingLat').val(),
                 departLong : $('#departWalkingLong').val(),
-                nickName : $('#nickName').val(),
+                nickName : $('#nickName').val(),,
                 arriveName : $('#arrive').text()
             }
 
