@@ -204,7 +204,7 @@ a:active{text-decoration:none; }
 
 /**** 매장지도찾기 ***/
 /* #restaurant_find_local_map {position:fixed; top:48px; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; } */
-#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; z-index:22; }background-size:cover; z-index:22; }
+#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 /* #restaurant_find_local_list_wrap {padding:352px 6% 15px 4.4%; } */
 #restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:0px}
