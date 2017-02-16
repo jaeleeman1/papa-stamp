@@ -57,6 +57,7 @@
     $(function(){
         var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("taxi_find_local_map");
+        var markers = [];
 
         var navigationControl = new BMap.NavigationControl({
             anchor: BMAP_ANCHOR_BOTTOM_LEFT,
@@ -96,6 +97,7 @@
             $('#lat').val(latitude);
 
             var mkr = new BMap.Marker(mPoint);
+            markers.push(mkr);
             map.addOverlay(mkr);
 
             map.addEventListener("dragend", function () {
@@ -113,7 +115,11 @@
                 $('#lat').val(latitude);
 
                 var mkr = new BMap.Marker(mPoint);
-                map.removeOverlay();
+
+                for(key in markers){
+                    map.removeOverlay(markers[key]);
+                }
+                markers.push(mkr);
                 map.addOverlay(mkr);
 
                 $.ajax({
