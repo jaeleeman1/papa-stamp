@@ -479,6 +479,8 @@ router.post('/readMessage', function (req, res, next) {
                             res.send({data: selectRow, length: selectRow.length});
                         }
                     })
+                }else {
+                    res.send({length: selectRow.length});
                 }
             }//end if(err)
         });

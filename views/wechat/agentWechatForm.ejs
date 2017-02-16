@@ -49,9 +49,7 @@
                                     type: 'POST',
                                     data: data,
                                     success: function (data) {
-                                        console.log(data.data.length);
-                                        console.log(data.length);
-                                        if(data.data.length == 0){
+                                        if(data.length == 0){
                                             location.reload();
                                         }else {
                                             $("#sendId").empty();
