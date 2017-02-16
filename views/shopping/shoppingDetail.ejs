@@ -60,10 +60,17 @@
 
             $("#btn_set_confirm").click(
                 function() {
-                    $("#set_cnt").text("1");
                     $("#buy_setting").submit();
                     closeLayer('layerPop');
+                    $("#set_cnt").text("1");
                     toastPopup();
+                }
+            );
+
+            $("#btn_cancel").click(
+                function() {
+                    closeLayer('layerPop');
+                    $("#set_cnt").text("1");
                 }
             );
         });
@@ -203,7 +210,7 @@
                 </ul>
                 <ul class="clear_both"></ul>
             </div>
-            <p class="btn_txt"><a href="#" onclick="closeLayer('layerPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="#"><span id="btn_cancel">취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
         </div>
     </div>
 
