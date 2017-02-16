@@ -49,28 +49,31 @@
                                     type: 'POST',
                                     data: data,
                                     success: function (data) {
+                                        console.log(data.data.length);
+                                        console.log(data.length);
                                         if(data.data.length == 0){
                                             location.reload();
+                                        }else {
+                                            $("#sendId").empty();
+                                            $.each(data.data, function (index, value) {
+                                                var readYN = '';
+
+                                                if (value.READ_YN == 'false') {
+                                                    readYN = '<tr style="color:red">';
+                                                } else {
+                                                    readYN = '<tr>';
+                                                }
+                                                readYN += '<th width="100"><label for="sendWechatId">' + value.TO_OPEN_ID + '</label></th>' +
+                                                    '<th width="100"><label for="sendMessage">' + value.DIAL_CONTENT + '</label></th>' +
+                                                    '<th width="100"><label for="sendTime">' + value.REG_DT + '</label></th></tr></tr>';
+
+                                                $("#sendId").append(readYN);
+
+                                                $("#openIdTaxi").find("option").filter(function (index) {
+                                                    return openWechatId[1] == $(this).text();
+                                                }).css("color", "black");
+                                            });
                                         }
-                                        $("#sendId").empty();
-                                        $.each(data.data, function (index, value) {
-                                            var readYN = '';
-
-                                            if(value.READ_YN == 'false'){
-                                                readYN = '<tr style="color:red">';
-                                            }else{
-                                                readYN = '<tr>';
-                                            }
-                                            readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-                                                '<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-                                                '<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
-
-                                            $("#sendId").append(readYN);
-
-                                            $("#openIdTaxi").find("option").filter(function(index) {
-                                                return openWechatId[1] == $(this).text();
-                                            }).css("color", "black");
-                                        });
                                     },
                                     error: function (request, status, error) {
                                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
