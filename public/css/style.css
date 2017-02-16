@@ -285,7 +285,7 @@ a:active{text-decoration:none; }
 .ic_location img {width:19px; height:19px}
 
 /*** 택스주소 ***/
-#address_wrap {padding:69px 7.1% 76px 7.3%; text-align:center; position:relative}
+#address_wrap { text-align:center; position:relative; width:calc( 100% + 50% ); height: 100%;  display: table; margin-left:-25%}
 #address_wrap .fir {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 36px; color: #9B9B9B; line-height: 64px;}
 #address_wrap .txt {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 38px; color: #353535; line-height: 64px;}
 
