@@ -49,12 +49,12 @@
                     <% if('walking'== type){%>
                     <li class="sec able">도보</li>
                     <% } else{%>
-                    <li class="fir disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>" style="color: #979797;">도보</a></li>
+                    <li class="fir disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="sec able">택시</li>
                     <% } else{%>
-                    <li class="fir disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>" style="color: #979797;>택시</a></li>
+                    <li class="fir disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>">택시</a></li>
                     <%}%>
                 </ul>
             </div>
