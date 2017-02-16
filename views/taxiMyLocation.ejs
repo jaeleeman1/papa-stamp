@@ -47,12 +47,7 @@
     <p class="btn_send" id="btnSend">보내기</p>
     <div class="address" name="address" id ='address'></div>
 </div>
-
-<!--<span class="dot_location"></span>-->
-<!-- Focus -->
-<!--<div class="ic_location_wrap"><span class="ic_location"><img src="/images/ic_location@3x.png"></span></div>-->
 <div id="taxi_find_local_map"></div>
-<!--</div>-->
 </body>
 
 </html>
@@ -62,6 +57,7 @@
     $(function(){
         var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("taxi_find_local_map");
+        var markers = [];
 
         var navigationControl = new BMap.NavigationControl({
             anchor: BMAP_ANCHOR_BOTTOM_LEFT,
@@ -77,21 +73,6 @@
 
         map.addControl(navigationControl);
         map.addControl(geolocationControl);
-//
-//        var address = '';
-//        var addressComponent = {
-//            province : '上海市',
-//            city : '上海市',
-//            district : '黄浦区',
-//            street : '百翎路',
-//            streetNumber :'1号'
-//        }
-//
-//        address += addressComponent.province;
-//        address += addressComponent.city;
-//        address += addressComponent.district;
-//        address += addressComponent.street;
-//        address += addressComponent.streetNumber;
 
         getLocation();
 
@@ -116,6 +97,7 @@
             $('#lat').val(latitude);
 
             var mkr = new BMap.Marker(mPoint);
+            markers.push(mkr);
             map.addOverlay(mkr);
 
             map.addEventListener("dragend", function () {
@@ -127,16 +109,17 @@
 
                 var longitude = (neLng + swLng) / 2;
                 var latitude = (neLat + swLat) / 2;
-
-                console.log('dragend_lat',latitude);
-                console.log('dragend_lng',longitude);
-
                 var mPoint = new BMap.Point(longitude, latitude);
 
                 $('#lng').val(longitude);
                 $('#lat').val(latitude);
 
                 var mkr = new BMap.Marker(mPoint);
+
+                for(key in markers){
+                    map.removeOverlay(markers[key]);
+                }
+                markers.push(mkr);
                 map.addOverlay(mkr);
 
                 $.ajax({
