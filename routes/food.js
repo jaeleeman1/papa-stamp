@@ -102,6 +102,8 @@ router.get('/shopInfo', function (req, res, next) {
 
 router.get('/transport', function (req, res, next) {
 
+    console.log()
+
     var type = req.query.type;
     var id = req.query.id;
     var nickName = req.query.nickName;
