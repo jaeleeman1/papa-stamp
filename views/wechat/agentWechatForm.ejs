@@ -25,7 +25,7 @@
                     success: function (data) {
                         if(!!data.data){
                             $('#userList').empty();
-                            var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select>';
+                            var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select><blink id="blinkText"> </blink>';
                             $('#userList').append(dynamicDom);
                             $.each(data.data, function (index, value) {
 
