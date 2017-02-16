@@ -50,7 +50,7 @@
                                     data: data,
                                     success: function (data) {
                                         if(data.length == 0){
-                                            location.reload();
+                                            $("#sendId").text('');
                                         }else {
                                             $("#sendId").empty();
                                             $.each(data.data, function (index, value) {
