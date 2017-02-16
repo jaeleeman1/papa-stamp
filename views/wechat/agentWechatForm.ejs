@@ -24,16 +24,19 @@
                     data: data,
                     success: function (data) {
                         if(!!data.data){
+                            if(data.data.length != 0) {
+                                $('#userList').empty();
+                                var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select>';
+                                $('#userList').append(dynamicDom);
+                                $.each(data.data, function (index, value) {
 
-                            $('#userList').empty();
-                            var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select>';
-                            $('#userList').append(dynamicDom);
-                            $.each(data.data, function (index, value) {
-
-                                var openId = value.USER_OPEN_ID;
-                                var wechatId = value.USER_WECHAT_ID;
-                                $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
-                            });
+                                    var openId = value.USER_OPEN_ID;
+                                    var wechatId = value.USER_WECHAT_ID;
+                                    $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
+                                });
+                            }else {
+                                location.reload();
+                            }
 
 //			    $("#userList option:eq(0)").prop("selected", true);
 
