@@ -179,24 +179,31 @@
 
             // save message
             socket.on('saveMsg', function (data) {
-
                 data.fromNickName = $('#nickName').text().trim();
-                $.ajax({
-                    url: 'http://nbnl.couphone.cn/wechat/saveMessage',
-                    type: 'POST',
-                    data: data,
-                    success: function (data) {
-                        var content = {
-                            toNickName : data,
-                            type : 'turnRed'
-                        };
 
-                        socket.emit('nbnlServer', content);
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        console.log('Error occured');
-                    }
+                $("#openIdTaxi").find("option").filter(function(index) {
+                    console.log("1111  data.toNickName==", data.toNickName);
+                    if(data.toNickName == $(this).text()){
+                        console.log("2222 data.toNickName==", data.toNickName);
+
+                        $.ajax({
+                            url: 'http://nbnl.couphone.cn/wechat/saveMessage',
+                            type: 'POST',
+                            data: data,
+                            success: function (data) {
+                                var content = {
+                                    toNickName : data,
+                                    type : 'turnRed'
+                                };
+
+                                socket.emit('nbnlServer', content);
+                            },
+                            error: function (request, status, error) {
+                                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                console.log('Error occured');
+                            }
+                        });
+					}
                 });
             });
 

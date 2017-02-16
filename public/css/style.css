@@ -1,5 +1,3 @@
-*{margin:0; padding:0}
-
 /*
 * Noto Sans SC (Chinese Simplified) http://www.google.com/fonts/earlyaccess
  */
@@ -206,10 +204,10 @@ a:active{text-decoration:none; }
 
 /**** 매장지도찾기 ***/
 /* #restaurant_find_local_map {position:fixed; top:48px; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; } */
-#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
+#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 /* #restaurant_find_local_list_wrap {padding:352px 6% 15px 4.4%; } */
-#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:352px}
+#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:0px}
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}
@@ -426,6 +424,7 @@ a:active{text-decoration:none; }
 .fontmedium {font-weight:500;}
 
 .ic_buy_basket_middle {margin-top:-46px}
+.ic_buy_basket_middle_food {margin-top:150px}
 .ic_buy_basket {margin-bottom:16px;}
 .ic_buy_basket img {width:58px;}
 
