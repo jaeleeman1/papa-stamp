@@ -18,6 +18,23 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 	console.log('Socket Connect Success');
 });
 
+var io = require('socket.io').listen(httpServer);
+io.sockets.on('connection', function (socket) {
+    socket.on('nbnlServer', function (data) {
+
+	  console.log('nbnlServer :::: data ', data);
+	  console.log('nbnlServer :::: data.type ', data.type );
+	    //나를 제외한 다른 소캣에 전체 전송하는경우
+        //리스닝된 소캣에서 작업을 수행
+        socket.broadcast.emit(data.type, data);
+
+        //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
+        //  sockets(socket_id).emit('이벤트명',function(data){ });
+
+
+    });
+});
+
 router.get('/agentLogin', function(req, res, next) {
     res.render('wechat/loginForm');
 });
@@ -32,22 +49,7 @@ router.post('/historyMessage', function(req, res, next) {
 });
 
 router.post('/loginSend', function(req, res, next) {
-    var nickName = req.body.nickName;
-    var io = require('socket.io').listen(httpServer);
-    io.sockets.on('connection', function (socket) {
-        socket.on(nickName, function (data) {
-
-            console.log(nickName + ' :::: data ', data);
-            console.log(nickName + ' :::: data.type ', data.type );
-            //나를 제외한 다른 소캣에 전체 전송하는경우
-            //리스닝된 소캣에서 작업을 수행
-            //socket.broadcast.emit(data.type, data);
-
-            //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
-             sockets(nickName).emit(data.type, data);
-        });
-    });
-    res.render('wechat/agentWechatForm',{nickName: nickName, listLength : 0 });
+    res.render('wechat/agentWechatForm',{nickName: req.body.nickName, listLength : 0 });
 });
 
 // 택시 출발지 메시지 전송 ( 사용자 -> Agent )
