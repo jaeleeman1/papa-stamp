@@ -11,11 +11,11 @@
 	<script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
 	<script type ="text/javascript">
-	var socket = io.connect('http://52.79.56.181:8060');
+        var socket = io.connect('http://52.79.56.181:8060');
         $(function() {
             var getFollowerList = function(){
                 var data = {
-                    nickName : $('#nickName').text()
+                    nickName : $('#nickName').text().trim()
                 };
 
                 $.ajax({
@@ -24,7 +24,6 @@
                     data: data,
                     success: function (data) {
                         if(!!data.data){
-
                             $('#userList').empty();
                             var dynamicDom = '<select name="openIdTaxi" id="openIdTaxi" size="'+data.data.length+'"></select>';
                             $('#userList').append(dynamicDom);
@@ -34,49 +33,53 @@
                                 var wechatId = value.USER_WECHAT_ID;
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
-			    
+
 //			    $("#userList option:eq(0)").prop("selected", true);
-			    
-			     $('#userList').click(function(){
-			    	var openWechatId = $('#openIdTaxi').val().split(',');
-				
-				var data = {
-				 agent : $('#nickName').text(),
-				 user : openWechatId[1]
-			    	}
-			    
-			    	$.ajax({
-				    url: 'http://nbnl.couphone.cn/wechat/readMessage',
-				    type: 'POST',
-				    data: data,
-				    success: function (data) {
-				   	$("#sendId").empty();
-				    	$.each(data.data, function (index, value) {
-									var readYN = '';
 
-									if(value.READ_YN == 'false'){
-									   readYN = '<tr style="color:red">';
-									}else{
-									   readYN = '<tr>';
-									}
-									   readYN += '<th width="100"><label for="sendWechatId">'+ value.TO_OPEN_ID +'</label></th>' +
-										'<th width="100"><label for="sendMessage">'+ value.DIAL_CONTENT +'</label></th>' +
-										'<th width="100"><label for="sendTime">'+ value.REG_DT +'</label></th></tr></tr>';
+                            $('#userList').click(function(){
+                                var openWechatId = $('#openIdTaxi').val().split(',');
 
-									$("#sendId").append(readYN);
+                                var data = {
+                                    agent : $('#nickName').text().trim(),
+                                    user : openWechatId[1]
+                                }
 
-                                    $("#openIdTaxi").find("option").filter(function(index) {
-                                        return openWechatId[1] == $(this).text();
-                                    }).css("color", "black");
-                    			});
-				    },
-				    error: function (request, status, error) {
-					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-					console.log('Error occured');
-				    }
-				});	
-			    });
-			}
+                                $.ajax({
+                                    url: 'http://nbnl.couphone.cn/wechat/readMessage',
+                                    type: 'POST',
+                                    data: data,
+                                    success: function (data) {
+                                        if(data.length == 0){
+                                            $("#sendId").text('');
+                                        }else {
+                                            $("#sendId").empty();
+                                            $.each(data.data, function (index, value) {
+                                                var readYN = '';
+
+                                                if (value.READ_YN == 'false') {
+                                                    readYN = '<tr style="color:red">';
+                                                } else {
+                                                    readYN = '<tr>';
+                                                }
+                                                readYN += '<th width="100"><label for="sendWechatId">' + value.TO_OPEN_ID + '</label></th>' +
+                                                    '<th width="100"><label for="sendMessage">' + value.DIAL_CONTENT + '</label></th>' +
+                                                    '<th width="100"><label for="sendTime">' + value.REG_DT + '</label></th></tr></tr>';
+
+                                                $("#sendId").append(readYN);
+
+                                                $("#openIdTaxi").find("option").filter(function (index) {
+                                                    return openWechatId[1] == $(this).text();
+                                                }).css("color", "black");
+                                            });
+                                        }
+                                    },
+                                    error: function (request, status, error) {
+                                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                                        console.log('Error occured');
+                                    }
+                                });
+                            });
+                        }
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -85,7 +88,7 @@
                 });
             }
 
-           getFollowerList(); // 리스트 호출
+            getFollowerList(); // 리스트 호출
 
             $('#btnTaxi').click(function() {
                 if ($('#endNameCn').val() == "") {
@@ -109,21 +112,21 @@
                     $('#translationAddrCn').focus();
                     return;
                 }
-		
-		console.log("$('#openIdTaxi').val() :::: ", $('#openIdTaxi').val());
-		
+
+                console.log("$('#openIdTaxi').val() :::: ", $('#openIdTaxi').val());
+
                 var openWechatId = $('#openIdTaxi').val().split(',');
 
                 var data = {
                     openId: openWechatId[0],
-					nickName : openWechatId[1],
+                    nickName : openWechatId[1],
                     endNameCn: $('#endNameCn').val(),
                     endNameKr: $('#endNameKr').val(),
                     endAddrCn: $('#endAddrCn').val(),
                     endAddrKr: $('#endAddrKr').val(),
                     translationAddrCn: $('#translationAddrCn').val()
                 };
-		
+
                 $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/sendTaxiMap',
                     type: 'POST',
@@ -133,19 +136,19 @@
                         var openWechatId = $('#openIdTaxi').val().split(',');
                         var currnt_time = new Date();
                         var taxiMsg = "택시 안내 지도 전송: " + $('#endNameCn').val() + ' (' + $('#endNameKr').val() + ')';
-        		
-			var content = {
-			    fromNickName : $('#nickName').text(),
-			    toNickName : openWechatId[1],
-			    contentType : 'text',
-			    contents : taxiMsg,
-			    type : 'saveMsg'
-			};
-			
-			console.log('taxi ### ', content);
-			
-			socket.emit('nbnlServer', content);
-			
+
+                        var content = {
+                            fromNickName : $('#nickName').text().trim(),
+                            toNickName : openWechatId[1],
+                            contentType : 'text',
+                            contents : taxiMsg,
+                            type : 'saveMsg'
+                        };
+
+                        console.log('taxi ### ', content);
+
+                        socket.emit('nbnlServer', content);
+
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
                         $('#endAddrCn').val("");
@@ -158,41 +161,47 @@
                     }
                 });
             });
-	    
-	    $("#btnDeleteMessage").click(
-		function() {
-		    $("#sendId").text('');	
-		}
-	    );
-	    
-	    // save message
-	    socket.on('saveMsg', function (data) {
 
-            data.fromNickName = $('#nickName').text();
-	      $.ajax({
+            $("#btnDeleteMessage").click(
+                function() {
+                    $("#sendId").text('');
+                }
+            );
+
+            $("#btnReload").click(
+                function() {
+                    location.reload();
+                }
+            );
+
+            // save message
+            socket.on('saveMsg', function (data) {
+
+                data.fromNickName = $('#nickName').text().trim();
+                $.ajax({
                     url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                     type: 'POST',
                     data: data,
                     success: function (data) {
-			var content = {
-			    toNickName : data,
-			    type : 'turnRed'
-			};
-			
-			socket.emit('nbnlServer', content);
+                        var content = {
+                            toNickName : data,
+                            type : 'turnRed'
+                        };
+
+                        socket.emit('nbnlServer', content);
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         console.log('Error occured');
                     }
-                });	
-	    });
-	    
-	    socket.on('turnRed', function (data) {
-		$("#openIdTaxi").find("option").filter(function(index) {
-			return data.toNickName.data == $(this).text();
-		}).css("color", "red");
-	    });
+                });
+            });
+
+            socket.on('turnRed', function (data) {
+                $("#openIdTaxi").find("option").filter(function(index) {
+                    return data.toNickName.data == $(this).text();
+                }).css("color", "red");
+            });
         });
 	</script>
 </head>
@@ -202,88 +211,89 @@
 	<div class="row">
 
 		<h1>Wechat Message Tool</h1>
-		<label for="agentId" style="float: right; width: 100%;text-align: right; margin-right: 15px;" id="nickName"><%= nickName %></label>
+		<label for="agentId" style="background-color: #e2e2e2; float: right; width: 100%;text-align: right;" id="nickName"><%= nickName %><input type="button" id="btnReload" value="새로고침" style="float: right; height: 35px; margin-left: 10px;" class="btn btn-primary"/>
+			<input onclick="location.href='/wechat/agentLogin'" type="button" id="btnLogout" value="로그아웃" style="float: right; height: 35px; margin-left: 10px;" class="btn btn-primary"/></label>
 
 		<!--<form action="/wechat/sendTaxiMap" method="post" id="sendform" class="form-inline">-->
-			<table class="table table-condensed">
-				<tr>
-					<th width="25%"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
-					<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-					<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select></td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="startAddCn" style="float: left; width: 25%;text-align: center;">사용자 현재 위치(중국어)</label>
-						<input type="text" name="startAddCn" id="startAddCn" maxlength="100" class="form-control"  value="黄浦区福州路70号" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="endNameCn" style="float: left; width: 25%;text-align: center;">도착지 이름(중국어)</label>
-						<input type="text" name="endNameCn" id="endNameCn" maxlength="100" class="form-control"  value="黄浦区" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="endNameKr" style="float: left; width: 25%;text-align: center;">도착지 이름(한국어)</label>
-						<input type="text" name="endNameKr" id="endNameKr" maxlength="100" class="form-control" value="황보구" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="endAddrCn" style="float: left; width: 25%;text-align: center;">도착지 주소(중국어)</label>
-						<input type="text" name="endAddrCn" id="endAddrCn" maxlength="100" class="form-control"  value="黄浦区福州路70号" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="endAddrKr" style="float: left; width: 25%;text-align: center;">도착지 주소(한국어)</label>
-						<input type="text" name="endAddrKr" id="endAddrKr" maxlength="100" class="form-control" value="황보구 복주로 70호" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for="translationAddrCn" style="float: left; width: 25%;text-align: center;">택시기사용 중국어</label>
-						<input type="text" name="translationAddrCn" id="translationAddrCn" maxlength="100" class="form-control" value="黄浦区福州路70号" style="float: left; width: 50%;"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" id ='alertTaxi' style="color: red"></td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<input type="button" id="btnTaxi" value="Taxi 지도 전송" style="height: 35px" class="btn btn-primary" />  
-					</td>
-				</tr>
-			</table>
-			<!--</form>-->
-			
-			<table class="table table-condensed">
-			    <tr>
-			    	<tr>
-					<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
-				</tr>
-				<tr>
-					<th width="100"><label for="complateWechatId">Wechat ID</label></th>
-					<th width="100"><label for="complateMessage">Message</label></th>
-					<th width="100"><label for="complateTime">Time</label></th>
-				</tr>				
-			    </tr>
-			</table>
-			<table class="table table-condensed" id="sendId" >
-			</table>
+		<table class="table table-condensed">
+			<tr>
+				<th width="25%"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
+				<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
+				<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="startAddCn" style="float: left; width: 25%;text-align: center;">사용자 현재 위치(중국어)</label>
+					<input type="text" name="startAddCn" id="startAddCn" maxlength="100" class="form-control"  value="黄浦区福州路70号" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="endNameCn" style="float: left; width: 25%;text-align: center;">도착지 이름(중국어)</label>
+					<input type="text" name="endNameCn" id="endNameCn" maxlength="100" class="form-control"  value="黄浦区" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="endNameKr" style="float: left; width: 25%;text-align: center;">도착지 이름(한국어)</label>
+					<input type="text" name="endNameKr" id="endNameKr" maxlength="100" class="form-control" value="황보구" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="endAddrCn" style="float: left; width: 25%;text-align: center;">도착지 주소(중국어)</label>
+					<input type="text" name="endAddrCn" id="endAddrCn" maxlength="100" class="form-control"  value="黄浦区福州路70号" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="endAddrKr" style="float: left; width: 25%;text-align: center;">도착지 주소(한국어)</label>
+					<input type="text" name="endAddrKr" id="endAddrKr" maxlength="100" class="form-control" value="황보구 복주로 70호" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="translationAddrCn" style="float: left; width: 25%;text-align: center;">택시기사용 중국어</label>
+					<input type="text" name="translationAddrCn" id="translationAddrCn" maxlength="100" class="form-control" value="黄浦区福州路70号" style="float: left; width: 50%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" id ='alertTaxi' style="color: red"></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<input type="button" id="btnTaxi" value="Taxi 지도 전송" style="height: 35px" class="btn btn-primary" />
+				</td>
+			</tr>
+		</table>
+		<!--</form>-->
+
+		<table class="table table-condensed">
+			<tr>
+			<tr>
+				<td colspan="3"><input type="button" id="btnDeleteMessage" value="내용 삭제" style="float: right; height: 35px" class="btn btn-primary"/>
+			</tr>
+			<tr>
+				<th width="100"><label for="complateWechatId">Wechat ID</label></th>
+				<th width="100"><label for="complateMessage">Message</label></th>
+				<th width="100"><label for="complateTime">Time</label></th>
+			</tr>
+			</tr>
+		</table>
+		<table class="table table-condensed" id="sendId" >
+		</table>
 
 		<!--</form>-->
 
 		<!--<form action="/wechat/agentWechat" method="post" id="sendform3"-->
-			  <!--class="form-inline">-->
-			<!--<input type="hidden" id="message" name="message" value="3">-->
-			<!--<table class="table table-condensed">-->
-				<!--<tr>-->
-					<!--<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"-->
-										   <!--class="btn btn-primary"    /> </td>-->
-				<!--</tr>-->
-			<!--</table>-->
+		<!--class="form-inline">-->
+		<!--<input type="hidden" id="message" name="message" value="3">-->
+		<!--<table class="table table-condensed">-->
+		<!--<tr>-->
+		<!--<td colspan="2"><input type="button" id="Taxi_send" value="Taxi길찾기 전송"-->
+		<!--class="btn btn-primary"    /> </td>-->
+		<!--</tr>-->
+		<!--</table>-->
 		<!--</form>-->
 
 	</div>
@@ -291,8 +301,4 @@
 
 </body>
 </html>
-
-
-
-
 

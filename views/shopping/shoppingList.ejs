@@ -40,8 +40,6 @@
         var buyIncreaseCount = 0;
 	
         $( document ).ready(function() {
-            /*$(".ic_buy").append('<img src="/images/btn_ic_buy@3x.png"></span>');*/
-
             if(performance.navigation.type != 1) {
                 location.reload();
             }
@@ -107,30 +105,41 @@
                         traditional:true,
                         data: JSON.parse(dataStr),
                         success: function(data) {
+                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
+                            var dataString = {'wechat_id': wechatId};
+                            var purchaItem;
                             if(length == 1) {
-                                purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + ' 구입';
+                                purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
                             }else {
                                 purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                             }
-                            var currnt_time = new Date();
-                            socket.emit('nbnlServer', purchaItem);
 
-                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-                            var dataString = {'wechat_id': wechatId};
+                            var content = {
+                                fromNickName : '',
+                                toNickName : wechatId,
+                                contentType : 'text',
+                                contents : '쇼핑 상품 구입',//purchaItem,
+                                type : 'saveMsg'
+                            };
+
+                            socket.emit('nbnlServer', content);
+
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: dataString,
                                 success: function(data) {
+                                    closeLayer('layerPurchasePop');
                                     console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
-                                    location.reload();
                                 },
                                 error: function(request, status, error) {
                                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                                     console.log('Error occured');
                                 }
-                            });
+                            })
+                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
+        			        location.reload();
 //                                $.ajax({
 //                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
 //                                    type: 'POST',
@@ -177,26 +186,24 @@
 
             $("#btn_set_confirm").click(
                 function() {
+
                     $("#set_cnt").text("1");
 
                     var buySumPrice = Number($("#buySum_price").val());
-                    var selectPrdctNm = Number($("#prdct_nm").val());
+                    var selectPrdctId =$("#prdct_id").val();
+                    var selectPrdctNm = $("#prdct_nm").val();
+                    var selectPImage =$("#image").val();
                     var selectPrdctCnt = Number($("#prdct_cnt").val());
                     var selectPrice = Number($("#price").val());
                     var result = buySumPrice + (selectPrdctCnt*selectPrice);
                     $("#buySum_price").val(result);
 
-                    var prdctId =$("#prdct_id").val();
-                    var prdctNm =$("#prdct_nm").val();
-                    var image =$("#image").val();
-                    var prdctCnt =$("#prdct_cnt").val();
-                    var price =$("#price").val();
                     var dataString = '{"wechat_id":"' + wechatId +'", ' +
-                        '"prdct_id":"' + prdctId +'", ' +
-                        '"prdct_nm":"' + prdctNm +'", ' +
-                        '"image":"' + image +'", ' +
-                        '"prdct_cnt":"' + prdctCnt +'", ' +
-                        '"price":' + price + '}';
+                        '"prdct_id":"' + selectPrdctId +'", ' +
+                        '"prdct_nm":"' + selectPrdctNm +'", ' +
+                        '"image":"' + selectPImage +'", ' +
+                        '"prdct_cnt":"' + selectPrdctCnt +'", ' +
+                        '"price":' + selectPrice + '}';
                     $.ajax({
                         url: $("#url").val()+'/shopping/shoppingBuyInsert',
                         type: 'POST',
@@ -204,6 +211,10 @@
                         data: JSON.parse(dataString),
                         success: function(data) {
                             var buyCount =$("#length").val();
+                            if(buyCount != 0) {
+                                buyIncreaseCount = buyCount;
+                            }
+
                             if(data.dataCheck == 0) {
                                 buyCount++;
                             }
@@ -215,7 +226,7 @@
                             $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
                                 '<input type="hidden" name="prdct_cnt_'+buyIncreaseCount+'" id="prdct_cnt_'+buyIncreaseCount+'" value="'+selectPrdctCnt+'"/>' +
                                 '<input type="hidden" name="price_'+buyIncreaseCount+'" id="price_'+buyIncreaseCount+'" value="'+selectPrice+'"/>');
-
+                            buyIncreaseCount++;
                             console.log("*** insert shoppingBuyInsert *** - wechatId : " + wechatId);
                         },
                         error: function(request, status, error) {
@@ -228,7 +239,7 @@
 
                     if(buySumPrice == 0) {
                         var parentNode = btnConfirm.parentNode.parentNode;
-                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ 40</span>구매</div>'
+                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
 
                         $("#btn_confirm").click(
                             function() {
@@ -331,7 +342,6 @@
                         <li class="price">￥<%= data[i].PRICE %><li>
                     </ul>
                     <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="openLayer('layerPop',300,50);dataMatch('<%= data[i].PRDCT_ID%>','<%= data[i].PRDCT_NM %>','<%= data[i].IMG_URL %>','<%= data[i].PRICE %>');"></a>
-                    <!--<a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="location.href='/shopping/shoppingSetting?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>&image=<%= data[i].IMG_URL %>&prdct_cnt=<%= data[i].SHOPPING_CNT %>&price=<%= data[i].PRICE %>'"></a>-->
                     <div class="clear_both"></div>
             </div>
         <% } %>
@@ -363,7 +373,7 @@
 
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img async src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
+        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
 </div>

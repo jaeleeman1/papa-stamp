@@ -99,7 +99,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(getPosition);
             } else {
-                console.log('Error', 'Geolocation is not supported by this browser."');
+                console.log('Error', 'Geolocation is not supported by this browser.');
             }
         }
 
@@ -162,37 +162,6 @@
                 success: function (data) {
 
                     $('#address').text(data.address);
-
-                    $('#btnSend').click(function () {
-                        var data = {
-                            addr : $('#address').text(),
-                            lat : $('#lat').val(),
-                            lng : $('#lng').val(),
-                            nickName : $('#nickName').val()
-                        }
-                        $.ajax({
-                            url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
-                            type: 'POST',
-                            data: data,
-                            success: function (data) {
-
-                                var taxiMsg = "택시 안내 요청 현위치 : " + $('#address').text();
-
-                                var content = {
-                                    fromNickName : '',
-                                    toNickName : data.nickName,
-                                    contentType : 'text',
-                                    contents : taxiMsg,
-                                    type : 'saveMsg'
-                                };
-                                socket.emit('nbnlServer', content);
-                            },
-                            error: function (request, status, error) {
-                                console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                                console.log('Error occured');
-                            }
-                        });
-                    });
                 },
                 error: function (request, status, error) {
                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -200,6 +169,38 @@
                 }
             })
         }
+
+        $('#btnSend').click(function () {
+            var data = {
+                addr : $('#address').text(),
+                lat : $('#lat').val(),
+                lng : $('#lng').val(),
+                nickName : $('#nickName').val()
+            }
+            console.log(' ########## btnSend click function ###########');
+            $.ajax({
+                url: 'http://nbnl.couphone.cn/wechat/taxiDepartSend',
+                type: 'POST',
+                data: data,
+                success: function (data) {
+                    console.log(' ################# taxi depart send click #################');
+                    var taxiMsg = "택시 안내 요청 현위치 : " + $('#address').text();
+
+                    var content = {
+                        fromNickName : '',
+                        toNickName : data.nickName,
+                        contentType : 'text',
+                        contents : taxiMsg,
+                        type : 'saveMsg'
+                    };
+                    socket.emit('nbnlServer', content);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            });
+        });
     });
     //                    var icon = new BMap.Icon('/images/map-marker-icon.png', new BMap.Size(20, 32), {
     //                        anchor: new BMap.Size(10, 30),

@@ -37,6 +37,10 @@
     <script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
         $( document ).ready(function() {
+            if(performance.navigation.type != 1) {
+                location.reload();
+            }
+
             var length = $("#length").val();
             if(length == 0) {
                 changeEmptyAttr();
@@ -125,22 +129,32 @@
                         traditional:true,
                         data: JSON.parse(dataStr),
                         success: function(data) {
+                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
+                            var dataString = {'wechat_id': wechatId};
                             var purchaItem;
                             if(length == 1) {
                                 purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
                             }else {
                                 purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                             }
-                            var currnt_time = new Date();
-                            socket.emit('nbnl server', purchaItem);
 
-                            var dataString = {'wechat_id': wechatId};
+                            var content = {
+                                fromNickName : '',
+                                toNickName : wechatId,
+                                contentType : 'text',
+                                contents : '쇼핑 상품 구입',//purchaItem,
+                                type : 'saveMsg'
+                            };
+
+                            socket.emit('nbnlServer', content);
+
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: dataString,
                                 success: function(data) {
+                                    closeLayer('layerPurchasePop');
                                     console.log("*** delete shoppingBuyList *** - wechatId : " + wechatId);
                                 },
                                 error: function(request, status, error) {
@@ -242,14 +256,6 @@
             <p class="ti">상품 삭제<p>
             <p class="copy">해당 상품을 삭제하시겠습니까?</p>
             <p class="btn_txt_nor mt20"><a href="#" onclick="closeLayer('layerDelPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_confirm">확인</span></a></p>
-        </div>
-    </div>
-
-    <div id="layerAllDelPop">
-        <div class="pop_up_body">
-            <p class="ti">장바구니 비우기<p>
-            <p class="copy">모든 상품을 비우시겠습니까?</p>
-            <p class="btn_txt_nor mt20"><a href="#" onclick="closeLayer('layerAllDelPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_delete_all_confirm">확인</span></a></p>
         </div>
     </div>
 

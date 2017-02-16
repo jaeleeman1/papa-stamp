@@ -23,7 +23,16 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
 	    
 	  console.log('nbnlServer :::: data ', data);
+	  console.log('nbnlServer :::: data.type ', data.type );
+      console.log('nbnlServer :::: data  ', data  );
+	    //나를 제외한 다른 소캣에 전체 전송하는경우
+        //리스닝된 소캣에서 작업을 수행
         socket.broadcast.emit(data.type, data);
+
+        //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
+        //  sockets(socket_id).emit('이벤트명',function(data){ });
+
+
     });
 });
 
@@ -68,7 +77,7 @@ router.post('/taxiDepartSend', function (req, res, next) {
                             throw err;
                         } else {
                             var openId = row[0].USER_OPEN_ID;
-                            var taxiMsg = "택시 안내 요청 \n현위치 : " + addr;
+                            var taxiMsg = "택시 안내 요청 \n현위치 : " + addr + "\n목적지를 알려주시면 경로와 예상 택시 가격을 알려 드리겠습니다.";
 
                             wechatAPI.sendText(openId, taxiMsg, function() {
                                 res.send({nickName : nickName});
@@ -253,8 +262,8 @@ router.post('/sendFoodMap', function (req, res, next) {
                     res.send({nickName : nickName, arriveName:arriveName});
                 });// sendNews end
             };// select query end
-            connection.release();
         });// query connection end
+        connection.release();
     });
 });
 
@@ -319,6 +328,7 @@ router.post('/sendMessage',function (req, res, next) {
     // });
 })
 
+//wechatapi.sendNews 로 바로 연결함이..
 router.post('/shoppingResultSend', function (req, res, next) {
     console.log('##### Post  shoppingResSend Start #####');
     api.sender.shoppingResSend(req, res, next)
@@ -350,7 +360,12 @@ router.post('/getFollowerList', function (req, res, next) {
         } else {
             for(var i = 0; i < result.kf_list.length; i++) {
                 console.log("WeChatAPI OnlineCustomer["+i+"] "+result.kf_list[i].kf_account+" kf_nick("+result.kf_list[i].kf_nick+")");
-                if(result.kf_list[i].kf_nick == agentNickName) {
+                // console.log(" ==== agent nick name : ===", agentNickName)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick == agentNickName)
+                // console.log(" ==== agent nick name : ===", result.kf_list[i].kf_nick.trim() == agentNickName.trim());
+                console.log("agentNickName.length: ", agentNickName.length , " agentNickName.trim().length: ", agentNickName.trim().length );
+                if(result.kf_list[i].kf_nick.trim() == agentNickName.trim()) {
                     console.log("Nick Name Matched Start");
                     wechatAPI.getCustomerSessionList(result.kf_list[i].kf_account, function(sessionListError, listResult) {
                         if(sessionListError != null) {
@@ -385,7 +400,6 @@ router.post('/getFollowerList', function (req, res, next) {
                                             console.error("err : " + err);
                                             throw err;
                                         } else {
-
                                             console.error("rows : ", rows);
                                             res.send({data : rows, listLength: rows.length});
                                         }
@@ -395,7 +409,7 @@ router.post('/getFollowerList', function (req, res, next) {
                             }
                         }
                     });
-                    break;;
+                    break;
                 } else {
 
                 }
@@ -413,6 +427,7 @@ router.post('/saveMessage', function (req, res, next) {
 	var contentType = req.body.contentType;
 	var contents = req.body.contents;
 
+	console.log( " bef   ::  /saveMessage ");
     getConnection(function (err, connection) {
         var insertQuery = 'INSERT INTO TB_WECHAT_HIS_DIALOGUE (FROM_OPEN_ID, TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT) VALUES ( ?, ?, ?, ?)';
         connection.query(insertQuery, [fromNickName, toNickName, contentType, contents], function (err, row) {
@@ -422,22 +437,27 @@ router.post('/saveMessage', function (req, res, next) {
             } else {
                 res.send({data : toNickName});
             }
-            connection.release();
         })
-
+        connection.release();
     });
 });
 
 // 대화내용 
 router.post('/readMessage', function (req, res, next) {
-	var agent = req.body.agent;
-	var user = req.body.user;
+	var agent = req.body.agent.trim();
+	var user = req.body.user.trim();
+
+    console.log("==agent==: ",agent);
+    console.log("==user==: ",user);
+
 
     getConnection(function (err, connection) {
     var selectQuery = 'SELECT  DIAL_SEQ,FROM_OPEN_ID, TO_OPEN_ID,  CONTENT_TYPE,  DIAL_CONTENT,READ_YN, DEL_YN, substr(REG_DT,1,19),'+
                               'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT '+
                       'FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
-	var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
+
+
+        var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
 
@@ -446,7 +466,7 @@ router.post('/readMessage', function (req, res, next) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                console.log("length : ", selectRow.length );
+                console.log("selectRow.length : ", selectRow.length );
                 if (selectRow.length >  0) {
                     connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
                         if (err) {
@@ -454,9 +474,11 @@ router.post('/readMessage', function (req, res, next) {
                             throw err;
                         } else {
                             console.log(" time stamp: ", selectRow[0].REG_DT);
-                            res.send({data: selectRow});
+                            res.send({data: selectRow, length: selectRow.length});
                         }
                     })
+                }else {
+                    res.send({length: selectRow.length});
                 }
             }//end if(err)
         });
