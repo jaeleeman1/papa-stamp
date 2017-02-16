@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/swiper.min.css">
     <style type="text/css">
-        #l-map{height:50%;width:100%;}
+        #l-map{height:600px;width:100%;}
         /*#r-result,#r-result table{width:100%;}*/
     </style>
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
@@ -157,6 +157,12 @@
             arrivelat = $('#arriveDrivingLat').val();
             arrivelng = $('#arriveDrivingLong').val();
         }
+
+        console.log('##############departlat', departlat );
+        console.log('##############departlng', departlng );
+        console.log('##############arrivelat', arrivelat );
+        console.log('##############arrivelng', arrivelng );
+
         var startpoint = new BMap.Point(departlng, departlat);
         var endpoint = new BMap.Point(arrivelng, arrivelat);
 
