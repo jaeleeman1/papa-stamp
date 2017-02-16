@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
-var config = require('./config');
+var config = require('../lib/config');
 
 router.get('/location', function (req, res, next) {
     res.render('location');

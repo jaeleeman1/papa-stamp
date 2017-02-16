@@ -6,7 +6,7 @@ var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
 var xml2js = require('xml2js');
-var config = require('./config');
+var config = require('../lib/config');
 
 //GET foodShopMap Basic rendering
 router.get('/', function (req, res, next) {
