@@ -187,8 +187,8 @@ router.post('/sendTaxiMap', function (req, res, next) {
                                                                     },
                                                                     {
                                                                         title : "중국어로 목적지 보기",
-                                                                        url : messageUrl,
-                                                                        picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
+                                                                        url : messageUrl
+                                                                        // picurl : "https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/taxi/google-map.png"
                                                                     }
                                                                 ];
 
