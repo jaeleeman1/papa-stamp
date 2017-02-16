@@ -201,16 +201,16 @@
                 $("#openIdTaxi").find("option").filter(function(index) {
                     return data.toNickName.data == $(this).text();
                 }).css("color", "red");
-
+                setInterval("doBlink($(this).text())", 500);
             });
         });
-        function doBlink() {
-            var blink = document.all.tags("BLINK");
+        function doBlink(nickname) {
+            var blink = document.getElementById("blinkText");
+            blink.text(nickname);
             for(var i=0; i<blink.length; i++) {
                 blink[i].style.visibility = (blink[i].style.visibility == "visible") ? "hidden":"visible";
             }
         }
-        if(document.all) setInterval("doBlink()", 500);
 	</script>
 </head>
 
@@ -227,7 +227,7 @@
 			<tr>
 				<th width="25%"><label for="openIdTaxi" style="text-align: center;">Wechat ID</label></th>
 				<!--<td><input type="text" name="openIdTaxi" id="openIdTaxi" size="50" maxlength="12" class="form-control" value="test02" /></td>-->
-				<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select><blink>사용자 현재 위치(중국어)</blink></td>
+				<td id="userList"><select name="openIdTaxi" id="openIdTaxi" size=0></select><blink id="blinkText"> </blink></td>
 			</tr>
 			<tr>
 				<td colspan="3">
