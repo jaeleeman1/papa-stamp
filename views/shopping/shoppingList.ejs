@@ -105,8 +105,11 @@
                         traditional:true,
                         data: JSON.parse(dataStr),
                         success: function(data) {
+                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
+                            var dataString = {'wechat_id': wechatId};
+                            var purchaItem;
                             if(length == 1) {
-                                purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + ' 구입';
+                                purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
                             }else {
                                 purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                             }
@@ -120,9 +123,7 @@
                             };
 
                             socket.emit('nbnlServer', content);
-                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-			    
-                            var dataString = {'wechat_id': wechatId};
+
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
                                 type: 'POST',
@@ -136,11 +137,9 @@
                                     console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                                     console.log('Error occured');
                                 }
-                            });
+                            })
                             console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
-			    setTimeout(function() {
-        			location.reload();
-    			    }, 50);                  
+        			        location.reload();
 //                                $.ajax({
 //                                    url: $("#url").val()+'/shopping/shoppingInsertHistory',
 //                                    type: 'POST',
@@ -187,6 +186,7 @@
 
             $("#btn_set_confirm").click(
                 function() {
+
                     $("#set_cnt").text("1");
 
                     var buySumPrice = Number($("#buySum_price").val());
@@ -373,7 +373,7 @@
 
     <!-- 하단버튼 -->
     <div id="btn_buy">
-        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img async src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
+        <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
     </div>
 </div>

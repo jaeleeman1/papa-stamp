@@ -129,8 +129,8 @@
                         traditional:true,
                         data: JSON.parse(dataStr),
                         success: function(data) {
+                            console.log("*** success shoppingBuyList *** - wechatId : " + wechatId);
                             var dataString = {'wechat_id': wechatId};
-
                             var purchaItem;
                             if(length == 1) {
                                 purchaItem = Prdct_Nm + ': ' + Prdct_Cnt + '개 구입';
