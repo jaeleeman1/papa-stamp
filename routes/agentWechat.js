@@ -23,9 +23,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
 	    
 	  console.log('nbnlServer :::: data ', data);
-
+	  console.log('nbnlServer :::: data.type ', data.type );
+      console.log('nbnlServer :::: data  ', data  );
 	    //나를 제외한 다른 소캣에 전체 전송하는경우
-        //리스닝된 소캣에서 작업을 수행.
+        //리스닝된 소캣에서 작업을 수행
         socket.broadcast.emit(data.type, data);
 
         //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
@@ -263,8 +264,8 @@ router.post('/sendFoodMap', function (req, res, next) {
                     res.send({nickName : nickName, arriveName:arriveName});
                 });// sendNews end
             };// select query end
-            connection.release();
         });// query connection end
+        connection.release();
     });
 });
 
@@ -329,6 +330,7 @@ router.post('/sendMessage',function (req, res, next) {
     // });
 })
 
+//wechatapi.sendNews 로 바로 연결함이..
 router.post('/shoppingResultSend', function (req, res, next) {
     console.log('##### Post  shoppingResSend Start #####');
     api.sender.shoppingResSend(req, res, next)
@@ -400,7 +402,6 @@ router.post('/getFollowerList', function (req, res, next) {
                                             console.error("err : " + err);
                                             throw err;
                                         } else {
-
                                             console.error("rows : ", rows);
                                             res.send({data : rows, listLength: rows.length});
                                         }
@@ -410,7 +411,7 @@ router.post('/getFollowerList', function (req, res, next) {
                             }
                         }
                     });
-                    break;;
+                    break;
                 } else {
 
                 }
@@ -447,7 +448,6 @@ router.post('/saveMessage', function (req, res, next) {
 router.post('/readMessage', function (req, res, next) {
 	var agent = req.body.agent.trim();
 	var user = req.body.user.trim();
-
 
     console.log("==agent==: ",agent);
     console.log("==user==: ",user);

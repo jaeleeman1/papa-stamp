@@ -97,9 +97,10 @@
 
         function getLocation() {
             if (navigator.geolocation) {
+                console.log("geolocation avaiable");
                 navigator.geolocation.getCurrentPosition(getPosition);
             } else {
-                console.log('Error', 'Geolocation is not supported by this browser."');
+                console.log('Error', 'Geolocation is not supported by this browser.');
             }
         }
 
@@ -111,6 +112,9 @@
             var mPoint = new BMap.Point(longitude, latitude);
             map.enableScrollWheelZoom();
             map.centerAndZoom (mPoint, 20);
+
+            console.log('dragend_lat',latitude);
+            console.log('dragend_lng',longitude);
 
             $('#lng').val(longitude);
             $('#lat').val(latitude);
