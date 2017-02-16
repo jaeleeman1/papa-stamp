@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    	
-        <title>Samsung</title>
-        <meta name="title" content="">         
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-              
-        <meta name="keywords" content="">
-        <meta name="description" content="">
 
-        <meta property="og:url" content="">
-        <meta property="og:image" content="">
-        <meta property="og:type" content="website">
-        <meta property="og:site_name" content="Samsung">
-        <meta property="og:locale" content="ko">
-        <meta property="og:title" content="">
-        <meta property="og:description" content="">
-        <meta property="og:country-name" content="">    
-    
-        <meta itemprop="name" content="Samsung">
-        <meta itemprop="image" content="">
-        <meta itemprop="url" content="">
-        <meta itemprop="description" content="">
-        <meta itemprop="keywords" content="">
+    <title>Samsung</title>
+    <meta name="title" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-	<script type="text/javascript" src="/js/ios_scalable.js"></script>
-	<script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Samsung">
+    <meta property="og:locale" content="ko">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:country-name" content="">
+
+    <meta itemprop="name" content="Samsung">
+    <meta itemprop="image" content="">
+    <meta itemprop="url" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="keywords" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script type="text/javascript" src="/js/ios_scalable.js"></script>
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function() {
             var width = window.innerWidth;
             var height = window.innerHeight;
@@ -39,27 +39,28 @@
                 location.reload();
             };
 
-            if(height >= width) {
-                document.getElementById("address_wrap").style.WebkitTransform = "rotate(90deg)";
-                document.getElementById("address_wrap").style.msTransform = "rotate(90deg)";
-                document.getElementById("address_wrap").style.transform = "rotate(90deg)";
+            if(height <= width) {
+                document.getElementById("address_wrap").style.WebkitTransform = "rotate(-90deg)";
+                document.getElementById("address_wrap").style.msTransform = "rotate(-90deg)";
+                document.getElementById("address_wrap").style.transform = "rotate(-90deg)";
             }
         });
-	</script>
+    </script>
 </head>
 
-<body onresize="resizeFunction()">
-<div id="container">
-	<div class="test" id="address_wrap">
-		<ul class="address">
-		<li class="fir">我要去这里<li>
-		<li class="txt"><%= name %><br>
-            <%= address %><li>
-		</ul>
+<body class="height100 scroll_x_none">
 
-	</div>
-    <p id="demo"></p>
+<div id="container"  class="height100">
+    <div id="address_wrap" >
+        <p class="btn_close_rotate"><img src="images/btn_cancel@3x.png"></p>
+        <ul class="transform">
+            <li class="fir">我要去这里<li>
+            <li class="txt"><%= name %><br>
+            <%= address %><li>
+        </ul>
+    </div>
 </div>
+
 </body>
 
 </html>

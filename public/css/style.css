@@ -171,7 +171,8 @@ a:active{text-decoration:none; }
 #shopping_detail_wrap {position:relative}
 #shopping_detail_wrap .slide_img img{width:100%}
 
-#shopping_detail_body {padding:225px 5.6% 64px 5.3%}
+/** 170215 #shopping_detail_body 수정 **/
+#shopping_detail_body {padding:calc( 59.17% + 12px ) 5.6% 64px 5.3%;}
 #shopping_detail_body .info {margin-bottom:24px}
 #shopping_detail_body .name {font-size:24px; padding:0px ; line-height: 36px; }
 #shopping_detail_body .price {font-size:13px; line-height: 19px; }
@@ -191,6 +192,12 @@ a:active{text-decoration:none; }
 #shopping_buy_wrap .name {overflow:hidden; font-size:19px; line-height: 25px;   color:#555; margin:20px 0 2px; max-height:48px}
 #shopping_buy_wrap .price {font-size:14px; line-height: 18px;  color:#111}
 .calling_wrap {text-align:center; padding-top:75px;}
+/* 170213 추가*/
+#shopping_buy_wrap .name02 {overflow:hidden; font-size:19px; line-height: 25px;   color:#555; text-oveerflow:elipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+#shopping_buy_wrap .price02 {font-size:14px; line-height: 18px;  color:#111}
+/* 170215 추가*/
+.won_mark {font-family: sans-serif !important; }
+.price_slash {display:inline-block; padding:0 6px 0 6px;}
 
 /**** 매장정보 ****/
 #shopping_detail_body .res_name {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size:24px ; line-height: 36px;}
@@ -199,11 +206,10 @@ a:active{text-decoration:none; }
 
 /**** 매장지도찾기 ***/
 /* #restaurant_find_local_map {position:fixed; top:48px; height:304px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; } */
-/*#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }*/
-#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; z-index:22; }
+#restaurant_find_local_map {position:fixed; top:0px; height:352px; width:100%; background-image: url('../images/google-map.png'); background-size:cover; z-index:22; }
 #restaurant_find_local_map .mark {width:40px; margin-right:33px; margin-top:4px}
 /* #restaurant_find_local_list_wrap {padding:352px 6% 15px 4.4%; } */
-#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:0px}
+#restaurant_find_local_list_wrap {padding: 10px 6% 15px 4.4%; position:relative; top:352px}
 #restaurant_find_local_list {padding:12px 0 15px 0; border-bottom:1px solid #f0f0f0}
 #restaurant_find_local_list:last-child {padding-bottom:0; border-bottom:0px solid #f0f0f0}
 #restaurant_find_local_list .info {}
@@ -284,10 +290,27 @@ a:active{text-decoration:none; }
 .ic_location {position:absolute; top:50%; left:50%; margin-top:-9.5px; margin-left:-9.5px;z-index:666}
 .ic_location img {width:19px; height:19px}
 
-/*** 택스주소 ***/
-#address_wrap {padding:69px 7.1% 76px 7.3%; text-align:center; position:relative}
+/*** 택시주소 ***/
+#address_wrap { text-align:center; position:relative; width:calc( 100% + 50% ); height: 100%;  display: table; margin-left:-25%}
 #address_wrap .fir {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 36px; color: #9B9B9B; line-height: 64px;}
 #address_wrap .txt {font-family: 'Noto Sans SC','Noto Sans KR', sans-serif; font-size: 38px; color: #353535; line-height: 64px;}
+
+/** 170215추가**/
+.transform{ display: table-cell; vertical-align: middle;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.scroll_x_none {overflow-x:hidden}
+.btn_close_rotate {position:absolute; bottom:10px; right:calc( 20% - 7px  );}
+.btn_close_rotate img {width:28px}
+
+@media all and (min-width:320px) and (max-width:359px) {
+    #address_wrap { text-align:center; position:relative; width:calc( 100% + 20% ); height: 100%;  display: table; margin-left:-10%}
+    .btn_close_rotate {position:absolute; bottom:10px; right:calc( 12% - 3px  );}
+}
 
 /*** mylocation ****/
 #container_mylocation {height:100%; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover;}
@@ -392,6 +415,9 @@ a:active{text-decoration:none; }
 
 .dimmed_btn {color:#9B9B9B !important;}
 .cell_box {    position: relative;    width: 100%;    height: 100%;    display: table;	text-align:center;}
+/* 170213추가*/
+.cell_box02 {    position: relative;    width: 100%;    height: 100%;    display: table;}
+.cell_middle02 {    display: table-cell;    vertical-align: middle; width:100%;}
 .cell_middle {    display: table-cell;    vertical-align: middle;}
 .body_middle {position:absolute; top:50%; text-align:center; width:100%;}
 .body_middle_map {position:absolute; top:calc((100% + 352px ) / 2);  text-align:center; width:100%;}
@@ -400,7 +426,6 @@ a:active{text-decoration:none; }
 .fontmedium {font-weight:500;}
 
 .ic_buy_basket_middle {margin-top:-46px}
-.ic_buy_basket_middle_food {margin-top:150px}
 .ic_buy_basket {margin-bottom:16px;}
 .ic_buy_basket img {width:58px;}
 
