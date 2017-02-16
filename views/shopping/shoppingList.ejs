@@ -186,9 +186,6 @@
 
             $("#btn_set_confirm").click(
                 function() {
-
-                    $("#set_cnt").text("1");
-
                     var buySumPrice = Number($("#buySum_price").val());
                     var selectPrdctId =$("#prdct_id").val();
                     var selectPrdctNm = $("#prdct_nm").val();
@@ -227,6 +224,7 @@
                             btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
 
                             initCloseLayer('layerPop');
+                            $("#set_cnt").text("1");
                             toastPopup();
 
                             $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
@@ -268,6 +266,13 @@
                     }else {
                         $("#buy_list").submit();
                     }
+                }
+            );
+
+            $("#btn_cancel").click(
+                function() {
+                    initCloseLayer('layerPop');
+                    $("#set_cnt").text("1");
                 }
             );
         });
@@ -365,7 +370,7 @@
                 </ul>
                 <ul class="clear_both"></ul>
             </div>
-            <p class="btn_txt"><a href="#" onclick="initCloseLayer('layerPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="#"><span id="btn_cancel">취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
         </div>
     </div>
 

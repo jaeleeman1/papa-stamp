@@ -12,10 +12,11 @@
 
 	<script type ="text/javascript">
         var socket = io.connect('http://52.79.56.181:8060');
+        var nickName = $('#nickName').text().trim();
         $(function() {
             var getFollowerList = function(){
                 var data = {
-                    nickName : $('#nickName').text().trim()
+                    nickName : nickName
                 };
 
                 $.ajax({
@@ -147,7 +148,7 @@
 
                         console.log('taxi ### ', content);
 
-                        socket.emit('nbnlServer', content);
+                        socket.emit(nickName, content);
 
                         $('#endNameCn').val("");
                         $('#endNameKr').val("");
@@ -194,7 +195,7 @@
                                     type : 'turnRed'
                                 };
 
-                                socket.emit('nbnlServer', content);
+                                socket.emit(nickName, content);
                             },
                             error: function (request, status, error) {
                                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
