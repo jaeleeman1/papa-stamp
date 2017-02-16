@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var getConnection = require('../lib/db_connection');
 var request = require('request');
+var config = require('./config');
 
 router.get('/location', function (req, res, next) {
     res.render('location');
@@ -17,7 +18,7 @@ router.get('/myLocation', function (req, res, next) {
 });
 
 router.get('/taxiaddress', function (req, res, next) {
-        res.render('taxiAddress', {name : req.query.name, address: req.query.address});
+    res.render('taxiAddress', {name : req.query.name, address: req.query.address});
 })
 
 router.get('/transport', function (req, res, next) {
@@ -48,8 +49,6 @@ router.get('/transport', function (req, res, next) {
                     depart.drivingLong = rows[0].START_LONGITUDE_TAXI ;
                     depart.drivingLat = rows[0].START_LATITUDE_TAXI;
 
-                    console.log('depart', depart);
-
                     var arrive = {};
                     arrive.id = rows[0].USER_WECHAT_ID
                     arrive.nameCn = rows[0].END_NM_CN;
@@ -61,29 +60,26 @@ router.get('/transport', function (req, res, next) {
                     arrive.drivingLong = rows[0].END_LONGITUDE_TAXI ;
                     arrive.drivingLat = rows[0].END_LATITUDE_TAXI;
 
-                    console.log('arrive', arrive);
-
-                    var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
                     var host = '';
 
                     if(type == 'walking'){
                         host = 'http://api.map.baidu.com/routematrix/v2/walking?output=json&origins='
-                            + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + ak;
+                            + depart.walkingLat +','+ depart.walkingLong + '&destinations='+ arrive.walkingLat + ',' + arrive.walkingLong + '&ak=' + config.ak;
                     }else if(type == 'driving'){
                         host = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins='
-                            + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + ak;
+                            + depart.drivingLat +','+ depart.drivingLong + '&destinations='+ arrive.drivingLat + ',' + arrive.drivingLong + '&ak=' + config.ak;
                     }
 
                     request.get({'url': host}, function(error, request, body){
                         if(!error){
                             var jsonBody = JSON.parse(body);
 
-                            console.log('transport jsonBody', jsonBody);
+                            console.log('transport jsonBody', jsonBody.result[0]);
 
                             var duration = getDuration(jsonBody.result[0].duration.value);
                             var distance = getDistance(jsonBody.result[0].distance.value);
 
-                            res.render('transportTaxi', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, nickName: nickName});
+                            res.render('transport', {depart: depart, arrive : arrive, duration : duration, distance : distance, type: type, transportType : 'taxi', nickName: nickName});
                         }
                     }).on('error', function(e){
                         console.log(e)
@@ -113,7 +109,7 @@ router.get('/address', function (req, res, next) {
         })
     })
 });
-          
+
 var getDuration = function(duration) {
 
     var hour = Math.floor(duration/ (60*60));
