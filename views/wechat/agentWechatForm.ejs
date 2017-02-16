@@ -37,7 +37,6 @@
 //			    $("#userList option:eq(0)").prop("selected", true);
 
                             $('#userList').click(function(){
-                                location.reload();
                                 var openWechatId = $('#openIdTaxi').val().split(',');
 
                                 var data = {
@@ -50,6 +49,9 @@
                                     type: 'POST',
                                     data: data,
                                     success: function (data) {
+                                        if(data.length == 0){
+                                            location.reload();
+                                        }
                                         $("#sendId").empty();
                                         $.each(data.data, function (index, value) {
                                             var readYN = '';

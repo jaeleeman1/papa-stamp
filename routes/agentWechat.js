@@ -476,7 +476,7 @@ router.post('/readMessage', function (req, res, next) {
                             throw err;
                         } else {
                             console.log(" time stamp: ", selectRow[0].REG_DT);
-                            res.send({data: selectRow});
+                            res.send({data: selectRow, length: selectRow.length});
                         }
                     })
                 }
