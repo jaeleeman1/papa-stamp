@@ -46,8 +46,7 @@
 
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
-                btnConfirm.removeAttribute("id");
-                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm">￥ <%= buySumPrice %> 구매</span></div></a>';
+                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm_zero">￥ 0 구매</span></div></a>';
             }
         });
 
@@ -55,13 +54,14 @@
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
 //            console.log('url' + $("#url").val());
-            if($("#buySum_price").val() != '0') {
-                $("#btn_confirm").click(
-                    function() {
+            $("#btn_confirm").click(
+                function() {
+                    if($("#btn_confirm_zero").length == 0) {
                         openLayer('layerPurchasePop',300,50);
                     }
-                );
-            }
+                }
+            );
+
 
             $("#btn_purchase_confirm").click(
                 function() {
@@ -223,6 +223,12 @@
                             var btnCount = document.getElementById("btn_count");
                             btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
 
+                            var btnConfirm = document.getElementById("btn_confirm");
+                            btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
+
+                            initCloseLayer('layerPop');
+                            toastPopup();
+
                             $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
                                 '<input type="hidden" name="prdct_cnt_'+buyIncreaseCount+'" id="prdct_cnt_'+buyIncreaseCount+'" value="'+selectPrdctCnt+'"/>' +
                                 '<input type="hidden" name="price_'+buyIncreaseCount+'" id="price_'+buyIncreaseCount+'" value="'+selectPrice+'"/>');
@@ -235,23 +241,23 @@
                         }
                     });
 
-                    var btnConfirm = document.getElementById("btn_confirm");
+//                    var btnConfirm = document.getElementById("btn_confirm");
 
-                    if(buySumPrice == 0) {
-                        var parentNode = btnConfirm.parentNode.parentNode;
-                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
+//                    if(buySumPrice == 0) {
+//                        var parentNode = btnConfirm.parentNode.parentNode;
+//                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
+//
+//                        $("#btn_confirm").click(
+//                            function() {
+//                                openLayer('layerPurchasePop',300,50);
+//                            }
+//                        );
+//                    }else {
+//                        btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
+//                    }
 
-                        $("#btn_confirm").click(
-                            function() {
-                                openLayer('layerPurchasePop',300,50);
-                            }
-                        );
-                    }else {
-                        btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
-                    }
-
-                    initCloseLayer('layerPop');
-                    toastPopup();
+//                    initCloseLayer('layerPop');
+//                    toastPopup();
                 }
             );
 
@@ -375,6 +381,7 @@
     <div id="btn_buy">
         <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
+        <!--<div class="price_buy" id="btn_confirm_zero" style="overflow:hidden"><span class="ic_price">￥ 0 구매</span></div></a>-->
     </div>
 </div>
 </body>
