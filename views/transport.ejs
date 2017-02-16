@@ -43,18 +43,18 @@
 <div id="container">
     <div id="shopping_detail_wrap">
         <div id="header_nor" class="restaurant">
-            <input id='type' type="hidden" value=<%=type%>>
+            <input id='transportType' type="hidden" value=<%=type%>>
             <div class="tab">
                 <ul>
-                <% if('walking'== type){%>
+                    <% if('walking'== type){%>
                     <li class="fir">도보</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/taxi/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=walking&address=<%=depart.addrWalking%>&lat=<%=depart.walkingLat%>&lng=<%=depart.walkingLong%>&nickName=<%=nickName%>">도보</a></li>
                     <%}%>
                     <% if('driving'==type){%>
                     <li class="fir">택시</li>
                     <% } else{%>
-                    <li class="sec disable"><a href = "/taxi/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>">택시</a></li>
+                    <li class="sec disable"><a href = "/<%=transportType%>/transport?id=<%=arrive.id%>&type=driving&address=<%=depart.addrTaxi%>&lat=<%=depart.drivingLat%>&lng=<%=depart.drivingLong%>&nickName=<%=nickName%>">택시</a></li>
                     <%}%>
                 </ul>
             </div>
@@ -121,11 +121,20 @@
         <!-- map_body E -->
         <!--지도영역-->
         <div id="l-map"></div>
+        <% if('food' == transportType) {%>
+        <a href=""><div id="btn_put">메세지로 경로 받기</div></a>
+        <input type="hidden" id="foodId" value=<%=arrive.id%>>
+        <input type="hidden" id="duration" value=<%=duration%>>
+        <input type="hidden" id="distance" value=<%=distance%>>
+        <input type="hidden" id="nickName" value=<%=nickName%>>
+        <%}%>
+        <!--<div type="hidden" id="r-result"></div>-->
     </div>
 </div>
 </body>
 <script type="text/javascript">
     $(function(){
+//        var socket = io.connect('http://52.79.56.181:8060');
         var map = new BMap.Map("l-map");
 
         var transportWay = null;
@@ -134,14 +143,19 @@
         var arrivelat = null;
         var arrivelng = null;
 
-        if($('#type').val() == 'walking'){
-            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+        if($('#transportType').val() == 'walking'){
+            transportWay = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: false}});
             departlat = $('#departWalkingLat').val();
             departlng = $('#departWalkingLong').val();
             arrivelat = $('#arriveWalkingLat').val();
             arrivelng = $('#arriveWalkingLong').val();
 
-        } else if($('#type').val() == 'driving') {
+            console.log('walking departlat',departlat);
+            console.log('walking departlng',departlng);
+            console.log('walking arrivelat',arrivelat);
+            console.log('walking arrivelng',arrivelng);
+
+        } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             departlat = $('#departDrivingLat').val();
             departlng = $('#departDrivingLong').val();
@@ -152,6 +166,42 @@
         var endpoint = new BMap.Point(arrivelng, arrivelat);
 
         transportWay.search(startpoint, endpoint);
+
+        $('#btn_put').click(function(){
+            var data = {
+                foodId : $('#foodId').val(),
+                duration : $('#duration').val(),
+                distance : $('#distance').val(),
+                departAddr : $('#departAddr').text(),
+                departLat : $('#departWalkingLat').val(),
+                departLong : $('#departWalkingLong').val(),
+                arriveName : $('#arrive').text()
+            }
+
+            $.ajax({
+                url: 'http://nbnl.couphone.cn/wechat/sendFoodMap',
+                type: 'POST',
+                data: data,
+                success: function (result) {
+
+                    var foodMsg = "맛집 안내 지도 전송: " + result.arriveName;
+
+                    var content = {
+                        fromNickName : '',
+                        toNickName : result.nickName,
+                        contentType : 'text',
+                        contents : foodMsg,
+                        type : 'saveMsg'
+                    };
+                    socket.emit('nbnlServer', content);
+                },
+                error: function (request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    console.log('Error occured');
+                }
+            });
+
+        })
     });
 </script>
 </html>
