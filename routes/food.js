@@ -102,6 +102,8 @@ router.get('/shopInfo', function (req, res, next) {
 
 router.get('/transport', function (req, res, next) {
 
+    console.log()
+
     var type = req.query.type;
     var id = req.query.id;
     var nickName = req.query.nickName;
@@ -126,6 +128,11 @@ router.post('/transport', function (req, res, next) {
 
                 getConnection(function (err, connection) {
                     var query = 'select ? as ADDRESS, ? as LAT, ? as LNG, FOOD_ID, FOOD_NAME_CN, FOOD_NAME_KR, FOOD_ADDR_CN, TAXI_ADDR_CN, LONGITUDE_WALK, LATITUDE_WALK, LONGITUDE_TAXI, LATITUDE_TAXI from TB_FOOD_SHOP_LIST where FOOD_ID = ?';
+
+                    console.log('####################### address ', address);
+                    console.log('####################### lat ', lat);
+                    console.log('####################### lng ', lng);
+                    console.log('####################### id ', id);
 
                     connection.query(query, [address, lat, lng, id], function (err, rows) {
                         if (err) {
