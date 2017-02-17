@@ -188,13 +188,13 @@
                             url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                             type: 'POST',
                             data: data,
-                            success: function (data) {
-                                var content = {
-                                    toNickName : data,
-                                    type : 'turnRed'
-                                };
-
-                                socket.emit('nbnlServer', content);
+                            success: function (result) {
+//                                var content = {
+//                                    toNickName : data,
+//                                    type : 'turnRed'
+//                                };
+								  return true;
+//                                socket.emit('nbnlServer', content);
                             },
                             error: function (request, status, error) {
                                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
