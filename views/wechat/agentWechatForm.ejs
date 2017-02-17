@@ -35,53 +35,7 @@
                             });
 
                             $('#userList').click(function(){
-                                var openWechatId = $('#openIdTaxi').val().split(',');
-
-                                var data = {
-                                    agent : $('#nickName').text().trim(),
-                                    user : openWechatId[1]
-                                }
-
-                                $.ajax({
-                                    url: 'http://nbnl.couphone.cn/wechat/readMessage',
-                                    type: 'POST',
-                                    data: data,
-                                    success: function (data) {
-                                        if(data.length == 0){
-                                            $("#sendId").text('');
-                                        }else {
-											if(data.contentType == 'taxi'){
-											    $('#startAddCn').val(data.address);
-											}else{
-                                                $('#startAddCn').val('');
-											}
-
-                                            $("#sendId").empty();
-                                            $.each(data.data, function (index, value) {
-                                                var readYN = '';
-
-                                                if (value.READ_YN == 'false') {
-                                                    readYN = '<tr style="color:red">';
-                                                } else {
-                                                    readYN = '<tr>';
-                                                }
-                                                readYN += '<th width="100"><label for="sendWechatId">' + value.TO_OPEN_ID + '</label></th>' +
-                                                    '<th width="100"><label for="sendMessage">' + value.DIAL_CONTENT + '</label></th>' +
-                                                    '<th width="100"><label for="sendTime">' + value.REG_DT + '</label></th></tr></tr>';
-
-                                                $("#sendId").append(readYN);
-
-                                                $("#openIdTaxi").find("option").filter(function (index) {
-                                                    return openWechatId[1] == $(this).text();
-                                                }).css("color", "black");
-                                            });
-                                        }
-                                    },
-                                    error: function (request, status, error) {
-                                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                                        console.log('Error occured');
-                                    }
-                                });
+                                readMessage();
                             });
                         }
                     },
@@ -93,6 +47,56 @@
             }
 
             getFollowerList(); // 리스트 호출
+
+			var readMessage = function(){
+                var openWechatId = $('#openIdTaxi').val().split(',');
+
+                var data = {
+                    agent : $('#nickName').text().trim(),
+                    user : openWechatId[1]
+                }
+
+                $.ajax({
+                    url: 'http://nbnl.couphone.cn/wechat/readMessage',
+                    type: 'POST',
+                    data: data,
+                    success: function (data) {
+                        if(data.length == 0){
+                            $("#sendId").text('');
+                        }else {
+                            if(data.contentType == 'taxi'){
+                                $('#startAddCn').val(data.address);
+                            }else{
+                                $('#startAddCn').val('');
+                            }
+
+                            $("#sendId").empty();
+                            $.each(data.data, function (index, value) {
+                                var readYN = '';
+
+                                if (value.READ_YN == 'false') {
+                                    readYN = '<tr style="color:red">';
+                                } else {
+                                    readYN = '<tr>';
+                                }
+                                readYN += '<th width="100"><label for="sendWechatId">' + value.TO_OPEN_ID + '</label></th>' +
+                                    '<th width="100"><label for="sendMessage">' + value.DIAL_CONTENT + '</label></th>' +
+                                    '<th width="100"><label for="sendTime">' + value.REG_DT + '</label></th></tr></tr>';
+
+                                $("#sendId").append(readYN);
+
+                                $("#openIdTaxi").find("option").filter(function (index) {
+                                    return openWechatId[1] == $(this).text();
+                                }).css("color", "black");
+                            });
+                        }
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log('Error occured');
+                    }
+                });
+			}
 
             $('#btnTaxi').click(function() {
                 if ($('#endNameCn').val() == "") {
@@ -194,6 +198,10 @@
                             type: 'POST',
                             data: data,
                             success: function (result) {
+                                // 자동 메시지 업데이트
+                                if($("#openIdTaxi").val() == data.toNickName){
+                                    readMessage();
+								}
 								return true;
                             },
                             error: function (request, status, error) {
@@ -201,7 +209,7 @@
                                 console.log('Error occured');
                             }
                         });
-                        return turnRed;
+//                        return turnRed;
 					}
                 }).css("color", "red");
             });
