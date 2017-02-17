@@ -193,7 +193,6 @@
 //                                    toNickName : data,
 //                                    type : 'turnRed'
 //                                };
-								  return true;
 //                                socket.emit('nbnlServer', content);
                             },
                             error: function (request, status, error) {
@@ -202,6 +201,9 @@
                             }
                         });
 					}
+					console.log('########## 3 ', data.toNickName.data == $(this).text());
+                    return data.toNickName.data == $(this).text();
+
                 }).css("color", "red");;
             });
 
