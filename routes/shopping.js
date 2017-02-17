@@ -6,6 +6,10 @@ var api = require("../lib/api");
 
 //GET Shopping List
 router.get('/', function (req, res, next) {
+    res.redirect('/shopping/init?nick_name=' + req.query.nick_name);
+});
+
+router.get('/init', function (req, res, next) {
     getConnection(function (err, connection){
         var wechatId = req.query.nick_name; // wechat Id
         var openId = '';
