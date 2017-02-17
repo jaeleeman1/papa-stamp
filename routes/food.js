@@ -89,12 +89,13 @@ router.get('/shopInfo', function (req, res, next) {
                  console.error("err : " + err);
                 throw err;
             }else{
-                connection.query(imgQuery, [address, lat, lng, id], function (err, imgRows) {
+
+                connection.query(imgQuery, [id], function (err, imgRows) {
                     if (err) {
                         //  console.error("err : " + err);
                         throw err;
                     }else{
-                        if(rows.length > 0){
+                        if(allInfoRows.length > 0){
                             res.render('foodShopInfo', {rows : allInfoRows, length:allInfoRows.length, nickName:nickName, images : imgRows, imagesLength: imgRows.length});
                         }else{
                             res.render('foodShopList');
