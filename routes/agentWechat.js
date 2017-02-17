@@ -10,6 +10,7 @@ var express = require('express'),
     path = require('path'),
     http = require('http');
 
+var weixin = require('weixin-api');
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
@@ -330,15 +331,65 @@ router.post('/sendMessage',function (req, res, next) {
 //wechatapi.sendNews 로 바로 연결함이..
 router.post('/shoppingResultSend', function (req, res, next) {
     console.log('##### Post  shoppingResSend Start #####');
-    api.sender.shoppingResSend(req, res, next)
-    {
-        console.log(res.statusCode);
-        if (res.statusCode != 200) {
-            console.log('##### SEND ERROR  #####');
-        }
 
-        res.status(200).send('Send Sucess');
+    var ProductSet = req.body;
+    // var ProductSet = JSON.stringify(req.body);
+
+    console.log('Product User_Open_Id : ' + ProductSet.User_Open_Id);
+    console.log('Product Prdct_Nm : ' + ProductSet.Prdct_Nm);
+    console.log('Product Prdct_Cnt : ' + ProductSet.Prdct_Cnt);
+    console.log('Product Price : ' + ProductSet.Price);
+    console.log('Product Length : ' + ProductSet.Length);
+
+    var prdctLength = ProductSet.Length;
+
+    if(JSON.stringify(ProductSet) == '{}') {
+        console.log('error : 400');
+        return false;
     }
+
+    var total_amount    = 0;
+    var shoppingResult  = prdctLength +'개 물품 주문 접수 되었습니다. \n';
+
+    shoppingResult  += '-------------------------------- \n';
+    if(prdctLength == 1) {
+        shoppingResult += 	ProductSet.Prdct_Nm + "\n " +
+            ": 수량"+ProductSet.Prdct_Cnt + "개 |" +
+            "￥ " + ProductSet.Price * ProductSet.Prdct_Cnt + "\n "
+
+        total_amount += ProductSet.Price * ProductSet.Prdct_Cnt;
+    }else {
+        for(var i = 0; i <  prdctLength; i++)
+        {
+            shoppingResult += 	ProductSet.Prdct_Nm[i] + "\n " +
+                ": 수량"+ProductSet.Prdct_Cnt[i] + "개 |" +
+                "￥ " + ProductSet.Price[i] * ProductSet.Prdct_Cnt[i] + "\n "
+
+            total_amount += ProductSet.Price[i] * ProductSet.Prdct_Cnt[i];
+        }
+    }
+
+    shoppingResult += "\n 합계 ￥" + total_amount ;
+    shoppingResult += '\n -------------------------------- \n';
+
+    var sendMassage = {
+        fromUserName : "nbnl-server",
+        toUserName : ProductSet.User_Open_Id,
+        msgType : "text",
+        content : shoppingResult,
+        funcFlag : 0
+    };
+
+    weixin.sendMsg(sendMassage);
+    // api.sender.shoppingResSend(req, res, next)
+    // {
+    //     console.log(res.statusCode);
+    //     if (res.statusCode != 200) {
+    //         console.log('##### SEND ERROR  #####');
+    //     }
+    //
+    //     res.status(200).send('Send Sucess');
+    // }
 });
 
 // get follower sessionList
