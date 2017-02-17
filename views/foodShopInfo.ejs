@@ -40,9 +40,9 @@
         <div id="swiper-container_fix">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="/images/photo_resdetail_01.png"></div>
-                    <div class="swiper-slide"><img src="/images/photo_resdetail_02.png"></div>
-                    <div class="swiper-slide"><img src="/images/photo_resdetail_03.png"></div>
+                    <% for(var i=0; i<imagesLength; i++){ %>
+                    <div class="swiper-slide"><img src="https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/food/<%=images[i].IMG_URL%>"></div>
+                    <% }%>
                 </div>
                 <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
