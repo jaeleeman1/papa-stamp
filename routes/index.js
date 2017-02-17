@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
     // console.log('dataString', dataString.Prdct[0].P);
 
 
-  res.render('mapTest2');
+  res.render('mapTest3');
 });
 
 module.exports = router;
