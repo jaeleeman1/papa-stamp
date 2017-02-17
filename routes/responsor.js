@@ -624,11 +624,14 @@ function printAccessToken() {
     });
 
     api.getFollowers(function(err, result) {
-    if(!err) {
-        console.log("WeChatAPI getFollowers "+JSON.stringify(result));
-    } else {
-        console.log("WeChatAPI getFollowers "+err);
-    }
+        if(!err) {
+            console.log("WeChatAPI getFollowers Success!!");
+            api.massSendText("안녕히 주무세요!!!!!", result.data.openid, function(err0, result0){
+                
+            });
+        } else {
+            console.log("WeChatAPI getFollowers "+err);
+        }
     });
 
 }
@@ -637,15 +640,18 @@ setInterval(printAccessToken, 60000);
 
 //// Schedule Task
 // Send message to all of users at 9 AM
-schedule.scheduleJob({hour: 12, minute: 3}, function(){
-    api.getFollowers(function(err, result) {
-        if(!err) {
-            console.log("WeChatAPI getFollowers "+JSON.stringify(result));
-        } else {
-            console.log("WeChatAPI getFollowers "+err);
-        }
-    });
-});
+// schedule.scheduleJob({hour: 12, minute: 3}, function(){
+//     api.getFollowers(function(err, result) {
+//         if(!err) {
+//             console.log("WeChatAPI getFollowers "+JSON.stringify(result));
+//             api.massSendText("좋은 아침!!!!!", result.data.openid, function(err0, result0){
+
+//             });
+//         } else {
+//             console.log("WeChatAPI getFollowers "+err);
+//         }
+//     });
+// });
 
 
 module.exports = router;
