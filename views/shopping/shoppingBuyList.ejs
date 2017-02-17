@@ -238,11 +238,11 @@
         <% for(var i = 0; i < data.length; i++) { %>
             <% prdctSum += (data[i].PRICE * data[i].SHOPPING_CNT) %>
             <div class="buy_wrap" id="buy_wrap_<%= data[i].PRDCT_ID %>">
-                <img src="<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <img src="https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping/<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
-                        <li class="price">￥<%= data[i].PRICE %> / <%= data[i].SHOPPING_CNT %>개<li>
+                        <li class="price">￥<%= data[i].PRICE %> / ￦<%= data[i].PRICE_KR %> : <%= data[i].SHOPPING_CNT %>개<li>
                     </ul>
                 <a href="#"><img src="/images/ic_card_delete@3x.png" class="ic_card" onclick="openLayer('layerDelPop',300,50);deleteProduct('<%= data[i].PRDCT_ID%>');"></a>
                 <div class="clear_both"></div>

@@ -121,7 +121,9 @@
                             };
 
                             console.log('XXXXXXXXXXXXXXXXXX' + content);
-                            socket.emit('nbnlServer', content);
+                            socket.emit('nbnlServer', content, function(confirmation){
+                                console.log(confirmation);
+                            });
 
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -345,11 +347,11 @@
     <div id="shopping_buy_wrap">
         <% for(var i = 0; i < data.length; i++) { %>
             <div class="buy_wrap">
-                <img src="<%= data[i].IMG_URL %>" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
+                <img src="https://s3.ap-northeast-2.amazonaws.com/cphone-storage/couphone_image/shopping/<%= data[i].IMG_URL %>.png" class="photo_buy" onclick="location.href='/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>'">
                 <a href = "/shopping/shoppingDetail?wechat_id=<%= wechatId %>&prdct_id=<%= data[i].PRDCT_ID%>" />
                     <ul>
                         <li class="name"><%= data[i].PRDCT_NM %><li>
-                        <li class="price">￥<%= data[i].PRICE %><li>
+                        <li class="price">￥<%= data[i].PRICE %> / ￦<%= data[i].PRICE_KR %><li>
                     </ul>
                     <a href="#"><img src="/images/ic_card_add@3x.png" class="ic_card" onclick="openLayer('layerPop',300,50);dataMatch('<%= data[i].PRDCT_ID%>','<%= data[i].PRDCT_NM %>','<%= data[i].IMG_URL %>','<%= data[i].PRICE %>');"></a>
                     <div class="clear_both"></div>
