@@ -615,13 +615,22 @@ function printSessionList() {
 }
 
 function printAccessToken() {
-  api.getLatestToken(function(err, result) {
+    api.getLatestToken(function(err, result) {
+        if(!err) {
+            console.log("[AccessToken] "+result.isValid()+" ("+result.accessToken+") expireTime("+result.expireTime+") ***");
+        } else {
+            console.log("*** printAccessToken failed("+err+")***");
+        }
+    });
+
+    api.getFollowers("", function(err, result) {
     if(!err) {
-      console.log("[AccessToken] "+result.isValid()+" ("+result.accessToken+") expireTime("+result.expireTime+") ***");
+        console.log("WeChatAPI getFollowers "+err);
     } else {
-      console.log("*** printAccessToken failed("+err+")***");
+        console.log("WeChatAPI getFollowers "+JSON.stringify(result));
     }
-  });
+    });
+
 }
 
 setInterval(printAccessToken, 60000);
