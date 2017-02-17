@@ -44,9 +44,9 @@
                 location.reload();
             }
 
-            if($("#buySum_price").val() == '0') {
-                $("#btn_confirm").css("color", "#9B9B9B");
-            }
+//            if($("#buySum_price").val() == '0') {
+//                $("#btn_confirm").css("color", "#9B9B9B");
+//            }
         });
 
         $(function() {
@@ -57,10 +57,11 @@
                 function() {
                     if($("#buySum_price").val() != 0) {
                         openLayer('layerPurchasePop',300,50);
+                    }else {
+                        alert('구매할 상품을 선택하세요!')
                     }
                 }
             );
-
 
             $("#btn_purchase_confirm").click(
                 function() {
@@ -220,7 +221,7 @@
                             btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
 
                             var btnConfirm = document.getElementById("btn_confirm");
-                            btnConfirm.removeAttribute('style');
+//                            btnConfirm.removeAttribute('style');
                             btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
 
                             initCloseLayer('layerPop');
