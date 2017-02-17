@@ -45,8 +45,7 @@
             }
 
             if($("#buySum_price").val() == '0') {
-                var btnConfirm = document.getElementById("btn_confirm");
-                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm_zero">￥ 0 구매';
+                $("#btn_confirm").css("color", "#9B9B9B");
             }
         });
 
@@ -56,7 +55,7 @@
 //            console.log('url' + $("#url").val());
             $("#btn_confirm").click(
                 function() {
-                    if($("#btn_confirm_zero").length == 0) {
+                    if($("#buySum_price").val() != 0) {
                         openLayer('layerPurchasePop',300,50);
                     }
                 }
@@ -122,7 +121,7 @@
                                 type : 'saveMsg'
                             };
 
-                            socket.emit('couphone0002', content);
+                            socket.emit('nbnlServer', content);
 
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -221,6 +220,7 @@
                             btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
 
                             var btnConfirm = document.getElementById("btn_confirm");
+                            btnConfirm.removeAttribute('style');
                             btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
 
                             initCloseLayer('layerPop');
