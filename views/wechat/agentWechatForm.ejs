@@ -205,19 +205,19 @@
                 }).css("color", "red");;
             });
 
-            socket.on('turnRed', function (data) {
-                $("#openIdTaxi").find("option").filter(function(index) {
-                    return data.toNickName.data == $(this).text();
-                }).css("color", "red");
-
-                var nickName = $(this).text();
-                setInterval(function() {
-                    var blink = document.getElementById("blinkName");
-                    $("#blinkText").text(nickName);
-
-                    blink.style.visibility = blink.style.visibility == "" ? "hidden" : ""
-                }, 500);
-            });
+//            socket.on('turnRed', function (data) {
+//                $("#openIdTaxi").find("option").filter(function(index) {
+//                    return data.toNickName.data == $(this).text();
+//                }).css("color", "red");
+//
+//                var nickName = $(this).text();
+//                setInterval(function() {
+//                    var blink = document.getElementById("blinkName");
+//                    $("#blinkText").text(nickName);
+//
+//                    blink.style.visibility = blink.style.visibility == "" ? "hidden" : ""
+//                }, 500);
+//            });
         });
 	</script>
 </head>
