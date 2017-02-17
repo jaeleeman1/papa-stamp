@@ -622,12 +622,18 @@ function printAccessToken() {
             console.log("*** printAccessToken failed("+err+")***");
         }
     });
+}
 
+setInterval(printAccessToken, 60000);
+
+//// Schedule Task
+// Send message to all of users at 9 AM
+schedule.scheduleJob({hour: 12, minute: 0}, function(){
     api.getFollowers(function(err, result) {
         if(!err) {
             console.log("WeChatAPI getFollowers Success!!");
             console.log(result.data.openid);
-            api.massSendText("안녕히 주무세요!!!!!", result.data.openid, function(err0, result0){
+            api.massSendText("오늘 하루 수고 많으셨습니다. \n안녕히 주무세요!!!!!", result.data.openid, function(err0, result0){
                 if(!err0) {
                     console.log(err0);
                 } else {
@@ -638,25 +644,7 @@ function printAccessToken() {
             console.log("WeChatAPI getFollowers "+err);
         }
     });
-
-}
-
-setInterval(printAccessToken, 60000);
-
-//// Schedule Task
-// Send message to all of users at 9 AM
-// schedule.scheduleJob({hour: 12, minute: 3}, function(){
-//     api.getFollowers(function(err, result) {
-//         if(!err) {
-//             console.log("WeChatAPI getFollowers "+JSON.stringify(result));
-//             api.massSendText("좋은 아침!!!!!", result.data.openid, function(err0, result0){
-
-//             });
-//         } else {
-//             console.log("WeChatAPI getFollowers "+err);
-//         }
-//     });
-// });
+});
 
 
 module.exports = router;
