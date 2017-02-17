@@ -16,29 +16,27 @@ router.get('/', function(req, res, next) {
                 console.error("err : " + err);
                 throw err;
             }else{
-              for( var i=0; i < row.length; i++)
-                var id = row[i].FOOD_ID;
-                var addr = row[i].FOOD_ADDR_CN;
-                var taxi = row[i].TAXI_ADDR_CN;
 
-                if(taxi == '' || taxi == undefined || taxi == null){
-                  taxi = addr;
-                }
+              for( var i=0; i < row.length; i++){
+                  var id = row[i].FOOD_ID;
+                  var addr = row[i].FOOD_ADDR_CN;
+                  var taxi = row[i].TAXI_ADDR_CN;
 
-                var host = 'http://api.map.baidu.com/geocoder/v2/?address='+ addr+ '&output=json&ak='+  + config.ak +'&callback=showLocation';
-                request.get({'url': host}, function(error, request, body) {
-                    if (!error) {
-                      console.log('addr ::::::: ', JSON.parse(body))  ;
-                    }
-                });
+                  if(taxi == '' || taxi == undefined || taxi == null){
+                      taxi = addr;
+                  }
 
-
+                  var host = 'http://api.map.baidu.com/geocoder/v2/?address='+ addr+ '&output=json&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU&callback=showLocation';
+                  request.get({'url': host}, function(error, request, body) {
+                      if (!error) {
+                          console.log('addr ::::::: ', JSON.parse(body))  ;
+                      }
+                  });
+              }
             }
             connection.release();
         })
     });
-
-
 });
 
 module.exports = router;
