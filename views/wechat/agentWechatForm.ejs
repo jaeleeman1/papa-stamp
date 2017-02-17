@@ -204,9 +204,12 @@
                                 console.log('Error occured');
                             }
                         });
+
+                        console.log('########## 3 ', data.toNickName.data == $(this).text());
+                        return data.toNickName.data.trim() == $(this).text().trim();
 					}
-					console.log('########## 3 ', data.toNickName.data == $(this).text());
-                    return data.toNickName.data == $(this).text();
+
+
 
                 }).css("color", "red");;
             });
