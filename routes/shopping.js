@@ -194,7 +194,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                                     throw err;
                                 } else {
                                     //console.log("### [Shopping Detail Insert] Insert Buy List Data Success ### " + JSON.stringify(row));
-                                    res.send({wechatId: wechatId});
+                                    //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
                                 }
                             });
                         }
@@ -208,7 +208,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                             throw err;
                         } else {
                             //console.log("### [Shopping Detail Insert] Insert Buy List Data Success ### " + JSON.stringify(row));
-                            res.send({wechatId: wechatId});
+                            //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
                         }
                     });
                 }
@@ -264,7 +264,7 @@ router.post('/shoppingDeleteProduct', function (req, res, next) {
                 throw err;
             } else {
                 //console.log("### [Shopping Delete Product] Delete Shopping Buy Product Data Success ### " + JSON.stringify(row));
-                res.send({wechatId: wechatId});
+                //res.redirect('/shopping/shoppingBuyList?wechat_id=' + wechatId);
             }
             connection.release();
         });
@@ -276,14 +276,14 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
     getConnection(function (err, connection) {
         var wechatId = req.body.wechat_id; // wechat_id
 
-	    // Delete Shopping Buy List
+        // Delete Shopping Buy List
         var deleteQuery = 'delete from TB_SHOPPING_BUY_LIST where USER_WECHAT_ID = ?';
         connection.query(deleteQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("[Shopping Delete All] Delete Shopping Buy List All Error : " + err);
                 throw err;
             } else {
-				//console.log("### [Shopping Delete All] Delete Shopping Buy List All Data Success ### " + JSON.stringify(row));
+                //console.log("### [Shopping Delete All] Delete Shopping Buy List All Data Success ### " + JSON.stringify(row));
                 res.send({wechatId: wechatId});
             }
             connection.release();
@@ -294,12 +294,12 @@ router.post('/shoppingDeleteAll', function (req, res, next) {
 //GET Shopping History
 router.post('/shoppingInsertHistory', function (req, res, next) {
     getConnection(function (err, connection) {
-	    var ProductSet = req.body;
+        var ProductSet = req.body;
         var wechatId = ProductSet.Wechat_Id; // wechat_id
-	    var prdctNm = ProductSet.Prdct_Nm; // product Id
+        var prdctNm = ProductSet.Prdct_Nm; // product Id
         var prdctCnt = ProductSet.Prdct_Cnt; // product count
 
-	    // Insert Shopping Buy History
+        // Insert Shopping Buy History
         var historyQuery = 'insert into TB_SHOPPING_BUY_HIS (USER_WECHAT_ID, BUY_PRDCT_NM, BUY_SHOPPING_CNT) values ("' + wechatId + '", "' +  prdctNm + '", ' + prdctCnt + ')';
 
         connection.query(historyQuery, function (err, row) {
@@ -308,7 +308,7 @@ router.post('/shoppingInsertHistory', function (req, res, next) {
                 throw err;
             } else {
                 console.log("### Insert Shopping Buy History ###");
-				//console.log("### Data Success ### " + JSON.stringify(row));		
+                //console.log("### Data Success ### " + JSON.stringify(row));
                 res.send({wechatId: wechatId});
             }
             connection.release();
@@ -323,9 +323,9 @@ router.get('/shoppingBuySum', function (req, res, next) {
         var prdctId = req.query.prdct_id; // product Id
         var price = req.query.price; // product price
         var prdctCnt = req.query.prdct_cnt; // product count
-        
-		// Shopping Buy Sum
-		var sumQuery = 'select * from TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
+
+        // Shopping Buy Sum
+        var sumQuery = 'select * from TB_SHOPPING_BUY_LIST as TSBL where TSBL.DEL_YN = "N" AND TSBL.USER_WECHAT_ID = ?';
         connection.query(sumQuery, wechatId, function (err, row) {
             if (err) {
                 console.error("[Shopping Buy Sum] Select Shopping Buy Sum Error : " + err);
