@@ -15,8 +15,7 @@ router.get('/', function (req, res, next) {
 });
 
 //POST get my current location
-router.post('/currentLocation', function (req, res, next) {
-    var host = 'Http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + req.body.lat +',' + req.body.lng + '&output=xml&pois=1&ak=' + config.ak;
+router.post('/currentLocation', function (req, res, next) { var host = 'Http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + req.body.lat +',' + req.body.lng + '&output=xml&pois=1&ak=' + config.ak;
     request.get({'url': host}, function(error, request, body) {
         if (!error) {
             var parser = new xml2js.Parser();
@@ -27,6 +26,7 @@ router.post('/currentLocation', function (req, res, next) {
             });
         }
     });
+
 })
 
 //POST foodShopList
