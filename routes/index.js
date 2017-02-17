@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
                       taxi = addr;
                   }
 
-                  var host = 'http://api.map.baidu.com/geocoder/v2/?address='+ addr+ '&output=json&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU&callback=showLocation';
+                  var host = 'http://api.map.baidu.com/geocoder/v2/?address='+addr.trim+'&output=json&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU&callback=showLocation';
                   request.get({'url': host}, function(error, request, body) {
                       if (!error) {
                           console.log('addr ::::::: ', JSON.parse(body))  ;
