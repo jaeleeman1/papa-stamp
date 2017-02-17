@@ -181,8 +181,12 @@
 
                 $("#openIdTaxi").find("option").filter(function(index) {
                     console.log("1111  data.toNickName==", data.toNickName);
+
                     if(data.toNickName == $(this).text()){
                         console.log("2222 data.toNickName==", data.toNickName);
+
+                        console.log(" 1-1 data.toNickName == $(this).text()", data.toNickName == $(this).text());
+                        console.log(" 1-2 data.toNickName == $(this).text()", data.toNickName.trim == $(this).text().trim);
 
                         $.ajax({
                             url: 'http://nbnl.couphone.cn/wechat/saveMessage',
