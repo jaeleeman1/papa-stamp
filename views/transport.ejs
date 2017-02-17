@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/swiper.min.css">
     <style type="text/css">
-        #l-map{height:40%;width:100%;}
+        #l-map{height:300px;width:100%;}
         /*#r-result,#r-result table{width:100%;}*/
     </style>
     <script type="text/javascript" src="/js/ios_scalable.js"></script>
@@ -149,13 +149,14 @@
             departlng = $('#departWalkingLong').val();
             arrivelat = $('#arriveWalkingLat').val();
             arrivelng = $('#arriveWalkingLong').val();
-
+            console.log('walking', $('#transportType').val());
         } else if($('#transportType').val() == 'driving') {
             transportWay = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             departlat = $('#departDrivingLat').val();
             departlng = $('#departDrivingLong').val();
             arrivelat = $('#arriveDrivingLat').val();
             arrivelng = $('#arriveDrivingLong').val();
+            console.log('driving', $('#transportType').val());
         }
 
         console.log('##############departlat', departlat );
