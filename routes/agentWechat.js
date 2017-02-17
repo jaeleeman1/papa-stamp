@@ -10,7 +10,6 @@ var express = require('express'),
     path = require('path'),
     http = require('http');
 
-var weixin = require('weixin-api');
 var ACCESS_TOKEN = new Object();
 var RETURN_DATA = new Object();
 
@@ -372,24 +371,9 @@ router.post('/shoppingResultSend', function (req, res, next) {
     shoppingResult += "\n 합계 ￥" + total_amount ;
     shoppingResult += '\n -------------------------------- \n';
 
-    var sendMassage = {
-        fromUserName : "nbnl-server",
-        toUserName : ProductSet.User_Open_Id,
-        msgType : "text",
-        content : shoppingResult,
-        funcFlag : 0
-    };
-
-    weixin.sendMsg(sendMassage);
-    // api.sender.shoppingResSend(req, res, next)
-    // {
-    //     console.log(res.statusCode);
-    //     if (res.statusCode != 200) {
-    //         console.log('##### SEND ERROR  #####');
-    //     }
-    //
-    //     res.status(200).send('Send Sucess');
-    // }
+    wechatAPI.sendText(ProductSet.User_Open_Id, shoppingResult, function(){
+        console.log('complete shopping message');
+    });
 });
 
 // get follower sessionList
