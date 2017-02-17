@@ -26,10 +26,37 @@ router.get('/', function(req, res, next) {
                       taxi = addr;
                   }
 
-                  var host = 'http://api.map.baidu.com/geocoder/v2/?address='+addr.trim+'&output=json&ak=HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU&callback=showLocation';
+                  var ak = 'HzG9TZi2bzeiGmAPQyV0eAPYzea02TbU';
+                  var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + addr.trim + '&output=json&ak=' + ak + '&callback=showLocation';
                   request.get({'url': host}, function(error, request, body) {
                       if (!error) {
-                          console.log('addr ::::::: ', JSON.parse(body))  ;
+
+                          var data = body;
+                          var json1 = data.split('(');
+                          var json2 = json1[1].split(')');
+                          var jsonBody = JSON.parse(json2[0]);
+
+                          var lngAddr = jsonBody.result.location.lng;
+                          var latAddr = jsonBody.result.location.lat;
+
+                          var host = 'http://api.map.baidu.com/geocoder/v2/?address=' + taxi.trim + '&output=json&ak=' + ak + '&callback=showLocation';
+                          request.get({'url': host}, function(error, request, body) {
+                              if (!error) {
+
+                                  var data = body;
+                                  var json1 = data.split('(');
+                                  var json2 = json1[1].split(')');
+                                  var jsonBody = JSON.parse(json2[0]);
+
+                                  var lngTaxi = jsonBody.result.location.lng;
+                                  var latTaxi = jsonBody.result.location.lat;
+
+                                  console.log('lngAddr', lngAddr);
+                                  console.log('latAddr', latAddr);
+                                  console.log('lngTaxi', lngTaxi);
+                                  console.log('latTaxi', latTaxi);
+                              }
+                          });
                       }
                   });
               }
