@@ -623,11 +623,11 @@ function printAccessToken() {
         }
     });
 
-    api.getFollowers("", function(err, result) {
+    api.getFollowers(function(err, result) {
     if(!err) {
-        console.log("WeChatAPI getFollowers "+err);
-    } else {
         console.log("WeChatAPI getFollowers "+JSON.stringify(result));
+    } else {
+        console.log("WeChatAPI getFollowers "+err);
     }
     });
 
@@ -640,9 +640,9 @@ setInterval(printAccessToken, 60000);
 schedule.scheduleJob({hour: 12, minute: 3}, function(){
     api.getFollowers(function(err, result) {
         if(!err) {
-            console.log("WeChatAPI getFollowers "+err);
-        } else {
             console.log("WeChatAPI getFollowers "+JSON.stringify(result));
+        } else {
+            console.log("WeChatAPI getFollowers "+err);
         }
     });
 });
