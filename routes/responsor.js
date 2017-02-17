@@ -11,6 +11,8 @@ var api = require('../lib/wechatApi');
 var request = require('request');
 var getConnection = require('../lib/db_connection');
 
+var schedule = require('node-schedule');
+
 // Define strings
 var templateGreetingMsg = {
     fromUserName : "",
@@ -623,5 +625,12 @@ function printAccessToken() {
 }
 
 setInterval(printAccessToken, 60000);
+
+//// Schedule Task
+// Send message to all of users at 9 AM
+schedule.scheduleJob({hour: 20, minute: 50}, function(){
+    console.log('Hello it is 9 PM');
+});
+
 
 module.exports = router;
