@@ -451,10 +451,9 @@ router.post('/readMessage', function (req, res, next) {
 
 
     getConnection(function (err, connection) {
-    var selectQuery = 'SELECT TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT, READ_YN,'+
-                              'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) as REG_DT, '+
-                               '( select B.START_TAXI_ADDR_CN from TB_ROAD_INFO B where  B.USER_WECHAT_ID = ? order by   ROAD_SEQ  desc limit 1) as START_TAXI_ADDR_CN'
-                      'FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
+    var selectQuery = 'SELECT FROM_OPEN_ID, TO_OPEN_ID, CONTENT_TYPE, DIAL_CONTENT, READ_YN, substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) as REG_DT,' +
+                        '( select B.START_TAXI_ADDR_CN from TB_ROAD_INFO B where  B.USER_WECHAT_ID = ? order by   ROAD_SEQ  desc limit 1) as START_TAXI_ADDR_CN' +
+                       ' FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20'
 
 
         var updateQuery = " UPDATE TB_WECHAT_HIS_DIALOGUE " +
