@@ -34,8 +34,6 @@
                                 $('#openIdTaxi').append('<option value=' + openId + ','+wechatId + '>' + wechatId + '</option>');
                             });
 
-//			    $("#userList option:eq(0)").prop("selected", true);
-
                             $('#userList').click(function(){
                                 var openWechatId = $('#openIdTaxi').val().split(',');
 
@@ -52,6 +50,12 @@
                                         if(data.length == 0){
                                             $("#sendId").text('');
                                         }else {
+											if(data.contentType == 'taxi'){
+											    $('#startAddCn').val(data.address);
+											}else{
+                                                $('#startAddCn').val('');
+											}
+
                                             $("#sendId").empty();
                                             $.each(data.data, function (index, value) {
                                                 var readYN = '';
@@ -185,22 +189,11 @@
                     if(data.toNickName == $(this).text()){
 
                         var turnRed = (data.toNickName == $(this).text());
-                        console.log("2222 data.toNickName==", data.toNickName);
-
-                        console.log(" 1-1 data.toNickName == $(this).text()", data.toNickName == $(this).text());
-                        console.log(" 1-2 data.toNickName == $(this).text()", data.toNickName.trim == $(this).text().trim);
-                        console.log(" 1-3 turnRed", turnRed);
-
                         $.ajax({
                             url: 'http://nbnl.couphone.cn/wechat/saveMessage',
                             type: 'POST',
                             data: data,
                             success: function (result) {
-//                                var content = {
-//                                    toNickName : data,
-//                                    type : 'turnRed'
-//                                };
-//                                socket.emit('nbnlServer', content);
 								return true;
                             },
                             error: function (request, status, error) {
@@ -210,25 +203,8 @@
                         });
                         return turnRed;
 					}
-
-
-
-                }).css("color", "red");;
+                }).css("color", "red");
             });
-
-//            socket.on('turnRed', function (data) {
-//                $("#openIdTaxi").find("option").filter(function(index) {
-//                    return data.toNickName.data == $(this).text();
-//                }).css("color", "red");
-//
-//                var nickName = $(this).text();
-//                setInterval(function() {
-//                    var blink = document.getElementById("blinkName");
-//                    $("#blinkText").text(nickName);
-//
-//                    blink.style.visibility = blink.style.visibility == "" ? "hidden" : ""
-//                }, 500);
-//            });
         });
 	</script>
 </head>

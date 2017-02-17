@@ -452,7 +452,8 @@ router.post('/readMessage', function (req, res, next) {
 
     getConnection(function (err, connection) {
     var selectQuery = 'SELECT  DIAL_SEQ,FROM_OPEN_ID, TO_OPEN_ID,  CONTENT_TYPE,  DIAL_CONTENT,READ_YN, DEL_YN, substr(REG_DT,1,19),'+
-                              'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT '+
+                              'substr(DATE_ADD( REG_DT , INTERVAL + 8 HOUR ),1,19) REG_DT, '+
+                               '( select B.START_TAXI_ADDR_CN from TB_ROAD_INFO B where  B.USER_WECHAT_ID = ? order by   ROAD_SEQ  desc limit 1) as START_TAXI_ADDR_CN'
                       'FROM TB_WECHAT_HIS_DIALOGUE WHERE FROM_OPEN_ID = ? and TO_OPEN_ID = ? order by REG_DT DESC LIMIT 20';
 
 
@@ -460,20 +461,18 @@ router.post('/readMessage', function (req, res, next) {
                             "  SET READ_YN = ? "+
                             " WHERE FROM_OPEN_ID = ? AND TO_OPEN_ID = ? AND READ_YN = 'false'";
 
-        connection.query(selectQuery, [agent, user], function (err, selectRow) {
+        connection.query(selectQuery, [user, agent, user], function (err, selectRow) {
             if ( err ) {
                 console.error("err : " + err);
                 throw err;
             } else {
-                console.log("selectRow.length : ", selectRow.length );
                 if (selectRow.length >  0) {
                     connection.query(updateQuery, ['true', agent, user], function (err, updateRow) {
                         if (err) {
                             console.error("err : " + err);
                             throw err;
                         } else {
-                            console.log(" time stamp: ", selectRow[0].REG_DT);
-                            res.send({data: selectRow, length: selectRow.length});
+                            res.send({data: selectRow, length: selectRow.length, contentType: selectRow[0].CONTENT_TYPE, address: selectRow[0].START_TAXI_ADDR_CN});
                         }
                     })
                 }else {
