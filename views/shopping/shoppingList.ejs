@@ -46,8 +46,7 @@
 
             if($("#buySum_price").val() == '0') {
                 var btnConfirm = document.getElementById("btn_confirm");
-                btnConfirm.removeAttribute("id");
-                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm">￥ <%= buySumPrice %> 구매</span></div></a>';
+                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm_zero">￥ 0 구매';
             }
         });
 
@@ -55,13 +54,14 @@
             var wechatId = $("#wechat_id").val();
             var buySum = $("#btn_confirm").text();
 //            console.log('url' + $("#url").val());
-            if($("#buySum_price").val() != '0') {
-                $("#btn_confirm").click(
-                    function() {
+            $("#btn_confirm").click(
+                function() {
+                    if($("#btn_confirm_zero").length == 0) {
                         openLayer('layerPurchasePop',300,50);
                     }
-                );
-            }
+                }
+            );
+
 
             $("#btn_purchase_confirm").click(
                 function() {
@@ -122,7 +122,7 @@
                                 type : 'saveMsg'
                             };
 
-                            socket.emit('nbnlServer', content);
+                            socket.emit('couphone0002', content);
 
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
@@ -186,9 +186,6 @@
 
             $("#btn_set_confirm").click(
                 function() {
-
-                    $("#set_cnt").text("1");
-
                     var buySumPrice = Number($("#buySum_price").val());
                     var selectPrdctId =$("#prdct_id").val();
                     var selectPrdctNm = $("#prdct_nm").val();
@@ -223,6 +220,13 @@
                             var btnCount = document.getElementById("btn_count");
                             btnCount.innerHTML = '<span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 '+ buyCount + '종';
 
+                            var btnConfirm = document.getElementById("btn_confirm");
+                            btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
+
+                            initCloseLayer('layerPop');
+                            $("#set_cnt").text("1");
+                            toastPopup();
+
                             $('#list_setting').append('<input type="hidden" name="prdct_nm_'+buyIncreaseCount+'" id="prdct_nm_'+buyIncreaseCount+'" value="'+selectPrdctNm+'"/>' +
                                 '<input type="hidden" name="prdct_cnt_'+buyIncreaseCount+'" id="prdct_cnt_'+buyIncreaseCount+'" value="'+selectPrdctCnt+'"/>' +
                                 '<input type="hidden" name="price_'+buyIncreaseCount+'" id="price_'+buyIncreaseCount+'" value="'+selectPrice+'"/>');
@@ -235,23 +239,23 @@
                         }
                     });
 
-                    var btnConfirm = document.getElementById("btn_confirm");
+//                    var btnConfirm = document.getElementById("btn_confirm");
 
-                    if(buySumPrice == 0) {
-                        var parentNode = btnConfirm.parentNode.parentNode;
-                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
+//                    if(buySumPrice == 0) {
+//                        var parentNode = btnConfirm.parentNode.parentNode;
+//                        parentNode.innerHTML = '<div class="price_buy" id="btn_confirm"><span class="ic_price">￥ '+ result + '</span>구매</div>'
+//
+//                        $("#btn_confirm").click(
+//                            function() {
+//                                openLayer('layerPurchasePop',300,50);
+//                            }
+//                        );
+//                    }else {
+//                        btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
+//                    }
 
-                        $("#btn_confirm").click(
-                            function() {
-                                openLayer('layerPurchasePop',300,50);
-                            }
-                        );
-                    }else {
-                        btnConfirm.innerHTML = '<span class="ic_price">￥ '+ result + '</span>구매';
-                    }
-
-                    initCloseLayer('layerPop');
-                    toastPopup();
+//                    initCloseLayer('layerPop');
+//                    toastPopup();
                 }
             );
 
@@ -262,6 +266,13 @@
                     }else {
                         $("#buy_list").submit();
                     }
+                }
+            );
+
+            $("#btn_cancel").click(
+                function() {
+                    initCloseLayer('layerPop');
+                    $("#set_cnt").text("1");
                 }
             );
         });
@@ -359,7 +370,7 @@
                 </ul>
                 <ul class="clear_both"></ul>
             </div>
-            <p class="btn_txt"><a href="#" onclick="initCloseLayer('layerPop')"><span>취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
+            <p class="btn_txt"><a href="#"><span id="btn_cancel">취소</span></a><a href="#"><span class="confirm" id="btn_set_confirm">확인</span></a></p>
         </div>
     </div>
 
@@ -375,6 +386,7 @@
     <div id="btn_buy">
         <a href="#"><div class="view_product" id="btn_count"><span class="ic_buy"><img src="/images/btn_ic_buy@3x.png"></span>상품 <%= buyCnt %>종</div></a>
         <a href="#"><div class="price_buy" id="btn_confirm"><span class="ic_price">￥ <%= buySumPrice %></span>구매</div></a>
+        <!--<div class="price_buy" id="btn_confirm_zero" style="overflow:hidden"><span class="ic_price">￥ 0 구매</span></div></a>-->
     </div>
 </div>
 </body>

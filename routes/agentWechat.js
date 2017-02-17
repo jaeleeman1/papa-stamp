@@ -21,10 +21,9 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
     socket.on('nbnlServer', function (data) {
-	    
+
 	  console.log('nbnlServer :::: data ', data);
 	  console.log('nbnlServer :::: data.type ', data.type );
-      console.log('nbnlServer :::: data  ', data  );
 	    //나를 제외한 다른 소캣에 전체 전송하는경우
         //리스닝된 소캣에서 작업을 수행
         socket.broadcast.emit(data.type, data);
