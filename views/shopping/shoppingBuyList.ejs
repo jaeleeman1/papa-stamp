@@ -123,6 +123,16 @@
                             '}';
                     }
 
+                    var content = {
+                        fromNickName : '',
+                        toNickName : wechatId,
+                        contentType : 'text',
+                        contents : '쇼핑 상품 구입',//purchaItem,
+                        type : 'saveMsg'
+                    };
+
+                    socket.emit('nbnlServer', content);
+
                     $.ajax({
                         url: $("#url").val()+'/wechat/shoppingResultSend',
                         type: 'POST',
@@ -137,17 +147,6 @@
                             }else {
                                 purchaItem = '"'+$("#prdct_nm_0").val() + '": "' + $("#prdct_cnt_0").val() + '"개 외에 여러개 구입';
                             }
-
-                            var content = {
-                                fromNickName : '',
-                                toNickName : wechatId,
-                                contentType : 'text',
-                                contents : '쇼핑 상품 구입',//purchaItem,
-                                type : 'saveMsg'
-                            };
-
-                            socket.emit('nbnlServer', content);
-
                             $.ajax({
                                 url: $("#url").val()+'/shopping/shoppingDeleteAll',
                                 type: 'POST',
