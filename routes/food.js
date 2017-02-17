@@ -70,28 +70,37 @@ router.post('/shopList', function (req, res, next) {
 
 //GET foodShop detail Information
 router.get('/shopInfo', function (req, res, next) {
+
+    var id = req.query.id; // foodList Id
+    var address = req.query.address; // foodList Id
+    var lat = req.query.lat; // foodList Id
+    var lng = req.query.lng; // foodList Id
+    var nickName = req.query.nickName;
+
     getConnection(function (err, connection) {
-        var query =  'select ? as ADDRESS, ? as LAT, ? as LNG, A.FOOD_ID, A.FOOD_NAME_CN, A.FOOD_NAME_KR, A.FOOD_TYPE_KR, A.CAPITA_PRICE, A.FOOD_SCOPE, A.BSNSS_TIME, B.FOOD_DIV,' +
+        var allInfoQuery =  'select ? as ADDRESS, ? as LAT, ? as LNG, A.FOOD_ID, A.FOOD_NAME_CN, A.FOOD_NAME_KR, A.FOOD_TYPE_KR, A.CAPITA_PRICE, A.FOOD_SCOPE, A.BSNSS_TIME, B.FOOD_DIV,' +
             'B.FOOD_MENU_CN, B.FOOD_MENU_KR, A.FOOD_ADDR_CN, A.TAXI_ADDR_CN, A.PHONE_NUM, A.DESCRIPTION from TB_FOOD_SHOP_LIST A, TB_FOOD_MENU B ' +
             'where A.FOOD_ID = B.FOOD_ID and A.FOOD_ID = ?';
-        var id = req.query.id; // foodList Id
-        var address = req.query.address; // foodList Id
-        var lat = req.query.lat; // foodList Id
-        var lng = req.query.lng; // foodList Id
-        var nickName = req.query.nickName;
 
-        connection.query(query, [address, lat, lng, id], function (err, rows) {
+        var imgQuery = 'select IMG_URL from TB_FOOD_SHOP_SUB_IMG where FOOD_ID = ?'
+
+        connection.query(allInfoQuery, [address, lat, lng, id], function (err, allInfoRows) {
             if (err) {
-                //  console.error("err : " + err);
+                 console.error("err : " + err);
                 throw err;
             }else{
-                // console.log("rows : " + JSON.stringify(rows));
-
-                if(rows.length > 0){
-                    res.render('foodShopInfo', {rows : rows, length:rows.length, nickName:nickName});
-                }else{
-                    res.render('foodShopList');
-                }
+                connection.query(imgQuery, [address, lat, lng, id], function (err, imgRows) {
+                    if (err) {
+                        //  console.error("err : " + err);
+                        throw err;
+                    }else{
+                        if(rows.length > 0){
+                            res.render('foodShopInfo', {rows : allInfoRows, length:allInfoRows.length, nickName:nickName, images : imgRows, imagesLength: imgRows.length});
+                        }else{
+                            res.render('foodShopList');
+                        }
+                    }
+                })
             }
             connection.release();
         })
