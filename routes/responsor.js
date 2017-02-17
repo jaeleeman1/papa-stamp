@@ -626,11 +626,12 @@ function printAccessToken() {
     api.getFollowers(function(err, result) {
         if(!err) {
             console.log("WeChatAPI getFollowers Success!!");
+            console.log(result.data.openid);
             api.massSendText("안녕히 주무세요!!!!!", result.data.openid, function(err0, result0){
                 if(!err0) {
-                    console.log(err);
+                    console.log(err0);
                 } else {
-                    console.log(JSON.stringify(result));
+                    console.log(JSON.stringify(result0));
                 }
             });
         } else {
