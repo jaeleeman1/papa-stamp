@@ -200,21 +200,23 @@
                             success: function (result) {
                                 // 자동 메시지 업데이트
 
-                                console.log('message update 1', $("#openIdTaxi").val());
-                                console.log('message update 2', data.toNickName);
-                                console.log('message update 3', $("#openIdTaxi").val() == data.toNickName);
+								if($('#openIdTaxi').val() != null || $('#openIdTaxi').val() != undefined){
+                                    var openWechatId = $('#openIdTaxi').val().split(',');
+                                    console.log('message update 1', openWechatId[1]);
+                                    console.log('message update 2', data.toNickName);
+                                    console.log('message update 3', $("#openIdTaxi").val() == data.toNickName);
 
-                                if($("#openIdTaxi").val() == data.toNickName){
-                                    readMessage();
+                                    if(openWechatId[1] == data.toNickName){
+                                        readMessage();
+                                    }
 								}
-								return true;
                             },
                             error: function (request, status, error) {
                                 console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                                 console.log('Error occured');
                             }
                         });
-//                        return turnRed;
+                        return turnRed;
 					}
                 }).css("color", "red");
             });
