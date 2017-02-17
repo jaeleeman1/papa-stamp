@@ -89,7 +89,7 @@ router.get('/shopInfo', function (req, res, next) {
                  console.error("err : " + err);
                 throw err;
             }else{
-                connection.query(imgQuery, [address, lat, lng, id], function (err, imgRows) {
+                connection.query(imgQuery, [id], function (err, imgRows) {
                     if (err) {
                         //  console.error("err : " + err);
                         throw err;
