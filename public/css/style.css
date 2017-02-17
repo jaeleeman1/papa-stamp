@@ -266,7 +266,7 @@ a:active{text-decoration:none; }
 /* 상호명없을시 */
 #map_body .none_restaurant {margin-top:12px; margin-bottom:15px}
 
-#map_img {height:100vh; position:relative; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover; }
+#map_img {height: 300px; position:relative; background-image: url('../images/google-map.png'); background-size:cover; -o-background-size: cover; }
 #map_img hr {position:absolute; top:130px; left:42px; width:170px; border-top: 4px solid #4990E2;}
 
 /**** 지도 Location 아이콘 ***/
