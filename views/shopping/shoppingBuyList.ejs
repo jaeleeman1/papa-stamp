@@ -35,7 +35,6 @@
     <script src="http://52.79.56.181:8060/socket.io/socket.io.js"></script>
 
     <script type ="text/javascript">
-        var socket = io.connect('http://52.79.56.181:8060');
         $( document ).ready(function() {
             if(performance.navigation.type != 1) {
                 location.reload();
@@ -48,6 +47,7 @@
         });
 
         $(function() {
+            var socket = io.connect('http://52.79.56.181:8060');
             var wechatId = $("#wechat_id").val();
             var buyLength = $("#length").val();
 

@@ -194,7 +194,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                                     throw err;
                                 } else {
                                     //console.log("### [Shopping Detail Insert] Insert Buy List Data Success ### " + JSON.stringify(row));
-                                    //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
+                                    res.send({wechatId: wechatId});
                                 }
                             });
                         }
@@ -208,7 +208,7 @@ router.post('/shoppingDetailInsert', function (req, res, next) {
                             throw err;
                         } else {
                             //console.log("### [Shopping Detail Insert] Insert Buy List Data Success ### " + JSON.stringify(row));
-                            //res.redirect('/shopping/shoppingDetail?wechat_id=' + wechatId + '&prdct_id=' + prdctId + '&toastStatus=show');
+                            res.send({wechatId: wechatId});
                         }
                     });
                 }
@@ -264,7 +264,7 @@ router.post('/shoppingDeleteProduct', function (req, res, next) {
                 throw err;
             } else {
                 //console.log("### [Shopping Delete Product] Delete Shopping Buy Product Data Success ### " + JSON.stringify(row));
-                //res.redirect('/shopping/shoppingBuyList?wechat_id=' + wechatId);
+                res.send({wechatId: wechatId});
             }
             connection.release();
         });
