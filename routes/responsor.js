@@ -627,7 +627,11 @@ function printAccessToken() {
         if(!err) {
             console.log("WeChatAPI getFollowers Success!!");
             api.massSendText("안녕히 주무세요!!!!!", result.data.openid, function(err0, result0){
-                
+                if(!err0) {
+                    console.log(err);
+                } else {
+                    console.log(JSON.stringify(result));
+                }
             });
         } else {
             console.log("WeChatAPI getFollowers "+err);
