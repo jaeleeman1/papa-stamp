@@ -45,8 +45,7 @@
             }
 
             if($("#buySum_price").val() == '0') {
-                var btnConfirm = document.getElementById("btn_confirm");
-                btnConfirm.innerHTML = '<span class="ic_price" id="btn_confirm_zero">￥ 0 구매';
+                var btnConfirm = $("#btn_confirm").css("color", "#9B9B9B");
             }
         });
 
@@ -56,7 +55,7 @@
 //            console.log('url' + $("#url").val());
             $("#btn_confirm").click(
                 function() {
-                    if($("#btn_confirm_zero").length == 0) {
+                    if($("#buySum_price").val() == '0') {
                         openLayer('layerPurchasePop',300,50);
                     }
                 }
