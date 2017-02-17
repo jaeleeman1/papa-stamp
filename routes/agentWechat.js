@@ -374,6 +374,8 @@ router.post('/shoppingResultSend', function (req, res, next) {
     wechatAPI.sendText(ProductSet.User_Open_Id, shoppingResult, function(){
         console.log('complete shopping message');
     });
+
+    res.status(200).send('Send Sucess');
 });
 
 // get follower sessionList
