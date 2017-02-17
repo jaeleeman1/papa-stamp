@@ -628,8 +628,14 @@ setInterval(printAccessToken, 60000);
 
 //// Schedule Task
 // Send message to all of users at 9 AM
-schedule.scheduleJob({hour: 20, minute: 50}, function(){
-    console.log('Hello it is 9 PM');
+schedule.scheduleJob({hour: 12, minute: 3}, function(){
+    api.getFollowers(function(err, result) {
+        if(!err) {
+            console.log("WeChatAPI getFollowers "+err);
+        } else {
+            console.log("WeChatAPI getFollowers "+JSON.stringify(result));
+        }
+    });
 });
 
 
