@@ -20,14 +20,13 @@ var httpServer = http.createServer(app).listen(8060, function(req,res){
 
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection', function (socket) {
-    socket.on('nbnlServer', function (data, fn) {
+    socket.on('nbnlServer', function (data) {
 
         console.log('nbnlServer :::: data ', data);
 	    console.log('nbnlServer :::: data.type ', data.type );
 	    //나를 제외한 다른 소캣에 전체 전송하는경우
         //리스닝된 소캣에서 작업을 수행
         socket.broadcast.emit(data.type, data);
-        fn(true);
         //내 소켓이 아닌 다른 특정 소켓에게 이벤트를 보내는 방법
         //  sockets(socket_id).emit('이벤트명',function(data){ });
 
