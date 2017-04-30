@@ -6,15 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var food = require('./routes/food');
-var taxi = require('./routes/taxi');
-var shopping = require('./routes/shopping');
-var wechat = require('./routes/wechat');
-var agentWechat = require('./routes/agentWechat');
-var dbApi = require('./routes/dbApi');
-var mapTest = require('./routes/mapTest'); // 테스트 후 삭제 예정
-var responsor = require('./routes/responsor'); // Will be removed after test
+var event = require('./routes/event');
 
 // app express
 var app = express( );
@@ -32,15 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/index', index);
-app.use('/users', users);
-app.use('/food', food);
-app.use('/taxi', taxi);
-app.use('/shopping', shopping);
-app.use('/', wechat);
-app.use('/wechat', agentWechat);
-app.use('/api', dbApi);
-app.use('/mapTest', mapTest);
-app.use('/responsor', responsor);
+app.use('/event', event);
 
 
 // catch 404 and forward to error handler

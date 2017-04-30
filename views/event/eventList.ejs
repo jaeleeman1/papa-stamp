@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<!--
+	ZeroFour by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>No Sidebar - ZeroFour by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Scripts -->
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.dropotron.min.js"></script>
+    <script src="/assets/js/skel.min.js"></script>
+    <script src="/assets/js/skel-viewport.min.js"></script>
+    <script src="/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="/assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="/assets/js/main.js"></script>
+
+
+
+
+    <!--[if lte IE 8]><script src="/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
+    <script type ="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type ="text/javascript">
+        $(function() {
+            var lottoData = numberWithCommas($("#lottoWin").val());
+            document.getElementById("lottoWinText").innerHTML = '1등 당첨금 : '+ lottoData + '원';
+        });
+
+        function numberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAn_RTcg2y4ek16TUM-R0aMjCZ_ILFUCZQ",
+            authDomain: "web-quick-386a3.firebaseapp.com",
+            databaseURL: "https://web-quick-386a3.firebaseio.com",
+            projectId: "web-quick-386a3",
+            storageBucket: "web-quick-386a3.appspot.com",
+            messagingSenderId: "653680124187"
+        };
+        firebase.initializeApp(config);
+
+        const messaging = firebase.messaging();
+        messaging.requestPermission()
+            .then(function () {
+                console.log('Have permission');
+                return messaging.getToken();
+            })
+            .then(function (token) {
+                console.log(token);
+            }).catch(function () {
+                console.log('Error');
+            })
+
+        messaging.onMessage(function (payload) {
+            console.log('onMessage : ', payload);
+        })
+    </script>
+</head>
+
+<form style="display:none" name="event_list" id="event_list">
+    <input type="hidden" name="lottoWin" id="lottoWin" value="<%= lottoData.EVENT_PRODUCT %>"/>
+</form>
+
+<body class="no-sidebar">
+<div id="page-wrapper">
+    <!-- Header Wrapper -->
+    <div id="header-wrapper">
+        <div class="container">
+
+            <!-- Header -->
+            <header id="header">
+                <div class="inner">
+
+                    <!-- Logo -->
+                    <h1><a href="#" id="logo">벤디</a></h1>
+
+                    <!-- Nav -->
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="/event/eventHome">Home</a></li>
+                            <li>
+                                <a href="/event/eventList">List</a>
+                                <ul>
+                                    <li><a href="/event/eventMap">Current Map</a></li>
+                                    <li><a href="#">Insert Data</a></li>
+                                    <li>
+                                        <a href="#">list</a>
+                                        <ul>
+                                            <li><a href="/event/insertData1">lotto event</a></li>
+                                            <li><a href="/event/insertData2">annual event</a></li>
+                                            <li><a href="/event/insertData3">위도, 경도</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Veroeros feugiat</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                            <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                            <li class="current_page_item"><a href="no-sidebar.html">No Sidebar</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </header>
+
+        </div>
+    </div>
+    <!-- Main Wrapper -->
+    <div id="main-wrapper">
+        <div class="wrapper style3">
+            <div class="inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="8u 12u(mobile)">
+
+                            <!-- Article list -->
+                            <section class="box article-list">
+                                <h2 class="icon fa-file-text-o">벤디 이벤트</h2>
+                                <p>주위에 판매점이 어디에 있을까요?
+                                    <a href="http://plus.kakao.com/home/@벤디" style="float:right">
+                                        <span>벤디로 복권 당첨 정보를 받으세요.</span>
+                                        <img class="lotto_number_detail" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/event/kakao.png"/>
+                                    </a>
+                                </p>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <a href="/event/lottoLocation" class="image left"><img src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/<%= lottoData.EVENT_IMAGE %>"/></a>
+                                    <div>
+                                        <header>
+                                            <span class="date">추첨일 <%= lottoData.EVENT_WIN_DATE %></span>
+                                            <h3><%= lottoData.EVENT_WIN_SEQ %> 회차</h3>
+                                        </header>
+                                        <% var lottoWinData = lottoData.EVENT_WIN.split('#%&') %>
+                                        <img class="lotto_number" id="img1" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[0] %>.png">
+                                        <img class="lotto_number" id="img2" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[1] %>.png">
+                                        <img class="lotto_number" id="img3" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[2] %>.png">
+                                        <img class="lotto_number" id="img4" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[3] %>.png">
+                                        <img class="lotto_number" id="img5" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[4] %>.png">
+                                        <img class="lotto_number" id="img6" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[5] %>.png">
+                                        <img class="add_card" id="add_card" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto_add.png" class="add_card" id="lotto_add">
+                                        <img class="lotto_number" id="imgBonus" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number<%= lottoWinData[6] %>.png">
+                                    </div>
+                                    <span class="date" id="lottoWinText"></span>
+                                </article>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <a href="/event/annualLocation" class="image left"><img src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/<%= annualpensionData.EVENT_IMAGE %>"/></a>
+                                    <div>
+                                        <header>
+                                            <span class="date">추첨일 <%= annualpensionData.EVENT_WIN_DATE %></span>
+                                            <h3><a href="#"><%= annualpensionData.EVENT_WIN_SEQ %> 회차</a></h3>
+                                        </header>
+                                        <% var annualpensionSplitData = annualpensionData.EVENT_WIN.split('$^*') %>
+                                        <li>
+                                            <img class="annualpension_number" id="img1_jo" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-jo-number<%= annualpensionSplitData[0].charAt(0) %>.png"><span class="annualpension-jo"> 조</span>
+                                            <img class="annualpension_number" id="img1-1" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(1) %>.png">
+                                            <img class="annualpension_number" id="img1-2" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(2) %>.png">
+                                            <img class="annualpension_number" id="img1-3" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(3) %>.png">
+                                            <img class="annualpension_number" id="img1-4" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(4) %>.png">
+                                            <img class="annualpension_number" id="img1-5" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(5) %>.png">
+                                            <img class="annualpension_number" id="img1-6" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[0].charAt(6) %>.png">
+                                        </li>
+                                        <li>
+                                            <img class="annualpension_number" id="img2_jo" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-jo-number<%= annualpensionSplitData[1].charAt(0) %>.png"><span class="annualpension-jo"> 조</span>
+                                            <img class="annualpension_number" id="img2-1" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(1) %>.png">
+                                            <img class="annualpension_number" id="img2-2" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(2) %>.png">
+                                            <img class="annualpension_number" id="img2-3" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(3) %>.png">
+                                            <img class="annualpension_number" id="img2-4" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(4) %>.png">
+                                            <img class="annualpension_number" id="img2-5" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(5) %>.png">
+                                            <img class="annualpension_number" id="img2-6" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/annualpension/annual-number<%= annualpensionSplitData[1].charAt(6) %>.png">
+                                        </li>
+                                    </div>
+                                    <span class="date">1등 당첨금 : <%= annualpensionData.EVENT_PRODUCT %></span>
+                                </article>
+
+                                <!-- Excerpt -->
+                                <!--<article class="box excerpt">
+                                    <a href="/event/starbucksLocation" class="image left"><img src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/starbucks/<%= starbucksData.EVENT_IMAGE %>"/></a>
+
+                                    <div>
+
+
+
+                                    </div>
+                                    <span class="date" id="lottoWinText"></span>
+                                </article>-->
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <footer>
+                                        <a href="#" class="button alt icon fa-file-o">준비중...</a>
+                                    </footer>
+                                </article>
+
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
