@@ -8,6 +8,16 @@ var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 
 //GET foods List
+router.get('/foodShop', function (req, res, next) {
+    res.render('foods/foodShop', {url:config.url});
+});
+
+
+
+
+
+
+//GET foods List
 router.get('/foodsHome', function (req, res, next) {
     res.render('foods/foodsHome', {url:config.url});
 });
@@ -32,11 +42,6 @@ router.get('/foodsList', function (req, res, next) {
             connection.release();
         });
     });
-});
-
-//GET foods List
-router.get('/foodsMap', function (req, res, next) {
-    res.render('foods/foodsMapList', {url:config.url});
 });
 
 //GET foods List
