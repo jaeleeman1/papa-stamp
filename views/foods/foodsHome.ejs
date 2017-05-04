@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<!--
+	ZeroFour by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>No Sidebar - ZeroFour by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="/assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="/assets/css/ie9.css" /><![endif]-->
+
+    <style>
+        ul.tabs {
+            margin: 0;
+            padding: 0;
+            float: left;
+            list-style: none;
+            height: 32px;
+            border-bottom: 1px solid #eee;
+            border-left: 1px solid #eee;
+            width: 100%;
+            font-family:"dotum";
+            font-size:12px;
+        }
+        ul.tabs li {
+            float: left;
+            text-align:center;
+            cursor: pointer;
+            width:135px;
+            height: 31px;
+            line-height: 31px;
+            border: 1px solid #eee;
+            border-left: none;
+            font-weight: bold;
+            background: #fafafa;
+            overflow: hidden;
+            position: relative;
+        }
+        ul.tabs li.active {
+            background: #EEEEEE;
+            border-bottom: 1px solid #333333;
+        }
+        .tab_content {
+            padding: 5px;
+            font-size: 12px;
+            display: none;
+        }
+        .text-style {
+            background-color:#EEEEEE;
+            border-top: 0px solid #646464;
+            border-bottom:1px solid #FF6464;
+            border-left:0px solid #646464;
+            border-right:0px solid #646464;
+            color:#886600;
+            font-size: 20px;
+            font-family: verdana
+        }
+
+        .radio-style {
+            margin-right:15px;
+            font-size: 18px;
+        }
+    </style>
+
+</head>
+
+<body class="no-sidebar">
+<div id="page-wrapper">
+    <!-- Header Wrapper -->
+    <div id="header-wrapper">
+        <div class="container">
+
+            <!-- Header -->
+            <header id="header">
+                <div class="inner">
+
+                    <!-- Logo -->
+                    <h1><a href="#" id="logo">벤디</a></h1>
+
+                    <!-- Nav -->
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="/event/eventHome">Home</a></li>
+                            <li>
+                                <a href="/event/eventList">List</a>
+                                <!--<ul>
+                                    <li><a href="/event/eventMap">Current Map</a></li>
+                                    <li><a href="#">Insert Data</a></li>
+                                    <li>
+                                        <a href="#">list</a>
+                                        <ul>
+                                            <li><a href="/event/insertData1">lotto event</a></li>
+                                            <li><a href="/event/insertData2">annual event</a></li>
+                                            <li><a href="/event/insertData3">위도, 경도</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Veroeros feugiat</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                            <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                            <li class="current_page_item"><a href="no-sidebar.html">No Sidebar</a>-->
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </header>
+
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div id="main-wrapper">
+        <div class="wrapper style3">
+            <div class="inner">
+                <div class="container">
+                    <div class="row">
+                        <ul class="tabs">
+                            <li class="active" rel="tab1">대기현황</li>
+                            <li rel="tab2">메뉴정보</li>
+                            <li rel="tab3">업체정보</li>
+                        </ul>
+
+                        <div id="tab1" class="4u 12u(mobile) tab_content">
+                            <!-- Spotlight -->
+                            <section class="box spotlight">
+                                <h2 class="icon fa-file-text-o">대기 현황</h2>
+                                <article>
+                                    <header>
+                                        <h3 style="text-align: center"><a href="#">대기 번호</a></h3>
+                                        <a href="#" class="image featured"><img src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number3.png" alt=""></a>
+                                    </header>
+
+                                    <div>
+                                        <header style="float: left">
+                                            <h3><a href="#">성함</a></h3>
+                                            <input class="text-style" type="text" value="" size="12">
+                                        </header>
+
+                                        <header style="float: right">
+                                            <h3><a href="#">인원</a></h3>
+                                            <input type="radio" name="check_cnt" value="1"><span class="radio-style">1</span>
+                                            <input type="radio" name="check_cnt" value="2" checked="checked"><span class="radio-style">2</span>
+                                            <input type="radio" name="check_cnt" value="3"><span class="radio-style">3</span>
+                                            <input type="radio" name="check_cnt" value="4"><span class="radio-style">4</span>
+                                        </header>
+                                    </div>
+                                </article>
+
+                                <footer>
+                                    <a href="#" class="button alt icon fa-file-o">Continue Reading</a>
+                                </footer>
+
+                            </section>
+
+                        </div>
+
+                        <div id="tab2" class="8u 12u(mobile) tab_content">
+                            <!-- Article list -->
+                            <section class="box article-list">
+                                <h2 class="icon fa-file-text-o">Recent Posts</h2>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <a href="#" class="image left"><img src="images/pic04.jpg" alt="" /></a>
+                                    <div>
+                                        <header>
+                                            <span class="date">July 24</span>
+                                            <h3><a href="#">Repairing a hyperspace window</a></h3>
+                                        </header>
+                                        <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
+                                            semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
+                                            feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
+                                    </div>
+                                </article>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <a href="#" class="image left"><img src="images/pic05.jpg" alt="" /></a>
+                                    <div>
+                                        <header>
+                                            <span class="date">July 18</span>
+                                            <h3><a href="#">Adventuring with a knee injury</a></h3>
+                                        </header>
+                                        <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
+                                            semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
+                                            feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
+                                    </div>
+                                </article>
+
+                                <!-- Excerpt -->
+                                <article class="box excerpt">
+                                    <a href="#" class="image left"><img src="images/pic06.jpg" alt="" /></a>
+                                    <div>
+                                        <header>
+                                            <span class="date">July 14</span>
+                                            <h3><a href="#">Preparing for Y2K38</a></h3>
+                                        </header>
+                                        <p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
+                                            semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
+                                            feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
+                                    </div>
+                                </article>
+
+                                <footer>
+                                    <a href="#" class="button alt icon fa-file-o">Continue Reading</a>
+                                </footer>
+
+                            </section>
+                        </div>
+
+                        <div id="tab3" class="4u 12u(mobile) tab_content">
+                            <!-- Spotlight -->
+                            <section class="box spotlight">
+                                <article>
+
+                                    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+                                    <div class="custom_zoomcontrol radius_border">
+                                        <span onclick="zoomIn()"><img src="http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
+                                        <span onclick="zoomOut()"><img src="http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+                                    </div>
+
+                                    <div id="map" style="width:100%;height:650px;"></div>
+
+                                    <div id="restaurant_list_wrap" style="height: 479px;">
+                                        <div id="restaurant_find_local_list_wrap_box">
+                                            <div id="restaurant_find_local_list">
+                                                <div class="fir"><span class="ic_last_pin">1</span></div>
+                                                <div class="sec">
+                                                    <ul class="info"><li class="res_name">上海老饭店<span class="kor">(상하이 라오판디엔)</span></li>
+                                                        <li class="price">상해 요리</li>
+                                                        <li class="star">
+                                                            <span class="txt">4 ・ 153원 / 人</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="thi" onclick="testAllert();">
+                                                    <span class="icon"><img src="/images/btn_ic_direction@3x.png"></span>
+                                                    <span class="distance">0.3 km</span>
+                                                </div>
+                                                <div class="clear_both"></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="restaurant_find_local_list_wrap_box">
+                                            <div id="restaurant_find_local_list">
+                                                <div class="fir"><span class="ic_last_pin">2</span></div>
+                                                <div class="sec">
+                                                    <ul class="info"><li class="res_name">南翔馒头 豫园店<span class="kor">(난샹만토우 예원점)</span></li>
+                                                        <li class="price">딤섬/샤오롱바오</li>
+                                                        <li class="star">
+                                                            <span class="txt">3.5 ・ 74원 / 人</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="thi" onclick="document.getElementById('transport1').submit();">
+                                                    <span class="icon"><img src="/images/btn_ic_direction@3x.png"></span>
+                                                    <span class="distance">0.4 km</span>
+                                                </div>
+                                                <div class="clear_both"></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="restaurant_find_local_list_wrap_box">
+                                            <div id="restaurant_find_local_list">
+                                                <div class="fir"><span class="ic_last_pin">3</span></div>
+                                                <div class="sec">
+                                                    <ul class="info"><li class="res_name">花马天堂云南餐厅(外滩店)<span class="kor">(로스크헤븐 외탄점)</span></li>
+                                                        <li class="price">운남요리</li>
+                                                        <li class="star">
+                                                            <span class="txt">4.5 ・ 200원 / 人<</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="thi" onclick="document.getElementById('transport1').submit();">
+                                                    <span class="icon"><img src="/images/btn_ic_direction@3x.png"></span>
+                                                    <span class="distance">0.6 km</span>
+                                                </div>
+                                                <div class="clear_both"></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="restaurant_find_local_list_wrap_box">
+                                            <div id="restaurant_find_local_list">
+                                                <div class="fir"><span class="ic_last_pin">4</span></div>
+                                                <div class="sec">
+                                                    <ul class="info"><li class="res_name">外滩店<span class="kor">외탄점</span></li>
+                                                        <li class="price">중국요리</li>
+                                                        <li class="star">
+                                                            <span class="txt">4.5 ・ 200원 / 人<</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="thi" onclick="document.getElementById('transport1').submit();">
+                                                    <span class="icon"><a href="http://map.daum.net/?map_type=TYPE_SKYVIEW&map_hybrid=true&target=car&sX=500899&sY=1121940&eX=501611&eY=1120655&sName=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%9A%A9%EC%82%B0%EA%B5%AC%20%ED%95%9C%EB%82%A8%EB%8F%99&eName=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%9A%A9%EC%82%B0%EA%B5%AC%20%ED%95%9C%EB%82%A8%EB%8F%99">
+                                                            <img src="/images/btn_ic_direction@3x.png"></a></span>
+                                                    <span class="distance">0.6 km</span>
+                                                </div>
+                                                <div class="clear_both"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <footer>
+                                        <a href="#" class="button alt icon fa-file-o">Continue Reading</a>
+                                    </footer>
+                                </article>
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="snackbar">해당 정보가 없습니다.</div>
+</div>
+
+<!-- Scripts -->
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.dropotron.min.js"></script>
+<script src="/assets/js/skel.min.js"></script>
+<script src="/assets/js/skel-viewport.min.js"></script>
+<script src="/assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="/assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="/assets/js/main.js"></script>
+<script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=076df8cf69c376d5065c3bc99891a438&libraries=clusterer,services"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<script>
+    $(function () {
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+
+        $("ul.tabs li").click(function () {
+            $("ul.tabs li").removeClass("active").removeAttr("style");
+
+            $(this).addClass("active").css("border-bottom", "1px solid #333333");
+            $(".tab_content").hide()
+            var activeTab = $(this).attr("rel");
+            $("#" + activeTab).fadeIn()
+        });
+    });
+</script>
+</body>
+</html>
