@@ -4,10 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var index = require('./routes/index');
 var foods = require('./routes/foods');
-
+var admin = require('./routes/admin');
 // app express
 var app = express( );
 
@@ -23,9 +24,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//session
+app.use(session({
+    secret: 'keyboard cat',
+    //store: new redisStore({host:'couphone-redis-0001-001.jh3alo.0001.apn2.cache.amazonaws.com', port:6379, client: client}),
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use('/index', index);
 app.use('/foods', foods);
-
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -7,7 +7,7 @@ var cheerio = require("cheerio");
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 
-//GET foods List
+//GET Food Shop init
 router.get('/foodShop', function (req, res, next) {
     res.render('foods/foodShop', {url:config.url});
 });
