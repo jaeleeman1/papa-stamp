@@ -32,7 +32,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use('/index', index);
+app.use('/', index);
 app.use('/foods', foods);
 app.use('/admin', admin);
 

@@ -253,6 +253,7 @@ ul.multi-column-dropdown h6 {
 }
 .banner-text h2 span {
     font-weight: 100;
+    font-size: 13px;
     font-family: 'Yantramanav', sans-serif;
     letter-spacing: 0px;
     text-transform: lowercase;
@@ -442,7 +443,7 @@ h3.w3ls-title {
     text-align: center;
 }
 p.w3lsorder-text {
-    margin-bottom: 5em;
+    margin-bottom: -3em;
     text-align: center;
     margin-top: 1em;
 }
@@ -1889,15 +1890,14 @@ p.single-price-text {
     margin-bottom: 0.6em;
     text-transform: uppercase;
 }
-.map iframe {
+.map_wrap{
     width: 100%;
-    min-height: 500px;
-    border: none; 
-	margin-bottom: -.5em;
+    min-height: 450px;
+    border: none;
 }
 
-.map.agileits {
-    padding-top: 25em; 
+.map_wrap.agileits {
+    padding-top: 0.2em;
 }
 .contact {
     position: relative;
@@ -2797,7 +2797,7 @@ h3.w3ls-title.w3ls-title1 {
     padding: 0;
 }
 .banner.about-w3bnr .banner-text {
-    padding: 4em 0;
+    padding: 2em 0;
 }
 .navbar-right .dropdown-menu { 
     top: 183%;
@@ -2881,7 +2881,7 @@ ul.nav.navbar-nav.navbar-right {
     padding: 4em 0;
 }
 p.w3lsorder-text {
-    margin-bottom: 4em; 
+    margin-bottom: -3em;
 }
 .spldishes-w3left {
     padding: 3em 2em;
@@ -3206,7 +3206,7 @@ ul.nav.navbar-nav.navbar-right {
     padding: 0.6em 0;
 }
 .add-products, .wthree-order, .w3agile-deals, .w3agile-spldishes, .wthree-menu, .products, .about, .contact, .codes {
-    padding: 3em 0;
+    padding: 2em 0;
 }
 .dropdown-menu.columns-3 {
     min-width: 370px; 
@@ -3440,8 +3440,8 @@ h3.w3ls-title {
     font-size: 1.2em;
 }
 .contact-row.agileits-w3layouts {
-    width: 93%;
-    left: 3%;
+    width: 97.6%;
+    left: 1%;
 }
 .subscribe-right h3.w3ls-title {
     font-size: 1.6em;
@@ -3551,7 +3551,7 @@ h3.w3ls-title {
     font-size: 0.8em;
 }
 p.w3lsorder-text {
-    margin-bottom: 3em;
+    margin-bottom: -5em;
 }
 .contact-w3lsright h6 {
     margin-top: 0.8em;
@@ -3744,17 +3744,17 @@ p {
     padding: 0 1em;
 }
 .map.agileits {
-    padding-top: 48em;
+    padding-top: 0.2em;
 }
 .contact-row.agileits-w3layouts {
-    width: 90%;
-    left: 6%;
+    width: 97.6%;
+    left: 1%;
 }
 .contact input[type="submit"] {
     padding: .6em 3em; 
 }
 .add-products, .wthree-order, .w3agile-deals, .w3agile-spldishes, .wthree-menu, .products, .about, .contact, .codes {
-    padding: 2.5em 0;
+    padding: 1.5em 0;
 }
 .login-agileinfo {
     width: 69%;
@@ -3898,7 +3898,7 @@ img.w3order-img {
     font-size: 1.5em;
 }
 .banner.about-w3bnr .banner-text {
-    padding: 2em 0;
+    padding: 1em 0;
 }
 h3.w3ls-title {
     font-size: 1.6em;
@@ -3973,7 +3973,7 @@ p.single-price-text {
     line-height: 0.5;
 }
 p.w3lsorder-text {
-    margin-bottom: 2em;
+    margin-bottom: -5em;
 } 
 }
 @media(max-width:384px){
@@ -4283,3 +4283,22 @@ img.w3order-img {
 }
 }
 /*-- //responsive-design --*/
+
+/* daum map */
+.radius_border{border:1px solid #919191;border-radius:5px;}
+.custom_zoomcontrol {position:relative;float:right;top:100px;right:15px;width:36px;height:80px;overflow:hidden;z-index:2;background-color:#f5f5f5;}
+.custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}
+.custom_zoomcontrol span img {width:15px;padding:12px 0;border:none;}
+.custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
+.dot {overflow:hidden;float:left;width:50px;height:50px;background: url('https://s3-ap-northeast-1.amazonaws.com/sbevent/image/current_point.png');}
+.dotOverlay {position:relative;bottom:10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;font-size:12px;padding:5px;background:#fff;}
+.dotOverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.number {font-weight:bold;color:#ee6152;}
+.dotOverlay:after {content:'';position:absolute;margin-left:-6px;left:50%;bottom:-8px;width:11px;height:8px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png')}
+.distanceInfo {position:relative;top:5px;left:5px;list-style:none;margin:0;}
+.distanceInfo .distance_label {display:inline-block;width:50px;}
+.distanceInfo:after {content:none;}
+
+/* add css */
+.phone {color: blue; letter-spacing: 0.8px; margin-left:5px;}
+.icon {float:right}
