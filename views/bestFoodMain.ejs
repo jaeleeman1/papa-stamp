@@ -70,32 +70,34 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <ul class="multi-column-dropdown">
-                                                <h6 class="dropdown">서울</h6>
-                                                <li><a href="">강남구</a></li>
-                                                <li><a href="">강동구</a></li>
-                                                <li><a href="">강북구</a></li>
-                                                <li><a href="">강서구</a></li>
-                                                <li><a href="">관악구</a></li>
-                                                <li><a href="">광진구</a></li>
-                                                <li><a href="">구로구</a></li>
-                                                <li><a href="">금천구</a></li>
-                                                <li><a href="">노원구</a></li>
-                                                <li><a href="">도봉구</a></li>
-                                                <li><a href="">동대문구</a></li>
-                                                <li><a href="">동작구</a></li>
-                                                <li><a href="">마포구</a></li>
-                                                <li><a href="">서대문구</a></li>
-                                                <li><a href="">서초구</a></li>
-                                                <li><a href="">성동구</a></li>
-                                                <li><a href="">성북구</a></li>
-                                                <li><a href="">송파구</a></li>
-                                                <li><a href="">양천구</a></li>
-                                                <li><a href="">영등포구</a></li>
-                                                <li><a href="">용산구</a></li>
-                                                <li><a href="">은평구</a></li>
-                                                <li><a href="">종로구</a></li>
-                                                <li><a href="">중구</a></li>
-                                                <li><a href="">중량구</a></li>
+                                                <h6 class="show-hide">서울</h6></a>
+                                                <div class="show-hide-dropdown" style="display:none">
+                                                    <li><a href="">강남구</a></li>
+                                                    <li><a href="">강동구</a></li>
+                                                    <li><a href="">강북구</a></li>
+                                                    <li><a href="">강서구</a></li>
+                                                    <li><a href="">관악구</a></li>
+                                                    <li><a href="">광진구</a></li>
+                                                    <li><a href="">구로구</a></li>
+                                                    <li><a href="">금천구</a></li>
+                                                    <li><a href="">노원구</a></li>
+                                                    <li><a href="">도봉구</a></li>
+                                                    <li><a href="">동대문구</a></li>
+                                                    <li><a href="">동작구</a></li>
+                                                    <li><a href="">마포구</a></li>
+                                                    <li><a href="">서대문구</a></li>
+                                                    <li><a href="">서초구</a></li>
+                                                    <li><a href="">성동구</a></li>
+                                                    <li><a href="">성북구</a></li>
+                                                    <li><a href="">송파구</a></li>
+                                                    <li><a href="">양천구</a></li>
+                                                    <li><a href="">영등포구</a></li>
+                                                    <li><a href="">용산구</a></li>
+                                                    <li><a href="">은평구</a></li>
+                                                    <li><a href="">종로구</a></li>
+                                                    <li><a href="">중구</a></li>
+                                                    <li><a href="">중량구</a></li>
+                                                </div>
                                             </ul>
                                         </div>
                                         <div class="col-sm-4">
@@ -249,7 +251,7 @@
                 for(var i=0; i<shopData.length; i++){
                     shopDataList.innerHTML += '<div class="address-row">' +
                         '<div class="col-xs-2 address-left">' +
-                            '<a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
+                            '<a href="foods/foodShop?id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                         '</div>' +
                         '<div class="col-xs-10 address-right">' +
                             '<a href="#"><span class="icon" onclick="guideLoad('+ i +')"><img src="/images/map_load_pin.png"></span></a>' +
@@ -722,6 +724,10 @@
             event.preventDefault();
 
             $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+
+        $(".show-hide").click(function(){
+            $(".show-hide-dropdown").toggle();
         });
     });
 </script>

@@ -9,7 +9,22 @@ var parser = new xml2js.Parser();
 
 //GET Food Shop Init
 router.get('/foodShop', function (req, res, next) {
-    res.render('foods/foodShop', {url:config.url});
+    var id = req.query.id;
+
+    getConnection(function (err, connection){
+        // Select food Menu
+        var selectFoodQuery = 'select * from SB_SHOP_MENU where SHOP_ID = ?';
+        connection.query(selectFoodQuery, id, function (err, row) {
+            if (err) {
+                console.error("@@@ [food Menu] Select food Menu Error : " + err);
+                throw err;
+            }else{
+                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(row));
+                res.render('foods/foodShop', {url:config.url, foodData :row});
+            }
+            connection.release();
+        });
+    });
 });
 
 //GET Food Shop List
