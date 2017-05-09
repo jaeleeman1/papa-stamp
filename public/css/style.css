@@ -849,16 +849,16 @@ ol.breadcrumb.w3l-crumbs {
 	margin: 0;
 } 
 .breadcrumb.w3l-crumbs li {
-    font-size: 1.1em;
+    font-size: 0.9em;
 }
 .breadcrumb li a {
-    color: #e24945;
+    color: #777;
 }
 .breadcrumb li a i.fa{
     padding-right: 3px;
 }
 .breadcrumb li a:hover{
-    color: #777;
+    color: #e24945;
 }
 /*-- //banner-page --*/ 
 /*-- menu --*/
@@ -1064,7 +1064,6 @@ h3.w3ls-title.w3ls-title1 {
 	-o-transform: rotateY(-180deg); 
 	-ms-transform: rotateY(-180deg); 
     transform: rotateY(-180deg);
-    background: #fd463e;
     padding:2em;
     text-align: center;
 }
@@ -3253,9 +3252,9 @@ h3.icon-subheading {
 .w3ls-add-grids {
     width: 45%; 
 }
-.order-w3lsgrids:nth-child(3),.order-w3lsgrids:nth-child(4){
+/*.order-w3lsgrids:nth-child(3),.order-w3lsgrids:nth-child(4){
     margin-top: 2em;
-}
+}*/
 .footer-grids.w3-agileits:nth-child(3),.footer-grids.w3-agileits:nth-child(4) {
     margin-top: 2em;
 }
@@ -4115,7 +4114,7 @@ ol.breadcrumb.w3l-crumbs {
     font-size: 1.6em;
 }
 .add-products, .wthree-order, .w3agile-deals, .w3agile-spldishes, .wthree-menu, .products, .about, .contact, .codes {
-    padding: 2em 0;
+    padding: 0.8em 0;
 }
 .product-grids {
     margin-top: 1em; 

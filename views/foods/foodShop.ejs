@@ -58,11 +58,11 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1><a href="main">Befoo<span>Best Food Shop</span></a></h1>
+                        <h1><a href="<% url %>/main">Befoo<span>Best Food Shop</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="main">Home</a></li>
+                            <li><a href="<% url %>/main">Home</a></li>
                             <!-- Mega Menu -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
@@ -131,39 +131,96 @@
     <!-- //header-end -->
     <!-- banner-text -->
     <div class="banner-text">
+        <div class="container">
+            <h2><%= foodData[0].SHOP_NAME %></h2>
+        </div>
     </div>
 </div>
 <!-- //banner -->
 <!-- breadcrumb -->
 <div class="container">
-    <ol class="breadcrumb w3l-crumbs">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active">맛집 정보
-        </li>
+    <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
+        <li class="active" rel="tab1"><a href="#" style="color: #e24945"><i class="fa fa-cutlery"></i>메뉴정보</a></li>
+        <li rel="tab2"><a href="#"><i class="fa fa-male"></i>대기정보</a></li>
+        <li rel="tab3"><a href="#"><i class="glyphicon glyphicon-home"></i>가게정보</a></li>
     </ol>
 </div>
 <!-- //breadcrumb -->
 <!-- products -->
 <div class="products">
     <div class="container">
-        <div class="col-md-9 product-w3ls-right">
+
+        <!-- info -->
+        <div id="tab3" class="wthree-order tab_content">
+            <img src="/images/i2.jpg" class="w3order-img" alt="">
+            <h3 class="w3ls-title">방문 횟수</h3>
+            <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
+            <div class="container" style="padding-top: 70px">
+                <div class="order-agileinfo">
+                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <h5>one</h5>
+                            <span style="font-size:18px">1</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <h5>two</h5>
+                            <span style="font-size:18px">2</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <h5>three</h5>
+                            <span style="font-size:18px">3</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <h5>four</h5>
+                            <span style="font-size:18px">4</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <h5>five</h5>
+                            <span style="font-size:18px">5</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <!-- //info -->
+
+
+
+
+        <!-- menu -->
+        <div id="tab1" class="col-md-9 product-w3ls-right tab_content">
             <div class="product-top">
                 <h4>Food Collection</h4>
                 <ul>
                     <li class="dropdown head-dpdn">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter By<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">정 렬<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Low price</a></li>
-                            <li><a href="#">High price</a></li>
-                            <li><a href="#">Latest</a></li>
+                            <li><a href="#">인기순</a></li>
+                            <li><a href="#">낮은가격순</a></li>
+                            <li><a href="#">높은가격순</a></li>
                         </ul>
                     </li>
                     <li class="dropdown head-dpdn">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Food Type<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">종 류<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Breakfast</a></li>
-                            <li><a href="#">Lunch</a></li>
-                            <li><a href="#">Dinner</a></li>
+                            <li><a href="#">메인음식</a></li>
+                            <li><a href="#">디저트</a></li>
+                            <li><a href="#">음료</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -181,10 +238,10 @@
                                             <h5><%= foodData[i].MENU_NAME %></h5>
                                         </div>
                                     </div>
-                                    <div class="back">
+                                    <div class="back" style="background: #08cae2">
                                         <h4><%= foodData[i].MENU_NAME %></h4>
                                         <p><%= foodData[i].DESCRIPTION %>.</p>
-                                        <h6><%= foodData[i].MENU_PRICE %><sup>₩</sup></h6>
+                                        <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
                                         <form action="#" method="post">
                                             <input type="hidden" name="cmd" value="_cart">
                                             <input type="hidden" name="add" value="1">
@@ -208,10 +265,10 @@
                                         </div>
                                         <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
                                     </div>
-                                    <div class="back">
+                                    <div class="back" style="background: #fd463e">
                                         <h4><%= foodData[i].MENU_NAME %></h4>
                                         <p><%= foodData[i].DESCRIPTION %>.</p>
-                                        <h6><%= foodData[i].MENU_PRICE %><sup>₩</sup></h6>
+                                        <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
                                         <form action="#" method="post">
                                             <input type="hidden" name="cmd" value="_cart">
                                             <input type="hidden" name="add" value="1">
@@ -227,270 +284,45 @@
                         </div>
                     <% } %>
                 <% } %>
-
-                <!--<div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/g6.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Fish salad</h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Fish salad</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>3<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Fish salad">
-                                    <input type="hidden" name="amount" value="3.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <div class="agile-product-text agile-product-text2">
-                                    <h5>Sandwich</h5>
-                                </div>
-                                <img src="/images/g1.jpg" class="img-responsive" alt="img">
-                            </div>
-                            <div class="back">
-                                <h4>Sandwich</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>2<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Sandwich">
-                                    <input type="hidden" name="amount" value="2.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/g3.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Indian Food</h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Indian Food</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>2<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Indian Food">
-                                    <input type="hidden" name="amount" value="2.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 product-grids">
-                    <div class="flip-container flip-container1">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <div class="agile-product-text agile-product-text2">
-                                    <h5>Sandwich & soup</h5>
-                                </div>
-                                <img src="/images/g7.jpg" class="img-responsive" alt="img">
-                            </div>
-                            <div class="back">
-                                <h4>Sandwich & soup</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl  condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>5<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Sandwich & soup">
-                                    <input type="hidden" name="amount" value="5.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 product-grids">
-                    <div class="flip-container flip-container1">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/g8.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Asia Meals</h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Asia Meals</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl  condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>8<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Asia Meals">
-                                    <input type="hidden" name="amount" value="8.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/img1.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Bread Toast</h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Bread Toast</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>2<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Bread Toast">
-                                    <input type="hidden" name="amount" value="2.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <div class="agile-product-text agile-product-text2">
-                                    <h5>Chinese Dish</h5>
-                                </div>
-                                <img src="/images/g2.jpg" class="img-responsive" alt="img">
-                            </div>
-                            <div class="back">
-                                <h4>Chinese Dish</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>3<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Chinese Dish">
-                                    <input type="hidden" name="amount" value="3.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/g9.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Duck roast</h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Duck roast</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>7<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Duck roast">
-                                    <input type="hidden" name="amount" value="7.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 product-grids">
-                    <div class="flip-container flip-container1">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <div class="agile-product-text agile-product-text2">
-                                    <h5>Sandwich & soup</h5>
-                                </div>
-                                <img src="/images/g5.jpg" class="img-responsive" alt="img">
-                            </div>
-                            <div class="back">
-                                <h4>Sandwich & soup</h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl  condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>5<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Sandwich & soup">
-                                    <input type="hidden" name="amount" value="5.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 product-grids">
-                    <div class="flip-container flip-container1">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/g4.jpg" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5>Rice & meat </h5>
-                                </div>
-                            </div>
-                            <div class="back">
-                                <h4>Rice & meat </h4>
-                                <p>Maecenas condimentum interdum lacus, ac varius nisl  condimentum interdum lacus, ac varius nisl.</p>
-                                <h6>6<sup>$</sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Rice & meat ">
-                                    <input type="hidden" name="amount" value="6.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
                 <div class="clearfix"> </div>
             </div>
         </div>
+        <!-- //menu -->
+
+        <!-- ready -->
+        <div id="tab2" class="grid_3 grid_5 tab_content">
+            <h3 class="w3ls-hdg">Tabs</h3>
+            <div class="bs-example bs-example-tabs w3" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a></li>
+                    <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Profile</a></li>
+                    <li role="presentation" class="dropdown">
+                        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                            <li><a href="#dropdown1" tabindex="-1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">@fat</a></li>
+                            <li><a href="#dropdown2" tabindex="-1" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">@mdo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade w3" id="profile" aria-labelledby="profile-tab">
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="dropdown1" aria-labelledby="dropdown1-tab">
+                        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="dropdown2" aria-labelledby="dropdown2-tab">
+                        <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //ready -->
+
+
         <div class="clearfix"> </div>
     </div>
 </div>
@@ -592,6 +424,19 @@
 
         $().UItoTop({ easingType: 'easeOutQuart' });
 
+        /* Tab setting */
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+
+        $("ol.tabs li").click(function () {
+            $("ol.tabs li").removeClass("active");
+            $("ol.tabs li a").removeAttr("style");
+            $(this).addClass("active");
+            $(this).children().css("color", "#e24945");
+            $(".tab_content").hide();
+            var activeTab = $(this).attr("rel");
+            $("#" + activeTab).fadeIn();
+        });
     });
 </script>
 <!-- //smooth-scrolling-of-move-up -->

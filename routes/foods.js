@@ -13,7 +13,8 @@ router.get('/foodShop', function (req, res, next) {
 
     getConnection(function (err, connection){
         // Select food Menu
-        var selectFoodQuery = 'select * from SB_SHOP_MENU where SHOP_ID = ?';
+        var selectFoodQuery = 'select SSM.*, SSI.SHOP_NAME from SB_SHOP_MENU as SSM ' +
+            'inner join SB_SHOP_INFO as SSI on SSM.SHOP_ID = SSI.SHOP_ID where SSI.SHOP_ID = ?';
         connection.query(selectFoodQuery, id, function (err, row) {
             if (err) {
                 console.error("@@@ [food Menu] Select food Menu Error : " + err);
