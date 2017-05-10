@@ -157,41 +157,41 @@
             <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
             <div class="container" style="padding-top: 70px">
                 <div class="order-agileinfo">
-                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <h5>one</h5>
-                            <span style="font-size:18px">1</span>
+                    <div>
+                        <% for (var i=1; i<=5; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
+                                <h5 style="margin-top:1em;text-align: center">
+                                    <% if (i == 1) { %>one
+                                    <% }else if(i == 2) {%>two
+                                    <% }else if(i == 3) {%>three
+                                    <% }else if(i == 4) {%>four
+                                    <% }else if(i == 5) {%>five
+                                    <%}%>
+                                </h5>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
+                            </div>
                         </div>
+                        <%}%>
                     </div>
-
-                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <h5>two</h5>
-                            <span style="font-size:18px">2</span>
+                    <div>
+                        <% for (var i=6; i<=10; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;padding-top:2.5em">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
+                                <h5 style="margin-top:1em;text-align: center">
+                                    <% if (i == 6) { %>six
+                                    <% }else if(i == 7) {%>seven
+                                    <% }else if(i == 8) {%>eight
+                                    <% }else if(i == 9) {%>nine
+                                    <% }else if(i == 10) {%>ten
+                                    <%}%>
+                                </h5>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <h5>three</h5>
-                            <span style="font-size:18px">3</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <h5>four</h5>
-                            <span style="font-size:18px">4</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                        <div class="order-w3text" style="width:30px;height:30px;padding:1.5em 0">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <h5>five</h5>
-                            <span style="font-size:18px">5</span>
-                        </div>
+                        <%}%>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
@@ -406,6 +406,41 @@
             event.preventDefault();
 
             $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+        /*for(var i=1; i<=10; i++) {
+            $("#visit"+i).click(function(event){
+                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+            });
+        }*/
+        $("#visit1").click(function(event){
+            $("#visit1").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit2").click(function(event){
+            $("#visit2").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit3").click(function(event){
+            $("#visit3").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit4").click(function(event){
+            $("#visit4").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit5").click(function(event){
+            $("#visit5").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit6").click(function(event){
+            $("#visit6").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit7").click(function(event){
+            $("#visit7").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit8").click(function(event){
+            $("#visit8").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit9").click(function(event){
+            $("#visit9").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        });
+        $("#visit10").click(function(event){
+            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
         });
     });
 </script>
