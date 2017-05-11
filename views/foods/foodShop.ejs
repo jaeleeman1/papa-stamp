@@ -34,465 +34,690 @@
 </form>
 
 <body>
-    <!-- banner -->
-    <div class="banner about-w3bnr">
-        <!-- header -->
-        <div class="header">
-            <div class="w3ls-header"><!-- header-one -->
-                <div class="container">
-                    <div class="w3ls-header-left">
-                        <p>우리 동네 최고의 맛집</p>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-            </div>
-            <!-- //header-one -->
-            <!-- navigation -->
-            <div class="navigation agiletop-nav">
-                <div class="container">
-                    <nav class="navbar navbar-default">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header w3l_logo">
-                            <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <h1><a href="<% url %>/main">Befoo<span>Best Food Shop</span></a></h1>
-                        </div>
-                        <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="<% url %>/main">Home</a></li>
-                                <!-- Mega Menu -->
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
-                                    <ul class="dropdown-menu multi-column columns-3">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <ul class="multi-column-dropdown">
-                                                    <h6 class="show-hide">서울</h6></a>
-                                                    <div class="show-hide-dropdown" style="display:none">
-                                                        <li><a href="">강남구</a></li>
-                                                        <li><a href="">강동구</a></li>
-                                                        <li><a href="">강북구</a></li>
-                                                        <li><a href="">강서구</a></li>
-                                                        <li><a href="">관악구</a></li>
-                                                        <li><a href="">광진구</a></li>
-                                                        <li><a href="">구로구</a></li>
-                                                        <li><a href="">금천구</a></li>
-                                                        <li><a href="">노원구</a></li>
-                                                        <li><a href="">도봉구</a></li>
-                                                        <li><a href="">동대문구</a></li>
-                                                        <li><a href="">동작구</a></li>
-                                                        <li><a href="">마포구</a></li>
-                                                        <li><a href="">서대문구</a></li>
-                                                        <li><a href="">서초구</a></li>
-                                                        <li><a href="">성동구</a></li>
-                                                        <li><a href="">성북구</a></li>
-                                                        <li><a href="">송파구</a></li>
-                                                        <li><a href="">양천구</a></li>
-                                                        <li><a href="">영등포구</a></li>
-                                                        <li><a href="">용산구</a></li>
-                                                        <li><a href="">은평구</a></li>
-                                                        <li><a href="">종로구</a></li>
-                                                        <li><a href="">중구</a></li>
-                                                        <li><a href="">중량구</a></li>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <ul class="multi-column-dropdown">
-                                                    <h6>경기</h6>
-                                                    <li><a href="">가평군</a></li>
-                                                    <li><a href="">고양시 덕양구</a></li>
-                                                    <li><a href="">고양시 일산동구</a></li>
-                                                    <li><a href="">고양시 일산서구</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </ul>
-                                </li>
-                                <li><a href="/contact" class="active">Contact Us</a></li>
-                            </ul>
-                        </div>
-                        <div class="cart cart box_1">
-                            <form action="#" method="post" class="last">
-                                <input type="hidden" name="cmd" value="_cart" />
-                                <input type="hidden" name="display" value="1" />
-                                <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                            </form>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-            <!-- //navigation -->
-        </div>
-        <!-- //header-end -->
-        <!-- banner-text -->
-        <div class="banner-text">
+<!-- banner -->
+<div class="banner about-w3bnr">
+    <!-- header -->
+    <div class="header">
+        <div class="w3ls-header"><!-- header-one -->
             <div class="container">
-                <h2><%= foodData[0].SHOP_NAME %></h2>
+                <div class="w3ls-header-left">
+                    <p>우리 동네 최고의 맛집</p>
+                </div>
+                <div class="clearfix"> </div>
             </div>
         </div>
+        <!-- //header-one -->
+        <!-- navigation -->
+        <div class="navigation agiletop-nav">
+            <div class="container">
+                <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header w3l_logo">
+                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <h1><a href="<% url %>/main">Befoo<span>Best Food Shop</span></a></h1>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="<% url %>/main">Home</a></li>
+                            <!-- Mega Menu -->
+                            <li class="dropdown">
+                                <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
+                                <ul class="dropdown-menu multi-column columns-3">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <ul class="multi-column-dropdown">
+                                                <h6 class="show-hide">서울</h6></a>
+                                                <div class="show-hide-dropdown" style="display:none">
+                                                    <li><a href="">강남구</a></li>
+                                                    <li><a href="">강동구</a></li>
+                                                    <li><a href="">강북구</a></li>
+                                                    <li><a href="">강서구</a></li>
+                                                    <li><a href="">관악구</a></li>
+                                                    <li><a href="">광진구</a></li>
+                                                    <li><a href="">구로구</a></li>
+                                                    <li><a href="">금천구</a></li>
+                                                    <li><a href="">노원구</a></li>
+                                                    <li><a href="">도봉구</a></li>
+                                                    <li><a href="">동대문구</a></li>
+                                                    <li><a href="">동작구</a></li>
+                                                    <li><a href="">마포구</a></li>
+                                                    <li><a href="">서대문구</a></li>
+                                                    <li><a href="">서초구</a></li>
+                                                    <li><a href="">성동구</a></li>
+                                                    <li><a href="">성북구</a></li>
+                                                    <li><a href="">송파구</a></li>
+                                                    <li><a href="">양천구</a></li>
+                                                    <li><a href="">영등포구</a></li>
+                                                    <li><a href="">용산구</a></li>
+                                                    <li><a href="">은평구</a></li>
+                                                    <li><a href="">종로구</a></li>
+                                                    <li><a href="">중구</a></li>
+                                                    <li><a href="">중량구</a></li>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <ul class="multi-column-dropdown">
+                                                <h6>경기</h6>
+                                                <li><a href="">가평군</a></li>
+                                                <li><a href="">고양시 덕양구</a></li>
+                                                <li><a href="">고양시 일산동구</a></li>
+                                                <li><a href="">고양시 일산서구</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li><a href="/contact" class="active">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="cart cart box_1">
+                        <form action="#" method="post" class="last">
+                            <input type="hidden" name="cmd" value="_cart" />
+                            <input type="hidden" name="display" value="1" />
+                            <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- //navigation -->
     </div>
-    <!-- //banner -->
-    <!-- breadcrumb -->
+    <!-- //header-end -->
+    <!-- banner-text -->
+    <div class="banner-text">
+        <div class="container">
+            <h2><%= foodData[0].SHOP_NAME %></h2>
+        </div>
+    </div>
+</div>
+<!-- //banner -->
+<!-- breadcrumb -->
+<div class="container">
+    <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
+        <li class="active" rel="tab1"><a href="javascript:" style="color: #e24945"><i class="fa fa-cutlery"></i>메뉴정보</a></li>
+        <li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>대기정보</a></li>
+        <li rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i>가게정보</a></li>
+    </ol>
+</div>
+<!-- //breadcrumb -->
+
+<!-- products -->
+<div class="products">
     <div class="container">
-        <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
-            <li class="active" rel="tab1"><a href="#" style="color: #e24945"><i class="fa fa-cutlery"></i>메뉴정보</a></li>
-            <li rel="tab2"><a href="#"><i class="fa fa-male"></i>대기정보</a></li>
-            <li rel="tab3"><a href="#"><i class="glyphicon glyphicon-home"></i>가게정보</a></li>
-        </ol>
-    </div>
-    <!-- //breadcrumb -->
 
-    <!-- products -->
-    <div class="products">
-        <div class="container">
-
-            <!-- info -->
-            <div id="tab3" class="wthree-order tab_content">
-                <img src="/images/i2.jpg" class="w3order-img" alt="">
-                <h3 class="w3ls-title">방문 횟수</h3>
-                <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
-                <div class="container" style="padding-top: 70px;padding-bottom: 30px">
-                    <div class="order-agileinfo">
-                        <div>
-                            <% for (var i=1; i<=5; i++) {%>
-                            <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                                <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
-                                    <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
-                                    <h5 style="margin-top:1em;text-align: center">
-                                        <% if (i == 1) { %>one
-                                        <% }else if(i == 2) {%>two
-                                        <% }else if(i == 3) {%>three
-                                        <% }else if(i == 4) {%>four
-                                        <% }else if(i == 5) {%>five
-                                        <%}%>
-                                    </h5>
-                                    <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
-                                </div>
+        <!-- info -->
+        <div id="tab3" class="wthree-order tab_content">
+            <img src="/images/i2.jpg" class="w3order-img" alt="">
+            <h3 class="w3ls-title">방문 횟수</h3>
+            <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
+            <div class="container" style="padding-top: 70px;padding-bottom:30px;padding-left:30px;">
+                <div class="order-agileinfo">
+                    <div>
+                        <% for (var i=1; i<=5; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
+                                <h5 style="margin-top:1em;text-align: center">
+                                    <% if (i == 1) { %>one
+                                    <% }else if(i == 2) {%>two
+                                    <% }else if(i == 3) {%>three
+                                    <% }else if(i == 4) {%>four
+                                    <% }else if(i == 5) {%>five
+                                    <%}%>
+                                </h5>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
                             </div>
-                            <%}%>
                         </div>
-                        <div>
-                            <% for (var i=6; i<=10; i++) {%>
-                            <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;padding-top:2.5em">
-                                <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
-                                    <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
-                                    <h5 style="margin-top:1em;text-align: center">
-                                        <% if (i == 6) { %>six
-                                        <% }else if(i == 7) {%>seven
-                                        <% }else if(i == 8) {%>eight
-                                        <% }else if(i == 9) {%>nine
-                                        <% }else if(i == 10) {%>ten
-                                        <%}%>
-                                    </h5>
-                                    <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
-                                </div>
-                            </div>
-                            <%}%>
-                        </div>
-                        <div class="clearfix"> </div>
+                        <%}%>
                     </div>
-                </div>
-            </div>
-            <!-- //info -->
-
-
-
-
-            <!-- menu -->
-            <div id="tab1" class="col-md-9 product-w3ls-right tab_content">
-                <div class="product-top">
-                    <h4>Food Collection</h4>
-                    <ul>
-                        <li class="dropdown head-dpdn">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">정 렬<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">인기순</a></li>
-                                <li><a href="#">낮은가격순</a></li>
-                                <li><a href="#">높은가격순</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown head-dpdn">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">종 류<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">메인음식</a></li>
-                                <li><a href="#">디저트</a></li>
-                                <li><a href="#">음료</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="products-row">
-                    <% for(var i = 0; i < foodData.length; i++) { %>
-                        <% if(i%2 == 1) {%>
-                            <div class="col-xs-6 col-sm-4 product-grids">
-                                <div class="flip-container">
-                                    <div class="flipper agile-products">
-                                        <div class="front">
-                                            <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
-                                            <div class="agile-product-text">
-                                                <h5><%= foodData[i].MENU_NAME %></h5>
-                                            </div>
-                                        </div>
-                                        <div class="back" style="background: #08cae2">
-                                            <h4><%= foodData[i].MENU_NAME %></h4>
-                                            <p><%= foodData[i].DESCRIPTION %>.</p>
-                                            <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
-                                            <form action="#" method="post">
-                                                <input type="hidden" name="cmd" value="_cart">
-                                                <input type="hidden" name="add" value="1">
-                                                <input type="hidden" name="w3ls_item" value="Fish salad">
-                                                <input type="hidden" name="amount" value="3.00">
-                                                <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                                <span class="w3-agile-line"> </span>
-                                                <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div>
+                        <% for (var i=6; i<=10; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;padding-top:2.5em">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
+                                <h5 style="margin-top:1em;text-align: center">
+                                    <% if (i == 6) { %>six
+                                    <% }else if(i == 7) {%>seven
+                                    <% }else if(i == 8) {%>eight
+                                    <% }else if(i == 9) {%>nine
+                                    <% }else if(i == 10) {%>ten
+                                    <%}%>
+                                </h5>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
                             </div>
-                        <%} else  {%>
-                            <div class="col-xs-6 col-sm-4 product-grids">
-                                <div class="flip-container">
-                                    <div class="flipper agile-products">
-                                        <div class="front">
-                                            <div class="agile-product-text agile-product-text2">
-                                                <h5><%= foodData[i].MENU_NAME %></h5>
-                                            </div>
-                                            <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
-                                        </div>
-                                        <div class="back" style="background: #fd463e">
-                                            <h4><%= foodData[i].MENU_NAME %></h4>
-                                            <p><%= foodData[i].DESCRIPTION %>.</p>
-                                            <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
-                                            <form action="#" method="post">
-                                                <input type="hidden" name="cmd" value="_cart">
-                                                <input type="hidden" name="add" value="1">
-                                                <input type="hidden" name="w3ls_item" value="Sandwich">
-                                                <input type="hidden" name="amount" value="2.00">
-                                                <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                                <span class="w3-agile-line"> </span>
-                                                <a href="#" data-toggle="modal" data-target="#myModal1">More</a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <% } %>
-                    <% } %>
+                        </div>
+                        <%}%>
+                    </div>
                     <div class="clearfix"> </div>
                 </div>
             </div>
-            <!-- //menu -->
-
-            <!-- dishes -->
-            <div id="tab2" class="w3agile-spldishes tab_content">
-                <div class="container">
-                    <h3 class="w3ls-title">주문할 메뉴 내역</h3>
-                    <div class="spldishes-agileinfo">
-                        <div class="col-md-3 spldishes-w3left">
-                            <h5 class="w3ltitle">선택한 음식 총 4개</h5>
-                        </div>
-                        <div class="col-md-9 spldishes-grids">
-                            <!-- Owl-Carousel -->
-                            <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
-                                <a href="#" class="item g1">
-                                    <img class="lazyOwl" src="/images/g1.jpg" title="Our latest gallery" alt=""/>
-                                    <div class="agile-dish-caption">
-                                        <h4>Duis congue</h4>
-                                        <span>Neque porro quisquam est qui dolorem </span>
-                                    </div>
-                                </a>
-                                <a href="#" class="item g1">
-                                    <img class="lazyOwl" src="/images/g2.jpg" title="Our latest gallery" alt=""/>
-                                    <div class="agile-dish-caption">
-                                        <h4>Duis congue</h4>
-                                        <span>Neque porro quisquam est qui dolorem </span>
-                                    </div>
-                                </a>
-                                <a href="#" class="item g1">
-                                    <img class="lazyOwl" src="/images/g3.jpg" title="Our latest gallery" alt=""/>
-                                    <div class="agile-dish-caption">
-                                        <h4>Duis congue</h4>
-                                        <span>Neque porro quisquam est qui dolorem </span>
-                                    </div>
-                                </a>
-                                <a href="#" class="item g1">
-                                    <img class="lazyOwl" src="/images/g4.jpg" title="Our latest gallery" alt=""/>
-                                    <div class="agile-dish-caption">
-                                        <h4>Duis congue</h4>
-                                        <span>Neque porro quisquam est qui dolorem </span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
-            </div>
-            <!-- //dishes -->
-
-            <div class="clearfix"> </div>
         </div>
-    </div>
-    <!-- //products -->
-    <!-- subscribe -->
-    <div class="subscribe agileits-w3layouts">
-        <div class="container">
-            <div class="col-md-6 social-icons w3-agile-icons">
-                <h4>SNS <span style="font-size:0.9em;color:#999;line-height:1.8em;">공유 하기</span></h4>
+        <!-- //info -->
+
+
+
+
+        <!-- menu -->
+        <div id="tab1" class="col-md-9 product-w3ls-right tab_content">
+            <div class="product-top">
+                <h4>Food Collection</h4>
                 <ul>
-                    <li><a href="#" class="fa fa-facebook icon facebook"> </a></li>
-                    <li><a href="#" class="fa fa-twitter icon twitter"> </a></li>
-                    <li>카카오 스토리</li>
-                    <!--<li><a href="#" class="fa fa-google-plus icon googleplus"> </a></li>
-                    <li><a href="#" class="fa fa-dribbble icon dribbble"> </a></li>
-                    <li><a href="#" class="fa fa-rss icon rss"> </a></li>-->
+                    <li class="dropdown head-dpdn">
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">정 렬<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:">인기순</a></li>
+                            <li><a href="javascript:">낮은가격순</a></li>
+                            <li><a href="javascript:">높은가격순</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown head-dpdn">
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">종 류<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:">메인음식</a></li>
+                            <li><a href="javascript:">디저트</a></li>
+                            <li><a href="javascript:">음료</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <ul class="apps">
-                    <li><h4>Download Our app : </h4> </li>
-                    <li><a href="#" class="fa fa-apple"></a></li>
-                    <li><a href="#" class="fa fa-android"></a></li>
-                </ul>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="products-row">
+                <% for(var i = 0; i < foodData.length; i++) { %>
+                <% if(i%2 == 1) {%>
+                <div class="col-xs-6 col-sm-4 product-grids">
+                    <div class="flip-container">
+                        <div class="flipper agile-products">
+                            <div class="front">
+                                <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
+                                <div class="agile-product-text">
+                                    <h5><%= foodData[i].MENU_NAME %></h5>
+                                </div>
+                            </div>
+                            <div class="back" style="background: #08cae2">
+                                <h4><%= foodData[i].MENU_NAME %></h4>
+                                <p><%= foodData[i].DESCRIPTION %>.</p>
+                                <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
+                                <form action="#" method="post">
+                                    <input type="hidden" name="cmd" value="_cart">
+                                    <input type="hidden" name="add" value="1">
+                                    <input type="hidden" name="w3ls_item" value="Fish salad">
+                                    <input type="hidden" name="amount" value="3.00">
+                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+                                    <span class="w3-agile-line"> </span>
+                                    <a href="javascript:" data-toggle="modal" data-target="#myModal1">More</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%} else  {%>
+                <div class="col-xs-6 col-sm-4 product-grids">
+                    <div class="flip-container">
+                        <div class="flipper agile-products">
+                            <div class="front">
+                                <div class="agile-product-text agile-product-text2">
+                                    <h5><%= foodData[i].MENU_NAME %></h5>
+                                </div>
+                                <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
+                            </div>
+                            <div class="back" style="background: #fd463e">
+                                <h4><%= foodData[i].MENU_NAME %></h4>
+                                <p><%= foodData[i].DESCRIPTION %>.</p>
+                                <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
+                                <form action="#" method="post">
+                                    <input type="hidden" name="cmd" value="_cart">
+                                    <input type="hidden" name="add" value="1">
+                                    <input type="hidden" name="w3ls_item" value="Sandwich">
+                                    <input type="hidden" name="amount" value="2.00">
+                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+                                    <span class="w3-agile-line"> </span>
+                                    <a href="javascript:" data-toggle="modal" data-target="#myModal1">More</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                <% } %>
+                <div class="clearfix"> </div>
             </div>
         </div>
+        <!-- //menu -->
+
+        <!-- dishes -->
+        <div id="tab2" class="w3agile-spldishes tab_content">
+            <div class="container">
+                <h3 class="w3ls-title">주문할 메뉴 내역</h3>
+                <div class="spldishes-agileinfo">
+                    <div class="col-md-3 spldishes-w3left">
+                        <h5 class="w3ltitle">선택한 음식 총 4개</h5>
+                    </div>
+                    <div class="col-md-9 spldishes-grids">
+                        <!-- Owl-Carousel -->
+                        <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
+                            <a href="javascript:" class="item g1">
+                                <img class="lazyOwl" src="/images/g1.jpg" title="Our latest gallery" alt=""/>
+                                <div class="agile-dish-caption">
+                                    <h4>Duis congue</h4>
+                                    <span>Neque porro quisquam est qui dolorem </span>
+                                </div>
+                            </a>
+                            <a href="javascript:" class="item g1">
+                                <img class="lazyOwl" src="/images/g2.jpg" title="Our latest gallery" alt=""/>
+                                <div class="agile-dish-caption">
+                                    <h4>Duis congue</h4>
+                                    <span>Neque porro quisquam est qui dolorem </span>
+                                </div>
+                            </a>
+                            <a href="javascript:" class="item g1">
+                                <img class="lazyOwl" src="/images/g3.jpg" title="Our latest gallery" alt=""/>
+                                <div class="agile-dish-caption">
+                                    <h4>Duis congue</h4>
+                                    <span>Neque porro quisquam est qui dolorem </span>
+                                </div>
+                            </a>
+                            <a href="javascript:" class="item g1">
+                                <img class="lazyOwl" src="/images/g4.jpg" title="Our latest gallery" alt=""/>
+                                <div class="agile-dish-caption">
+                                    <h4>Duis congue</h4>
+                                    <span>Neque porro quisquam est qui dolorem </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <!-- //dishes -->
+
+        <div class="clearfix"> </div>
     </div>
-    <!-- //subscribe -->
-    <!-- footer -->
-    <div class="copyw3-agile">
-        <div class="container">
-            <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+</div>
+<!-- //products -->
+<!-- subscribe -->
+<div class="subscribe agileits-w3layouts">
+    <div class="container">
+        <div class="col-md-6 social-icons w3-agile-icons">
+            <h4>SNS <span style="font-size:0.9em;color:#999;line-height:1.8em;">공유 하기</span></h4>
+            <ul>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/facebook.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/twitter.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/instagram.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/kakao-story.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/naver.png"></a></li>
+                <!--
+                <li><a href="javascript:" class="fa fa-dribbble icon dribbble"> </a></li>
+                <li><a href="javascript:" class="fa fa-rss icon rss"> </a></li>-->
+            </ul>
+            <ul class="apps">
+                <li><h4>Download Our app : </h4> </li>
+                <li><a href="javascript:" class="fa fa-apple"></a></li>
+                <li><a href="javascript:" class="fa fa-android"></a></li>
+            </ul>
         </div>
     </div>
-    <!-- //footer -->
-    <!-- cart-js -->
-    <script src="/js/minicart.js"></script>
-    <script>
-        w3ls.render();
+</div>
+<!-- //subscribe -->
+<!-- footer -->
+<div class="copyw3-agile">
+    <div class="container">
+        <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+    </div>
+</div>
+<!-- //footer -->
+<!-- cart-js -->
+<script src="/js/minicart.js"></script>
+<script>
+    w3ls.render();
 
-        w3ls.cart.on('w3sb_checkout', function (evt) {
-            var items, len, i;
+    w3ls.cart.on('w3sb_checkout', function (evt) {
+        var items, len, i;
 
-            if (this.subtotal() > 0) {
-                items = this.items();
+        if (this.subtotal() > 0) {
+            items = this.items();
 
-                for (i = 0, len = items.length; i < len; i++) {
-                }
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+<!-- //cart-js -->
+<!-- Owl-Carousel-JavaScript -->
+<script src="/js/owl.carousel.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#owl-demo").owlCarousel ({
+            items : 3,
+            lazyLoad : true,
+            autoPlay : true,
+            pagination : true,
+        });
+    });
+</script>
+<!-- //Owl-Carousel-JavaScript -->
+<!-- the jScrollPane script -->
+<script type="text/javascript" src="/js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" id="sourcecode">
+    $(function()
+    {
+        $('.scroll-pane').jScrollPane();
+    });
+</script>
+<!-- //the jScrollPane script -->
+<script type="text/javascript" src="/js/jquery.mousewheel.js"></script> <!-- the mouse wheel plugin -->
+<!-- start-smooth-scrolling -->
+<script src="/js/SmoothScroll.min.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/easing.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){
+            event.preventDefault();
+
+            $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+
+        // 방문 횟수
+        for(var i=1; i<=4; i++) {
+            $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        }
+    });
+</script>
+<!-- //end-smooth-scrolling -->
+<!-- smooth-scrolling-of-move-up -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        /*
+         var defaults = {
+         containerID: 'toTop', // fading element id
+         containerHoverID: 'toTopHover', // fading element hover id
+         scrollSpeed: 1200,
+         easingType: 'linear'
+         };
+         */
+
+        $().UItoTop({ easingType: 'easeOutQuart' });
+
+        /* Tab setting */
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+
+        $("ol.tabs li").click(function () {
+            $("ol.tabs li").removeClass("active");
+            $("ol.tabs li a").removeAttr("style");
+            $(this).addClass("active");
+            $(this).children().css("color", "#e24945");
+            $(".tab_content").hide();
+            var activeTab = $(this).attr("rel");
+            $("#" + activeTab).fadeIn();
+        });
+    });
+</script>
+<!-- //smooth-scrolling-of-move-up -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/js/bootstrap.js"></script>
+
+<!-- 페이스북 -->
+<script>
+    // This is called with the results from from FB.getLoginStatus().
+    function statusChangeCallback(response) {
+//        console.log('statusChangeCallback');
+//        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+            // Logged into your app and Facebook.
+            linkURL();
+        } else {
+            // The person is not logged into your app or we are unable to tell.
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+        }
+    }
+
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '{CLIENT_ID}',
+            cookie     : true,  // enable cookies to allow the server to access
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.3' // use graph api version 2.8
+        });
+
+        // Now that we've initialized the JavaScript SDK, we call
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
+
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function linkURL() {
+        console.log('Welcome!  Fetching your information.... ');
+
+        FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            window.location.href="https://m.facebook.com/";
+//            document.getElementById('status').innerHTML =
+//                'Thanks for logging in, ' + response.name + '!';
+        });
+    }
+</script>
+
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<!--<a href="javascript:" onclick="window.open('https://m.facebook.com/')">
+    <img src="//dev.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+</a>-->
+
+<div id="status">
+</div>
+<!-- //페이스북-->
+
+
+<!-- 트위터 -->
+<script src="http://platform.twitter.com/anywhere.js?id={CLIENT_ID}&v=1"></script>
+<script>
+
+    window.addEventListener("load", init, false);
+
+    function init(){
+        var  msg = document.querySelector("#msg")
+            ,screenName
+            ,profile
+
+        twttr.anywhere(function(T){
+
+            if(T.isConnected()){
+                screenName = T.currentUser.data('screen_name');
+                profile = T.currentUser.data('profile_image_url')
+            }
+
+            //트위터에 로그인
+            document.querySelector("#btnLogin").onclick = function(){
+                T.signIn();
+            }
+
+            //사용자 이름 불러오기
+            document.querySelector("#btnUser").onclick = function(){
+                msg.innerHTML = "ID: " + screenName + " - profile :<img src='" + profile + "'>";
+            }
+
+            //접속상태보기
+            document.querySelector("#btnIsConnect").onclick = function(){
+                msg.innerHTML = T.isConnected();
+            }
+
+            //연결 여부 확인
+            document.querySelector("#btnRequireConnect").onclick = function(){
+                msg.innerHTML = T.requireConnect();
+            }
+
+            //호버카드 생성
+            document.querySelector("#btnHovercards").onclick = function(){
+                msg.innerHTML = T.hovercards();
+            }
+
+            //트윗박스
+            document.querySelector("#btnTweetbox").onclick = function(){
+                T("#msg").tweetBox();
+            }
+
+            //트위터 연결 버튼 생성
+            document.querySelector("#btnConnectButton").onclick = function(){
+                T("#msg").connectButton();
+            }
+
+            //팔로우 버튼 생성
+            document.querySelector("#btnFollowButton").onclick = function(){
+                T("#msg").followButton("twitterapi");
+            }
+
+            //btnBind
+            document.querySelector("#btnBind").onclick = function(){
+                T.bind("signOut", function (e) {
+                    msg.innerHTML = "로그아웃 되었습니다.";
+                });
+            }
+
+            //글쓰기
+            document.querySelector("#btnUpdate").onclick = function(){
+                T.Status.update("Hello world", {
+                    success: function(){
+                        msg.innerHTML = "글쓰기 성공";
+                    },
+                    error: function(e){
+                        msg.innerHTML = JSON.stringify(e)+ ": 글쓰기 실패";
+                    }
+                });
+            }
+
+            //test
+            document.querySelector("#btnTest").onclick = function(){
+                //T.Status.notifications();
+                console.log(T.currentUser.data('screen_name'))
             }
         });
-    </script>
-    <!-- //cart-js -->
-    <!-- Owl-Carousel-JavaScript -->
-    <script src="/js/owl.carousel.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#owl-demo").owlCarousel ({
-                items : 3,
-                lazyLoad : true,
-                autoPlay : true,
-                pagination : true,
-            });
-        });
-    </script>
-    <!-- //Owl-Carousel-JavaScript -->
-    <!-- the jScrollPane script -->
-    <script type="text/javascript" src="/js/jquery.jscrollpane.min.js"></script>
-    <script type="text/javascript" id="sourcecode">
-        $(function()
-        {
-            $('.scroll-pane').jScrollPane();
-        });
-    </script>
-    <!-- //the jScrollPane script -->
-    <script type="text/javascript" src="/js/jquery.mousewheel.js"></script> <!-- the mouse wheel plugin -->
-    <!-- start-smooth-scrolling -->
-    <script src="/js/SmoothScroll.min.js"></script>
-    <script type="text/javascript" src="/js/move-top.js"></script>
-    <script type="text/javascript" src="/js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event){
-                event.preventDefault();
 
-                $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-            });
-            /*for(var i=1; i<=10; i++) {
-                $("#visit"+i).click(function(event){
-                    $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-                });
-            }*/
-            $("#visit1").click(function(event){
-                $("#visit1").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit2").click(function(event){
-                $("#visit2").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit3").click(function(event){
-                $("#visit3").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit4").click(function(event){
-                $("#visit4").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit5").click(function(event){
-                $("#visit5").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit6").click(function(event){
-                $("#visit6").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit7").click(function(event){
-                $("#visit7").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit8").click(function(event){
-                $("#visit8").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit9").click(function(event){
-                $("#visit9").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-            $("#visit10").click(function(event){
-                $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            });
-        });
-    </script>
-    <!-- //end-smooth-scrolling -->
-    <!-- smooth-scrolling-of-move-up -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            /*
-             var defaults = {
-             containerID: 'toTop', // fading element id
-             containerHoverID: 'toTopHover', // fading element hover id
-             scrollSpeed: 1200,
-             easingType: 'linear'
-             };
-             */
+        //트위터에 로그아웃
+        document.querySelector("#btnLogout").onclick = function(){
+            twttr.anywhere.signOut();
+        }
+    }
+</script>
 
-            $().UItoTop({ easingType: 'easeOutQuart' });
+<button type="button" id="btnLogin">트위터에 로그인</button>
+<button type="button" id="btnUser">사용자 이름 불러오기</button>
+<button type="button" id="btnIsConnect">접속상태보기</button>
+<button type="button" id="btnRequireConnect">연결 여부 확인</button>
+<button type="button" id="btnHovercards">호버카드 생성</button>
+<button type="button" id="btnTweetbox">트윗박스</button>
+<button type="button" id="btnConnectButton">트위터 연결 버튼 생성</button>
+<button type="button" id="btnFollowButton">팔로우 버튼 생성</button>
+<button type="button" id="btnBind">Bind Event</button>
+<button type="button" id="btnUpdate">글쓰기</button>
+<button type="button" id="btnTest">test</button>
+<button type="button" id="btnLogout">트위터에 로그아웃</button>
+<!-- //트위터 -->
 
-            /* Tab setting */
-            $(".tab_content").hide();
-            $(".tab_content:first").show();
+<!-- 인스타그램 -->
+<script type ="text/javascript" src="/js/instafeed.min.js"></script>
+<script type="text/javascript">
 
-            $("ol.tabs li").click(function () {
-                $("ol.tabs li").removeClass("active");
-                $("ol.tabs li a").removeAttr("style");
-                $(this).addClass("active");
-                $(this).children().css("color", "#e24945");
-                $(".tab_content").hide();
-                var activeTab = $(this).attr("rel");
-                $("#" + activeTab).fadeIn();
-            });
-        });
-    </script>
-    <!-- //smooth-scrolling-of-move-up -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/js/bootstrap.js"></script>
+    $("#OauthClick").click(function(){
+        window.open('https://api.instagram.com/oauth/authorize/?client_id=&redirect_uri={REDIRECT_URI}&response_type=token');
+    });
+
+    /*
+     ########################
+     return ACCESS_TOKEN
+     ########################
+     {REDIRECT_URI}/#access_token={ACCESS_TOKEN}
+
+     TEST ==>
+     https://api.instagram.com/v1/users/self/?access_token=ACCESS_TOKEN
+     */
+
+</script>
+
+<div>
+    <input type="button" id="OauthClick" name="OauthClick" value="ACCESS_TOKEN 받기">
+</div>
+
+
+
+
+<script>
+    var userFeed = new Instafeed({
+        // account id : 1436855529
+        get: 'user',
+        userId: 1436855529, // user id는 http://jelled.com/instagram/lookup-user-id 에서 검색하여 입력한다.
+        accessToken: '01234567890.08e67b6.12083fdfc6664f1c9cfcf492827b4da6', // access_token
+        target: 'instagram_list',
+        resolution: 'low_resolution',
+        template : ''+ '<a href="{{link}}" target="_blank">'+ '<img src="{{image}}"/>'+ '<i class="fa fa-play-circle-o fa-4x play-icon"></i>'+ '<div class="shadow">'+ '<i class="fa fa-heart"></i> {{likes}}개'+ '<span class="space"></span> '+ '<i class="fa fa-comment"></i> {{comments}}개'+ '</div>'+ '</a>',
+        limit:8,
+        after: function(){
+            // do noting
+        }
+    });
+    window.onload = function(){
+        userFeed.run();
+    }
+</script>
+<!-- //인스타그램 -->
+
+<!-- 네이버 블로그 -->
+
+<!-- //네이버 블로그 -->
+
+<!-- 카카오스토리 -->
+<!-- //카카오스토리 -->
+
+
 </body>
 </html>
