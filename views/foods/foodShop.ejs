@@ -12,9 +12,14 @@
     <link href="/css/style.css" type="text/css" rel="stylesheet" media="all">
     <link href="/css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
     <link href="/css/owl.carousel.css" type="text/css" rel="stylesheet" media="all"/>
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
     <!-- //Custom Theme files -->
     <!-- js -->
     <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -133,7 +138,7 @@
     <!-- banner-text -->
     <div class="banner-text">
         <div class="container">
-            <h2><%= foodData[0].SHOP_NAME %></h2>
+            <h2><%= shopData.SHOP_NAME %></h2>
         </div>
     </div>
 </div>
@@ -143,7 +148,7 @@
     <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
         <li class="active" rel="tab1"><a href="javascript:" style="color: #e24945"><i class="fa fa-cutlery"></i>메뉴정보</a></li>
         <li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>대기정보</a></li>
-        <li rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i>가게정보</a></li>
+        <li rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i> 단골쿠폰</a></li>
     </ol>
 </div>
 <!-- //breadcrumb -->
@@ -157,46 +162,59 @@
             <img src="/images/i2.jpg" class="w3order-img" alt="">
             <h3 class="w3ls-title">방문 횟수</h3>
             <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
-            <div class="container" style="padding-top: 70px;padding-bottom:30px;padding-left:30px;">
+            <div class="container" style="padding-top: 70px;padding-bottom:30px;padding-left:40px;">
                 <div class="order-agileinfo">
                     <div>
-                        <% for (var i=1; i<=5; i++) {%>
-                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%">
-                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
-                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
-                                <h5 style="margin-top:1em;text-align: center">
+                        <% for (var i=1; i<=10; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;margin-bottom:30px;">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:5px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em;margin-bottom:10px"></i>
+                                <h5>
                                     <% if (i == 1) { %>one
                                     <% }else if(i == 2) {%>two
                                     <% }else if(i == 3) {%>three
                                     <% }else if(i == 4) {%>four
                                     <% }else if(i == 5) {%>five
-                                    <%}%>
-                                </h5>
-                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
-                            </div>
-                        </div>
-                        <%}%>
-                    </div>
-                    <div>
-                        <% for (var i=6; i<=10; i++) {%>
-                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;padding-top:2.5em">
-                            <div class="order-w3text" style="width:30px;height:30px;padding-top:10px">
-                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em"></i>
-                                <h5 style="margin-top:1em;text-align: center">
-                                    <% if (i == 6) { %>six
+                                    <% }else if (i == 6) { %>six
                                     <% }else if(i == 7) {%>seven
                                     <% }else if(i == 8) {%>eight
                                     <% }else if(i == 9) {%>nine
                                     <% }else if(i == 10) {%>ten
                                     <%}%>
                                 </h5>
-                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:5px"><%= i %></span>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:3px"><%= i %></span>
                             </div>
                         </div>
                         <%}%>
                     </div>
+                </div>
+            </div>
+
+            <h3 class="w3ls-title">할인 쿠폰</h3>
+            <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
+                <div class="add-products-row">
+                    <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
+                        <a href="javascript;">
+                            <h4>일본 라멘</h4>
+                            <h5>공짜 쿠폰</h5>
+                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-05-01 ~ 2017-05-31</h6>
+                        </a>
+                    </div>
                     <div class="clearfix"> </div>
                 </div>
+            </div>
+
+            <h3 class="w3ls-title" style="margin:1.5em 0 0.5em;">할인 달력</h3>
+            <div id="example">
+                <div class="demo-section k-header" style="text-align: center;background-color:#FFFFFF;padding-right: 10px;">
+                    <div id="calendar" style="width:100%;"></div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        // create Calendar from div HTML element
+                        $("#calendar").kendoCalendar();
+                    });
+                </script>
             </div>
         </div>
         <!-- //info -->
@@ -228,7 +246,7 @@
                 </ul>
                 <div class="clearfix"> </div>
             </div>
-            <div class="products-row">
+            <div class="products-row" style="margin-bottom:20px">
                 <% for(var i = 0; i < foodData.length; i++) { %>
                 <% if(i%2 == 1) {%>
                 <div class="col-xs-6 col-sm-4 product-grids">
@@ -348,11 +366,11 @@
         <div class="col-md-6 social-icons w3-agile-icons">
             <h4>SNS <span style="font-size:0.9em;color:#999;line-height:1.8em;">공유 하기</span></h4>
             <ul>
-                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/facebook.png"></a></li>
-                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/twitter.png"></a></li>
-                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/instagram.png"></a></li>
-                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/kakao-story.png"></a></li>
-                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:15px;" src="/images/naver.png"></a></li>
+                <li><a href="javascript:" onclick="checkLoginState();"><img style="width:50px;margin-right:5px;" src="/images/facebook.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:5px;" src="/images/twitter.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:5px;" src="/images/instagram.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:5px;" src="/images/kakao-story.png"></a></li>
+                <li><a href="javascript:" onclick=""><img style="width:50px;margin-right:5px;" src="/images/naver.png"></a></li>
                 <!--
                 <li><a href="javascript:" class="fa fa-dribbble icon dribbble"> </a></li>
                 <li><a href="javascript:" class="fa fa-rss icon rss"> </a></li>-->
@@ -367,6 +385,20 @@
 </div>
 <!-- //subscribe -->
 <!-- footer -->
+<div class="footer agileits-w3layouts">
+    <div class="container">
+        <div class="w3_footer_grids">
+            <div class="col-xs-6 col-sm-3 footer-grids w3-agileits" style="width:100%">
+                <h3><%= shopData.SHOP_NAME %></h3>
+                <ul>
+                    <li><a href="about.html">  주    소 : <%= shopData.SHOP_ADDR %></a></li>
+                    <li><a href="contact.html">연 락 처 : <%= shopData.SHOP_PHONE %></a></li>
+                    <li><a href="careers.html">영업 시간 : <%= shopData.SHOP_OPEN %></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="copyw3-agile">
     <div class="container">
         <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
@@ -471,19 +503,12 @@
 <script>
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
-//        console.log('statusChangeCallback');
-//        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
-            linkURL();
+            window.location.href="https://m.facebook.com/";
         } else {
             // The person is not logged into your app or we are unable to tell.
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into this app.';
+            facebookLoginFunction();
         }
     }
 
@@ -498,29 +523,12 @@
 
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '{CLIENT_ID}',
+            appId      : '947469771959952',
             cookie     : true,  // enable cookies to allow the server to access
                                 // the session
             xfbml      : true,  // parse social plugins on this page
             version    : 'v2.3' // use graph api version 2.8
         });
-
-        // Now that we've initialized the JavaScript SDK, we call
-        // FB.getLoginStatus().  This function gets the state of the
-        // person visiting this page and can return one of three states to
-        // the callback you provide.  They can be:
-        //
-        // 1. Logged into your app ('connected')
-        // 2. Logged into Facebook, but not your app ('not_authorized')
-        // 3. Not logged into Facebook and can't tell if they are logged into
-        //    your app or not.
-        //
-        // These three cases are handled in the callback function.
-
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-
     };
 
     // Load the SDK asynchronously
@@ -534,30 +542,17 @@
 
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
-    function linkURL() {
+    function facebookLoginFunction() {
         console.log('Welcome!  Fetching your information.... ');
 
-        FB.api('/me', function(response) {
-            console.log('Successful login for: ' + response.name);
-            window.location.href="https://m.facebook.com/";
-//            document.getElementById('status').innerHTML =
-//                'Thanks for logging in, ' + response.name + '!';
+        FB.login(function(response) {
+        }, {
+            scope: 'publish_actions',
+            return_scopes: true
         });
     }
 </script>
-
-
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
-
-<!--<a href="javascript:" onclick="window.open('https://m.facebook.com/')">
-    <img src="//dev.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
-</a>-->
-
-<div id="status">
-</div>
 <!-- //페이스북-->
-
 
 <!-- 트위터 -->
 <script src="http://platform.twitter.com/anywhere.js?id={CLIENT_ID}&v=1"></script>

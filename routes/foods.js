@@ -13,15 +13,23 @@ router.get('/foodShop', function (req, res, next) {
 
     getConnection(function (err, connection){
         // Select food Menu
-        var selectFoodQuery = 'select SSM.*, SSI.SHOP_NAME from SB_SHOP_MENU as SSM ' +
-            'inner join SB_SHOP_INFO as SSI on SSM.SHOP_ID = SSI.SHOP_ID where SSI.SHOP_ID = ?';
-        connection.query(selectFoodQuery, id, function (err, row) {
+        var selectShopQuery = 'select SSI.* from SB_SHOP_INFO as SSI where SSI.SHOP_ID = ?';
+        connection.query(selectShopQuery, id, function (err, shop) {
             if (err) {
-                console.error("@@@ [food Menu] Select food Menu Error : " + err);
+                console.error("@@@ [shop info] Select shop info Error : " + err);
                 throw err;
             }else{
-                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(row));
-                res.render('foods/foodShop', {url:config.url, foodData :row});
+                console.log("### [shop info] Select shop info Success ### " + JSON.stringify(shop));
+                var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ?';
+                connection.query(selectMenuQuery, id, function (err, menu) {
+                    if (err) {
+                        console.error("@@@ [food Menu] Select food Menu Error : " + err);
+                        throw err;
+                    }else{
+                        console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
+                        res.render('foods/foodShop', {url:config.url, shopData:shop[0], foodData:menu});
+                    }
+                });
             }
             connection.release();
         });
