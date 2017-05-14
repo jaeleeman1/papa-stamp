@@ -12,14 +12,11 @@
     <link href="/css/style.css" type="text/css" rel="stylesheet" media="all">
     <link href="/css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
     <link href="/css/owl.carousel.css" type="text/css" rel="stylesheet" media="all"/>
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
+    <link href="/css/calendar.css" type="text/css" rel="stylesheet" media="all"/>
     <!-- //Custom Theme files -->
     <!-- js -->
     <script src="/js/jquery-2.2.3.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+    <script type="text/javascript" src="/js/calendar.min.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -204,16 +201,19 @@
                 </div>
             </div>
 
-            <h3 class="w3ls-title" style="margin:1.5em 0 0.5em;">할인 달력</h3>
-            <div id="example">
-                <div class="demo-section k-header" style="text-align: center;background-color:#FFFFFF;padding-right: 10px;">
-                    <div id="calendar" style="width:100%;"></div>
-                </div>
+            <div class="offers-wthreerow2" style="margin:1.5em 1em 2em;">
                 <script>
-                    $(document).ready(function() {
-                        // create Calendar from div HTML element
-                        $("#calendar").kendoCalendar();
-                    });
+                    cal3 = new Calendar('cal3', 'frm3');
+                    cal3.tfDate = 'dateField';
+                    cal3.bgcolor = '#D1EBF3'; // 요일 배경색
+                    cal3.bgcolor2 = '#E9F8FC'; // 내용 배경색
+                    cal3.linecolor = '#D1EBF3'; // 라인 배경색
+                    cal3.lineheight = '20px'; // 라인 높이
+                    cal3.width = '300'; // 달력 너비
+                    cal3.tfDateLineCol = 'green'; // 텍스트필드 라인색
+                    cal3.tfCol = '#E9F8FC'; // 내용 텍스트필드 배경색
+                    cal3.focusCol = 'yellow'; // 포커스 색
+                    cal3.show();
                 </script>
             </div>
         </div>
@@ -547,8 +547,7 @@
 
         FB.login(function(response) {
         }, {
-            scope: 'publish_actions',
-            return_scopes: true
+            scope: 'publish_actions'
         });
     }
 </script>
