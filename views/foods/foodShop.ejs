@@ -154,72 +154,6 @@
 <div class="products">
     <div class="container">
 
-        <!-- info -->
-        <div id="tab3" class="wthree-order tab_content">
-            <img src="/images/i2.jpg" class="w3order-img" alt="">
-            <h3 class="w3ls-title">방문 횟수</h3>
-            <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
-            <div class="container" style="padding-top: 70px;padding-bottom:30px;padding-left:40px;">
-                <div class="order-agileinfo">
-                    <div>
-                        <% for (var i=1; i<=10; i++) {%>
-                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;margin-bottom:30px;">
-                            <div class="order-w3text" style="width:30px;height:30px;padding-top:5px">
-                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em;margin-bottom:10px"></i>
-                                <h5>
-                                    <% if (i == 1) { %>one
-                                    <% }else if(i == 2) {%>two
-                                    <% }else if(i == 3) {%>three
-                                    <% }else if(i == 4) {%>four
-                                    <% }else if(i == 5) {%>five
-                                    <% }else if (i == 6) { %>six
-                                    <% }else if(i == 7) {%>seven
-                                    <% }else if(i == 8) {%>eight
-                                    <% }else if(i == 9) {%>nine
-                                    <% }else if(i == 10) {%>ten
-                                    <%}%>
-                                </h5>
-                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:3px"><%= i %></span>
-                            </div>
-                        </div>
-                        <%}%>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="w3ls-title">할인 쿠폰</h3>
-            <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
-                <div class="add-products-row">
-                    <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
-                        <a href="javascript;">
-                            <h4>일본 라멘</h4>
-                            <h5>공짜 쿠폰</h5>
-                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-05-01 ~ 2017-05-31</h6>
-                        </a>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-            </div>
-
-            <div class="offers-wthreerow2" style="margin:1.5em 1em 2em;">
-                <script>
-                    cal3 = new Calendar('cal3', 'frm3');
-                    cal3.tfDate = 'dateField';
-                    cal3.bgcolor = '#D1EBF3'; // 요일 배경색
-                    cal3.bgcolor2 = '#E9F8FC'; // 내용 배경색
-                    cal3.linecolor = '#D1EBF3'; // 라인 배경색
-                    cal3.lineheight = '20px'; // 라인 높이
-                    cal3.width = '300'; // 달력 너비
-                    cal3.tfDateLineCol = 'green'; // 텍스트필드 라인색
-                    cal3.tfCol = '#E9F8FC'; // 내용 텍스트필드 배경색
-                    cal3.focusCol = 'yellow'; // 포커스 색
-                    cal3.show();
-                </script>
-            </div>
-        </div>
-        <!-- //info -->
-
-
 
 
         <!-- menu -->
@@ -309,16 +243,61 @@
         </div>
         <!-- //menu -->
 
+
+
+
+
         <!-- dishes -->
         <div id="tab2" class="w3agile-spldishes tab_content">
             <div class="container">
-                <h3 class="w3ls-title">주문할 메뉴 내역</h3>
+                <h3 class="w3ls-title">현재 입장 번호</h3>
+                <div class="col-md-4 ftr-top-grids">
+                    <div class="ftr-top-left" style="text-align:center;">
+                        <i class="fa" aria-hidden="true" style="color:#fb4602;">3</i>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+                <div class="grid_3 grid_5 w3-agileits w3layouts">
+                    <h3 class="w3ls-hdg">진행률 80%</h3>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="domprogress">
+                            <div class="progress w3-agileits">
+                                <div class="progress-bar progress-bar-info" style="width: 80%"></div>
+                            </div>
+                            <p>대기 시간 : <code>약 10분</code> </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid_3 grid_5">
+                    <h3 class="w3ls-hdg">내 대기 번호 / 인원</h3>
+                    <div class="col-md-6 page_1 agileits-w3layouts" style="padding-left: 3px">
+                        <nav>
+                            <ul class="pagination">
+                                <span class="badge badge-info" style="float:left;font-size:27px;margin-left:25px;margin-right:30px;">6</span>
+                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                                <li class="active"><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                            </ul>
+                        </nav>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+                <div class="login-agileinfo">
+                    <input id="delay-push" type="submit" value="대기 하기">
+                </div>
+                <!--<h3 class="w3ls-title">주문한 메뉴 내역</h3>
                 <div class="spldishes-agileinfo">
                     <div class="col-md-3 spldishes-w3left">
                         <h5 class="w3ltitle">선택한 음식 총 4개</h5>
                     </div>
                     <div class="col-md-9 spldishes-grids">
-                        <!-- Owl-Carousel -->
+                        &lt;!&ndash; Owl-Carousel &ndash;&gt;
                         <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
                             <a href="javascript:" class="item g1">
                                 <img class="lazyOwl" src="/images/g1.jpg" title="Our latest gallery" alt=""/>
@@ -349,12 +328,81 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="clearfix"> </div>
                 </div>
             </div>
         </div>
         <!-- //dishes -->
+
+
+
+
+        <!-- info -->
+        <div id="tab3" class="wthree-order tab_content">
+            <img src="/images/i2.jpg" class="w3order-img" alt="">
+            <h3 class="w3ls-title">방문 횟수</h3>
+            <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
+            <div class="container" style="padding-top: 70px;padding-bottom:30px;padding-left:40px;">
+                <div class="order-agileinfo">
+                    <div>
+                        <% for (var i=1; i<=10; i++) {%>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;margin-bottom:30px;">
+                            <div class="order-w3text" style="width:30px;height:30px;padding-top:5px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em;margin-bottom:10px"></i>
+                                <h5>
+                                    <% if (i == 1) { %>one
+                                    <% }else if(i == 2) {%>two
+                                    <% }else if(i == 3) {%>three
+                                    <% }else if(i == 4) {%>four
+                                    <% }else if(i == 5) {%>five
+                                    <% }else if (i == 6) { %>six
+                                    <% }else if(i == 7) {%>seven
+                                    <% }else if(i == 8) {%>eight
+                                    <% }else if(i == 9) {%>nine
+                                    <% }else if(i == 10) {%>ten
+                                    <%}%>
+                                </h5>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:3px"><%= i %></span>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="w3ls-title">할인 쿠폰</h3>
+            <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
+                <div class="add-products-row">
+                    <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
+                        <a href="javascript;">
+                            <h4>일본 라멘</h4>
+                            <h5>공짜 쿠폰</h5>
+                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-05-01 ~ 2017-05-31</h6>
+                        </a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+
+            <div class="offers-wthreerow2" style="margin:1.5em 1em 2em;">
+                <script>
+                    cal3 = new Calendar('cal3', 'frm3');
+                    cal3.tfDate = 'dateField';
+                    cal3.bgcolor = '#D1EBF3'; // 요일 배경색
+                    cal3.bgcolor2 = '#E9F8FC'; // 내용 배경색
+                    cal3.linecolor = '#D1EBF3'; // 라인 배경색
+                    cal3.lineheight = '20px'; // 라인 높이
+                    cal3.width = '300'; // 달력 너비
+                    cal3.tfDateLineCol = 'green'; // 텍스트필드 라인색
+                    cal3.tfCol = '#E9F8FC'; // 내용 텍스트필드 배경색
+                    cal3.focusCol = 'yellow'; // 포커스 색
+                    cal3.show();
+                </script>
+            </div>
+        </div>
+        <!-- //info -->
+
 
         <div class="clearfix"> </div>
     </div>
@@ -491,6 +539,15 @@
             var activeTab = $(this).attr("rel");
             $("#" + activeTab).fadeIn();
         });
+
+        $("ul.pagination li").click(function () {
+            $("ul.pagination li").removeClass("active");
+            $(this).addClass("active");
+        })
+
+/*        $("#delay-push").click(function () {
+            $(".login-agileinfo input").removeAttr("style");
+        });*/
     });
 </script>
 <!-- //smooth-scrolling-of-move-up -->

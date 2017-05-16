@@ -1726,7 +1726,7 @@ p.single-price-text {
 }
 /*-- footer-top --*/  
 .ftr-top-left {
-    float: left; 
+    /*float: left; */
 }
 .ftr-top-right{
     float: right;
