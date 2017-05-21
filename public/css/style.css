@@ -2084,7 +2084,7 @@ p.single-price-text {
 }
 .help-search input[type="search"] {
     width: 100%;
-    padding: 1em 8em 1em 1em;
+    padding: 0.3em 8em 0.3em 1em;
     font-size: 1em;
     color: #999;
     outline: none;
