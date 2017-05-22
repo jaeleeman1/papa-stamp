@@ -194,7 +194,6 @@
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new daum.maps.services.Geocoder();
 
-
     // 현재 위치 표시
     if (navigator.geolocation) {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -228,7 +227,128 @@
             image: markerContentN // 마커이미지 설정
         });
 
-        displayMarker(currentMarkerPosition, currentMarkerImage);
+//        displayMarker(currentMarkerPosition, currentMarkerImage);
+    }
+
+    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+    function displayMarker(currentMarkerPosition, currentMarkerImage) {
+        map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+            center : currentMarkerPosition, // 지도의 중심좌표
+            level : 10 // 지도의 확대 레벨
+        });
+
+        // 현재 위치 마커를 생성합니다
+        var marker = new daum.maps.Marker({
+            map: map,
+            position: currentMarkerPosition,
+            image: currentMarkerImage // 마커이미지 설정
+        });
+        marker.setMap(map);
+
+        // 마커 클러스터러를 생성합니다
+        var clusterer = new daum.maps.MarkerClusterer({
+            map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+            averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+            minLevel: 10 // 클러스터 할 최소 지도 레벨
+        });
+
+        var selectedMarker = null;
+
+        // 데이터를 가져오기 위해 jQuery를 사용합니다
+        // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+        $.get("/mapData/tv/threeKing.json", function(data) {
+            // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+            // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+
+            var imageSrc = 'https://s3-ap-northeast-1.amazonaws.com/sbevent/image/shop_point.png', // 마커이미지의 주소입니다
+                imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
+                imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+            var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
+
+            var clickImageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
+                clickImageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+                clickImageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+            var clickImage = new daum.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOprion);
+
+            var markers = $(data.positions).map(function(i, position) {
+                var marker = new daum.maps.Marker({
+                    position : new daum.maps.LatLng(position.lat, position.lng),
+                    image:normalImage
+                });
+
+                daum.maps.event.addListener(marker, 'click', function() {
+
+//                alert('GG : ' + position.lat);
+                    alert('KK : ' + selectedMarker);
+                    // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+                    // 마커의 이미지를 클릭 이미지로 변경합니다
+                    if (!selectedMarker || selectedMarker !== marker) {
+
+                        // 클릭된 마커 객체가 null이 아니면
+                        // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+                        !!selectedMarker && selectedMarker.setImage(normalImage);
+
+                        // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                        marker.setImage(clickImage);
+                    }
+
+                    // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+                    selectedMarker = marker;
+                });
+
+                return marker;
+            });
+
+            // 클러스터러에 마커들을 추가합니다
+            clusterer.addMarkers(markers);
+        });
+
+        $.get("/mapData/tv/wednesShop.json", function(data) {
+            // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+            // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+
+            var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
+                imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
+                imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+            var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
+
+            var clickImageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
+                clickImageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+                clickImageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+            var clickImage = new daum.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOprion);
+
+            var markers = $(data.positions).map(function(i, position) {
+                var marker = new daum.maps.Marker({
+                    position : new daum.maps.LatLng(position.lat, position.lng),
+                    image:normalImage
+                });
+
+                daum.maps.event.addListener(marker, 'click', function() {
+
+//                alert('GG : ' + position.lat);
+                    alert('KK : ' + selectedMarker);
+                    // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+                    // 마커의 이미지를 클릭 이미지로 변경합니다
+                    if (!selectedMarker || selectedMarker !== marker) {
+
+                        // 클릭된 마커 객체가 null이 아니면
+                        // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+                        !!selectedMarker && selectedMarker.setImage(normalImage);
+
+                        // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                        marker.setImage(clickImage);
+                    }
+
+                    // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+                    selectedMarker = marker;
+                });
+
+                return marker;
+            });
+
+            // 클러스터러에 마커들을 추가합니다
+            clusterer.addMarkers(markers);
+        });
     }
 
     //Shop List
@@ -272,314 +392,6 @@
                 console.log('Error occured');
             }
         });
-    }
-
-    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
-    function displayMarker(currentMarkerPosition, currentMarkerImage) {
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-                center: currentMarkerPosition, // 지도의 중심좌표
-                level: 10 // 지도의 확대 레벨
-            };
-
-        map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-        map.setDraggable(true);
-        map.setZoomable(false);
-
-        initClicn(currentMarkerPosition);
-
-        // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-        searchAddrFromCoords(map.getCenter(), shopMarkerList);
-
-        // 지도에 클릭 이벤트를 등록합니다
-        // 지도를 클릭하면 선 그리기가 시작됩니다 그려진 선이 있으면 지우고 다시 그립니다
-        daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-
-            // 마우스로 클릭한 위치입니다
-            var clickPosition = mouseEvent.latLng;
-
-            // 그려지고 있는 선의 좌표 배열을 얻어옵니다
-            var path = clickLine.getPath();
-
-            // 좌표 배열에 클릭한 위치를 추가합니다
-            path.push(clickPosition);
-
-            // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
-            clickLine.setPath(path);
-
-            var distance = Math.round(clickLine.getLength());
-            displayCircleDot(clickPosition, distance);
-
-            // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
-            if (drawingFlag) {
-
-                // 마우스무브로 그려진 선은 지도에서 제거합니다
-                moveLine.setMap(null);
-                moveLine = null;
-
-                // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
-                var path = clickLine.getPath();
-
-                // 선을 구성하는 좌표의 개수가 2개 이상이면
-                if (path.length > 1) {
-
-                    // 마지막 클릭 지점에 대한 거리 정보 커스텀 오버레이를 지웁니다
-                    if (dots[dots.length-1].distance) {
-                        dots[dots.length-1].distance.setMap(null);
-                        dots[dots.length-1].distance = null;
-                    }
-
-                    var distance = Math.round(clickLine.getLength()), // 선의 총 거리를 계산합니다
-                        content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
-
-                    // 그려진 선의 거리정보를 지도에 표시합니다
-                    showDistance(content, path[path.length-1]);
-
-                }
-
-                // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
-                drawingFlag = false;
-            }else {
-
-                // 선을 구성하는 좌표의 개수가 1개 이하이면
-                // 지도에 표시되고 있는 선과 정보들을 지도에서 제거합니다.
-                deleteClickLine();
-                deleteCircleDot();
-                deleteDistnce();
-
-                var markerPositionN = new daum.maps.LatLng(currentLat, currentLon); // 마커가 표시될 위치입니다
-                initClicn(markerPositionN);
-                drawingFlag = true;
-            }
-        });
-
-        // 지도에 마우스무브 이벤트를 등록합니다
-        // 선을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 선의 위치를 동적으로 보여주도록 합니다
-        daum.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
-
-            // 지도 마우스무브 이벤트가 발생했는데 선을 그리고있는 상태이면
-            if (drawingFlag){
-
-                // 마우스 커서의 현재 위치를 얻어옵니다
-                var mousePosition = mouseEvent.latLng;
-
-                // 마우스 클릭으로 그려진 선의 좌표 배열을 얻어옵니다
-                var path = clickLine.getPath();
-
-                // 마우스 클릭으로 그려진 마지막 좌표와 마우스 커서 위치의 좌표로 선을 표시합니다
-                var movepath = [path[path.length-1], mousePosition];
-                moveLine.setPath(movepath);
-                moveLine.setMap(map);
-
-                var distance = Math.round(clickLine.getLength() + moveLine.getLength()), // 선의 총 거리를 계산합니다
-                    content = '<div class="dotOverlay distanceInfo">현재 위치와의 거리 <span class="number">' + distance + '</span>m</div>'; // 커스텀오버레이에 추가될 내용입니다
-
-                // 거리정보를 지도에 표시합니다
-                showDistance(content, mousePosition);
-            }
-        });
-    }
-
-    function initClicn(currentMarkerPosition) {
-        deleteCircleDot();
-        clickLine = new daum.maps.Polyline({
-            map: map, // 선을 표시할 지도입니다
-            path: [currentMarkerPosition], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
-            strokeWeight: 3, // 선의 두께입니다
-            strokeColor: '#db4040', // 선의 색깔입니다
-            strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-            strokeStyle: 'solid' // 선의 스타일입니다
-        });
-
-        // 선이 그려지고 있을 때 마우스 움직임에 따라 선이 그려질 위치를 표시할 선을 생성합니다
-        moveLine = new daum.maps.Polyline({
-            strokeWeight: 0, // 선의 두께입니다
-            strokeColor: '#db4040', // 선의 색깔입니다
-            strokeOpacity: 0.5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-            strokeStyle: 'solid' // 선의 스타일입니다
-        });
-
-        // 마우스 커서의 현재 위치를 얻어옵니다
-        var mousePosition = currentMarkerPosition;
-        // 마우스 클릭으로 그려진 선의 좌표 배열을 얻어옵니다
-        var path = clickLine.getPath();
-
-        // 마우스 클릭으로 그려진 마지막 좌표와 마우스 커서 위치의 좌표로 선을 표시합니다
-        var movepath = [path[path.length-1], mousePosition];
-        moveLine.setPath(movepath);
-        moveLine.setMap(map);
-
-        var distance = Math.round(clickLine.getLength() + moveLine.getLength()), // 선의 총 거리를 계산합니다
-            content = '<div class="dotOverlay distanceInfo">현재 위치<span class="number">' + distance + '</span>m</div>'; // 커스텀오버레이에 추가될 내용입니다
-
-        // 거리정보를 지도에 표시합니다
-        showDistance(content, mousePosition);
-        displayCircleDot(mousePosition, 0);
-    }
-
-    // 클릭으로 그려진 선을 지도에서 제거하는 함수입니다
-    function deleteClickLine() {
-        if (clickLine) {
-            clickLine.setMap(null);
-            clickLine = null;
-        }
-    }
-
-    // 마우스 드래그로 그려지고 있는 선의 총거리 정보를 표시하거
-    // 마우스 오른쪽 클릭으로 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 생성하고 지도에 표시하는 함수입니다
-    function showDistance(content, position) {
-
-        if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
-
-            // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
-            distanceOverlay.setPosition(position);
-            distanceOverlay.setContent(content);
-
-        } else { // 커스텀 오버레이가 생성되지 않은 상태이면
-
-            // 커스텀 오버레이를 생성하고 지도에 표시합니다
-            distanceOverlay = new daum.maps.CustomOverlay({
-                map: map, // 커스텀오버레이를 표시할 지도입니다
-                content: content,  // 커스텀오버레이에 표시할 내용입니다
-                position: position, // 커스텀오버레이를 표시할 위치입니다.
-                xAnchor: 0,
-                yAnchor: 0,
-                zIndex: 3
-            });
-        }
-    }
-
-    // 그려지고 있는 선의 총거리 정보와
-    // 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 삭제하는 함수입니다
-    function deleteDistnce () {
-        if (distanceOverlay) {
-            distanceOverlay.setMap(null);
-            distanceOverlay = null;
-        }
-    }
-
-    // 선이 그려지고 있는 상태일 때 지도를 클릭하면 호출하여
-    // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 표출하는 함수입니다
-    function displayCircleDot(position, distance) {
-        // 클릭 지점을 표시할 빨간 동그라미 커스텀오버레이를 생성합니다
-        var circleOverlay = new daum.maps.CustomOverlay({
-            content: '<span class="dot"></span>',
-            position: position,
-            zIndex: 1
-        });
-
-        // 지도에 표시합니다
-        circleOverlay.setMap(map);
-
-        if (distance > 0) {
-            // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
-            var distanceOverlay = new daum.maps.CustomOverlay({
-                content: '<div class="dotOverlay">거리 <span class="number">' + distance + '</span>m</div>',
-                position: position,
-                yAnchor: 1,
-                zIndex: 2
-            });
-
-            // 지도에 표시합니다
-            distanceOverlay.setMap(map);
-        }
-
-        // 배열에 추가합니다
-        dots.push({circle:circleOverlay, distance: distanceOverlay});
-    }
-
-    // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 지도에서 모두 제거하는 함수입니다
-    function deleteCircleDot() {
-        var i;
-
-        for ( i = 0; i < dots.length; i++ ){
-            if (dots[i].circle) {
-                dots[i].circle.setMap(null);
-            }
-
-            if (dots[i].distance) {
-                dots[i].distance.setMap(null);
-            }
-        }
-
-        dots = [];
-    }
-
-    // 마우스 우클릭 하여 선 그리기가 종료됐을 때 호출하여
-    // 그려진 선의 총거리 정보와 거리에 대한 도보, 자전거 시간을 계산하여
-    // HTML Content를 만들어 리턴하는 함수입니다
-    function getTimeHTML(distance) {
-
-        // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
-        var walkkTime = distance / 67 | 0;
-        var walkHour = '', walkMin = '';
-
-        // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
-        if (walkkTime > 60) {
-            walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 '
-        }
-        walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
-
-        // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
-        var bycicleTime = distance / 227 | 0;
-        var bycicleHour = '', bycicleMin = '';
-
-        // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-        if (bycicleTime > 60) {
-            bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 '
-        }
-        bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
-
-        // 자동차의 평균 시속을 50km/h 이라하고 이것을 기준으로 자동차의 분속은 833m/min입니다
-        var carTime = distance / 833 | 0;
-        var carHour = '', carMin = '';
-
-        // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-        if (carTime > 60) {
-            carHour = '<span class="number">' + Math.floor(carTime / 60) + '</span>시간 '
-        }
-
-        if (carTime % 60 > 0){
-            carMin = '<span class="number">' + carTime % 60 + '</span>분'
-        }else {
-            carMin = '<span class="number">1</span>분'
-        }
-
-        // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
-        var content = '<ul class="dotOverlay distanceInfo">';
-        content += '    <li>';
-        content += '        <span class="distance_label">(직선거리 대략시간)</span>';
-        content += '    </li>';
-        content += '    <li>';
-        content += '        <span class="distance_label">총거리</span><span class="number">' + distance + '</span>m';
-        content += '    </li>';
-        content += '    <li>';
-        content += '        <span class="distance_label">도보</span>' + walkHour + walkMin;
-        content += '    </li>';
-        content += '    <li>';
-        content += '        <span class="distance_label">자전거</span>' + bycicleHour + bycicleMin;
-        content += '    </li>';
-        content += '    <li>';
-        content += '        <span class="distance_label">자동차</span>' + carHour + carMin;
-        content += '    </li>';
-        content += '</ul>'
-
-        return content;
-    }
-
-    // 지도타입 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수입니다
-    function setMapType(maptype) {
-        var roadmapControl = document.getElementById('btnRoadmap');
-        var skyviewControl = document.getElementById('btnSkyview');
-        if (maptype === 'roadmap') {
-            map.setMapTypeId(daum.maps.MapTypeId.ROADMAP);
-            roadmapControl.className = 'selected_btn';
-            skyviewControl.className = 'btn';
-        } else {
-            map.setMapTypeId(daum.maps.MapTypeId.HYBRID);
-            skyviewControl.className = 'selected_btn';
-            roadmapControl.className = 'btn';
-        }
     }
 
     // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
@@ -635,83 +447,7 @@
         }
     }
 
-    function shopMarkerList(status, result) {
-        // 마커 클러스터러를 생성합니다
-        // 마커 클러스터러를 생성할 때 disableClickZoom 값을 true로 지정하지 않은 경우
-        // 클러스터 마커를 클릭했을 때 클러스터 객체가 포함하는 마커들이 모두 잘 보이도록 지도의 레벨과 영역을 변경합니다
-        // 이 예제에서는 disableClickZoom 값을 true로 설정하여 기본 클릭 동작을 막고
-        // 클러스터 마커를 클릭했을 때 클릭된 클러스터 마커의 위치를 기준으로 지도를 1레벨씩 확대합니다
-        var clusterer = new daum.maps.MarkerClusterer({
-            map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-            averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-            minLevel: 10, // 클러스터 할 최소 지도 레벨
-            disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다
-        });
 
-        var loadMarker='';
-        if (status === daum.maps.services.Status.OK) {
-            console.log(result[0].fullName);
-            var splitName = (result[0].fullName).split(' ');
-
-            switch(splitName[0]) {
-                case '서울':
-                    alert('서울');
-                    break;
-                case '경기도':
-                    loadMarker+='/seoul';
-                    switch(splitName[1]) {
-                        case '고양시':
-                            switch(splitName[2]) {
-                                case '덕양구':
-                                    loadMarker+='/gangnam';
-                                    break;
-                                case '일산동구':
-                                    alert('고양시 일산동구');
-                                    break;
-                                case '일산서구':
-                                    alert('고양시 일산서구');
-                                    break;
-                            }
-                    }
-            }
-        }
-        // 데이터를 가져오기 위해 jQuery를 사용합니다
-        // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-        $.get("/mapData/"+ loadMarker +".json", function(data) {
-            // 데이터에서 좌표 값을 가지고 마커를 표시합니다
-            // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-            var imageSrc = "	https://s3-ap-northeast-1.amazonaws.com/sbevent/image/shop_point.png";
-            var imageSize = new daum.maps.Size(44, 51);
-            var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
-            var markers = $(data.positions).map(function(i, position) {
-                return new daum.maps.Marker({
-                    position : new daum.maps.LatLng(position.lat, position.lng),
-                    image : markerImage, // 마커 이미지
-                    clickable: true
-                });
-            });
-
-            // 클러스터러에 마커들을 추가합니다
-            clusterer.addMarkers(markers);
-        });
-
-        // 마커 클러스터러에 클릭이벤트를 등록합니다
-        // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
-        // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-        daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-
-            // 현재 지도 레벨에서 1레벨 확대한 레벨
-            var level = map.getLevel()-1;
-
-            // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
-            map.setLevel(level, {anchor: cluster.getCenter()});
-        });
-    }
-
-    function searchAddrFromCoords(coords, callback) {
-        // 좌표로 행정동 주소 정보를 요청합니다
-        geocoder.coord2addr(coords, callback);
-    }
 </script>
 <!-- //cart-js -->
 <!-- start-smooth-scrolling -->
