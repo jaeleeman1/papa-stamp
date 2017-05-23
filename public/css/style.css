@@ -399,7 +399,7 @@ option {
 } 
 .order-w3text span {
     font-family: 'Yantramanav', sans-serif;
-    font-size: 5em;
+    font-size: 3.7em;
     color: #fff;
     font-weight: 900;
     position: absolute;
@@ -4301,3 +4301,4 @@ img.w3order-img {
 /* add css */
 .phone {color: blue; letter-spacing: 0.8px; margin-left:5px;}
 .icon {float:right}
+#tvList {float:right; border:none; background-color:#ffe9e8; font-size:0.9em; color:lightslategray; text-decoration: underline;}

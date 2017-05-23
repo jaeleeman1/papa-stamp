@@ -64,7 +64,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="<% url %>/main">Home</a></li>
                             <!-- Mega Menu -->
-                            <li class="dropdown">
+                            <!--<li class="dropdown">
                                 <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <div class="row">
@@ -112,31 +112,9 @@
                                         <div class="clearfix"></div>
                                     </div>
                                 </ul>
-                            </li>
+                            </li>-->
                             <li><a href="/contact" class="active">Contact Us</a></li>
                         </ul>
-                    </div>
-                    <div class="cart cart box_1">
-                        <button class="w3view-cart" type="submit" name="submit" value="">
-                            <li class="dropdown">
-                                <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-eye" aria-hidden="true"></i><b class="caret"></b></a>
-                                <ul class="dropdown-menu multi-column columns-3" style="margin-left:-20px;">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown"  style="width:10em;">
-                                                <h6>백종원의 3대 천왕</h6></a>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>수요미식회</h6>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </ul>
-                            </li>
-                        </button>
                     </div>
                 </nav>
             </div>
@@ -154,6 +132,12 @@
     <ol class="breadcrumb w3l-crumbs">
         <li><a href="javascript:"><i class="fa fa-home"></i> Home</a></li>
         <li class="active" style="color: #e24945">현재 위치 맛집</li>
+        <select id="tvList" name="agileinfo_search" required="" onchange="current()">
+            <option value="threeKing">백종원의 3대 천왕</option>
+            <option value="wednesShop">수요미식회</option>
+            <option value="threeKing">먹거리 X파일</option>
+            <option value="wednesShop">식신로드</option>
+        </select>
     </ol>
 </div>
 <!-- //breadcrumb -->
@@ -192,6 +176,7 @@
 <script src="js/minicart.js"></script>
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=076df8cf69c376d5065c3bc99891a438&libraries=clusterer,services"></script>
 <script>
+    current();
     w3ls.render();
 
     w3ls.cart.on('w3sb_checkout', function (evt) {
@@ -215,46 +200,43 @@
 
     var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-    function getPosition(position) {
-        currentLat = position.coords.latitude; // 위도
-        currentLon = position.coords.longitude; // 경도
-
-        var currentMarkerSrc = 'https://s3-ap-northeast-1.amazonaws.com/sbevent/image/current_point.png', // 메인 마커이미지의 주소입니다
-            currentMarkerSize = new daum.maps.Size(44, 49), // 메인  마커이미지의 크기입니다
-            currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-        var currentMarkerImage = new daum.maps.MarkerImage(currentMarkerSrc, currentMarkerSize, currentMarkerOption);
-        var currentMarkerPosition = new daum.maps.LatLng(currentLat, currentLon); // 마커가 표시될 위치입니다
-
-        shopList(currentLat, currentLon);
-        // 마커와 인포윈도우를 표시합니다
-        displayMarker(currentMarkerPosition, currentMarkerImage);
-    }
-    function showError(error) {
-        console.log("showError : "+error.message);
-    }
-
     // 현재 위치 표시
-    if (navigator.geolocation) {
+    function current() {
+        if (navigator.geolocation) {
 
-        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-        navigator.geolocation.getCurrentPosition(getPosition, showError);
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function(position) {
+                currentLat = position.coords.latitude; // 위도
+                currentLon = position.coords.longitude; // 경도
 
-    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-        console.log("fail the geolocation")
-        var locPosition = new daum.maps.LatLng(37.650804099999995, 126.88645269999999); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-        markerContentN = 'GPS 연결을 확인하여 주십시오';
+                var currentMarkerSrc = 'https://s3-ap-northeast-1.amazonaws.com/sbevent/image/current_point.png', // 메인 마커이미지의 주소입니다
+                    currentMarkerSize = new daum.maps.Size(44, 49), // 메인  마커이미지의 크기입니다
+                    currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-        // 마커를 생성합니다
-        var marker = new daum.maps.Marker({
-            map: map,
-            position: locPosition,
-            image: markerContentN // 마커이미지 설정
-        });
+                // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+                var currentMarkerImage = new daum.maps.MarkerImage(currentMarkerSrc, currentMarkerSize, currentMarkerOption);
+                var currentMarkerPosition = new daum.maps.LatLng(currentLat, currentLon); // 마커가 표시될 위치입니다
 
-//        displayMarker(currentMarkerPosition, currentMarkerImage);
+                shopList(currentLat, currentLon);
+                // 마커와 인포윈도우를 표시합니다
+                displayMarker(currentMarkerPosition, currentMarkerImage);
+            });
+
+        } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            console.log("fail the geolocation")
+            var locPosition = new daum.maps.LatLng(37.650804099999995, 126.88645269999999); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            markerContentN = 'GPS 연결을 확인하여 주십시오';
+
+            // 마커를 생성합니다
+            var marker = new daum.maps.Marker({
+                map: map,
+                position: locPosition,
+                image: markerContentN // 마커이미지 설정
+            });
+
+            displayMarker(currentMarkerPosition, currentMarkerImage);
+        }
     }
 
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
@@ -272,6 +254,13 @@
         });
         marker.setMap(map);
 
+        showClusterer();
+    };
+
+    function showClusterer() {
+        var tvName = document.getElementById("tvList").value;
+        var tvShopUrl ='/mapData/tv/'+tvName+'.json';
+
         // 마커 클러스터러를 생성합니다
         var clusterer = new daum.maps.MarkerClusterer({
             map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -283,7 +272,7 @@
 
         // 데이터를 가져오기 위해 jQuery를 사용합니다
         // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-        $.get("/mapData/tv/threeKing.json", function(data) {
+        $.get(tvShopUrl, function(data) {
             // 데이터에서 좌표 값을 가지고 마커를 표시합니다
             // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 
@@ -304,13 +293,9 @@
                 });
 
                 daum.maps.event.addListener(marker, 'click', function() {
-
-//                alert('GG : ' + position.lat);
-                    alert('KK : ' + selectedMarker);
                     // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
                     // 마커의 이미지를 클릭 이미지로 변경합니다
                     if (!selectedMarker || selectedMarker !== marker) {
-
                         // 클릭된 마커 객체가 null이 아니면
                         // 클릭된 마커의 이미지를 기본 이미지로 변경하고
                         !!selectedMarker && selectedMarker.setImage(normalImage);
@@ -330,52 +315,52 @@
             clusterer.addMarkers(markers);
         });
 
-        $.get("/mapData/tv/wednesShop.json", function(data) {
-            // 데이터에서 좌표 값을 가지고 마커를 표시합니다
-            // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+        /* $.get("/mapData/tv/wednesShop.json", function(data) {
+         // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+         // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 
-            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
-                imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
-                imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-            var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
+         var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
+         imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
+         imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+         var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
 
-            var clickImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
-                clickImageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
-                clickImageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-            var clickImage = new daum.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOprion);
+         var clickImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
+         clickImageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+         clickImageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+         var clickImage = new daum.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOprion);
 
-            var markers = $(data.positions).map(function(i, position) {
-                var marker = new daum.maps.Marker({
-                    position : new daum.maps.LatLng(position.lat, position.lng),
-                    image:normalImage
-                });
+         var markers = $(data.positions).map(function(i, position) {
+         var marker = new daum.maps.Marker({
+         position : new daum.maps.LatLng(position.lat, position.lng),
+         image:normalImage
+         });
 
-                daum.maps.event.addListener(marker, 'click', function() {
+         daum.maps.event.addListener(marker, 'click', function() {
 
-//                alert('GG : ' + position.lat);
-                    alert('KK : ' + selectedMarker);
-                    // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
-                    // 마커의 이미지를 클릭 이미지로 변경합니다
-                    if (!selectedMarker || selectedMarker !== marker) {
+         //                alert('GG : ' + position.lat);
+         alert('KK : ' + selectedMarker);
+         // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+         // 마커의 이미지를 클릭 이미지로 변경합니다
+         if (!selectedMarker || selectedMarker !== marker) {
 
-                        // 클릭된 마커 객체가 null이 아니면
-                        // 클릭된 마커의 이미지를 기본 이미지로 변경하고
-                        !!selectedMarker && selectedMarker.setImage(normalImage);
+         // 클릭된 마커 객체가 null이 아니면
+         // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+         !!selectedMarker && selectedMarker.setImage(normalImage);
 
-                        // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-                        marker.setImage(clickImage);
-                    }
+         // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+         marker.setImage(clickImage);
+         }
 
-                    // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-                    selectedMarker = marker;
-                });
+         // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+         selectedMarker = marker;
+         });
 
-                return marker;
-            });
+         return marker;
+         });
 
-            // 클러스터러에 마커들을 추가합니다
-            clusterer.addMarkers(markers);
-        });
+         // 클러스터러에 마커들을 추가합니다
+         clusterer.addMarkers(markers);
+         });*/
     }
 
     //Shop List
@@ -503,7 +488,6 @@
          */
 
         $().UItoTop({ easingType: 'easeOutQuart' });
-
     });
 </script>
 <!-- //smooth-scrolling-of-move-up -->
