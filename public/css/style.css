@@ -1036,6 +1036,8 @@ h3.w3ls-title.w3ls-title1 {
 
 /* hide back of pane during swap */
 .front, .back {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
 	transition: 0.6s;
 	transform-style: preserve-3d; 
