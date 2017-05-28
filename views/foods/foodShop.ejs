@@ -32,7 +32,8 @@
     <input type="hidden" name="current_addr" id="current_addr" value=""/>
 </form>
 
-<form style="display:none" name="shop_addr_list" id="shop_addr_list">
+<form style="display:none" name="push_shop_id" id="push_shop_id">
+    <input type="hidden" name="pushShopId" id="pushShopId" value="<%= pushShopId %>"/>
 </form>
 
 <body>
@@ -348,9 +349,9 @@
                     <div>
                         <% for (var i=1; i<=10; i++) {%>
                         <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;margin-bottom:30px;">
-                            <div class="order-w3text" style="width:40px;height:30px;padding-top:5px">
+                            <div class="order-w3text" style="width:40px;height:40px;padding-top:5px">
                                 <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em;margin-bottom:10px"></i>
-                                <h5>
+                                <h5 style="margin-top:0.2em;">
                                     <% if (i == 1) { %>one
                                     <% }else if(i == 2) {%>two
                                     <% }else if(i == 3) {%>three
@@ -363,7 +364,7 @@
                                     <% }else if(i == 10) {%>ten
                                     <%}%>
                                 </h5>
-                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:6px"><%= i %></span>
+                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:3px"><%= i %></span>
                             </div>
                         </div>
                         <%}%>
@@ -439,6 +440,8 @@
                     <li><a href="about.html">  주    소 : <%= shopData.SHOP_ADDR %></a></li>
                     <li><a href="contact.html">연 락 처 : <%= shopData.SHOP_PHONE %></a></li>
                     <li><a href="careers.html">영업 시간 : <%= shopData.SHOP_OPEN %></a></li>
+                </ul>
+                <ul id="appendPush">
                 </ul>
             </div>
         </div>
@@ -606,5 +609,27 @@
 </script>
 <!-- //페이스북-->
 
+<!-- web push -->
+<script type='text/javascript'>
+    var pushShopId = $("#pushShopId").val();
+    /*console.log('GHGGGGGGGG', $('#url').val());*/
+    var source = new EventSource('/foods/update-stream/'+pushShopId);
+
+    source.addEventListener('message', function(e) {
+//        console.log(e);
+//        var browserHeight = $(document).height();
+//        var scrollPosition = document.body.scrollTop;
+//        openLayer('layerPop', scrollPosition + 250, 50, browserHeight);
+        $('#appendPush').append('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
+    }, false);
+
+    $(function() {
+        $("#btn_cancel").click(
+            function() {
+                closeLayer('layerPop');
+            }
+        );
+    });
+</script>
 </body>
 </html>
