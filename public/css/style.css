@@ -36,7 +36,7 @@ body a:focus {
     outline: none;
 }
 .banner {
-    background: url(../images/back-ground.jpg) no-repeat center;
+    background: url(../images/cafejass/jass-main.png) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -998,7 +998,7 @@ h3.w3ls-title.w3ls-title1 {
 .product-top li.dropdown{
     display: inline-block;
     float: right;
-	margin-left: 2em;
+	margin-right: 3em;
 } 
 .product-top h4 {
     font-size: 1.3em;
@@ -1153,7 +1153,7 @@ h3.w3ls-title.w3ls-title1 {
     font-family: 'Yantramanav', sans-serif;
 }
 .back p {
-    margin: 0.8em 0;
+    margin: 1.4em 0;
     color: #fff;
     border-bottom: 1px solid rgba(238, 238, 238, 0.35);
     padding-bottom: 0.5em;
@@ -3740,7 +3740,7 @@ p {
     height: 280px;
 }
 .back {
-    padding: 4em 5em;
+    padding: 4em 2em;
 }
 .flip-container1 .back {
     padding: 4em 1em;

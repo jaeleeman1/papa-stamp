@@ -62,7 +62,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1><a href="main">PaPa<span>PaPa Stamp Management</span></a></h1>
+                        <h1 style="float:left;"><a href="main">PaPa <p style="float:right;font-size:0.6em;margin-left:10px;">Stamp</p><span>Stamp Management System</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
@@ -144,9 +144,9 @@
 <!-- breadcrumb -->
 <div class="container">
     <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
-        <li class="active" rel="tab1"><a href="javascript:" style="color: #e24945"><i class="fa fa-cutlery"></i>메뉴정보</a></li>
-        <li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>대기정보</a></li>
-        <li rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i> 단골쿠폰</a></li>
+        <li class="active" rel="tab1"><a href="javascript:" style="color: #e24945"><i class="fa fa-coffee"></i>메뉴정보</a></li>
+        <li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>주문정보</a></li>
+        <li rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i> 파파도장</a></li>
     </ol>
 </div>
 <!-- //breadcrumb -->
@@ -160,22 +160,22 @@
         <!-- menu -->
         <div id="tab1" class="col-md-9 product-w3ls-right tab_content">
             <div class="product-top">
-                <h4>Food Collection</h4>
+                <h4>Coffee Collection</h4>
                 <ul>
                     <li class="dropdown head-dpdn">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">정 렬<span class="caret"></span></a>
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">Sort<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="javascript:">인기순</a></li>
-                            <li><a href="javascript:">낮은가격순</a></li>
                             <li><a href="javascript:">높은가격순</a></li>
+                            <li><a href="javascript:">낮은가격순</a></li>
                         </ul>
                     </li>
                     <li class="dropdown head-dpdn">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">종 류<span class="caret"></span></a>
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">Type<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:">메인음식</a></li>
-                            <li><a href="javascript:">디저트</a></li>
-                            <li><a href="javascript:">음료</a></li>
+                            <li><a href="javascript:">Espresso</a></li>
+                            <li><a href="javascript:">Fruit Beverage</a></li>
+                            <li><a href="javascript:">Other Beverage</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -188,7 +188,7 @@
                     <div class="flip-container">
                         <div class="flipper agile-products">
                             <div class="front">
-                                <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
+                                <img src="/images/cafejass/espresso/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
                                 <div class="agile-product-text">
                                     <h5><%= foodData[i].MENU_NAME %></h5>
                                 </div>
@@ -218,7 +218,7 @@
                                 <div class="agile-product-text agile-product-text2">
                                     <h5><%= foodData[i].MENU_NAME %></h5>
                                 </div>
-                                <img src="https://s3.ap-northeast-2.amazonaws.com/best-food-image/<%= foodData[i].SHOP_ID %>/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
+                                <img src="/images/cafejass/espresso/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
                             </div>
                             <div class="back" style="background: #fd463e">
                                 <h4><%= foodData[i].MENU_NAME %></h4>
@@ -292,44 +292,6 @@
                 <div class="login-agileinfo">
                     <input id="delay-push" type="submit" value="대기 하기">
                 </div>
-                <!--<h3 class="w3ls-title">주문한 메뉴 내역</h3>
-                <div class="spldishes-agileinfo">
-                    <div class="col-md-3 spldishes-w3left">
-                        <h5 class="w3ltitle">선택한 음식 총 4개</h5>
-                    </div>
-                    <div class="col-md-9 spldishes-grids">
-                        &lt;!&ndash; Owl-Carousel &ndash;&gt;
-                        <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
-                            <a href="javascript:" class="item g1">
-                                <img class="lazyOwl" src="/images/g1.jpg" title="Our latest gallery" alt=""/>
-                                <div class="agile-dish-caption">
-                                    <h4>Duis congue</h4>
-                                    <span>Neque porro quisquam est qui dolorem </span>
-                                </div>
-                            </a>
-                            <a href="javascript:" class="item g1">
-                                <img class="lazyOwl" src="/images/g2.jpg" title="Our latest gallery" alt=""/>
-                                <div class="agile-dish-caption">
-                                    <h4>Duis congue</h4>
-                                    <span>Neque porro quisquam est qui dolorem </span>
-                                </div>
-                            </a>
-                            <a href="javascript:" class="item g1">
-                                <img class="lazyOwl" src="/images/g3.jpg" title="Our latest gallery" alt=""/>
-                                <div class="agile-dish-caption">
-                                    <h4>Duis congue</h4>
-                                    <span>Neque porro quisquam est qui dolorem </span>
-                                </div>
-                            </a>
-                            <a href="javascript:" class="item g1">
-                                <img class="lazyOwl" src="/images/g4.jpg" title="Our latest gallery" alt=""/>
-                                <div class="agile-dish-caption">
-                                    <h4>Duis congue</h4>
-                                    <span>Neque porro quisquam est qui dolorem </span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>-->
                     <div class="clearfix"> </div>
                 </div>
             </div>
@@ -386,21 +348,21 @@
                 </div>
             </div>
 
-            <div class="offers-wthreerow2" style="margin:1.5em 1em 2em;">
-                <script>
-                    cal3 = new Calendar('cal3', 'frm3');
-                    cal3.tfDate = 'dateField';
-                    cal3.bgcolor = '#D1EBF3'; // 요일 배경색
-                    cal3.bgcolor2 = '#E9F8FC'; // 내용 배경색
-                    cal3.linecolor = '#D1EBF3'; // 라인 배경색
-                    cal3.lineheight = '20px'; // 라인 높이
-                    cal3.width = '300'; // 달력 너비
-                    cal3.tfDateLineCol = 'green'; // 텍스트필드 라인색
-                    cal3.tfCol = '#E9F8FC'; // 내용 텍스트필드 배경색
-                    cal3.focusCol = 'yellow'; // 포커스 색
-                    cal3.show();
-                </script>
-            </div>
+            <!--<div class="offers-wthreerow2" style="margin:1.5em 1em 2em;">-->
+                <!--<script>-->
+                    <!--cal3 = new Calendar('cal3', 'frm3');-->
+                    <!--cal3.tfDate = 'dateField';-->
+                    <!--cal3.bgcolor = '#D1EBF3'; // 요일 배경색-->
+                    <!--cal3.bgcolor2 = '#E9F8FC'; // 내용 배경색-->
+                    <!--cal3.linecolor = '#D1EBF3'; // 라인 배경색-->
+                    <!--cal3.lineheight = '20px'; // 라인 높이-->
+                    <!--cal3.width = '300'; // 달력 너비-->
+                    <!--cal3.tfDateLineCol = 'green'; // 텍스트필드 라인색-->
+                    <!--cal3.tfCol = '#E9F8FC'; // 내용 텍스트필드 배경색-->
+                    <!--cal3.focusCol = 'yellow'; // 포커스 색-->
+                    <!--cal3.show();-->
+                <!--</script>-->
+            <!--</div>-->
         </div>
         <!-- //info -->
 
