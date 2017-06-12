@@ -163,82 +163,18 @@
                 <h4>Coffee Collection</h4>
                 <ul>
                     <li class="dropdown head-dpdn">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">Sort<span class="caret"></span></a>
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">종류 선택<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:">인기순</a></li>
-                            <li><a href="javascript:">높은가격순</a></li>
-                            <li><a href="javascript:">낮은가격순</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown head-dpdn">
-                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">Type<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:">Espresso</a></li>
-                            <li><a href="javascript:">Fruit Beverage</a></li>
-                            <li><a href="javascript:">Other Beverage</a></li>
+                            <li onclick="getMenu(this.id)" id="Espresso"><a href="javascript:">Espresso</a></li>
+                            <li onclick="getMenu(this.id)" id="Fruit Beverage"><a href="javascript:">Fruit Beverage</a></li>
+                            <li onclick="getMenu(this.id)" id="Other Beverage"><a href="javascript:">Other Beverage</a></li>
                         </ul>
                     </li>
                 </ul>
                 <div class="clearfix"> </div>
             </div>
-            <div class="products-row" style="margin-bottom:20px">
-                <% for(var i = 0; i < foodData.length; i++) { %>
-                <% if(i%2 == 1) {%>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <img src="/images/cafejass/espresso/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
-                                <div class="agile-product-text">
-                                    <h5><%= foodData[i].MENU_NAME %></h5>
-                                </div>
-                            </div>
-                            <div class="back" style="background: #08cae2">
-                                <h4><%= foodData[i].MENU_NAME %></h4>
-                                <p><%= foodData[i].DESCRIPTION %>.</p>
-                                <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Fish salad">
-                                    <input type="hidden" name="amount" value="3.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="javascript:" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <%} else  {%>
-                <div class="col-xs-6 col-sm-4 product-grids">
-                    <div class="flip-container">
-                        <div class="flipper agile-products">
-                            <div class="front">
-                                <div class="agile-product-text agile-product-text2">
-                                    <h5><%= foodData[i].MENU_NAME %></h5>
-                                </div>
-                                <img src="/images/cafejass/espresso/<%= foodData[i].MENU_IMG %>" class="img-responsive" alt="img">
-                            </div>
-                            <div class="back" style="background: #fd463e">
-                                <h4><%= foodData[i].MENU_NAME %></h4>
-                                <p><%= foodData[i].DESCRIPTION %>.</p>
-                                <h6><%= foodData[i].MENU_PRICE %><sup class="fa fa-won"></sup></h6>
-                                <form action="#" method="post">
-                                    <input type="hidden" name="cmd" value="_cart">
-                                    <input type="hidden" name="add" value="1">
-                                    <input type="hidden" name="w3ls_item" value="Sandwich">
-                                    <input type="hidden" name="amount" value="2.00">
-                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                    <span class="w3-agile-line"> </span>
-                                    <a href="javascript:" data-toggle="modal" data-target="#myModal1">More</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% } %>
-                <% } %>
+            <h3 id="menyTypeName" style="text-align:center;margin-top:5px;">Espresso</h3>
+            <div id="shopMenu" class="products-row" style="margin-bottom:20px">
                 <div class="clearfix"> </div>
             </div>
         </div>
@@ -478,7 +414,114 @@
         for(var i=1; i<=4; i++) {
             $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
         }
+
+        getMenu("Espresso");
     });
+
+    function getMenu(menuType) {
+        $("#menyTypeName").text(menuType);
+        var pushShopId = $("#pushShopId").val();
+        var dataString = {'id': pushShopId, 'menu_type': menuType};
+
+        $.ajax({
+            url: $("#url").val() + '/foods/foodShopMenu',
+            type: 'GET',
+            dataType: 'json',
+            data: dataString,
+            success: function(data) {
+                var menuData = data.menuData;
+                var shopMenu = document.getElementById('shopMenu');
+                shopMenu.innerHTML = '';
+                for(var i=0; i<menuData.length; i++){
+                    var dynamicDom ='';
+                    if(i%2 == 1) {
+                        dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
+                        shopMenu.innerHTML += ' <div class="col-xs-6 col-sm-4 product-grids">' +
+                            '<div class="flip-container">' +
+                            '<div class="flipper agile-products">' +
+                            '<div class="front">' +
+                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
+                            '<div class="agile-product-text">' +
+                            '<h5>' + menuData[i].MENU_NAME + '</h5>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="back" style="background: #08cae2">' +
+                            '<h4>' + menuData[i].MENU_NAME + '</h4>' +
+                            '<p>' + menuData[i].DESCRIPTION + '.</p>' +
+                            '<h6>' + menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
+                            '<form action="#" method="post">' +
+                            '<input type="hidden" name="cmd" value="_cart">' +
+                            '<input type="hidden" name="add" value="1">' +
+                            '<input type="hidden" name="w3ls_item" value="Fish salad">' +
+                            '<input type="hidden" name="amount" value="3.00">' +
+                            '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>' +
+                            '<span class="w3-agile-line"> </span>' +
+                            dynamicDom +
+                            '</form>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    }else {
+                        dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
+                        shopMenu.innerHTML += '<div class="col-xs-6 col-sm-4 product-grids">' +
+                            '<div class="flip-container">' +
+                            '<div class="flipper agile-products">' +
+                            '<div class="front">' +
+                            '<div class="agile-product-text agile-product-text2">' +
+                            '<h5>' + menuData[i].MENU_NAME + '</h5>' +
+                            '</div>' +
+                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
+                            '</div>' +
+                            '<div class="back" style="background: #fd463e">' +
+                            '<h4>' +  menuData[i].MENU_NAME + '</h4>' +
+                            '<p>' +  menuData[i].DESCRIPTION + '.</p>' +
+                            '<h6>' +  menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
+                            '<form action="#" method="post">' +
+                            '<input type="hidden" name="cmd" value="_cart">' +
+                            '<input type="hidden" name="add" value="1">' +
+                            '<input type="hidden" name="w3ls_item" value="Sandwich">' +
+                            '<input type="hidden" name="amount" value="2.00">' +
+                            '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>' +
+                            '<span class="w3-agile-line"> </span>' +
+                            dynamicDom +
+                            '</form>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                     }
+                }
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log('Error occured');
+            }
+        });
+    }
+
+    var getRating = function(foodScope, dynamicDom) {
+        var rating = foodScope * 2;
+        var fullStar = foodScope;
+        var halfStar = false;
+
+        // 별 반개가 남으면 홀수, 아니면 짝수
+        if (rating % 2 == 1) {
+            halfStar = true;
+            fullStar -= 0.5;
+        }
+        for (var i = 1; i <= 5; i++) {
+            if (i <= fullStar) {
+                dynamicDom += '<img src="/images/cafejass/star@1x.png">';
+            } else if (halfStar) {
+                dynamicDom += '<img src="/images/cafejass/star_half@1x.png">';
+                halfStar = false;
+            } else {
+                dynamicDom += '<img src="/images/cafejass/star_dim@1x.png" alt="딤드별">';
+            }
+        }
+        return dynamicDom;
+    }
 </script>
 <!-- //end-smooth-scrolling -->
 <!-- smooth-scrolling-of-move-up -->

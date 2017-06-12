@@ -9,27 +9,49 @@ var parser = new xml2js.Parser();
 var redis   = require('redis');
 var publisherClient = redis.createClient();
 
+//Get Food Shop Menu
+router.get('/foodShopMenu', function (req, res, next) {
+    var shopId = req.query.id;
+    var menuType = req.query.menu_type;
+
+
+
+    getConnection(function (err, connection){
+        var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = ?';
+        console.log(selectMenuQuery);
+        connection.query(selectMenuQuery, [shopId, menuType], function (err, menu) {
+            if (err) {
+                console.error("@@@ [food Menu] Select food Menu Error : " + err);
+                throw err;
+            }else{
+                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
+                res.send({menuData:menu});
+            }
+        });
+    });
+});
+
 //GET Food Shop Init
 router.get('/foodShop', function (req, res, next) {
-    var id = req.query.id;
+    var shopId = req.query.id;
 
     getConnection(function (err, connection){
         // Select food Menu
         var selectShopQuery = 'select SSI.* from SB_SHOP_INFO as SSI where SSI.SHOP_ID = ?';
-        connection.query(selectShopQuery, id, function (err, shop) {
+        connection.query(selectShopQuery, shopId, function (err, shop) {
             if (err) {
                 console.error("@@@ [shop info] Select shop info Error : " + err);
                 throw err;
             }else{
                 console.log("### [shop info] Select shop info Success ### " + JSON.stringify(shop));
-                var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ?';
-                connection.query(selectMenuQuery, id, function (err, menu) {
+                var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = "Espresso"';
+                connection.query(selectMenuQuery, shopId, function (err, menu) {
                     if (err) {
                         console.error("@@@ [food Menu] Select food Menu Error : " + err);
                         throw err;
                     }else{
                         console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
-                        res.render('foods/foodShop', {url:config.url, shopData:shop[0], foodData:menu, pushShopId:id});
+                        res.render('foods/foodShop', {url:config.url, shopData:shop[0], menuData:menu, pushShopId:shopId});
                     }
                 });
             }
