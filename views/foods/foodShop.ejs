@@ -173,7 +173,30 @@
                 </ul>
                 <div class="clearfix"> </div>
             </div>
-            <h3 id="menyTypeName" style="text-align:center;margin-top:5px;">Espresso</h3>
+
+            <div id="price" class="pricing">
+                <div class="price_container">
+                    <div class="tittle-head ser">
+                        <h3 class="tittle">Prices</h3>
+                        <h3 id="menuTypeName" style="text-align:left;">Espresso</h3>
+                        <h4>Prices</h4>
+                    </div>
+                    <div class="price">
+                        <div class="col-md-6 order-top">
+                            <li id="menuName" class="data order-special-a">
+                            </li>
+                            <li class="data order-special">
+                                <div id="menuPrice" class="special-info"><h4>Price</h4>
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+
             <div id="shopMenu" class="products-row" style="margin-bottom:20px">
                 <div class="clearfix"> </div>
             </div>
@@ -419,7 +442,7 @@
     });
 
     function getMenu(menuType) {
-        $("#menyTypeName").text(menuType);
+        $("#menuTypeName").text(menuType);
         var pushShopId = $("#pushShopId").val();
         var dataString = {'id': pushShopId, 'menu_type': menuType};
 
@@ -430,9 +453,19 @@
             data: dataString,
             success: function(data) {
                 var menuData = data.menuData;
+                var menuName = document.getElementById('menuName');
+                var menuPrice = document.getElementById('menuPrice');
                 var shopMenu = document.getElementById('shopMenu');
+                menuName.innerHTML = '<h4>Coffee</h4>';
+                menuPrice.innerHTML = '<h4>Price</h4>';
                 shopMenu.innerHTML = '';
                 for(var i=0; i<menuData.length; i++){
+                    menuName.innerHTML +='<p>' + menuData[i].MENU_NAME + '</p>';
+                    menuPrice.innerHTML +='<div class="pre-top">' +
+                            '<div class="pr-left">' +
+                            '<div class="item_add"><span class="item_price"><h6>' + menuData[i].MENU_PRICE + '원</h6></span></div>' +
+                            '</div>' +
+                            '</div>';
                     var dynamicDom ='';
                     if(i%2 == 1) {
                         dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
@@ -490,7 +523,7 @@
                             '</div>' +
                             '</div>' +
                             '</div>';
-                     }
+                    }
                 }
             },
             error: function(request, status, error) {

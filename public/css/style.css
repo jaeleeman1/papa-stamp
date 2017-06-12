@@ -4350,3 +4350,99 @@ img.w3order-img {
 .icon {float:right}
 #tvList {float:right; border:none; background-color:#ffe9e8; font-size:0.9em; color:lightslategray; text-decoration: underline;}
 #toast_popup {position:fixed; left:50%; margin-left:-32%; bottom:200px; width:calc( 64% - 10px); padding:5px 5px 7px; line-height:24px; background:rgba(0,0,0,0.9); border-radius: 4px; font-size:16px; color: #FFF; text-align:center;}
+
+.order-top {
+    padding: 25px 10px;
+    border: 1px solid #CFAF6F;
+    width: 100%;
+    float: left;
+    margin-right: 0;
+    margin-bottom: 4%;
+}
+.order-top h3 {
+    margin:0;
+    font-size:32px;
+    font-weight:bold;
+    color:#204056;
+}
+.order-top h4{
+    font-size: 22px;
+    color: #a6192e;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.order-top h6 {
+    color:#34353a;
+    font-weight: normal;
+    font-size: 15px;
+    text-align: right;
+    margin: 30px 0 0 0;
+}
+.order-top p {
+    font-size: 14px;
+    margin: 24px 0 0 0;
+    color: #34353a;
+    font-weight: 400;
+    line-height: 1.8em;
+    text-transform: uppercase;
+}
+.order-top li {
+    display: inline-block;
+    vertical-align: middle;
+}
+.special-info {
+    float: right;
+}
+.pricing {
+    background-color: #decba5;
+    padding: 1em 0 2em 0;
+}
+.price {
+    margin-top: 2em;
+}
+.price_container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.tittle-head.ser {
+    text-align: right;
+}
+.tittle-head.ser h4 {
+    color: #a6192e;
+    font-size: 3em;
+    font-weight: 600;
+    position: absolute;
+    text-transform: uppercase;
+    top: 40%;
+    left: 11%;
+}
+.tittle-head {
+    position: relative;
+    text-align: right;
+    margin-bottom: 2em;
+}
+h3.tittle {
+    color: #eee;
+    font-size: 4em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.tittle-head h4 {
+    color: #a6192e;
+    font-size: 2.5em;
+    font-weight: 600;
+    position: absolute;
+    text-transform: uppercase;
+    top: 40%;
+    right: 1%;
+}
+li.data {
+    float: left;
+    width: 46%;
+    margin-left: 2%;
+}
+.item_price h6 {
+    font-family: 'Philosopher', sans-serif;
+}
