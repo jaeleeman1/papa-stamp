@@ -4376,7 +4376,7 @@ img.w3order-img {
     font-weight: normal;
     font-size: 15px;
     text-align: right;
-    margin: 30px 0 0 0;
+    margin: 29px 0 0 0;
 }
 .order-top p {
     font-size: 14px;
@@ -4407,7 +4407,7 @@ img.w3order-img {
     margin-left: auto;
 }
 .tittle-head.ser {
-    text-align: right;
+    text-align: left;
 }
 .tittle-head.ser h4 {
     color: #a6192e;

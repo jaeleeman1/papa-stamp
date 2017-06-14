@@ -37,7 +37,11 @@ router.get('/foodShop', function (req, res, next) {
 
     getConnection(function (err, connection){
         // Select food Menu
-        var selectShopQuery = 'select SSI.* from SB_SHOP_INFO as SSI where SSI.SHOP_ID = ?';
+        var selectShopQuery = 'select SSI.*, SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
+                                'inner join SB_SHOP_PUSH_INFO as SSPI on SSI.SHOP_ID = SSPI.SHOP_ID ' +
+                                'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
+                                'where SSI.SHOP_ID = ? ' +
+                                'order by SSPI.UPDATE_DT DESC limit 1';
         connection.query(selectShopQuery, shopId, function (err, shop) {
             if (err) {
                 console.error("@@@ [shop info] Select shop info Error : " + err);

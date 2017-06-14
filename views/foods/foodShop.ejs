@@ -34,6 +34,9 @@
 
 <form style="display:none" name="push_shop_id" id="push_shop_id">
     <input type="hidden" name="pushShopId" id="pushShopId" value="<%= pushShopId %>"/>
+    <input type="hidden" name="shop_delay_number" id="shop_delay_number" value="<%= shopData.SHOP_CURRENT_NUM %>"/>
+    <input type="hidden" name="user_delay_number" id="user_delay_number" value="<%= shopData.USER_CURRENT_NUM %>"/>
+    <input type="hidden" name="user_stamp" id="user_stamp" value="<%= shopData.USER_STAMP %>"/>
 </form>
 
 <body>
@@ -178,7 +181,7 @@
                 <div class="price_container">
                     <div class="tittle-head ser">
                         <h3 class="tittle">Prices</h3>
-                        <h3 id="menuTypeName" style="text-align:left;">Espresso</h3>
+                        <h3 id="menuTypeName" style="text-align:right;">Espresso</h3>
                         <h4>Prices</h4>
                     </div>
                     <div class="price">
@@ -210,49 +213,38 @@
         <!-- dishes -->
         <div id="tab2" class="w3agile-spldishes tab_content">
             <div class="container">
-                <h3 class="w3ls-title">현재 입장 번호</h3>
+                <h3 class="w3ls-title">나의 대기 번호</h3>
                 <div class="col-md-4 ftr-top-grids">
                     <div class="ftr-top-left" style="text-align:center;">
-                        <i class="fa" aria-hidden="true" style="color:#fb4602;">3</i>
+                        <i id="user_delay_number" class="fa" aria-hidden="true" style="color:#00c57e;margin-bottom:20px;"><%= shopData.USER_CURRENT_NUM %></i>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
 
-                <div class="grid_3 grid_5 w3-agileits w3layouts">
-                    <h3 class="w3ls-hdg">진행률 80%</h3>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="domprogress">
-                            <div class="progress w3-agileits">
-                                <div class="progress-bar progress-bar-info" style="width: 80%"></div>
-                            </div>
-                            <p>대기 시간 : <code>약 10분</code> </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="grid_3 grid_5">
-                    <h3 class="w3ls-hdg">내 대기 번호 / 인원</h3>
-                    <div class="col-md-6 page_1 agileits-w3layouts" style="padding-left: 3px">
+                    <h3 class="w3ls-hdg" style="text-align:center;margin-right:2em;"><span style="margin-right:2em;">현재 주문 번호</span> / <span style="margin-left:2em;">대기 시간</span></h3>
+                    <div class="col-md-6 page_1 agileits-w3layouts" style="padding-left: 3px;text-align:center">
                         <nav>
                             <ul class="pagination">
-                                <span class="badge badge-info" style="float:left;font-size:27px;margin-left:25px;margin-right:30px;">6</span>
-                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                                <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li class="active"><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                <span id="shop_delay_number" class="badge badge-info" style="float:left;font-size:30px;margin-left:25px;margin-right:4em;"><%= shopData.SHOP_CURRENT_NUM %></span>
+                                <code id="delay_time" style="font-size:20px;"></code>
                             </ul>
                         </nav>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
 
-                <div class="login-agileinfo">
-                    <input id="delay-push" type="submit" value="대기 하기">
+                <div class="grid_3 grid_5 w3-agileits w3layouts">
+                    <h3 id="progress_per" class="w3ls-hdg">진행률 0%</h3>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="domprogress">
+                            <div class="progress w3-agileits">
+                                <div id="progress_bar" class="progress-bar progress-bar-info" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                    <div class="clearfix"> </div>
-                </div>
+                <div id="ViewTimer"></div>
             </div>
         </div>
         <!-- //dishes -->
@@ -426,6 +418,7 @@
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
 <script type="text/javascript">
+    var remainSecond;
     jQuery(document).ready(function($) {
         $(".scroll").click(function(event){
             event.preventDefault();
@@ -434,12 +427,40 @@
         });
 
         // 방문 횟수
-        for(var i=1; i<=4; i++) {
+        var visitCnt = $("#user_stamp").val();
+        for(var i=1; i<=visitCnt; i++) {
             $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
         }
 
         getMenu("Espresso");
+
+        var userNumber = $("#user_delay_number").val();
+        var shopNumber = $("#shop_delay_number").val();
+        var delayTime = document.getElementById("delay_time");
+        var remainMinute = 2*(userNumber - shopNumber);
+        delayTime.innerHTML = '약 ' + remainMinute +'분';
+
+        remainSecond =  remainMinute * 60;
+        var totalSecond = remainMinute * 60;
+
+        if(!(totalSecond == 0)) {
+            tid=setInterval('remainTime('+totalSecond+')',1000);
+        }
+
     });
+
+    function remainTime(totalSecond) {
+        var percent = Math.floor(100 - (remainSecond / totalSecond) * 100);
+
+        document.getElementById("progress_per").innerHTML = '진행률 ' + percent +'%';
+        $("#progress_bar").css("width", percent);
+
+        remainSecond--;
+
+        if(remainSecond < 0) {
+            clearInterval(tid);
+        }
+    }
 
     function getMenu(menuType) {
         $("#menuTypeName").text(menuType);
