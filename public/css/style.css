@@ -3199,7 +3199,7 @@ h3.w3ls-title.w3ls-title1 {
     font-size: 1.9em;
 }
 .help-search input[type="search"] { 
-    padding: 0.8em 8em .8em .8em; 
+    padding: 0.8em 1em .8em .8em;
 }
 .help-search .btn-default { 
     height: 43px; 
@@ -4097,7 +4097,7 @@ ol.breadcrumb.w3l-crumbs {
     width: 70px;
 }
 .help-search input[type="search"] {
-    padding: 0.8em 6em .8em .8em;
+    padding: 0.8em 1em .8em .8em;
 }
 .contact-w3lsleft { 
     padding: 0;
