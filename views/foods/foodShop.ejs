@@ -123,13 +123,13 @@
                             <li><a href="/contact" class="active">Contact Us</a></li>
                         </ul>
                     </div>
-                    <div class="cart cart box_1">
+                    <!--<div class="cart cart box_1">
                         <form action="#" method="post" class="last">
                             <input type="hidden" name="cmd" value="_cart" />
                             <input type="hidden" name="display" value="1" />
                             <button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
                         </form>
-                    </div>
+                    </div>-->
                 </nav>
             </div>
         </div>
@@ -257,27 +257,14 @@
             <img src="/images/cafejass/coffee-icon.png" class="w3order-img" alt="">
             <h3 class="w3ls-title" style="margin-bottom:1em;">방문 횟수</h3>
             <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
-            <div class="container" style="padding-top: 70px;padding-bottom:3em;padding-left:40px;">
+            <div class="container" style="padding-top: 80px;padding-bottom:3em;padding-left:40px;">
                 <div class="order-agileinfo">
                     <div>
                         <% for (var i=1; i<=10; i++) {%>
-                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:18%;margin-bottom:30px;">
-                            <div class="order-w3text" style="width:40px;height:40px;padding-top:5px">
-                                <i class="fa fa-home" aria-hidden="true" style="font-size:1.5em;margin-bottom:10px"></i>
-                                <h5 style="margin-top:0.2em;">
-                                    <% if (i == 1) { %>one
-                                    <% }else if(i == 2) {%>two
-                                    <% }else if(i == 3) {%>three
-                                    <% }else if(i == 4) {%>four
-                                    <% }else if(i == 5) {%>five
-                                    <% }else if (i == 6) { %>six
-                                    <% }else if(i == 7) {%>seven
-                                    <% }else if(i == 8) {%>eight
-                                    <% }else if(i == 9) {%>nine
-                                    <% }else if(i == 10) {%>ten
-                                    <%}%>
-                                </h5>
-                                <span id="visit<%=i%>" style="font-size:1.5em;padding-top:3px"><%= i %></span>
+                        <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:16%;margin-bottom:10px;margin-left:5px;margin-right:5px;">
+                            <div class="order-w3text" style="width:50px;height:50px;padding-top:5px">
+                                <i class="fa fa-home" aria-hidden="true" style="font-size:2em;margin-bottom:10px"></i>
+                                <span id="visit<%=i%>" style="font-size:2em;padding-top:2px"><%= i %></span>
                             </div>
                         </div>
                         <%}%>
@@ -285,14 +272,14 @@
                 </div>
             </div>
 
-            <h3 class="w3ls-title" style="margin-bottom:1em;">할인 쿠폰</h3>
+            <h3 class="w3ls-title" style="margin-bottom:1em;">무료 쿠폰</h3>
             <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
                 <div class="add-products-row">
                     <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
                         <a href="javascript;">
-                            <h4>일본 라멘</h4>
-                            <h5>공짜 쿠폰</h5>
-                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-05-01 ~ 2017-05-31</h6>
+                            <h4>아메리카노<p>4000원</p></h4>
+                            <h5 id="used_couphone">사용하기</h5>
+                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-06-01 ~ 2017-12-31</h6>
                         </a>
                     </div>
                     <div class="clearfix"> </div>
@@ -366,8 +353,9 @@
     </div>
 </div>
 
+
 <div id="layerPop">
-    <strong>대기 확인</strong>
+    <strong>주문 번호</strong>
     <ul id="appendPush">
         <a href="#" onclick="closeLayer('layerPop')" class="close">close</a>
     </ul>
@@ -682,7 +670,7 @@
 </style>
 <script type='text/javascript'>
     var pushShopId = $("#pushShopId").val();
-    /*console.log('GHGGGGGGGG', $('#url').val());*/
+    /*console.log('url : ', $('#url').val());*/
     var source = new EventSource('/foods/update-stream/'+pushShopId);
 
     source.addEventListener('message', function(e) {
@@ -693,8 +681,8 @@
         var pop = document.getElementById('layerPop');
         pop.style.display = "block";
         pop.style.top = "200px";
-        pop.style.left = "100px";
-        $('#appendPush').append('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
+        pop.style.left = "150px";
+        $('#appendPush').innerHTML('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
     }, false);
 
     function closeLayer(IdName){

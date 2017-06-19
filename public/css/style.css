@@ -326,7 +326,7 @@ option {
     margin: 0 0 0 2.5em;
 }
 .w3ls-add-grids.w3ls-add-grids-right{
-    background: url(../images/img2.jpg)no-repeat 0px 0px; 
+    background: url(../images/cafejass/couphone.png)no-repeat 0px 0px;
 	background-size: cover;
 	text-align: right;
 } 
@@ -3667,9 +3667,9 @@ p.w3lsorder-text {
     padding: 1.2em 1em;
 }
 img.w3order-img {
-    top: 6%;
-    width: 10%;
-    left: 9%;
+    top: 2%;
+    width: 20%;
+    left: 2%;
 }
 .subscribe img.sub-w3lsimg { 
     top: -40%;
@@ -3856,8 +3856,8 @@ p {
     width: 40%;
 }
 img.w3order-img {
-    top: 10%;
-    left: 4%;
+    top: 3%;
+    left: 2%;
 }
 }
 @media(max-width:414px){

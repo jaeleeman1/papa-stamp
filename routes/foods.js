@@ -139,13 +139,28 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
-    var shoppingData = req.params.shopping_id;
+    var shoppingID = req.params.shopping_id;
     // console.log('x ', req.params.shopping_id);
 
     var messageCount = 0;
+    getConnection(function (err, connection){
+        // Select Event List
+        var selectShopCount = 'select SHOP_CURRENT_NUM from SB_SHOP_PUSH_INFO where SHOP_ID = ?';
+        connection.query(selectShopCount, shoppingID, function (err, row) {
+            if (err) {
+                console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                throw err;
+            }else{
+                // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                messageCount = row[0].SHOP_CURRENT_NUM;
+            }
+            connection.release();
+        });
+    });
+
     var subscriber = redis.createClient();
 
-    subscriber.subscribe(shoppingData);
+    subscriber.subscribe(shoppingID);
 
     // In case we encounter an error...print it out to the console
     subscriber.on("error", function(err) {
@@ -154,8 +169,22 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-        console.log('XX : ', message);
         messageCount++; // Increment our message count
+        // console.log('count : ', messageCount);
+
+        getConnection(function (err, connection){
+            // Select Event List
+            var updateShopCount = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = '+ messageCount +' where SHOP_ID = ?';
+            connection.query(shoppingID, function (err, row) {
+                if (err) {
+                    console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                    throw err;
+                }else{
+                    console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                }
+                connection.release();
+            });
+        });
 
         res.write('id: ' + messageCount + '\n');
         res.write("data: " + message + '\n\n'); // Note the extra newline
@@ -182,7 +211,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 router.get('/fire-event/:shopping_id/:event_name', function(req, res) {
     // console.log('GGGGGGGGGGGGGG', req.params.shopping_id);
     var shoppingData = req.params.shopping_id;
-    publisherClient.publish( shoppingData, ('"' + req.params.event_name + '" page visited') );
+    publisherClient.publish( shoppingData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('All clients have received "' + req.params.event_name + '"');
     res.end();
