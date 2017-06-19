@@ -355,10 +355,10 @@
 
 
 <div id="layerPop">
-    <strong>주문 번호</strong>
+    <h3>주문자 호출</h3>
     <ul id="appendPush">
-        <a href="#" onclick="closeLayer('layerPop')" class="close">close</a>
     </ul>
+    <a href="#" onclick="closeLayer('layerPop')" class="close">close</a>
 </div>
 <!-- //footer -->
 <!-- cart-js -->
@@ -665,7 +665,7 @@
 
 <!-- web push -->
 <style type="text/css">
-    #layerPop{width:200px;height:100px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
+    #layerPop{width:200px;height:160px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
     #layerPop .close{position:absolute;bottom:5px;right:5px;}
 </style>
 <script type='text/javascript'>
@@ -682,7 +682,7 @@
         pop.style.display = "block";
         pop.style.top = "200px";
         pop.style.left = "150px";
-        document.elementById('#appendPush').innerHTML('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
+        document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 호출 번호 : ' + e.lastEventId + ' *</h4></li>';
     }, false);
 
     function closeLayer(IdName){
