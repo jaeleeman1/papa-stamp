@@ -682,7 +682,7 @@
         pop.style.display = "block";
         pop.style.top = "200px";
         pop.style.left = "150px";
-        $('#appendPush').innerHTML('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
+        document.elementById('#appendPush').innerHTML('<li>' + e.data + ' (message id: ' + e.lastEventId + ')</li>');
     }, false);
 
     function closeLayer(IdName){

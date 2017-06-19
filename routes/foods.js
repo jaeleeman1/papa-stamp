@@ -175,7 +175,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
         getConnection(function (err, connection){
             // Select Event List
             var updateShopCount = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = '+ messageCount +' where SHOP_ID = ?';
-            connection.query(shoppingID, function (err, row) {
+            connection.query(updateShopCount, shoppingID, function (err, row) {
                 if (err) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                     throw err;

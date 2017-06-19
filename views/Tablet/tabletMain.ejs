@@ -151,23 +151,31 @@
 <!-- //end-smooth-scrolling -->
 <!-- smooth-scrolling-of-move-up -->
 <script type="text/javascript">
-        $(function() {
-            $("#btn_push").click(
-                function() {
-                    $.ajax({
-                        url: 'https://whereareevent.com/foods/fire-event/SB-SHOP-00001/testPush',
-                        type: 'GET',
-                        success: function(data) {
-                            console.log(data);
-                        },
-                        error: function(request, status, error) {
-                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                            console.log('Error occured');
+
+    $(function() {
+        $("#btn_push").click(
+            function() {
+                var sendData = $("#phone-text").val();
+
+                sendData = sendData.replace('-', '');
+                sendData = sendData.replace('-', '');
+                sendData = sendData.replace('  ', '');
+                sendData = sendData.replace('  ', '');
+
+                $.ajax({
+                    url: 'https://whereareevent.com/foods/fire-event/SB-SHOP-00001/'+ sendData,
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(request, status, error) {
+                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        console.log('Error occured');
 //                            location.href='https:///error';
-                    }
                 }
-            );
-        });
+            }
+        );
+    });
         /*
          var defaults = {
          containerID: 'toTop', // fading element id
