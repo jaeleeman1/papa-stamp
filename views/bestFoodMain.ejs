@@ -35,6 +35,7 @@
 <body>
 <!-- banner -->
 <div class="banner about-w3bnr">
+
     <!-- header -->
     <div class="header">
         <div class="w3ls-header"><!-- header-one -->
@@ -62,7 +63,7 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="<% url %>/main">Home</a></li>
+                            <li><a href="<%= url %>/main">Home</a></li>
                             <!-- Mega Menu -->
                             <!--<li class="dropdown">
                                 <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
@@ -131,20 +132,18 @@
 <div class="container">
     <ol class="breadcrumb w3l-crumbs">
         <li><a href="javascript:"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active" style="color: #e24945">현재 위치 맛집</li>
-        <select id="tvList" name="agileinfo_search" required="" onchange="current()">
-            <option value="threeKing">백종원의 3대 천왕</option>
-            <option value="wednesShop">수요미식회</option>
-            <option value="threeKing">먹거리 X파일</option>
-            <option value="wednesShop">식신로드</option>
+        <li class="active" style="color: #e24945">스탬프 연계 지점</li>
+        <select id="cooperatorList" name="agileinfo_search" required="" onchange="current()">
+            <option value="jass" >JASS</option>
+            <option value="gongcha">공차</option>
         </select>
     </ol>
 </div>
 <!-- //breadcrumb -->
 <!-- contact -->
 <div id="contact" class="contact cd-section">
-    <h3 class="w3ls-title">Best Food Map</h3>
-    <p class="w3lsorder-text">선정된 맛집을 꼭 방문 해보세요!!!</p>
+    <h3 class="w3ls-title">Papa Stamp Map</h3>
+    <p class="w3lsorder-text">온라인으로 스탬프를 편리하게 관리하세요!!!</p>
 
     <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
     <div class="custom_zoomcontrol radius_border">
@@ -258,8 +257,8 @@
     };
 
     function showClusterer() {
-        var tvName = document.getElementById("tvList").value;
-        var tvShopUrl ='/mapData/tv/'+tvName+'.json';
+        var cooperatorName = document.getElementById("cooperatorList").value;
+        var cooperatorShopUrl ='/mapData/cooperator/'+cooperatorName+'.json';
 
         // 마커 클러스터러를 생성합니다
         var clusterer = new daum.maps.MarkerClusterer({
@@ -272,7 +271,7 @@
 
         // 데이터를 가져오기 위해 jQuery를 사용합니다
         // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-        $.get(tvShopUrl, function(data) {
+        $.get(cooperatorShopUrl, function(data) {
             // 데이터에서 좌표 값을 가지고 마커를 표시합니다
             // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 

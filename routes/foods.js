@@ -14,8 +14,6 @@ router.get('/foodShopMenu', function (req, res, next) {
     var shopId = req.query.id;
     var menuType = req.query.menu_type;
 
-
-
     getConnection(function (err, connection){
         var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = ?';
         console.log(selectMenuQuery);
@@ -109,8 +107,23 @@ router.get('/foodShopList', function (req, res, next) {
 });
 
 //GET foods List
-router.get('/foodsHome', function (req, res, next) {
-    res.render('foods/foodsHome', {url:config.url});
+router.get('/updateVisit', function (req, res, next) {
+    var shopId = "SB-SHOP-00001";
+    var userId = "01026181715";
+    getConnection(function (err, connection){
+        // Select User Visit Count
+        var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+        connection.query(selectUserVisitCount, [shopId, userId], function (err, row) {
+            if (err) {
+                console.error("@@@ [foods List] Update User Visit Count Error : " + err);
+                throw err;
+            }else{
+                console.log("### [foods List] Update User Visit Count Success ### " + JSON.stringify(row));
+                res.send({shopData :row});
+            }
+            connection.release();
+        });
+    });
 });
 
 //GET foods List
@@ -139,20 +152,25 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
-    var shoppingID = req.params.shopping_id;
+    var shopID = req.params.shopping_id;
+    var userID = '01026181715';
     // console.log('x ', req.params.shopping_id);
 
-    var messageCount = 0;
+    var userCurrentNum = 0;
     getConnection(function (err, connection){
         // Select Event List
-        var selectShopCount = 'select SHOP_CURRENT_NUM from SB_SHOP_PUSH_INFO where SHOP_ID = ?';
-        connection.query(selectShopCount, shoppingID, function (err, row) {
+        var selectUserCount = 'select SUPI.USER_CURRENT_NUM from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
+
+        var selectShopCount = 'select SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM from SB_SHOP_PUSH_INFO as SSPI ' +
+            'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
+            'where SSPI.SHOP_ID = ? and SUPI.USER_ID = ? ';
+        connection.query(selectUserCount, [shopID, userID], function (err, row) {
             if (err) {
                 console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                 throw err;
             }else{
                 // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                messageCount = row[0].SHOP_CURRENT_NUM;
+                userCurrentNum = row[0].USER_CURRENT_NUM;
             }
             connection.release();
         });
@@ -160,7 +178,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     var subscriber = redis.createClient();
 
-    subscriber.subscribe(shoppingID);
+    subscriber.subscribe(shopID);
 
     // In case we encounter an error...print it out to the console
     subscriber.on("error", function(err) {
@@ -169,24 +187,36 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-        messageCount++; // Increment our message count
-        // console.log('count : ', messageCount);
+        userCurrentNum++; // Increment our message count
+        // console.log('count : ', userCurrentNum);
 
         getConnection(function (err, connection){
             // Select Event List
-            var updateShopCount = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = '+ messageCount +' where SHOP_ID = ?';
-            connection.query(updateShopCount, shoppingID, function (err, row) {
+            var updateShopCount = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
+            connection.query(updateShopCount, shopID, function (err, row) {
                 if (err) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                     throw err;
                 }else{
+                    getConnection(function (err, connection){
+                        // Select User Visit Count
+                        var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
+                        connection.query(selectUserVisitCount, [shopId, userId], function (err, row) {
+                            if (err) {
+                                console.error("@@@ [foods List] Update User Visit Count Error : " + err);
+                                throw err;
+                            }else{
+                                console.log("### [foods List] Update User Visit Count Success ### " + JSON.stringify(row));
+                            }
+                        });
+                    });
                     console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
                 }
                 connection.release();
             });
         });
 
-        res.write('id: ' + messageCount + '\n');
+        res.write('id: ' + userCurrentNum + '\n');
         res.write("data: " + message + '\n\n'); // Note the extra newline
     });
 
@@ -209,7 +239,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 });
 
 router.get('/fire-event/:shopping_id/:event_name', function(req, res) {
-    // console.log('GGGGGGGGGGGGGG', req.params.shopping_id);
+    // console.log('shopping_id : ', req.params.shopping_id);
     var shoppingData = req.params.shopping_id;
     publisherClient.publish( shoppingData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
     res.writeHead(200, {'Content-Type': 'text/html'});

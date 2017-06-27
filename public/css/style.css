@@ -36,12 +36,12 @@ body a:focus {
     outline: none;
 }
 .banner {
-    background: url(../images/cafejass/jass-main.png) no-repeat center;
+    background: url(../images/papa-main.png) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    -ms-background-size: cover; 
+    -ms-background-size: cover;
 }
 /*-- header --*/
 .w3ls-header {
@@ -4348,7 +4348,7 @@ img.w3order-img {
 /* add css */
 .phone {color: blue; letter-spacing: 0.8px; margin-left:5px;}
 .icon {float:right}
-#tvList {float:right; border:none; background-color:#ffe9e8; font-size:0.9em; color:lightslategray; text-decoration: underline;}
+#cooperatorList {float:right; border:none; background-color:#ffe9e8; font-size:1.1em; color:lightslategray; text-decoration: underline;}
 #toast_popup {position:fixed; left:50%; margin-left:-32%; bottom:200px; width:calc( 64% - 10px); padding:5px 5px 7px; line-height:24px; background:rgba(0,0,0,0.9); border-radius: 4px; font-size:16px; color: #FFF; text-align:center;}
 
 .order-top {
