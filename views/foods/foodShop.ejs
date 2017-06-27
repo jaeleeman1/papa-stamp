@@ -276,7 +276,7 @@
             <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
                 <div class="add-products-row">
                     <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
-                        <a href="https://whereareevent.com/foods/updateVisit">
+                        <a href="javascript:">
                             <h4>아메리카노<p>4000원</p></h4>
                             <h5 id="used_couphone">사용하기</h5>
                             <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-06-01 ~ 2017-12-31</h6>
@@ -416,12 +416,12 @@
 
         $("#free").click(function(event){
             var visitCnt = $("#user_stamp").val();
+            console.log(visitCnt);
             visitCnt++;
             for(var i=1; i<=visitCnt; i++) {
                 $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
             }
         });
-
 
         // 방문 횟수
         var visitCnt = $("#user_stamp").val();
@@ -700,6 +700,12 @@
         $(".tab_content").hide();
         var activeTab = $("#stamp").attr("rel");
         $("#" + activeTab).fadeIn();
+
+        var visitCnt = $("#user_stamp").val();
+        visitCnt++;
+        for(var i=1; i<=visitCnt; i++) {
+            $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        }
 
     }, false);
 

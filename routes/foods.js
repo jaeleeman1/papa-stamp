@@ -113,7 +113,7 @@ router.get('/updateVisit', function (req, res, next) {
     getConnection(function (err, connection){
         // Select User Visit Count
         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-        connection.query(selectUserVisitCount, [shopId, userId], function (err, row) {
+        connection.query(updateUserVisitCount, [shopId, userId], function (err, row) {
             if (err) {
                 console.error("@@@ [foods List] Update User Visit Count Error : " + err);
                 throw err;
@@ -154,6 +154,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     var shopID = req.params.shopping_id;
     var userID = '01026181715';
+    var sendType = "phone"; //tablet
     // console.log('x ', req.params.shopping_id);
 
     var userCurrentNum = 0;
@@ -192,7 +193,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
         getConnection(function (err, connection){
             // Select Event List
-            var updateShopCount = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
+            var updateShopCount='update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
             connection.query(updateShopCount, shopID, function (err, row) {
                 if (err) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
@@ -200,8 +201,14 @@ router.get('/update-stream/:shopping_id', function(req, res) {
                 }else{
                     getConnection(function (err, connection){
                         // Select User Visit Count
+                        var updateUserVisitCount='';
+                        if(sendType == "phone") {
+                            updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +', USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+                        }else if(sendType == "tablet") {
+                            updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
+                        }
                         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
-                        connection.query(selectUserVisitCount, [shopId, userId], function (err, row) {
+                        connection.query(updateUserVisitCount, [shopID, userID], function (err, row) {
                             if (err) {
                                 console.error("@@@ [foods List] Update User Visit Count Error : " + err);
                                 throw err;
