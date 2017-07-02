@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var index = require('./routes/index');
-var foods = require('./routes/foods');
+var shop = require('./routes/shop');
 var admin = require('./routes/admin');
 var tablet = require('./routes/tablet');
 var login = require('./routes/login');
@@ -35,7 +35,7 @@ app.use(session({
 }));
 
 app.use('/', index);
-app.use('/foods', foods);
+app.use('/shop', shop);
 app.use('/admin', admin);
 app.use('/tablet', tablet);
 app.use('/login', login);

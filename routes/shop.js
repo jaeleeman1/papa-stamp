@@ -30,7 +30,7 @@ router.get('/foodShopMenu', function (req, res, next) {
 });
 
 //GET Food Shop Init
-router.get('/foodShop', function (req, res, next) {
+router.get('/shopInfo', function (req, res, next) {
     var shopId = req.query.id;
 
     getConnection(function (err, connection){
@@ -53,7 +53,7 @@ router.get('/foodShop', function (req, res, next) {
                         throw err;
                     }else{
                         console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
-                        res.render('foods/foodShop', {url:config.url, shopData:shop[0], menuData:menu, pushShopId:shopId});
+                        res.render('shop/shopMain', {url:config.url, shopData:shop[0], menuData:menu, pushShopId:shopId});
                     }
                 });
             }
@@ -63,7 +63,7 @@ router.get('/foodShop', function (req, res, next) {
 });
 
 //GET Food Shop List
-router.get('/foodShopList', function (req, res, next) {
+router.get('/shopList', function (req, res, next) {
     var currentLat = req.query.current_lat;
     var currentLon = req.query.current_lon;
 
@@ -106,7 +106,7 @@ router.get('/foodShopList', function (req, res, next) {
     });
 });
 
-//GET foods List
+//GET shop List
 router.get('/updateVisit', function (req, res, next) {
     var shopId = "SB-SHOP-00001";
     var userId = "01026181715";
@@ -115,10 +115,10 @@ router.get('/updateVisit', function (req, res, next) {
         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
         connection.query(updateUserVisitCount, [shopId, userId], function (err, row) {
             if (err) {
-                console.error("@@@ [foods List] Update User Visit Count Error : " + err);
+                console.error("@@@ [shop List] Update User Visit Count Error : " + err);
                 throw err;
             }else{
-                console.log("### [foods List] Update User Visit Count Success ### " + JSON.stringify(row));
+                console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
                 res.send({shopData :row});
             }
             connection.release();
@@ -126,22 +126,22 @@ router.get('/updateVisit', function (req, res, next) {
     });
 });
 
-//GET foods List
+//GET shop List
 router.get('/foodsList', function (req, res, next) {
     var lottoData;
-    //foods foods
+    //shop shop
     getConnection(function (err, connection){
-        // Select foods List
+        // Select shop List
         var selectLottoQuery = 'select SEL.foods_IMAGE, SED.foods_WIN, SED.foods_WIN_SEQ, SED.foods_WIN_DATE, SED.foods_PRODUCT from ' +
             '(select * from (select * from SB_foods_DETAIL order by foods_WIN_DATE DESC) as SED group by SED.foods_ID) as SED ' +
             'inner join SB_foods_LIST as SEL on SED.foods_ID = SEL.foods_ID';
         connection.query(selectLottoQuery, function (err, row) {
             if (err) {
-                console.error("@@@ [foods List] Select foods List Error : " + err);
+                console.error("@@@ [shop List] Select shop List Error : " + err);
                 throw err;
             }else{
-                console.log("### [foods List] Select foods List Success ### " + JSON.stringify(row));
-                res.render('foods/foodsList', {lottoData :row[0], annualpensionData: row[1], starbucksData: row[2]});
+                console.log("### [shop List] Select shop List Success ### " + JSON.stringify(row));
+                res.render('shop/foodsList', {lottoData :row[0], annualpensionData: row[1], starbucksData: row[2]});
             }
             connection.release();
         });
@@ -210,10 +210,10 @@ router.get('/update-stream/:shopping_id', function(req, res) {
                         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
                         connection.query(updateUserVisitCount, [shopID, userID], function (err, row) {
                             if (err) {
-                                console.error("@@@ [foods List] Update User Visit Count Error : " + err);
+                                console.error("@@@ [shop List] Update User Visit Count Error : " + err);
                                 throw err;
                             }else{
-                                console.log("### [foods List] Update User Visit Count Success ### " + JSON.stringify(row));
+                                console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
                             }
                         });
                     });

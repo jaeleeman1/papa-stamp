@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Best Food</title>
+    <title>Papa Stamp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Staple Food Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -254,7 +254,7 @@
 
         <!-- info -->
         <div id="tab3" class="wthree-order tab_content">
-            <img src="/images/cafejass/coffee-icon.png" class="w3order-img" alt="">
+            <img src="/images/cafejass/papa-stamp-icon.png" class="w3order-img" alt="">
             <h3 class="w3ls-title" style="margin-bottom:1em;">방문 횟수</h3>
             <p class="w3lsorder-text">방문해 주셔서 감사합니다.</p>
             <div class="container" style="padding-top: 80px;padding-bottom:3em;padding-left:5px;">
@@ -262,9 +262,9 @@
                     <div>
                         <% for (var i=1; i<=10; i++) {%>
                         <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids" style="width:16%;margin-bottom:10px;margin-left:5px;margin-right:5px;">
-                            <div class="order-w3text" style="width:50px;height:50px;padding-top:5px">
-                                <i class="fa fa-home" aria-hidden="true" style="font-size:2em;margin-bottom:10px"></i>
-                                <span id="visit<%=i%>" style="font-size:2em;padding-top:2px"><%= i %></span>
+                            <div class="order-w3text" style="width:57px;height:57px;padding-top:0.5px">
+                                <img src="/images/cafejass/coffee-icon.png" style="width:4em;">
+                                <span id="visit<%=i%>" style="font-size:2.5em;padding-top:5px"><%= i %></span>
                             </div>
                         </div>
                         <%}%>
@@ -276,10 +276,10 @@
             <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
                 <div class="add-products-row">
                     <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
-                        <a href="javascript:">
-                            <h4>아메리카노<p>4000원</p></h4>
-                            <h5 id="used_couphone">사용하기</h5>
-                            <h6><i class="fa fa-calendar"></i>유효 기간 : 2017-06-01 ~ 2017-12-31</h6>
+                        <a style="height:150px;" href="javascript:">
+                            <h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>
+                            <h5 id="used_couphone" style="float:left;">사용하기</h5>
+                            <h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : 2017-06-01 ~ 2017-12-31</h6>
                         </a>
                     </div>
                     <div class="clearfix"> </div>
@@ -418,6 +418,7 @@
             var visitCnt = $("#user_stamp").val();
             console.log(visitCnt);
             visitCnt++;
+            $("#user_stamp").val(visitCnt);
             for(var i=1; i<=visitCnt; i++) {
                 $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
             }
@@ -434,8 +435,13 @@
         var userNumber = $("#user_delay_number").val();
         var shopNumber = $("#shop_delay_number").val();
         var delayTime = document.getElementById("delay_time");
-        var remainMinute = 2*(userNumber - shopNumber);
-        delayTime.innerHTML = '약 ' + remainMinute +'분';
+        var remainMinute = 0;
+        if(userNumber > shopNumber) {
+            remainMinute = 2*(userNumber - shopNumber);
+            delayTime.innerHTML = '약 ' + remainMinute +'분';
+        }else {
+            delayTime.innerHTML = '약 0분';
+        }
 
         remainSecond =  remainMinute * 60;
         var totalSecond = remainMinute * 60;
@@ -465,7 +471,7 @@
         var dataString = {'id': pushShopId, 'menu_type': menuType};
 
         $.ajax({
-            url: $("#url").val() + '/foods/foodShopMenu',
+            url: $("#url").val() + '/shop/foodShopMenu',
             type: 'GET',
             dataType: 'json',
             data: dataString,
@@ -551,9 +557,9 @@
         });
     }
 
-    var getRating = function(foodScope, dynamicDom) {
-        var rating = foodScope * 2;
-        var fullStar = foodScope;
+    var getRating = function(menuScope, dynamicDom) {
+        var rating = menuScope * 2;
+        var fullStar = menuScope;
         var halfStar = false;
 
         // 별 반개가 남으면 홀수, 아니면 짝수
@@ -674,13 +680,13 @@
 
 <!-- web push -->
 <style type="text/css">
-    #layerPop{width:230px;height:180px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
+    #layerPop{width:230px;height:100px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
     #layerPop .close{position:absolute;bottom:5px;right:5px;}
 </style>
 <script type='text/javascript'>
     var pushShopId = $("#pushShopId").val();
     /*console.log('url : ', $('#url').val());*/
-    var source = new EventSource('/foods/update-stream/'+pushShopId);
+    var source = new EventSource('/shop/update-stream/'+pushShopId);
 
     source.addEventListener('message', function(e) {
 //        console.log(e);
@@ -703,6 +709,7 @@
 
         var visitCnt = $("#user_stamp").val();
         visitCnt++;
+        $("#user_stamp").val(visitCnt);
         for(var i=1; i<=visitCnt; i++) {
             $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
         }

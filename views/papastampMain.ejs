@@ -208,7 +208,7 @@
                 currentLat = position.coords.latitude; // 위도
                 currentLon = position.coords.longitude; // 경도
 
-                var currentMarkerSrc = 'https://s3-ap-northeast-1.amazonaws.com/sbevent/image/current_point.png', // 메인 마커이미지의 주소입니다
+                var currentMarkerSrc = '/image/current_point.png', // 메인 마커이미지의 주소입니다
                     currentMarkerSize = new daum.maps.Size(44, 49), // 메인  마커이미지의 크기입니다
                     currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -275,7 +275,7 @@
             // 데이터에서 좌표 값을 가지고 마커를 표시합니다
             // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 
-            var imageSrc = 'https://s3-ap-northeast-1.amazonaws.com/sbevent/image/shop_point.png', // 마커이미지의 주소입니다
+            var imageSrc = '/image/shop_point.png', // 마커이미지의 주소입니다
                 imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
                 imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
             var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
@@ -366,7 +366,7 @@
     function shopList(currentLat, currentLon) {
         var dataString = {'current_lat': currentLat, 'current_lon': currentLon};
         $.ajax({
-            url: $("#url").val() + '/foods/foodShopList',
+            url: $("#url").val() + '/shop/shopList',
             type: 'GET',
             dataType: 'json',
             data: dataString,
@@ -382,7 +382,7 @@
                 for(var i=0; i<shopData.length; i++){
                     shopDataList.innerHTML += '<div class="address-row">' +
                         '<div class="col-xs-2 address-left">' +
-                        '<a href="foods/foodShop?id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
+                        '<a href="shop/shopInfo?id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                         '</div>' +
                         '<div class="col-xs-10 address-right">' +
                         '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ i +')"><img src="/images/map_load_pin.png" style="width:50px;"></span></a>' +
@@ -427,7 +427,7 @@
         }else {
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new daum.maps.LatLngBounds();
-            var imageSrc = "	https://s3-ap-northeast-1.amazonaws.com/sbevent/image/shop_point.png";
+            var imageSrc = "/image/shop_point.png";
             var imageSize = new daum.maps.Size(44, 51);
             var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
 
