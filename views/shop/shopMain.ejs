@@ -680,7 +680,7 @@
 
 <!-- web push -->
 <style type="text/css">
-    #layerPop{width:230px;height:100px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
+    #layerPop{width:230px;height:180px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
     #layerPop .close{position:absolute;bottom:5px;right:5px;}
 </style>
 <script type='text/javascript'>
@@ -695,7 +695,7 @@
 //        openLayer('layerPop', scrollPosition + 250, 50, browserHeight);
         var pop = document.getElementById('layerPop');
         pop.style.display = "block";
-        pop.style.top = "200px";
+        pop.style.top = "100px";
         pop.style.left = "70px";
         document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 대기 번호 : ' + e.lastEventId + '번 *</h4></li>';
 
