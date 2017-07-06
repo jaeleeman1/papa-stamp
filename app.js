@@ -8,8 +8,6 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var shop = require('./routes/shop');
-var admin = require('./routes/admin');
-var tablet = require('./routes/tablet');
 var login = require('./routes/login');
 // app express
 var app = express( );
@@ -36,8 +34,6 @@ app.use(session({
 
 app.use('/', index);
 app.use('/shop', shop);
-app.use('/admin', admin);
-app.use('/tablet', tablet);
 app.use('/login', login);
 
 // catch 404 and forward to error handler
