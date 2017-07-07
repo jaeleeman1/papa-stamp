@@ -139,7 +139,7 @@
     <!-- banner-text -->
     <div id="testC" class="banner-text">
         <div class="container">
-            <h2><%= shopData.SHOP_NAME %></h2>
+            <h2 style="float:right;"><%= shopData.SHOP_NAME %></h2>
         </div>
     </div>
 </div>
@@ -148,7 +148,7 @@
 <div class="container">
     <ol class="breadcrumb w3l-crumbs tabs" style="text-align:center">
         <li class="active" rel="tab1"><a href="javascript:" style="color: #e24945"><i class="fa fa-coffee"></i>메뉴정보</a></li>
-        <li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>주문정보</a></li>
+        <!--<li rel="tab2"><a href="javascript:"><i class="fa fa-male"></i>주문정보</a></li>-->
         <li id="stamp" rel="tab3"><a href="javascript:"><i class="glyphicon glyphicon-home"></i> 파파도장</a></li>
     </ol>
 </div>
@@ -210,7 +210,7 @@
 
 
 
-        <!-- dishes -->
+        <!-- dishes
         <div id="tab2" class="w3agile-spldishes tab_content">
             <div class="container">
                 <h3 class="w3ls-title">나의 대기 번호</h3>
@@ -247,7 +247,7 @@
                 <div id="ViewTimer"></div>
             </div>
         </div>
-        <!-- //dishes -->
+        //dishes -->
 
 
 
@@ -434,7 +434,7 @@
 
         var userNumber = $("#user_delay_number").val();
         var shopNumber = $("#shop_delay_number").val();
-        var delayTime = document.getElementById("delay_time");
+/*        var delayTime = document.getElementById("delay_time");
         var remainMinute = 0;
         if(userNumber > shopNumber) {
             remainMinute = 2*(userNumber - shopNumber);
@@ -448,11 +448,11 @@
 
         if(!(totalSecond == 0)) {
             tid=setInterval('remainTime('+totalSecond+')',1000);
-        }
+        }*/
 
     });
 
-    function remainTime(totalSecond) {
+/*    function remainTime(totalSecond) {
         var percent = Math.floor(100 - (remainSecond / totalSecond) * 100);
 
         document.getElementById("progress_per").innerHTML = '진행률 ' + percent +'%';
@@ -463,7 +463,7 @@
         if(remainSecond < 0) {
             clearInterval(tid);
         }
-    }
+    }*/
 
     function getMenu(menuType) {
         $("#menuTypeName").text(menuType);
