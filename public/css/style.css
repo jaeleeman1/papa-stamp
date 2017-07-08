@@ -1022,12 +1022,12 @@ h3.w3ls-title.w3ls-title1 {
     margin-top: 3em;
 } 
 .agile-product-text {
-    background: #08cae2;
+    background: #EE82EE;
     padding: 1.5em 2em;
     text-align: center;
 }
 .agile-product-text.agile-product-text2 {
-    background: #fd463e;
+    background: #32CD32;
 }
 .agile-product-text h5 {
     font-size: 1.5em;
@@ -1155,6 +1155,7 @@ h3.w3ls-title.w3ls-title1 {
 }
 .back p {
     margin: 1.4em 0;
+    height: 80px;
     color: #fff;
     border-bottom: 1px solid rgba(238, 238, 238, 0.35);
     padding-bottom: 0.5em;
