@@ -975,6 +975,7 @@ h3.w3ls-title.w3ls-title1 {
 .product-w3ls-right {
     float: right;
     padding: 0;
+    width: 100%;
 }
 .breadcrumb.breadcrumb1  > li { 
     font-size: 1.1em;
@@ -1155,14 +1156,13 @@ h3.w3ls-title.w3ls-title1 {
 }
 .back p {
     margin: 1.4em 0;
-    height: 80px;
     color: #fff;
     border-bottom: 1px solid rgba(238, 238, 238, 0.35);
     padding-bottom: 0.5em;
 }
 .back h6 {
     font-size: 3em;
-    color: #fff;
+    color: #777;;
     font-family: 'Yantramanav', sans-serif;
 }
 .back h6 sup {
