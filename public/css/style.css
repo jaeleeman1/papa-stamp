@@ -49,7 +49,9 @@ body a:focus {
     padding: 0.8em 0;
 }
 .w3ls-header-left {
-    float: left;
+    float: none;
+    width: 100%;
+    text-align: center;
 }
 .w3ls-header-right {
     float: right;
@@ -109,7 +111,7 @@ body a:focus {
 .navigation {
     padding: 0 0 0.6em;
     text-align: center;
-    background: rgba(253, 70, 62, 0.84);
+    background: rgba(64, 68, 105, 0.74);
 	position: relative;
 } 
 .w3ls_products_pos h4 {
@@ -157,11 +159,11 @@ ul.nav.navbar-nav.navbar-right {
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     background-color: transparent;
-	color: #333;
+	color: #EE82EE;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus,.navbar-default .navbar-nav > li > a.active{
-    color: #333;
     background-color: transparent;
+    color: #EE82EE;
 }
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
     border: none;
@@ -991,7 +993,7 @@ h3.w3ls-title.w3ls-title1 {
     padding: 0 8px;
 }
 .product-top {
-    background: #08cae2;
+    background: rgba(64, 68, 105, 0.8);
     padding: 1em 2em;
 }
 .product-top li.dropdown{
@@ -3312,7 +3314,7 @@ h3.icon-subheading {
     margin-bottom: 0.8em; 
 }
 .navbar-header.w3l_logo { 
-    width: 55%; 
+    width: 55%;
 }
 .w3l_logo h1 {
     font-size: 2.5em;
@@ -3348,17 +3350,17 @@ div#bs-megadropdown-tabs {
     position: absolute;
     width: 100%;
     margin-top: 0.6em;
-    background: rgba(253, 70, 62, 0.84);
+    background: rgba(64, 68, 105, 0.84);
 	z-index: 999;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #09c4dc;
+    background-color: #ddd;
 }
 .w3view-cart {
     top: 13px; 
 }
 ul.dropdown-menu.multi-column.columns-3, li.w3pages.open .dropdown-menu {
-    background-color: #fff;
+    background-color: #ddd;
 }
 #staplesbmincart {
     left: 48%;
