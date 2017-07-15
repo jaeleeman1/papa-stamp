@@ -317,7 +317,7 @@ option {
 	background: -moz-linear-gradient(to bottom, #f1efef 51%,#00BCD4 125%);
 	background: -o-linear-gradient(to bottom, #f1efef 51%,#00BCD4 125%);
 	background: -ms-linear-gradient(to bottom, #f1efef 51%,#00BCD4 125%);
-	background: -ms-gradient(to bottom, #f1efef 51%,#00BCD4 125%);
+	/*background: -ms-gradient(to bottom, #f1efef 51%,#00BCD4 125%);*/
 	background: linear-gradient(to bottom, #f1efef 51%,#00BCD4 125%);
 }
 .w3ls-add-grids {
