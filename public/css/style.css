@@ -891,7 +891,7 @@ img.w3order-img {
 }
 ol.breadcrumb.w3l-crumbs {
     padding: 1em 2em;
-    background: #FFDAB9;
+    background: #DCDCDC;
 	margin: 0;
 } 
 .breadcrumb.w3l-crumbs li {
@@ -4396,7 +4396,7 @@ img.w3order-img {
     float: right;
 }
 .pricing {
-    background-color: #DCDCDC;
+    background-color: #decba5;
     padding: 1em 0 2em 0;
 }
 .price {
