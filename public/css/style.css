@@ -891,7 +891,7 @@ img.w3order-img {
 }
 ol.breadcrumb.w3l-crumbs {
     padding: 1em 2em;
-    background: #DCDCDC;
+    background: #FFDAB9;
 	margin: 0;
 } 
 .breadcrumb.w3l-crumbs li {
@@ -994,7 +994,7 @@ h3.w3ls-title.w3ls-title1 {
     padding: 0 8px;
 }
 .product-top {
-    background: rgba(64, 68, 105, 0.8);
+    background: rgba(64, 68, 105, 0.6);
     padding: 1em 2em;
 }
 .product-top li.dropdown{
@@ -1028,7 +1028,7 @@ h3.w3ls-title.w3ls-title1 {
     text-align: center;
 }
 .agile-product-text.agile-product-text2 {
-    background: #CD853F;
+    background: #DEB887;
 }
 .agile-product-text h5 {
     font-size: 1.5em;
@@ -4396,7 +4396,7 @@ img.w3order-img {
     float: right;
 }
 .pricing {
-    background-color: #decba5;
+    background-color: #DCDCDC;
     padding: 1em 0 2em 0;
 }
 .price {
