@@ -159,7 +159,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     getConnection(function (err, connection){
         // Select Event List
-        var updateUserStamp = 'update SB_SHOP_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and SUPI.USER_ID = ?';
+        var updateUserStamp = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
 
         connection.query(updateUserStamp, [shopID, userID], function (err, row) {
             if (err) {
