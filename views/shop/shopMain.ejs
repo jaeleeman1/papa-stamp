@@ -310,6 +310,12 @@
             }
         });
 
+        // 방문 횟수
+        var visitCnt = $("#user_stamp").val();
+        for(var i=1; i<=visitCnt; i++) {
+            $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+        }
+
         getMenu("Espresso");
     });
 
