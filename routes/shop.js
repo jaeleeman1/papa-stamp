@@ -157,21 +157,6 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     var sendType = "phone"; //tablet
     // console.log('x ', req.params.shopping_id);
 
-    getConnection(function (err, connection){
-        // Select Event List
-        var updateUserStamp = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-
-        connection.query(updateUserStamp, [shopID, userID], function (err, row) {
-            if (err) {
-                console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                throw err;
-            }else{
-                // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-            }
-            connection.release();
-        });
-    });
-
     var subscriber = redis.createClient();
 
     subscriber.subscribe(shopID);
@@ -183,20 +168,30 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-        var userStamp = 0;
-        var userCouphone = '';
         getConnection(function (err, connection){
-            var selectUserStamp = 'select SUPI.USER_STAMP, SUPI.SHOP_COUPHONE from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
-            connection.query(selectUserStamp, [shopID, userID], function (err, row) {
+            // Select Event List
+            var userStamp = 0;
+            var userCouphone = '';
+
+            var updateUserStamp = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+            connection.query(updateUserStamp, [shopID, userID], function (err, row) {
                 if (err) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                     throw err;
                 }else{
-                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                    userStamp = row[0].USER_STAMP;
-                    if(userStamp == 10) {
-                        userCouphone = row[0].SHOP_COUPHONE;
-                    }
+                    var selectUserStamp = 'select SUPI.USER_STAMP, SUPI.SHOP_COUPHONE from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
+                    connection.query(selectUserStamp, [shopID, userID], function (err, row) {
+                        if (err) {
+                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                            throw err;
+                        }else{
+                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                            userStamp = row[0].USER_STAMP;
+                            if(userStamp == 10) {
+                                userCouphone = row[0].SHOP_COUPHONE;
+                            }
+                        }
+                    });
                 }
                 connection.release();
             });
