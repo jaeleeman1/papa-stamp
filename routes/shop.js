@@ -179,19 +179,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                     throw err;
                 }else{
-                    var selectUserStamp = 'select SUPI.USER_STAMP, SUPI.SHOP_COUPHONE from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
-                    connection.query(selectUserStamp, [shopID, userID], function (err, row) {
-                        if (err) {
-                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                            throw err;
-                        }else{
-                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                            userStamp = row[0].USER_STAMP;
-                            if(userStamp == 10) {
-                                userCouphone = row[0].SHOP_COUPHONE;
-                            }
-                        }
-                    });
+                    console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
                 }
                 connection.release();
             });
