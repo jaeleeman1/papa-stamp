@@ -583,6 +583,14 @@
 
     }, false);
 
+    function receiveCouphoneLayer(IdName){
+        var pop = document.getElementById(IdName);
+        pop.style.display = "none";
+
+        var pop = document.getElementById("layerCouphone");
+        pop.style.display = "block";
+    }
+
     function closeLayer(IdName){
         var pop = document.getElementById(IdName);
         pop.style.display = "none";
