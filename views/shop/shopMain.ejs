@@ -551,16 +551,6 @@
     var source = new EventSource('/shop/update-stream/'+pushShopId);
 
     source.addEventListener('message', function(e) {
-//        console.log(e);
-//        var browserHeight = $(document).height();
-//        var scrollPosition = document.body.scrollTop;
-//        openLayer('layerPop', scrollPosition + 250, 50, browserHeight);
-        var pop = document.getElementById('layerPop');
-        pop.style.display = "block";
-        pop.style.top = "100px";
-        pop.style.left = "70px";
-        document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 대기 번호 : ' + e.lastEventId + '번 *</h4></li>';
-
         $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
         $("#stamp").addClass("active");
@@ -570,10 +560,25 @@
         $("#" + activeTab).fadeIn();
 
         var visitCnt = $("#user_stamp").val();
-        visitCnt++;
-        $("#user_stamp").val(visitCnt);
-        for(var i=1; i<=visitCnt; i++) {
-            $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+
+        if (visitCnt < 10){
+            visitCnt++;
+            $("#user_stamp").val(visitCnt);
+            for(var i=1; i<=visitCnt; i++) {
+                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+            }
+        }else {
+            var pop = document.getElementById('layerPop');
+            pop.style.display = "block";
+            pop.style.top = "100px";
+            pop.style.left = "70px";
+            document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 쿠폰 번호 : ' + e.lastEventId + ' *</h4></li>';
+
+            // 방문 횟수 초기화
+            $("#user_stamp").val(0);
+            for(var i=1; i<=10; i++) {
+                $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
+            }
         }
 
     }, false);

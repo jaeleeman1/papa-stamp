@@ -157,7 +157,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     var sendType = "phone"; //tablet
     // console.log('x ', req.params.shopping_id);
 
-    var userCurrentNum = 0;
+/*    var userCurrentNum = 0;
     getConnection(function (err, connection){
         // Select Event List
         var selectUserCount = 'select SUPI.USER_CURRENT_NUM from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
@@ -175,7 +175,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
             }
             connection.release();
         });
-    });
+    });*/
 
     var subscriber = redis.createClient();
 
@@ -188,10 +188,25 @@ router.get('/update-stream/:shopping_id', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-        userCurrentNum++; // Increment our message count
+
+        var userStampNum = 0;
+        getConnection(function (err, connection){
+            // Select Event List
+            var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+            connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
+                if (err) {
+                    console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                    throw err;
+                }else{
+                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                    userStampNum = row[0].USER_STAMP;
+                }
+                connection.release();
+            });
+        });
         // console.log('count : ', userCurrentNum);
 
-        getConnection(function (err, connection){
+        /*getConnection(function (err, connection){
             // Select Event List
             var updateShopCount='update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
             connection.query(updateShopCount, shopID, function (err, row) {
@@ -221,9 +236,9 @@ router.get('/update-stream/:shopping_id', function(req, res) {
                 }
                 connection.release();
             });
-        });
+        });*/
 
-        res.write('id: ' + userCurrentNum + '\n');
+        res.write('id: ' + userStampNum + '\n');
         res.write("data: " + message + '\n\n'); // Note the extra newline
     });
 
