@@ -189,6 +189,7 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
 
+
         var userStampNum = 0;
         getConnection(function (err, connection){
             // Select Event List
@@ -198,12 +199,22 @@ router.get('/update-stream/:shopping_id', function(req, res) {
                     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                     throw err;
                 }else{
-                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                    userStampNum = row[0].USER_STAMP;
+                    var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+                    connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                        if (err) {
+                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                            throw err;
+                        } else {
+                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                            userStampNum = row[0].USER_STAMP;
+                        }
+                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                    });
                 }
                 connection.release();
             });
         });
+        console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ' + userStampNum);
         // console.log('count : ', userCurrentNum);
 
         /*getConnection(function (err, connection){
