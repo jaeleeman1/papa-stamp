@@ -92,7 +92,7 @@ router.get('/shopList', function (req, res, next) {
                     var selectLottoShopQuery = 'select * from SB_SHOP_INFO where DEL_YN = "N" limit 10;';
                     connection.query(selectLottoShopQuery, [startLat, endLat, startLon, endLon], function (err, row) {
                         if (err) {
-                            console.error("[Shopping Buy Insert] Select Shopping Count Error : ", err);
+                            console.error("[ShopLIst Buy Insert] Select ShopLIst Count Error : ", err);
                             api.error(res);
                         } else {
                             // 현재 주소 가져오기
@@ -107,7 +107,7 @@ router.get('/shopList', function (req, res, next) {
 });
 
 //GET shop List
-router.get('/updateVisit', function (req, res, next) {
+router.put('/updateVisit', function (req, res, next) {
     var shopId = "SB-SHOP-00001";
     var userId = "01026181715";
     getConnection(function (err, connection){
@@ -148,14 +148,14 @@ router.get('/foodsList', function (req, res, next) {
     });
 });
 
-router.get('/update-stream/:shopping_id', function(req, res) {
+router.get('/update-stream/:shop_id', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
-    var shopID = req.params.shopping_id;
+    var shopID = req.params.shop_id;
     var userID = '01026181715';
     var sendType = "phone"; //tablet
-    // console.log('x ', req.params.shopping_id);
+    // console.log('x ', req.params.shop_id);
 
 /*    var userCurrentNum = 0;
     getConnection(function (err, connection){
@@ -271,10 +271,10 @@ router.get('/update-stream/:shopping_id', function(req, res) {
     });
 });
 
-router.get('/fire-event/:shopping_id/:event_name', function(req, res) {
-    // console.log('shopping_id : ', req.params.shopping_id);
-    var shoppingData = req.params.shopping_id;
-    publisherClient.publish( shoppingData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
+router.get('/fire-event/:shop_id/:event_name', function(req, res) {
+    // console.log('shop_id : ', req.params.shop_id);
+    var shoppData = req.params.shop_id;
+    publisherClient.publish( shoppData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('All clients have received "' + req.params.event_name + '"');
     res.end();
