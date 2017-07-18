@@ -548,7 +548,7 @@
 <script type='text/javascript'>
     var pushShopId = $("#pushShopId").val();
     /*console.log('url : ', $('#url').val());*/
-    var source = new EventSource('/shop/update-stream/'+pushShopId);
+    var source = new EventSource('/shop/update-stream/'+pushShopId+'/'+'01037291715');
 
     source.addEventListener('message', function(e) {
         $("ol.tabs li").removeClass("active");
