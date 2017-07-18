@@ -109,7 +109,7 @@ router.get('/shopList', function (req, res, next) {
 //GET shop List
 router.put('/updateVisit', function (req, res, next) {
     var shopId = "SB-SHOP-00001";
-    var userId = "01026181715";
+    var userId = "01037291715";
     getConnection(function (err, connection){
         // Select User Visit Count
         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
@@ -153,7 +153,7 @@ router.get('/update-stream/:shop_id', function(req, res) {
     req.socket.setTimeout(Number.MAX_VALUE);
 
     var shopID = req.params.shop_id;
-    var userID = '01026181715';
+    var userID = '01037291715';
     var sendType = "phone"; //tablet
     // console.log('x ', req.params.shop_id);
 
