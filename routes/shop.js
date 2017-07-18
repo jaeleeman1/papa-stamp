@@ -148,7 +148,7 @@ router.get('/foodsList', function (req, res, next) {
     });
 });
 
-router.get('/update-stream/:shop_id', function(req, res) {
+router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
