@@ -35,7 +35,6 @@
 <body>
 <!-- banner -->
 <div class="banner about-w3bnr">
-
     <!-- header -->
     <div class="header">
         <div class="w3ls-header"><!-- header-one -->
@@ -53,67 +52,18 @@
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header w3l_logo">
-                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                        <button id="papa-menu" type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1 style="float:left;"><a href="main">PaPa <p style="float:right;font-size:0.4em;margin-left:10px;">Stamp</p><span>Stamp Management System</span></a></h1>
+                        <h1 style="float:left;"><a href="/main" style="color:#CD853F">PaPa<p style="float:right;font-size:0.6em;margin-left:10px;color:#EE82EE">Stamp</p></a>
+                            <a><span>Stamp Management System</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="<%= url %>/main">Home</a></li>
-                            <!-- Mega Menu -->
-                            <!--<li class="dropdown">
-                                <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">지역별<b class="caret"></b></a>
-                                <ul class="dropdown-menu multi-column columns-3">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6 class="show-hide">서울</h6></a>
-                                                <div class="show-hide-dropdown" style="display:none">
-                                                    <li><a href="">강남구</a></li>
-                                                    <li><a href="">강동구</a></li>
-                                                    <li><a href="">강북구</a></li>
-                                                    <li><a href="">강서구</a></li>
-                                                    <li><a href="">관악구</a></li>
-                                                    <li><a href="">광진구</a></li>
-                                                    <li><a href="">구로구</a></li>
-                                                    <li><a href="">금천구</a></li>
-                                                    <li><a href="">노원구</a></li>
-                                                    <li><a href="">도봉구</a></li>
-                                                    <li><a href="">동대문구</a></li>
-                                                    <li><a href="">동작구</a></li>
-                                                    <li><a href="">마포구</a></li>
-                                                    <li><a href="">서대문구</a></li>
-                                                    <li><a href="">서초구</a></li>
-                                                    <li><a href="">성동구</a></li>
-                                                    <li><a href="">성북구</a></li>
-                                                    <li><a href="">송파구</a></li>
-                                                    <li><a href="">양천구</a></li>
-                                                    <li><a href="">영등포구</a></li>
-                                                    <li><a href="">용산구</a></li>
-                                                    <li><a href="">은평구</a></li>
-                                                    <li><a href="">종로구</a></li>
-                                                    <li><a href="">중구</a></li>
-                                                    <li><a href="">중량구</a></li>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>경기</h6>
-                                                <li><a href="">가평군</a></li>
-                                                <li><a href="">고양시 덕양구</a></li>
-                                                <li><a href="">고양시 일산동구</a></li>
-                                                <li><a href="">고양시 일산서구</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </ul>
-                            </li>-->
+                            <li><a style="color:#CD853F;" href="/main">Home</a></li>
                             <li><a href="/contact" class="active">Contact Us</a></li>
                         </ul>
                     </div>
@@ -132,11 +82,13 @@
 <div class="container">
     <ol class="breadcrumb w3l-crumbs">
         <li><a href="javascript:"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active" style="color: #e24945">스탬프 연계 지점</li>
-        <select id="cooperatorList" name="agileinfo_search" required="" onchange="current()">
-            <option value="jass" >JASS</option>
-            <option value="gongcha">공차</option>
-        </select>
+        <li class="active">
+            <select id="cooperatorList" name="agileinfo_search" required="" onchange="current()">
+                <option value="myShop">나의 스탬프 지점</option>
+                <option value="totalShop" >파파 스탬프 연계 지점</option>
+            </select>
+        </li>
+
     </ol>
 </div>
 <!-- //breadcrumb -->
@@ -208,7 +160,7 @@
                 currentLat = position.coords.latitude; // 위도
                 currentLon = position.coords.longitude; // 경도
 
-                var currentMarkerSrc = '/image/current_point.png', // 메인 마커이미지의 주소입니다
+                var currentMarkerSrc = '/images/current_point.gif', // 메인 마커이미지의 주소입니다
                     currentMarkerSize = new daum.maps.Size(44, 49), // 메인  마커이미지의 크기입니다
                     currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -275,7 +227,7 @@
             // 데이터에서 좌표 값을 가지고 마커를 표시합니다
             // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 
-            var imageSrc = '/image/shop_point.png', // 마커이미지의 주소입니다
+            var imageSrc = '/images/shop_point.gif', // 마커이미지의 주소입니다
                 imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
                 imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
             var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
