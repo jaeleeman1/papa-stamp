@@ -548,10 +548,10 @@
 <script type='text/javascript'>
     var pushShopId = $("#pushShopId").val();
     /*console.log('url : ', $('#url').val());*/
-    var source = new EventSource('/shop/update-stream/'+pushShopId+'/'+'01037291715');
+    var source = new EventSource('/shop/update-stream/'+pushShopId+'/'+'01026181715');
 
     source.addEventListener('message', function(e) {
-        /*$("ol.tabs li").removeClass("active");
+        $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
         $("#stamp").addClass("active");
         $("#stamp").children().css("color", "#e24945");
@@ -579,9 +579,7 @@
             for(var i=1; i<=10; i++) {
                 $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
             }
-        }*/
-
-        location.reload();
+        }
 
     }, false);
 

@@ -153,7 +153,7 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     req.socket.setTimeout(Number.MAX_VALUE);
 
     var shopID = req.params.shop_id;
-    var userID = '01037291715';
+    var userID = '01026181715';
     var sendType = "phone"; //tablet
     // console.log('x ', req.params.shop_id);
 
