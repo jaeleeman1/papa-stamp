@@ -4350,7 +4350,7 @@ img.w3order-img {
 /* add css */
 .phone {color: blue; letter-spacing: 0.8px; margin-left:5px;}
 .icon {float:right}
-#cooperatorList {border:none; background-color:#DCDCDC; font-size:1.1em; text-decoration: underline;}
+#cooperatorList {border:none; background-color:#DCDCDC; font-size:1.1em; color:#e24945; text-decoration: underline;}
 #toast_popup {position:fixed; left:50%; margin-left:-32%; bottom:200px; width:calc( 64% - 10px); padding:5px 5px 7px; line-height:24px; background:rgba(0,0,0,0.9); border-radius: 4px; font-size:16px; color: #FFF; text-align:center;}
 
 .order-top {

@@ -84,8 +84,8 @@
         <li><a href="javascript:"><i class="fa fa-home"></i> Home</a></li>
         <li class="active">
             <select id="cooperatorList" name="agileinfo_search" required="" onchange="current()">
-                <option value="myShop">나의 스탬프 지점</option>
-                <option value="totalShop" >파파 스탬프 연계 지점</option>
+                <option value="myShop">나의 스탬프 등록 지점</option>
+                <option value="papaShop" >파파 스탬프 등록 지점</option>
             </select>
         </li>
 
@@ -160,8 +160,8 @@
                 currentLat = position.coords.latitude; // 위도
                 currentLon = position.coords.longitude; // 경도
 
-                var currentMarkerSrc = '/images/current_point.gif', // 메인 마커이미지의 주소입니다
-                    currentMarkerSize = new daum.maps.Size(44, 49), // 메인  마커이미지의 크기입니다
+                var currentMarkerSrc = '/images/current_point.png', // 메인 마커이미지의 주소입니다
+                    currentMarkerSize = new daum.maps.Size(35, 49), // 메인  마커이미지의 크기입니다
                     currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
                 // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
@@ -227,15 +227,23 @@
             // 데이터에서 좌표 값을 가지고 마커를 표시합니다
             // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
 
-            var imageSrc = '/images/shop_point.gif', // 마커이미지의 주소입니다
-                imageSize = new daum.maps.Size(44, 49), // 마커이미지의 크기입니다
-                imageOprion = {offset: new daum.maps.Point(19, 58)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+
+            if(cooperatorName == "myShop") {
+                var imageSrc = '/images/my_point1.png';
+                var clickImageSrc = '/images/select_point1.png';
+            }else {
+                var imageSrc = '/images/shop_point.png';
+                var clickImageSrc = '/images/select_point.png';
+            }
+            var imageSize = new daum.maps.Size(35, 49), // 마커이미지의 크기입니다
+                imageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
             var normalImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion);
 
-            var clickImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
-                clickImageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+            var clickImageSize = new daum.maps.Size(35, 49), // 마커이미지의 크기입니다
                 clickImageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
             var clickImage = new daum.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOprion);
+
 
             var markers = $(data.positions).map(function(i, position) {
                 var marker = new daum.maps.Marker({
