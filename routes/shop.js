@@ -231,7 +231,7 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
 
 router.get('/fire-event/:shop_id/:event_name', function(req, res) {
     // console.log('shop_id : ', req.params.shop_id);
-    var shoppID = req.params.shop_id;
+    var shopID = req.params.shop_id;
     var userID = req.params.event_name;
     //publisherClient.publish( shoppData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
 
