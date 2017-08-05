@@ -191,7 +191,7 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
 
 
         var userStampNum = 0;
-        getConnection(function (err, connection){
+/*        getConnection(function (err, connection){
             // Select Event List
             var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
             connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
@@ -213,7 +213,7 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
                 }
                 connection.release();
             });
-        });
+        });*/
         console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ' + userStampNum);
         // console.log('count : ', userCurrentNum);
 
@@ -271,10 +271,36 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     });
 });
 
-router.get('/fire-event/:shop_id/:event_name', function(req, res) {
+router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     // console.log('shop_id : ', req.params.shop_id);
-    var shoppData = req.params.shop_id;
-    publisherClient.publish( shoppData, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
+    var shopID = req.params.shop_id;
+    var userID = req.params.user_id;
+    publisherClient.publish( shopID, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
+
+    getConnection(function (err, connection){
+        // Select Event List
+        var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+        connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
+            if (err) {
+                console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                throw err;
+            }else{
+                var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+                connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                    if (err) {
+                        console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                        throw err;
+                    } else {
+                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                        userStampNum = row[0].USER_STAMP;
+                    }
+                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                });
+            }
+            connection.release();
+        });
+    });
+
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('All clients have received "' + req.params.event_name + '"');
     res.end();
