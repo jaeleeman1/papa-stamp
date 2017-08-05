@@ -340,10 +340,10 @@
                 for(var i=0; i<menuData.length; i++){
                     menuName.innerHTML +='<p>' + menuData[i].MENU_NAME + '</p>';
                     menuPrice.innerHTML +='<div class="pre-top">' +
-                            '<div class="pr-left">' +
-                            '<div class="item_add"><span class="item_price"><h6>' + menuData[i].MENU_PRICE + '원</h6></span></div>' +
-                            '</div>' +
-                            '</div>';
+                        '<div class="pr-left">' +
+                        '<div class="item_add"><span class="item_price"><h6>' + menuData[i].MENU_PRICE + '원</h6></span></div>' +
+                        '</div>' +
+                        '</div>';
                     var dynamicDom ='';
                     if(i%2 == 1) {
                         dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
@@ -472,9 +472,9 @@
             $(this).addClass("active");
         })
 
-/*        $("#delay-push").click(function () {
-            $(".login-agileinfo input").removeAttr("style");
-        });*/
+        /*        $("#delay-push").click(function () {
+         $(".login-agileinfo input").removeAttr("style");
+         });*/
     });
 </script>
 <!-- //smooth-scrolling-of-move-up -->
@@ -561,7 +561,7 @@
 
         var visitCnt = $("#user_stamp").val();
 
-        if (visitCnt < 9){
+        if (visitCnt < 10){
             visitCnt++;
             $("#user_stamp").val(visitCnt);
             for(var i=1; i<=visitCnt; i++) {
