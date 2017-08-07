@@ -645,27 +645,32 @@
                 }
             }
         }else {
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_9");
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
             TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
 
-            var pop = document.getElementById('layerPop');
-            pop.style.display = "block";
-            pop.style.top = "100px";
-            pop.style.left = "70px";
-            document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 쿠폰 번호 : ' + e.lastEventId + ' *</h4></li>';
+            setTimeout(function() {
+                var pop = document.getElementById('layerPop');
+                pop.style.display = "block";
+                pop.style.top = "100px";
+                pop.style.left = "70px";
+                document.getElementById('appendPush').innerHTML = '<li style="margin-top:0.5em">' + e.data + '<h4 style="margin-top:1em">* 쿠폰 번호 : ' + e.lastEventId + ' *</h4></li>';
 
-            // 방문 횟수 초기화
-            $("#user_stamp").val(0);
-            for(var i=1; i<=10; i++) {
-                $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
-            }
+                // 방문 횟수 초기화
+                $("#user_stamp").val(0);
+                for(var i=1; i<=10; i++) {
+                    $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
+                }
+            }, 3000);
         }
 
     }, false);
 
     function receiveCouphoneLayer(IdName){
-        var pop = document.getElementById("layerCouphone");
-        pop.style.display = "block";
+        var popup = document.getElementById(IdName);
+        popup.style.display = "none";
+
+        var couphone = document.getElementById("layerCouphone");
+        couphone.style.display = "block";
     }
 
     function closeLayer(IdName){
