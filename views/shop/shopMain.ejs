@@ -12,7 +12,6 @@
     <link href="/css/style.css" type="text/css" rel="stylesheet" media="all"/>
     <link href="/css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
     <link href="/css/owl.carousel.css" type="text/css" rel="stylesheet" media="all"/>
-    <link href="/css/calendar.css" type="text/css" rel="stylesheet" media="all"/>
     <!-- //Custom Theme files -->
     <!-- Toast -->
     <link href="/css/jquery.toast.min.css" type="text/css" rel="stylesheet"/>
@@ -663,6 +662,7 @@
                 }
 
                 //Toast Success Message
+                $.toast.config.align = 'left';
                 $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
             }, 3000);
         }
