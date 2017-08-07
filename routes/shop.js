@@ -302,7 +302,7 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     });
 
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('All clients have received "' + req.params.event_name + '"');
+    res.write('All clients have received "' + userID + '"');
     res.end();
 });
 
