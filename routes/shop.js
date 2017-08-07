@@ -275,7 +275,7 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     // console.log('shop_id : ', req.params.shop_id);
     var shopID = req.params.shop_id;
     var userID = req.params.user_id;
-    publisherClient.publish( shopID, ('"주문자 [' + req.params.event_name + ']번님" 주문이 완료 되었습니다.') );
+    publisherClient.publish( shopID, ('"[' + userID + ']번님" 쿠폰이 발급 되었습니다.') );
 
     getConnection(function (err, connection){
         // Select Event List

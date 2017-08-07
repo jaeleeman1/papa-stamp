@@ -285,8 +285,7 @@
     <h3>무료 쿠폰 발급</h3>
     <ul id="appendPush">
     </ul>
-    <a href="#" onclick="receiveCouphoneLayer('layerPop')" class="couphone">쿠폰받기</a>
-    <a href="#" onclick="closeLayer('layerPop')" class="close">close</a>
+    <a href="#" onclick="closeLayer('layerPop')" class="close">쿠폰받기</a>
 </div>
 <!-- //footer -->
 <!-- cart-js -->
@@ -645,6 +644,7 @@
                 }
             }
         }else {
+            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
             var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
             TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
 
@@ -665,17 +665,12 @@
 
     }, false);
 
-    function receiveCouphoneLayer(IdName){
-        var popup = document.getElementById(IdName);
-        popup.style.display = "none";
-
-        var couphone = document.getElementById("layerCouphone");
-        couphone.style.display = "block";
-    }
-
     function closeLayer(IdName){
         var pop = document.getElementById(IdName);
         pop.style.display = "none";
+
+        var couphone = document.getElementById("layerCouphone");
+        couphone.style.display = "block";
     }
 </script>
 </body>
