@@ -633,7 +633,7 @@
 
         var visitCnt = $("#user_stamp").val() % 10;
 
-        if (visitCnt < 10){
+        if (visitCnt < 9){
             visitCnt++;
             $("#user_stamp").val(visitCnt);
 
@@ -645,6 +645,9 @@
                 }
             }
         }else {
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_9");
+            TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+
             var pop = document.getElementById('layerPop');
             pop.style.display = "block";
             pop.style.top = "100px";
