@@ -394,7 +394,6 @@
             data: dataString,
             success: function(data) {
                 var couphoneData = data.couphoneData;
-                console.log(couphoneData);
                 var couphoneLayer = document.getElementById('layerCouphone');
                 couphoneLayer.innerHTML = '';
                 for(var i=0; i<couphoneData.length; i++){
@@ -659,7 +658,7 @@
 
         var visitCnt = $("#user_stamp").val() % 10;
 
-        if (visitCnt > 0 && visitCnt < 9){
+        if (visitCnt < 9){
             visitCnt++;
             $("#user_stamp").val(visitCnt);
 
