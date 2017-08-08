@@ -217,18 +217,6 @@
             <h3 class="w3ls-title" style="margin-bottom:1em;">무료 쿠폰</h3>
             <p class="w3lsorder-text" style="color:#EE82EE;font-weight:bold;margin-bottom:10px">스탬프 10개가 모이면 4000원 음료 쿠폰을 드립니다.</p>
             <div id="layerCouphone" style="margin-top:25px;">
-                <div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">
-                    <div class="add-products-row">
-                        <div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">
-                            <a style="height:150px;" href="javascript:">
-                                <h5 id="used_couphone" style="float:left;">사용하기</h5>
-                                <h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>
-                                <h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : 2017-06-01 ~ 2017-12-31</h6>
-                            </a>
-                        </div>
-                        <div class="clearfix"> </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- //info -->
@@ -353,12 +341,14 @@
         });
 
         // 방문 횟수
-        var visitCnt = $("#user_stamp").val();
+        var visitCnt = $("#user_stamp").val() % 10;
+
         for(var i=1; i<=visitCnt; i++) {
             $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
         }
 
         getMenu("Espresso");
+        getCouphone();
 
         var userNumber = $("#user_delay_number").val();
         var shopNumber = $("#shop_delay_number").val();
@@ -390,6 +380,42 @@
         if(remainSecond < 0) {
             clearInterval(tid);
         }
+    }
+
+    function getCouphone() {
+        var couphoneShopId = $("#pushShopId").val();
+        var couphoneUserId = '01026181715';
+        var dataString = {'id': pushShopId};
+
+        $.ajax({
+            url: $("#url").val() + '/shop/couphoneList',
+            type: 'GET',
+            dataType: 'json',
+            data: dataString,
+            success: function(data) {
+                var couphoneData = data.couphoneData;
+                console.log(couphoneData);
+                var couphoneLayer = document.getElementById('layerCouphone');
+                for(var i=0; i<couphoneData.length; i++){
+                    couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
+                        '<div class="add-products-row">'+
+                        '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
+                        '<a style="height:150px;" href="javascript:">'+
+                        '<h5 id="couphone_'+i+'" style="float:left;">사용하기</h5>'+
+                        '<h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>'+
+                        '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ couphoneData[i].EXPIRATION_DT +'</h6>'+
+                        '</a>'+
+                        '</div>'+
+                        '<div class="clearfix"> </div>'+
+                        '</div>'+
+                        '</div>';
+                }
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log('Error occured');
+            }
+        });
     }
 
     function getMenu(menuType) {
@@ -614,8 +640,6 @@
     #layerPop{width:230px;height:180px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
     #layerPop .close{position:absolute;bottom:5px;right:5px;}
     #layerPop .couphone{position:absolute;bottom:5px;}
-
-    #layerCouphone{display:none;}
 </style>
 
 <script type='text/javascript'>
@@ -634,7 +658,7 @@
 
         var visitCnt = $("#user_stamp").val() % 10;
 
-        if (visitCnt < 9){
+        if (visitCnt > 0 && visitCnt < 9){
             visitCnt++;
             $("#user_stamp").val(visitCnt);
 
@@ -650,10 +674,10 @@
             var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
             TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
 
-            setTimeout(function() {
+            createCouphone();
 
-                var couphone = document.getElementById("layerCouphone");
-                couphone.style.display = "block";
+            setTimeout(function() {
+                getCouphone();
 
                 // 방문 횟수 초기화
                 $("#user_stamp").val(0);
@@ -675,6 +699,26 @@
 
         var couphone = document.getElementById("layerCouphone");
         couphone.style.display = "block";
+    }
+
+    function createCouphone() {
+        var couphoneShopId = $("#pushShopId").val();
+        var couphoneUserId = '01026181715';
+        var dataString = {'id': pushShopId};
+
+        $.ajax({
+            url: $("#url").val() + '/shop/createCouphone',
+            type: 'PUT',
+            dataType: 'json',
+            data: dataString,
+            success: function(data) {
+                console.log("### [Shopping Buy Insert] Insert Shopping Buy List Data Success ### " + JSON.stringify(data));
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log('Error occured');
+            }
+        });
     }
 </script>
 </body>

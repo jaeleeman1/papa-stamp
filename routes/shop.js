@@ -148,6 +148,51 @@ router.get('/foodsList', function (req, res, next) {
     });
 });
 
+//GET Couphone List
+router.get('/couphoneList', function (req, res, next) {
+    var shopId = "SB-SHOP-00001";
+    var userId = "01026181715";
+
+    getConnection(function (err, connection){
+        // Select shop List
+        var selectCouphoneQuery = 'select COUPHONE_NUMBER, EXPIRATION_DT from SB_USER_COUPHONE where USED_YN = "N" and SHOP_ID = ? and USER_ID = ?';
+        connection.query(selectCouphoneQuery, [shopId, userId], function (err, row) {
+            if (err) {
+                console.error("@@@ [Couphone List] Select Couphone List Error : " + err);
+                throw err;
+            }else{
+                console.log("### [Couphone List] Select Couphone List Success ### " + JSON.stringify(row));
+                res.send({couphoneData :row});
+            }
+            connection.release();
+        });
+    });
+});
+
+//GET Couphone List
+router.put('/createCouphone', function (req, res, next) {
+    var shopId = "SB-SHOP-00001";
+    var userId = "01026181715";
+    var couphoneNumber = '123-456-791';
+    var couphoneNumber = '2017-06-01 ~ 2017-12-31';
+
+
+    getConnection(function (err, connection){
+        // Insert shop List
+        var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values ("' + shopId + '", ' + userId + '", ' + couphoneNumber + ', "' + couphoneNumber + '")';
+        connection.query(insertCouphoneQuery, function (err, row) {
+            if (err) {
+                console.error("@@@ [Couphone List] Select Couphone List Error : " + err);
+                throw err;
+            }else{
+                console.log("### [Couphone List] Select Couphone List Success ### " + JSON.stringify(row));
+                res.send();
+            }
+            connection.release();
+        });
+    });
+});
+
 router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
