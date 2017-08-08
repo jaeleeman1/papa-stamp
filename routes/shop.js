@@ -171,15 +171,15 @@ router.get('/couphoneList', function (req, res, next) {
 
 //GET Couphone List
 router.put('/createCouphone', function (req, res, next) {
-    var shopId = "SB-SHOP-00001";
-    var userId = "01026181715";
+    var shopId = 'SB-SHOP-00001';
+    var userId = '01026181715';
     var couphoneNumber = '123-456-791';
-    var couphoneNumber = '2017-06-01 ~ 2017-12-31';
-
+    var expirationDate = '2017-06-01 ~ 2017-12-31';
 
     getConnection(function (err, connection){
         // Insert shop List
-        var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values ("' + shopId + '", ' + userId + '", ' + couphoneNumber + ', "' + couphoneNumber + '")';
+        var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values ("' + shopId + '", "' + userId + '", "' + couphoneNumber + '", "' + expirationDate + '")';
+        // var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values (' + shopId + ', ' + userId + ', ' + couphoneNumber + ', ' + expirationDate + ')';
         connection.query(insertCouphoneQuery, function (err, row) {
             if (err) {
                 console.error("@@@ [Couphone List] Select Couphone List Error : " + err);
