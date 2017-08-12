@@ -1,0 +1,11 @@
+{
+  "prd" : {
+    "auth" : false,
+    "host" : "emobility-ssup-dev.cwv6eeev1qqm.ap-northeast-2.rds.amazonaws.com"
+  },
+  "local" : {
+    "auth" : false,
+    "host" : "localhost",
+    "url" : "http://localhost:8080"
+  }
+}

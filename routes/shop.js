@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var getConnection = require('../lib/db_connection');
-var config = require('../lib/config');
+var getConnection = require('../config/db_connection');
+var config = require('../config/config');
+var logger = require('../config/logger');
 var request = require("request");
 var cheerio = require("cheerio");
 var xml2js = require('xml2js');
@@ -9,27 +10,15 @@ var parser = new xml2js.Parser();
 var redis   = require('redis');
 var publisherClient = redis.createClient();
 
-//Get Food Shop Menu
-router.get('/foodShopMenu', function (req, res, next) {
-    var shopId = req.query.id;
-    var menuType = req.query.menu_type;
 
-    getConnection(function (err, connection){
-        var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = ?';
-        console.log(selectMenuQuery);
-        connection.query(selectMenuQuery, [shopId, menuType], function (err, menu) {
-            if (err) {
-                console.error("@@@ [food Menu] Select food Menu Error : " + err);
-                throw err;
-            }else{
-                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
-                res.send({menuData:menu});
-            }
-        });
-    });
-});
+logger.log(config.loglevel, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+logger.info('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY');
 
-//GET Food Shop Init
+
+
+/* Shop Page API */
+
+//Select Shop Information
 router.get('/shopInfo', function (req, res, next) {
     var shopId = req.query.id;
 
@@ -40,6 +29,8 @@ router.get('/shopInfo', function (req, res, next) {
             'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
             'where SSI.SHOP_ID = ? ' +
             'order by SSPI.UPDATE_DT DESC limit 1';
+
+
         connection.query(selectShopQuery, shopId, function (err, shop) {
             if (err) {
                 console.error("@@@ [shop info] Select shop info Error : " + err);
@@ -61,6 +52,39 @@ router.get('/shopInfo', function (req, res, next) {
         });
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+//Get Food Shop Menu
+router.get('/foodShopMenu', function (req, res, next) {
+    var shopId = req.query.id;
+    var menuType = req.query.menu_type;
+
+    getConnection(function (err, connection){
+        var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = ?';
+        console.log(selectMenuQuery);
+        connection.query(selectMenuQuery, [shopId, menuType], function (err, menu) {
+            if (err) {
+                console.error("@@@ [food Menu] Select food Menu Error : " + err);
+                throw err;
+            }else{
+                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
+                res.send({menuData:menu});
+            }
+        });
+    });
+});
+
+
 
 //GET Food Shop List
 router.get('/shopList', function (req, res, next) {
@@ -200,6 +224,7 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     var shopID = req.params.shop_id;
     var userID = '01026181715';
     var sendType = "phone"; //tablet
+    var userStampNum = 0;
     // console.log('x ', req.params.shop_id);
 
     /*    var userCurrentNum = 0;
@@ -233,9 +258,6 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-
-
-        var userStampNum = 0;
 /*        getConnection(function (err, connection){
             // Select Event List
             var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
@@ -330,14 +352,35 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
                 console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                 throw err;
             }else{
-                var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
-                connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                var updateShopCurrentQuery = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM +1 where SHOP_ID = ? and USER_ID = ?';
+                connection.query(updateShopCurrentQuery, [shopID, userID], function (err, row) {
                     if (err) {
                         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                         throw err;
                     } else {
-                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                        userStampNum = row[0].USER_STAMP;
+                        var selectUserStampQuery = 'select USER_CURRENT_NUM, USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+                        connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                            if (err) {
+                                console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                                throw err;
+                            } else {
+                                var userCurrentNum = row[0].USR_CURRENT_NUM;
+                                var userStampNum = row[0].USR_CURRENT_NUM;
+                                userCurrentNum++
+                                var updateUserCurrentQuery = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
+                                connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                                    if (err) {
+                                        console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                                        throw err;
+                                    } else {
+                                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                                        userStampNum = row[0].USER_STAMP;
+                                    }
+                                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                                });
+                            }
+                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                        });
                     }
                     // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
                 });
