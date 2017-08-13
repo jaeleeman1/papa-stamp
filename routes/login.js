@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../lib/config');
-var getConnection = require('../lib/db_connection');
+var config = require('../config/service_config');
+var getConnection = require('../config/db_connection');
 var request = require('request');
 
 /* GET login (session) */

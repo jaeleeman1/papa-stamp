@@ -1,4 +1,4 @@
-var enviromentConfig = require('config');
+// var enviromentConfig = require('config');
 var config = {};
 
 //Database

@@ -1,5 +1,8 @@
 var mysql = require('mysql');
-var config = require('../lib/config');
+var config = require('../config/service_config');
+var logger = require('../config/logger');
+
+const TAG = "[DATABASE CONNECTION] ";
 
 var pool = mysql.createPool( {
     host : config.host,
@@ -13,10 +16,14 @@ var pool = mysql.createPool( {
 
 var getConnection = function (cb) {
     pool.getConnection(function (err, connection) {
+        logger.info(TAG, ' Database Connection Pool');
         if(err) {
-            return cb(err);
+            logger.error(TAG, "Database connection pool error : " + err);
+            cb(err, connection);
+        }else {
+            logger.debug(TAG, 'Database connection pool success');
+            cb(null, connection);
         }
-        cb(null, connection);
     });
 };
 module.exports = getConnection;

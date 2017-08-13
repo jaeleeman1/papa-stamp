@@ -326,7 +326,7 @@
     function shopList(currentLat, currentLon) {
         var dataString = {'current_lat': currentLat, 'current_lon': currentLon};
         $.ajax({
-            url: $("#url").val() + '/shop/shopList',
+            url: $("#url").val() + '/shopList',
             type: 'GET',
             dataType: 'json',
             data: dataString,

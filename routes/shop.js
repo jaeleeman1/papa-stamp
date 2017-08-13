@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var getConnection = require('../config/db_connection');
-var config = require('../config/config');
+var mysql = require('mysql');
+var config = require('../config/service_config');
 var logger = require('../config/logger');
 var request = require("request");
 var cheerio = require("cheerio");
@@ -10,41 +11,54 @@ var parser = new xml2js.Parser();
 var redis   = require('redis');
 var publisherClient = redis.createClient();
 
-
-logger.log(config.loglevel, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-logger.info('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY');
-
-
+const TAG = "[SHOP INFO] ";
 
 /* Shop Page API */
-
-//Select Shop Information
+//Get Shop Information
 router.get('/shopInfo', function (req, res, next) {
-    var shopId = req.query.id;
+    logger.info(TAG, 'Select shop information');
+    var userId = req.headers.user_id;
+    var shopId = req.query.shop_id;
 
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined) {
+        logger.debug(TAG, 'Invalid shop id');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    // Select shop&user info
     getConnection(function (err, connection){
-        // Select food Menu
-        var selectShopQuery = 'select SSI.*, SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
+        if(userId == null || userId == undefined ){
+            logger.debug(TAG, 'Invalid user id (no stamp push)');
+            userId = '01000000000';
+        }
+
+        var selectShopUserQuery = 'select SSI.*, SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
             'inner join SB_SHOP_PUSH_INFO as SSPI on SSI.SHOP_ID = SSPI.SHOP_ID ' +
             'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
-            'where SSI.SHOP_ID = ? ' +
+            'where SSI.SHOP_ID = '+mysql.escape(shopId)+' and SUPI.USER_ID = '+mysql.escape(userId) +
             'order by SSPI.UPDATE_DT DESC limit 1';
 
-
-        connection.query(selectShopQuery, shopId, function (err, shop) {
+        connection.query(selectShopUserQuery, function (err, shopdata) {
             if (err) {
-                console.error("@@@ [shop info] Select shop info Error : " + err);
-                throw err;
+                logger.error(TAG, "DB selectShopUserQuery error : " + err);
+                res.status(400);
+                res.send('Select shop info error');
             }else{
-                console.log("### [shop info] Select shop info Success ### " + JSON.stringify(shop));
-                var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = "Espresso"';
-                connection.query(selectMenuQuery, shopId, function (err, menu) {
+                logger.debug(TAG, 'Select shop info Success : ' + JSON.stringify(shopdata));
+                var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.MENU_TYPE = "Espresso" and SSM.SHOP_ID = '+mysql.escape(shopId);
+                connection.query(selectMenuQuery, function (err, menuData) {
                     if (err) {
-                        console.error("@@@ [food Menu] Select food Menu Error : " + err);
-                        throw err;
+                        logger.error(TAG, "DB selectMenuQuery error : " + err);
+                        res.status(400);
+                        res.send('Select shop menu error');
                     }else{
-                        console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
-                        res.render('shop/shopMain', {url:config.url, shopData:shop[0], menuData:menu, pushShopId:shopId});
+                        logger.debug(TAG, 'Select shop menu success : ' + JSON.stringify(menuData));
+                        res.status(200);
+                        res.render('shop/shopMain', {url:config.url, shopData:shopdata[0], menuData:menuData, pushShopId:shopId});
                     }
                 });
             }
@@ -53,164 +67,272 @@ router.get('/shopInfo', function (req, res, next) {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-//Get Food Shop Menu
-router.get('/foodShopMenu', function (req, res, next) {
-    var shopId = req.query.id;
+//Get Shop Detail Menu
+router.get('/shopDetailMenu', function (req, res, next) {
+    logger.info(TAG, 'Select shop menu');
+    var shopId = req.query.shop_id;
     var menuType = req.query.menu_type;
 
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+    logger.debug(TAG, 'Menu Type : ' + menuType);
+
+    if(shopId == null || shopId == undefined &&
+        menuType == null || menuType == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    // Select menu
     getConnection(function (err, connection){
-        var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = ? and SSM.MENU_TYPE = ?';
-        console.log(selectMenuQuery);
-        connection.query(selectMenuQuery, [shopId, menuType], function (err, menu) {
+        var selectMenuQuery = 'select SSM.* from SB_SHOP_MENU as SSM where SSM.SHOP_ID = '+mysql.escape(shopId)+' and SSM.MENU_TYPE = '+mysql.escape(menuType);
+        connection.query(selectMenuQuery, function (err, menuData) {
             if (err) {
-                console.error("@@@ [food Menu] Select food Menu Error : " + err);
-                throw err;
+                logger.error(TAG, "DB selectMenuQuery error : " + err);
+                res.status(400);
+                res.send('Select shop menu error');
             }else{
-                console.log("### [food Menu] Select food Menu Success ### " + JSON.stringify(menu));
-                res.send({menuData:menu});
+                logger.debug(TAG, 'Select shop menu success : ' + JSON.stringify(menuData));
+                res.status(200);
+                res.send({menuData:menuData});
             }
+            connection.release();
         });
     });
 });
 
+//Post Push Stamp
+router.post('/update-stamp/:shop_id', function(req, res) {
+    logger.info(TAG, 'Update!!!');
+    var userId = req.headers.user_id;
+    var shopId = req.params.shop_id;
 
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
 
-//GET Food Shop List
-router.get('/shopList', function (req, res, next) {
-    var currentLat = req.query.current_lat;
-    var currentLon = req.query.current_lon;
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
 
-    //Shop List API
     getConnection(function (err, connection){
-        var host = 'https://apis.daum.net/local/geo/coord2detailaddr?apikey=076df8cf69c376d5065c3bc99891a438&x='+currentLon+'&y='+currentLat+'&inputCoordSystem=WGS84';
-        request.get({'url': host}, function (error, req, addrData) {
-            if (!error) {
-                parser.parseString(addrData, function(err, result) {
-                    var addr = '';
-                    var addrNew = result.address.new[0].name[0].$.value;
-                    if(addrNew == "") {
-                        addr = result.address.old[0].name[0].$.value;
-                    }else {
-                        addr = addrNew;
+        // Select shop push information
+        var insertShopPushQuery = 'insert into SB_SHOP_PUSH_INFO (SHOP_ID, SHOP_ORDER_NUM, SHOP_CURRENT_NUM) value ' +
+            '('+mysql.escape(shopId)+', 1, 0) on duplicate key update SHOP_ORDER_NUM = SHOP_ORDER_NUM +1';
+        connection.query(insertShopPushQuery, function (err, row) {
+            if (err) {
+                logger.error(TAG, "DB selectShopPushQuery error : " + err);
+                res.status(400);
+                res.send('Select shop push info error');
+            }else{
+                logger.debug(TAG, 'insert(update) shop push info Success');
+                var selectShopPushQuery = 'select SHOP_ORDER_NUM from SB_SHOP_PUSH_INFO where SHOP_ID ='+mysql.escape(shopId);
+                connection.query(selectShopPushQuery, function (err, shopPushData) {
+                    if (err) {
+                        logger.error(TAG, "DB selectShopPushQuery error : " + err);
+                        res.status(400);
+                        res.send('Select shop push info error');
+                    } else {
+                        logger.debug(TAG, 'Select shop push info Success');
+                        var shopOrderNum = shopPushData[0].SHOP_ORDER_NUM;
+                        logger.debug(TAG, 'Shop order number : ' + shopOrderNum);
+                        // Insert user push information
+                        var insertUserPushQuery = 'insert into SB_USER_PUSH_INFO (SHOP_ID, USER_ID, USER_CURRENT_NUM, USER_STAMP) value (' + mysql.escape(shopId) + ',' + mysql.escape(userId) +
+                            ', ' + shopOrderNum + ', 1) on duplicate key update USER_CURRENT_NUM = ' + shopOrderNum + ', USER_STAMP = USER_STAMP +1';
+                        connection.query(insertUserPushQuery, function (err, userPushData) {
+                            if (err) {
+                                logger.error(TAG, "DB insertUserPushQuery error : " + err);
+                                res.status(400);
+                                res.send('Insert user push info error');
+                            } else {
+                                logger.debug(TAG, 'Insert user push info success');
+                                res.status(200);
+                                res.send('Insert user info success');
+                            }
+                        });
                     }
-
-                    // var bigAddr = '강남';
-                    var startLat = Number(currentLat) - 0.1;
-                    var startLon = Number(currentLon) - 0.1;
-                    var endLat = Number(currentLat) + 0.1;
-                    var endLon = Number(currentLon) + 0.1;
-
-                    // Select Event List
-                    // var selectLottoShopQuery = 'select * from SB_EVENT_SHOP where SHOP_LAT between ? and ? and SHOP_LON between ? and ? and DEL_YN = "N" and DESCRIPTION like "' + bigAddr + '%" limit 20;';
-                    var selectLottoShopQuery = 'select * from SB_SHOP_INFO where DEL_YN = "N" limit 10;';
-                    connection.query(selectLottoShopQuery, [startLat, endLat, startLon, endLon], function (err, row) {
-                        if (err) {
-                            console.error("[ShopLIst Buy Insert] Select ShopLIst Count Error : ", err);
-                            api.error(res);
-                        } else {
-                            // 현재 주소 가져오기
-                            // console.log("### [Event List] Select Event List Success ### " + JSON.stringify(row));
-                            res.send({shopData :row, address :addr});
-                        }
-                    });
                 });
             }
+            connection.release();
         });
     });
 });
 
-//GET shop List
-router.put('/updateVisit', function (req, res, next) {
-    var shopId = "SB-SHOP-00001";
-    var userId = "01037291715";
+//Put Insert Stamp History
+router.put('/insertStampHistory', function (req, res, next) {
+    logger.info(TAG, 'Insert user stamp history');
+    var userId = req.headers.user_id;
+    var shopId = req.params.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
     getConnection(function (err, connection){
-        // Select User Visit Count
-        var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-        connection.query(updateUserVisitCount, [shopId, userId], function (err, row) {
+        var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
+        connection.query(insertStampHistory, function (err, row) {
             if (err) {
-                console.error("@@@ [shop List] Update User Visit Count Error : " + err);
-                throw err;
+                logger.error(TAG, "DB insertStampHistory error : " + err);
+                res.status(400);
+                res.send('Insert user push history error');
             }else{
-                console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
-                res.send({shopData :row});
+                logger.debug(TAG, 'Insert user push history success');
+                res.status(200);
+                res.send('Insert user push history success');
             }
             connection.release();
         });
     });
 });
 
-//GET shop List
-router.get('/foodsList', function (req, res, next) {
-    var lottoData;
-    //shop shop
+//Get User Push Count
+router.get('/validateCouphone/:shop_id', function(req, res) {
+    logger.info(TAG, 'Select user push count');
+    var userId = req.headers.user_id;
+    var shopId = req.params.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
     getConnection(function (err, connection){
-        // Select shop List
-        var selectLottoQuery = 'select SEL.foods_IMAGE, SED.foods_WIN, SED.foods_WIN_SEQ, SED.foods_WIN_DATE, SED.foods_PRODUCT from ' +
-            '(select * from (select * from SB_foods_DETAIL order by foods_WIN_DATE DESC) as SED group by SED.foods_ID) as SED ' +
-            'inner join SB_foods_LIST as SEL on SED.foods_ID = SEL.foods_ID';
-        connection.query(selectLottoQuery, function (err, row) {
+        var selectUserPushCount = 'select count(*) from SB_USER_PUSH_HIS where DEL_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId)+')';
+        connection.query(selectUserPushCount, function (err, userPushData) {
             if (err) {
-                console.error("@@@ [shop List] Select shop List Error : " + err);
-                throw err;
+                logger.error(TAG, "DB selectUserPushCount error : " + err);
+                res.status(400);
+                res.send('Select user push count error');
             }else{
-                console.log("### [shop List] Select shop List Success ### " + JSON.stringify(row));
-                res.render('shop/foodsList', {lottoData :row[0], annualpensionData: row[1], starbucksData: row[2]});
+                logger.debug(TAG, 'Select user push count success : ' + JSON.stringify(userPushData));
+                res.status(200);
+                res.send({userPushData:userPushData});
             }
             connection.release();
         });
     });
 });
 
-//GET Couphone List
-router.get('/couphoneList', function (req, res, next) {
-    var shopId = "SB-SHOP-00001";
-    var userId = "01026181715";
+//Put Couphone Mapping
+router.put('/updateCouphoneMapping/:shop_id', function (req, res, next) {
+    logger.info(TAG, 'Update couphone mapping');
+    var userId = req.headers.user_id;
+    var shopId = req.params.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
 
     getConnection(function (err, connection){
-        // Select shop List
-        var selectCouphoneQuery = 'select COUPHONE_NUMBER, EXPIRATION_DT from SB_USER_COUPHONE where USED_YN = "N" and SHOP_ID = ? and USER_ID = ?';
-        connection.query(selectCouphoneQuery, [shopId, userId], function (err, row) {
+        var updateCouphoneMapping = 'update SB_USER_COUPHONE SET USER_ID = '+mysql.escape(userId)+', MAPPING_YN = "Y"' +
+            'where MAPPING_YN = "N" and USED_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' order by REG_DT ASC limit 1';
+        connection.query(updateCouphoneMapping, function (err, UpdateCouphoneData) {
             if (err) {
-                console.error("@@@ [Couphone List] Select Couphone List Error : " + err);
-                throw err;
+                logger.error(TAG, "DB updateCouphoneMapping error : " + err);
+                res.status(400);
+                res.send('Update couphone mapping error');
             }else{
-                console.log("### [Couphone List] Select Couphone List Success ### " + JSON.stringify(row));
-                res.send({couphoneData :row});
+                logger.debug(TAG, 'Update couphone mapping success');
+                res.status(200);
+                res.send('Update couphone mapping success');
             }
             connection.release();
         });
     });
 });
 
-//GET Couphone List
-router.put('/createCouphone', function (req, res, next) {
-    var shopId = 'SB-SHOP-00001';
-    var userId = '01026181715';
-    var couphoneNumber = '123-456-791';
-    var expirationDate = '2017-06-01 ~ 2017-12-31';
+//Get Couphone Number
+router.get('/couphoneInfo/:shop_id', function (req, res, next) {
+    logger.info(TAG, 'Select shop couphone info');
+    var userId = '01026181715';//req.headers.user_id;
+    var shopId = req.params.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
 
     getConnection(function (err, connection){
-        // Insert shop List
-        var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values ("' + shopId + '", "' + userId + '", "' + couphoneNumber + '", "' + expirationDate + '")';
-        // var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, USER_ID, COUPHONE_NUMBER, EXPIRATION_DT) values (' + shopId + ', ' + userId + ', ' + couphoneNumber + ', ' + expirationDate + ')';
-        connection.query(insertCouphoneQuery, function (err, row) {
+        var selectCouphoneInfoQuery = 'select COUPHONE_NUMBER, EXPIRATION_DT, COUPHONE_IMG, COUPHONE_PRICE from SB_USER_COUPHONE ' +
+            'where MAPPING_YN = "Y" and USED_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId)+' order by REG_DT ASC';
+        console.log('XXXXX : ' + selectCouphoneInfoQuery)
+        connection.query(selectCouphoneInfoQuery, function (err, shopCouphoneData) {
             if (err) {
-                console.error("@@@ [Couphone List] Select Couphone List Error : " + err);
-                throw err;
+                logger.error(TAG, "DB selectCouphoneInfoQuery error : " + err);
+                res.status(400);
+                res.send('Select shop couphone info error');
             }else{
-                console.log("### [Couphone List] Select Couphone List Success ### " + JSON.stringify(row));
-                res.send();
+                logger.debug(TAG, 'Select shop couphone info success : ' + JSON.stringify(shopCouphoneData));
+                res.status(200);
+                res.send({shopCouphoneData:shopCouphoneData});
+            }
+            connection.release();
+        });
+    });
+});
+
+//Post Create Couphone
+router.post('/createCouphone/:shop_id', function (req, res, next) {
+    logger.info(TAG, 'Insert couphone');
+    var shopId = req.params.shop_id;
+    var couphoneNumber = req.body.couphone_number;
+    var expirationDate = req.body.expiration_date;
+    var couphonePrice = req.body.couphone_price;
+
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+    logger.debug(TAG, 'Couphone Number : ' + couphoneNumber);
+    logger.debug(TAG, 'Expiration Date : ' + expirationDate);
+    logger.debug(TAG, 'Couphone Price : ' + couphonePrice);
+
+    if(shopId == null || shopId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    if(couphoneNumber == null || couphoneNumber == undefined &&
+        expirationDate == null || expirationDate == undefined &&
+        couphonePrice == null || couphonePrice == undefined) {
+        logger.debug(TAG, 'Invalid body value');
+        res.status(400);
+        res.send('Invalid body value error');
+    }
+
+    getConnection(function (err, connection){
+        var insertCouphoneQuery = 'insert into SB_USER_COUPHONE (SHOP_ID, COUPHONE_NUMBER, COUPHONE_PRICE, EXPIRATION_DT) values ("' + shopId + '", "' + couphoneNumber + '", "' + couphonePrice + '", "' + expirationDate + '")';
+        connection.query(insertCouphoneQuery, function (err, couphoneData) {
+            if (err) {
+                logger.error(TAG, "DB insertCouphoneQuery error : " + err);
+                res.status(400);
+                res.send('Insert couphone Error');
+            }else{
+                logger.debug(TAG, 'Insert couphone success');
+                res.status(200);
+                res.send('Insert couphone success');
             }
             connection.release();
         });
@@ -221,10 +343,9 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
-    var shopID = req.params.shop_id;
-    var userID = '01026181715';
+    var shopId = req.params.shop_id;
+    var userId = req.params.event_name;
     var sendType = "phone"; //tablet
-    var userStampNum = 0;
     // console.log('x ', req.params.shop_id);
 
     /*    var userCurrentNum = 0;
@@ -258,29 +379,32 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
 
     // When we receive a message from the redis connection
     subscriber.on("message", function(channel, message) {
-/*        getConnection(function (err, connection){
-            // Select Event List
-            var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-            connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
-                if (err) {
-                    console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                    throw err;
-                }else{
-                    var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
-                    connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
-                        if (err) {
-                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                            throw err;
-                        } else {
-                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                            userStampNum = row[0].USER_STAMP;
-                        }
-                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                    });
-                }
-                connection.release();
-            });
-        });*/
+
+
+        var userStampNum = 0;
+        /*        getConnection(function (err, connection){
+         // Select Event List
+         var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+         connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
+         if (err) {
+         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+         throw err;
+         }else{
+         var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+         connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+         if (err) {
+         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+         throw err;
+         } else {
+         // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+         userStampNum = row[0].USER_STAMP;
+         }
+         // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+         });
+         }
+         connection.release();
+         });
+         });*/
         console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ' + userStampNum);
         // console.log('count : ', userCurrentNum);
 
@@ -315,6 +439,135 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
          connection.release();
          });
          });*/
+
+        res.write('id: ' + userStampNum + '\n');
+        res.write("data: " + message + '\n\n'); // Note the extra newline
+    });
+
+    //send headers for event-stream connection
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    });
+    res.write('\n');
+
+    // The 'close' event is fired when a user closes their browser window.
+    // In that situation we want to make sure our redis channel subscription
+    // is properly shut down to prevent memory leaks...and incorrect subscriber
+    // counts to the channel.
+    req.on("close", function() {
+        subscriber.unsubscribe();
+        subscriber.quit();
+    });
+});
+
+router.get('/fire-event/:shop_id/:user_id', function(req, res) {
+    // console.log('shop_id : ', req.params.shop_id);
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('All clients have received "' + userID + '"');
+    res.end();
+});
+
+/*
+router.get('/update-stream/:shop_id/:event_name', function(req, res) {
+    // let request last as long as possible
+    req.socket.setTimeout(Number.MAX_VALUE);
+
+    var shopID = req.params.shop_id;
+    var userID = '01026181715';
+    var sendType = "phone"; //tablet
+    var userStampNum = 0;
+    // console.log('x ', req.params.shop_id);
+
+    /!*    var userCurrentNum = 0;
+     getConnection(function (err, connection){
+     // Select Event List
+     var selectUserCount = 'select SUPI.USER_CURRENT_NUM from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
+
+     var selectShopCount = 'select SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM from SB_SHOP_PUSH_INFO as SSPI ' +
+     'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
+     'where SSPI.SHOP_ID = ? and SUPI.USER_ID = ? ';
+     connection.query(selectUserCount, [shopID, userID], function (err, row) {
+     if (err) {
+     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+     throw err;
+     }else{
+     // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+     userCurrentNum = row[0].USER_CURRENT_NUM;
+     }
+     connection.release();
+     });
+     });*!/
+
+    var subscriber = redis.createClient();
+
+    subscriber.subscribe(shopID);
+
+    // In case we encounter an error...print it out to the console
+    subscriber.on("error", function(err) {
+        console.log("Redis Error: " + err);
+    });
+
+    // When we receive a message from the redis connection
+    subscriber.on("message", function(channel, message) {
+/!*        getConnection(function (err, connection){
+            // Select Event List
+            var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+            connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
+                if (err) {
+                    console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                    throw err;
+                }else{
+                    var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+                    connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
+                        if (err) {
+                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+                            throw err;
+                        } else {
+                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                            userStampNum = row[0].USER_STAMP;
+                        }
+                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                    });
+                }
+                connection.release();
+            });
+        });*!/
+        console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ' + userStampNum);
+        // console.log('count : ', userCurrentNum);
+
+        /!*getConnection(function (err, connection){
+         // Select Event List
+         var updateShopCount='update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
+         connection.query(updateShopCount, shopID, function (err, row) {
+         if (err) {
+         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
+         throw err;
+         }else{
+         getConnection(function (err, connection){
+         // Select User Visit Count
+         var updateUserVisitCount='';
+         if(sendType == "phone") {
+         updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +', USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
+         }else if(sendType == "tablet") {
+         updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
+         }
+         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
+         connection.query(updateUserVisitCount, [shopID, userID], function (err, row) {
+         if (err) {
+         console.error("@@@ [shop List] Update User Visit Count Error : " + err);
+         throw err;
+         }else{
+         console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
+         }
+         });
+         });
+         console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+         }
+         connection.release();
+         });
+         });*!/
 
         res.write('id: ' + userStampNum + '\n');
         res.write("data: " + message + '\n\n'); // Note the extra newline
@@ -392,7 +645,7 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('All clients have received "' + userID + '"');
     res.end();
-});
+});*/
 
 module.exports = router;
 

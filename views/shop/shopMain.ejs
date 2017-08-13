@@ -386,25 +386,23 @@
     function getCouphone() {
         var couphoneShopId = $("#pushShopId").val();
         var couphoneUserId = '01026181715';
-        var dataString = {'id': pushShopId};
 
         $.ajax({
-            url: $("#url").val() + '/shop/couphoneList',
+            url: $("#url").val() + '/shop/couphoneInfo/'+couphoneShopId,
             type: 'GET',
             dataType: 'json',
-            data: dataString,
             success: function(data) {
-                var couphoneData = data.couphoneData;
+                var shopCouphoneData = data.shopCouphoneData;
                 var couphoneLayer = document.getElementById('layerCouphone');
                 couphoneLayer.innerHTML = '';
-                for(var i=0; i<couphoneData.length; i++){
+                for(var i=0; i<shopCouphoneData.length; i++){
                     couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
                         '<div class="add-products-row">'+
                         '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
                         '<a style="height:150px;" href="javascript:">'+
                         '<h5 id="couphone_'+i+'" style="float:left;">사용하기</h5>'+
-                        '<h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>'+
-                        '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ couphoneData[i].EXPIRATION_DT +'</h6>'+
+                        '<h4 style="font-size:1.6em;">아메리카노<p>'+shopCouphoneData[i].COUPHNE_PRICE+'원</p></h4>'+
+                        '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ shopCouphoneData[i].EXPIRATION_DT +'</h6>'+
                         '</a>'+
                         '</div>'+
                         '<div class="clearfix"> </div>'+
@@ -422,10 +420,10 @@
     function getMenu(menuType) {
         $("#menuTypeName").text(menuType);
         var pushShopId = $("#pushShopId").val();
-        var dataString = {'id': pushShopId, 'menu_type': menuType};
+        var dataString = {'shop_id': pushShopId, 'menu_type': menuType};
 
         $.ajax({
-            url: $("#url").val() + '/shop/foodShopMenu',
+            url: $("#url").val() + '/shop/shopDetailMenu',
             type: 'GET',
             dataType: 'json',
             data: dataString,
@@ -645,7 +643,6 @@
 
 <script type='text/javascript'>
     var pushShopId = $("#pushShopId").val();
-    /*console.log('url : ', $('#url').val());*/
     var source = new EventSource('/shop/update-stream/'+pushShopId+'/'+'01026181715');
 
     source.addEventListener('message', function(e) {
