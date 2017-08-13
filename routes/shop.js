@@ -343,8 +343,8 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
     // let request last as long as possible
     req.socket.setTimeout(Number.MAX_VALUE);
 
-    var shopId = req.params.shop_id;
-    var userId = req.params.event_name;
+    var shopID = req.params.shop_id;
+    var userID = '01026181715';
     var sendType = "phone"; //tablet
     // console.log('x ', req.params.shop_id);
 
@@ -464,135 +464,6 @@ router.get('/update-stream/:shop_id/:event_name', function(req, res) {
 
 router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     // console.log('shop_id : ', req.params.shop_id);
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('All clients have received "' + userID + '"');
-    res.end();
-});
-
-/*
-router.get('/update-stream/:shop_id/:event_name', function(req, res) {
-    // let request last as long as possible
-    req.socket.setTimeout(Number.MAX_VALUE);
-
-    var shopID = req.params.shop_id;
-    var userID = '01026181715';
-    var sendType = "phone"; //tablet
-    var userStampNum = 0;
-    // console.log('x ', req.params.shop_id);
-
-    /!*    var userCurrentNum = 0;
-     getConnection(function (err, connection){
-     // Select Event List
-     var selectUserCount = 'select SUPI.USER_CURRENT_NUM from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = ? and SUPI.USER_ID = ?';
-
-     var selectShopCount = 'select SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM from SB_SHOP_PUSH_INFO as SSPI ' +
-     'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
-     'where SSPI.SHOP_ID = ? and SUPI.USER_ID = ? ';
-     connection.query(selectUserCount, [shopID, userID], function (err, row) {
-     if (err) {
-     console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-     throw err;
-     }else{
-     // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-     userCurrentNum = row[0].USER_CURRENT_NUM;
-     }
-     connection.release();
-     });
-     });*!/
-
-    var subscriber = redis.createClient();
-
-    subscriber.subscribe(shopID);
-
-    // In case we encounter an error...print it out to the console
-    subscriber.on("error", function(err) {
-        console.log("Redis Error: " + err);
-    });
-
-    // When we receive a message from the redis connection
-    subscriber.on("message", function(channel, message) {
-/!*        getConnection(function (err, connection){
-            // Select Event List
-            var updateUserStampQuery = 'update SB_USER_PUSH_INFO SET USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-            connection.query(updateUserStampQuery, [shopID, userID], function (err, row) {
-                if (err) {
-                    console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                    throw err;
-                }else{
-                    var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
-                    connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
-                        if (err) {
-                            console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                            throw err;
-                        } else {
-                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                            userStampNum = row[0].USER_STAMP;
-                        }
-                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                    });
-                }
-                connection.release();
-            });
-        });*!/
-        console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ' + userStampNum);
-        // console.log('count : ', userCurrentNum);
-
-        /!*getConnection(function (err, connection){
-         // Select Event List
-         var updateShopCount='update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1 where SHOP_ID = ?';
-         connection.query(updateShopCount, shopID, function (err, row) {
-         if (err) {
-         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-         throw err;
-         }else{
-         getConnection(function (err, connection){
-         // Select User Visit Count
-         var updateUserVisitCount='';
-         if(sendType == "phone") {
-         updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +', USER_STAMP = USER_STAMP +1 where SHOP_ID = ? and USER_ID = ?';
-         }else if(sendType == "tablet") {
-         updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
-         }
-         var updateUserVisitCount = 'update SB_USER_PUSH_INFO SET USER_STAMP = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
-         connection.query(updateUserVisitCount, [shopID, userID], function (err, row) {
-         if (err) {
-         console.error("@@@ [shop List] Update User Visit Count Error : " + err);
-         throw err;
-         }else{
-         console.log("### [shop List] Update User Visit Count Success ### " + JSON.stringify(row));
-         }
-         });
-         });
-         console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-         }
-         connection.release();
-         });
-         });*!/
-
-        res.write('id: ' + userStampNum + '\n');
-        res.write("data: " + message + '\n\n'); // Note the extra newline
-    });
-
-    //send headers for event-stream connection
-    res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
-    });
-    res.write('\n');
-
-    // The 'close' event is fired when a user closes their browser window.
-    // In that situation we want to make sure our redis channel subscription
-    // is properly shut down to prevent memory leaks...and incorrect subscriber
-    // counts to the channel.
-    req.on("close", function() {
-        subscriber.unsubscribe();
-        subscriber.quit();
-    });
-});
-
-router.get('/fire-event/:shop_id/:user_id', function(req, res) {
-    // console.log('shop_id : ', req.params.shop_id);
     var shopID = req.params.shop_id;
     var userID = req.params.user_id;
     publisherClient.publish( shopID, ('"[' + userID + ']번님" 쿠폰이 발급 되었습니다.') );
@@ -605,35 +476,14 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
                 console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                 throw err;
             }else{
-                var updateShopCurrentQuery = 'update SB_SHOP_PUSH_INFO SET SHOP_CURRENT_NUM +1 where SHOP_ID = ? and USER_ID = ?';
-                connection.query(updateShopCurrentQuery, [shopID, userID], function (err, row) {
+                var selectUserStampQuery = 'select USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
+                connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
                     if (err) {
                         console.error("@@@ [Shop List] Select Shop Count Error : " + err);
                         throw err;
                     } else {
-                        var selectUserStampQuery = 'select USER_CURRENT_NUM, USER_STAMP from SB_USER_PUSH_INFO where SHOP_ID = ? and USER_ID = ?';
-                        connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
-                            if (err) {
-                                console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                                throw err;
-                            } else {
-                                var userCurrentNum = row[0].USR_CURRENT_NUM;
-                                var userStampNum = row[0].USR_CURRENT_NUM;
-                                userCurrentNum++
-                                var updateUserCurrentQuery = 'update SB_USER_PUSH_INFO SET USER_CURRENT_NUM = '+ userCurrentNum +' where SHOP_ID = ? and USER_ID = ?';
-                                connection.query(selectUserStampQuery, [shopID, userID], function (err, row) {
-                                    if (err) {
-                                        console.error("@@@ [Shop List] Select Shop Count Error : " + err);
-                                        throw err;
-                                    } else {
-                                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                                        userStampNum = row[0].USER_STAMP;
-                                    }
-                                    // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                                });
-                            }
-                            // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
-                        });
+                        // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
+                        userStampNum = row[0].USER_STAMP;
                     }
                     // console.log("### [Shop List] Select Shop Count Success ### " + JSON.stringify(row));
                 });
@@ -645,7 +495,8 @@ router.get('/fire-event/:shop_id/:user_id', function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('All clients have received "' + userID + '"');
     res.end();
-});*/
+});
+
 
 module.exports = router;
 
