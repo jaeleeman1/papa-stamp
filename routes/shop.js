@@ -102,10 +102,10 @@ router.get('/shopDetailMenu', function (req, res, next) {
 });
 
 //Post Push Stamp
-router.post('/update-stamp/:shop_id', function(req, res) {
+router.post('/update-stamp', function(req, res) {
     logger.info(TAG, 'Update!!!');
     var userId = req.headers.user_id;
-    var shopId = req.params.shop_id;
+    var shopId = req.body.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -164,7 +164,7 @@ router.post('/update-stamp/:shop_id', function(req, res) {
 router.put('/insertStampHistory', function (req, res, next) {
     logger.info(TAG, 'Insert user stamp history');
     var userId = req.headers.user_id;
-    var shopId = req.params.shop_id;
+    var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -194,10 +194,10 @@ router.put('/insertStampHistory', function (req, res, next) {
 });
 
 //Get User Push Count
-router.get('/validateCouphone/:shop_id', function(req, res) {
+router.get('/validateCouphone', function(req, res) {
     logger.info(TAG, 'Select user push count');
     var userId = req.headers.user_id;
-    var shopId = req.params.shop_id;
+    var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -227,10 +227,10 @@ router.get('/validateCouphone/:shop_id', function(req, res) {
 });
 
 //Put Couphone Mapping
-router.put('/updateCouphoneMapping/:shop_id', function (req, res, next) {
+router.put('/updateCouphoneMapping', function (req, res, next) {
     logger.info(TAG, 'Update couphone mapping');
     var userId = req.headers.user_id;
-    var shopId = req.params.shop_id;
+    var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -261,10 +261,10 @@ router.put('/updateCouphoneMapping/:shop_id', function (req, res, next) {
 });
 
 //Get Couphone Number
-router.get('/couphoneInfo/:shop_id', function (req, res, next) {
+router.get('/couphoneInfo', function (req, res, next) {
     logger.info(TAG, 'Select shop couphone info');
     var userId = '01026181715';//req.headers.user_id;
-    var shopId = req.params.shop_id;
+    var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -296,9 +296,9 @@ router.get('/couphoneInfo/:shop_id', function (req, res, next) {
 });
 
 //Post Create Couphone
-router.post('/createCouphone/:shop_id', function (req, res, next) {
+router.post('/createCouphone', function (req, res, next) {
     logger.info(TAG, 'Insert couphone');
-    var shopId = req.params.shop_id;
+    var shopId = req.query.shop_id;
     var couphoneNumber = req.body.couphone_number;
     var expirationDate = req.body.expiration_date;
     var couphonePrice = req.body.couphone_price;

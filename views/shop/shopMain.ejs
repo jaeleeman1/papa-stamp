@@ -386,11 +386,13 @@
     function getCouphone() {
         var couphoneShopId = $("#pushShopId").val();
         var couphoneUserId = '01026181715';
+        var dataString = {'shop_id': couphoneShopId};
 
         $.ajax({
-            url: $("#url").val() + '/shop/couphoneInfo/'+couphoneShopId,
+            url: $("#url").val() + '/shop/couphoneInfo',
             type: 'GET',
             dataType: 'json',
+            data : dataString,
             success: function(data) {
                 var shopCouphoneData = data.shopCouphoneData;
                 var couphoneLayer = document.getElementById('layerCouphone');
