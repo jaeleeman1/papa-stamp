@@ -23,7 +23,7 @@
 </head>
 
 <form style="display:none" name="current_data" id="current_data">
-
+    <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lon" id="current_lon" value=""/>
@@ -163,7 +163,7 @@
                 sendData = sendData.replace('  ', '');
 
                 $.ajax({
-                        url: 'https://localhost:8080/shop/update-stamp,
+                        url: 'https://whereareevent.com/shop/fire-event/SB-SHOP-00001/'+ sendData,
                         type: 'GET',
                         success: function(data) {
                             console.log(data);
