@@ -644,7 +644,7 @@
     var socket = io.connect('http://54.238.200.27:8060');
 
     socket.on('toclient',function(data){
-        console.log('xxxxxxxxxxxxxxxxxxxx: ' + data);
+        console.log('xxxxxxxxxxxxxxxxxxxx: ' + data.msg);
     });
 
     var pushShopId = $("#pushShopId").val();

@@ -15,6 +15,7 @@
     <!-- js -->
     <script src="/js/jquery-2.2.3.min.js"></script>
     <script type ="text/javascript" src="/js/toastr.js"></script>
+    <script src="http://54.238.200.27:8060/socket.io/socket.io.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -151,6 +152,7 @@
 <!-- //end-smooth-scrolling -->
 <!-- smooth-scrolling-of-move-up -->
 <script type="text/javascript">
+    var socket = io.connect('http://54.238.200.27:8060');
 
     $(function() {
         $("#btn_push").click(
@@ -175,19 +177,7 @@
                         }
                     }
                 );*/
-                $.ajax({
-                        url: 'https://whereareevent.com/tablet/pushStamp'
-                        type: 'GET',
-                        success: function(data) {
-                            console.log(data);
-                        },
-                        error: function(request, status, error) {
-                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                            console.log('Error occured');
-//                            location.href='https:///error';
-                        }
-                    }
-                );
+                socket.emit('toclient',{msg:'Welcome !'});
             });
         /*
          var defaults = {
