@@ -24,8 +24,21 @@ io.sockets.on('connection',function(socket){
 });
 
 /* GET login (session) */
+router.get('/pushStamp', function(req, res, next) {
+    io.sockets.on('connection',function(socket){
+        socket.emit('toclient',data); // 해당 클라이언트에게만 보냄. 다른 클라이언트에 보낼려면?
+    });
+    res.status(200);
+});
+
+/* GET login (session) */
 router.get('/main', function(req, res, next) {
-    // console.log('login id : ' + req.body.login_id);
+    //cross-domain
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
+    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
     res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
