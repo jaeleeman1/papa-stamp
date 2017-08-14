@@ -27,12 +27,12 @@ io.sockets.on('connection',function(socket){
 /* GET login (session) */
 router.get('/main', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
-    res.render('tablet/tabletMain',{nickName: req.body.login_id, listLength : 0 });
+    res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
 router.post('/tablet/mainPage', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
-    res.render('tablet/tabletMain',{nickName: req.body.login_id, listLength : 0 });
+    res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
 module.exports = router;

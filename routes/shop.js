@@ -70,6 +70,13 @@ router.get('/shopInfo', function (req, res, next) {
 //Get Shop Detail Menu
 router.get('/shopDetailMenu', function (req, res, next) {
     logger.info(TAG, 'Select shop menu');
+
+    //cross-domain
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
+    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
     var shopId = req.query.shop_id;
     var menuType = req.query.menu_type;
 
@@ -263,6 +270,13 @@ router.put('/updateCouphoneMapping', function (req, res, next) {
 //Get Couphone Number
 router.get('/couphoneInfo', function (req, res, next) {
     logger.info(TAG, 'Select shop couphone info');
+
+    //cross-domain
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
+    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
+
     var userId = '01026181715';//req.headers.user_id;
     var shopId = req.query.shop_id;
 
