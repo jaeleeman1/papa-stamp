@@ -644,7 +644,49 @@
     var socket = io.connect('http://54.238.200.27:8060');
 
     socket.on('toclient',function(data){
-        console.log('xxxxxxxxxxxxxxxxxxxx: ' + data.msg);
+        console.log('Send data' + data.sendData);
+        $("ol.tabs li").removeClass("active");
+        $("ol.tabs li a").removeAttr("style");
+        $("#stamp").addClass("active");
+        $("#stamp").children().css("color", "#e24945");
+        $(".tab_content").hide();
+        var activeTab = $("#stamp").attr("rel");
+        $("#" + activeTab).fadeIn();
+
+        var visitCnt = $("#user_stamp").val() % 10;
+
+        if (visitCnt < 9){
+            visitCnt++;
+            $("#user_stamp").val(visitCnt);
+
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitCnt);
+            for(var i=1; i<=visitCnt; i++) {
+                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+                if(i==visitCnt) {
+                    TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+                }
+            }
+        }else {
+            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
+            TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+
+            createCouphone();
+
+            setTimeout(function() {
+                getCouphone();
+
+                // 방문 횟수 초기화
+                $("#user_stamp").val(0);
+                for(var i=1; i<=10; i++) {
+                    $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
+                }
+
+                //Toast Success Message
+                $.toast.config.align = 'left';
+                $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
+            }, 3000);
+        }
     });
 
     /*
