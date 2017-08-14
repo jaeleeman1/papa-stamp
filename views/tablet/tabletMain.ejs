@@ -162,8 +162,21 @@
                 sendData = sendData.replace('  ', '');
                 sendData = sendData.replace('  ', '');
 
-                $.ajax({
+                /*$.ajax({
                         url: 'https://whereareevent.com/shop/fire-event/SB-SHOP-00001/'+ sendData,
+                        type: 'GET',
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(request, status, error) {
+                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            console.log('Error occured');
+//                            location.href='https:///error';
+                        }
+                    }
+                );*/
+                $.ajax({
+                        url: 'https://whereareevent.com/tablet/pushStamp'
                         type: 'GET',
                         success: function(data) {
                             console.log(data);
