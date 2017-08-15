@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var router = express.Router();
 var config = require('../config/service_config');

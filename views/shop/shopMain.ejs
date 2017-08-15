@@ -22,7 +22,8 @@
     <!-- //js -->
     <!-- animate -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-    <script src="https://54.238.200.27:8060/socket.io/socket.io.js"></script>
+    <!--<script src="https://54.238.200.27:8060/socket.io/socket.io.js"></script>-->
+    <script src="https://whereareevent.com:8060/socket.io/socket.io.js"></script>
     <!-- //animate -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -641,7 +642,8 @@
 </style>
 
 <script type='text/javascript'>
-    var socket = io.connect('https://54.238.200.27:8060');
+    /*var socket = io.connect('https://54.238.200.27:8060');*/
+    var socket = io.connect('https://whereareevent.com:8060');
 
     socket.on('toclient',function(data){
         console.log('Send data' + data.sendData);
