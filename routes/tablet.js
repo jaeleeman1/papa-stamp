@@ -1,19 +1,25 @@
 var express = require('express');
 var path = require('path');
-var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var router = express.Router();
 var config = require('../config/service_config');
 var getConnection = require('../config/db_connection');
 var request = require('request');
 
+var options = {
+    key: fs.readFileSync('ssl/key.pem'),
+    cert: fs.readFileSync('ssl/cert.pem')
+};
+
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
-var httpServer =http.createServer(app).listen(8060, function(req,res){
+var httpsServer =https.createServer(options, app).listen(8060, function(req,res){
     console.log('Socket IO server has been started');
 });
 
-var io = require('socket.io').listen(httpServer);
+var io = require('socket.io').listen(httpsServer);
 
 io.sockets.on('connection',function(socket){
     socket.on('fromclient',function(data){
@@ -33,12 +39,6 @@ router.get('/pushStamp', function(req, res, next) {
 
 /* GET login (session) */
 router.get('/main', function(req, res, next) {
-    //cross-domain
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true); // If needed
-
     res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
