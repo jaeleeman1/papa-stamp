@@ -7,13 +7,13 @@ var config = require('../config/service_config');
 var getConnection = require('../config/db_connection');
 var request = require('request');
 
-var options = {
-    key: fs.readFileSync('ssl/key.pem'),
-    cert: fs.readFileSync('ssl/cert.pem')
-};
-
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
+
+var options = {
+    key: fs.readFileSync(path.join(process.cwd(),'public//ssl/key.pem')),
+    cert: fs.readFileSync(path.join(process.cwd(),'public/ssl/cert.pem'))
+};
 
 var httpsServer =https.createServer(options, app).listen(8060, function(req,res){
     console.log('Socket IO server has been started');
