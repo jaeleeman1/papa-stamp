@@ -277,7 +277,7 @@
     var pushUserId = $("#pushUserId").val();
 
     socket.on(pushUserId, function(data){
-        console.log('Success papa stamp push' + data.sendData);
+        console.log('Success papa stamp push' + data);
         $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
         $("#stamp").addClass("active");

@@ -17,8 +17,8 @@ var httpServer =http.createServer(app).listen(8060, function(req,res){
 var io = require('socket.io').listen(httpServer);
 io.sockets.on('connection',function(socket){
     socket.on('shopClient',function(data){
-        console.log('Socket papa stamp success! :'+data.sendData);
-        io.sockets.emit(data.sendData,'Socket papa stamp success!');
+        console.log('Socket papa stamp success! :'+data.userData);
+        io.sockets.emit(data.userData,'Send message success!');
     })
 });
 

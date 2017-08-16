@@ -165,29 +165,8 @@
                 sendData = sendData.replace('  ', '');
                 sendData = sendData.replace('  ', '');
 
-                /*$.ajax({
-                        url: 'https://whereareevent.com/shop/fire-event/SB-SHOP-00001/'+ sendData,
-                        type: 'GET',
-                        success: function(data) {
-                            console.log(data);
-                        },
-                        error: function(request, status, error) {
-                            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                            console.log('Error occured');
-//                            location.href='https:///error';
-                        }
-                    }
-                );*/
-                socket.emit('SB-SHOP-00001',{sendData: sendData});
+                socket.emit('shopClient',{userData: sendData});
             });
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
 
         $().UItoTop({ easingType: 'easeOutQuart' });
 
