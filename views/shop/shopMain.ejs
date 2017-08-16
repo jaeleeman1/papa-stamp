@@ -275,9 +275,10 @@
 
     var socket = io.connect('https://whereareevent.com:8060');
     var pushUserId = $("#pushUserId").val();
+    var visitCnt = $("#userStamp").val();
 
     socket.on(pushUserId, function(data){
-        console.log('Success papa stamp push' + data);
+        console.log('Papa stamp push : ' + data);
         $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
         $("#stamp").addClass("active");
@@ -286,16 +287,16 @@
         var activeTab = $("#stamp").attr("rel");
         $("#" + activeTab).fadeIn();
 
-        var visitCnt = $("#userStamp").val() % 10;
+        var visitRateCnt = visitCnt % 10;
 
-        if (visitCnt < 9){
-            visitCnt++;
-            $("#userStamp").val(visitCnt);
+        if (visitRateCnt < 9){
+            visitRateCnt++;
+            $("#userStamp").val(visitRateCnt);
 
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitCnt);
-            for(var i=1; i<=visitCnt; i++) {
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitRateCnt);
+            for(var i=1; i<=visitRateCnt; i++) {
                 $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-                if(i==visitCnt) {
+                if(i==visitRateCnt) {
                     TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
                 }
             }
@@ -304,7 +305,7 @@
             var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
             TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
 
-            createCouphone();
+            updateCouphone();
 
             setTimeout(function() {
                 getCouphone();
@@ -358,7 +359,6 @@
         });
 
         $("#free").click(function(event){
-            var visitCnt = $("#userStamp").val();
             visitCnt++;
             $("#userStamp").val(visitCnt);
             for(var i=1; i<=visitCnt; i++) {
@@ -410,17 +410,44 @@
         }
     }
 
+    function updateCouphone() {
+        var couphoneShopId = $("#pushShopId").val();
+        var couphoneUserId = $("#pushUserId").val();
+        var dataString = {'shop_id': couphoneShopId};
+        var headers = {};
+        headers["user_id"] = couphoneUserId;
+
+        $.ajax({
+            url: $("#url").val() + '/shop/updateCouphoneMapping',
+            type: 'PUT',
+            headers : headers,
+            dataType: 'json',
+            data : dataString,
+            success: function(data) {
+                console.log("updateCouphone : " + data);
+            },
+            error: function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.log('Error occured');
+            }
+        });
+    }
+
     function getCouphone() {
         var couphoneShopId = $("#pushShopId").val();
-        var couphoneUserId = '01026181715';
+        var couphoneUserId = $("#pushUserId").val();
         var dataString = {'shop_id': couphoneShopId};
+        var headers = {};
+        headers["user_id"] = couphoneUserId;
 
         $.ajax({
             url: $("#url").val() + '/shop/couphoneInfo',
             type: 'GET',
+            headers : headers,
             dataType: 'json',
             data : dataString,
             success: function(data) {
+                console.log("getCouphone : " + data);
                 var shopCouphoneData = data.shopCouphoneData;
                 var couphoneLayer = document.getElementById('layerCouphone');
                 couphoneLayer.innerHTML = '';

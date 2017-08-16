@@ -166,6 +166,21 @@
                 sendData = sendData.replace('  ', '');
 
                 socket.emit('shopClient',{userData: sendData});
+
+                $.ajax({
+                    url: $("#url").val() + '/shop/update-stamp',
+                    type: 'POST',
+                    headers : headers,
+                    dataType: 'json',
+                    data : dataString,
+                    success: function(data) {
+                        console.log("updateCouphone : " + data);
+                    },
+                    error: function(request, status, error) {
+                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        console.log('Error occured');
+                    }
+                });
             });
 
         $().UItoTop({ easingType: 'easeOutQuart' });

@@ -265,7 +265,7 @@ router.put('/updateCouphoneMapping', function (req, res, next) {
 router.get('/couphoneInfo', function (req, res, next) {
     logger.info(TAG, 'Select shop couphone info');
 
-    var userId = '01026181715';//req.headers.user_id;
+    var userId = req.headers.user_id;
     var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
