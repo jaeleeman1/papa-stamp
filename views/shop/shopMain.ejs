@@ -22,7 +22,6 @@
     <!-- //js -->
     <!-- animate -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-    <!--<script src="https://54.238.200.27:8060/socket.io/socket.io.js"></script>-->
     <script src="https://whereareevent.com:8060/socket.io/socket.io.js"></script>
     <!-- //animate -->
     <!-- web-fonts -->
@@ -31,19 +30,13 @@
     <!-- //web-fonts -->
 </head>
 
-<form style="display:none" name="current_data" id="current_data">
+<form style="display:none" name="push_data" id="push_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
-    <input type="hidden" name="shop_length" id="shop_length" value=""/>
-    <input type="hidden" name="current_lat" id="current_lat" value=""/>
-    <input type="hidden" name="current_lon" id="current_lon" value=""/>
-    <input type="hidden" name="current_addr" id="current_addr" value=""/>
-</form>
-
-<form style="display:none" name="push_shop_id" id="push_shop_id">
+    <input type="hidden" name="pushUserId" id="pushUserId" value="<%= pushUserId %>"/>
     <input type="hidden" name="pushShopId" id="pushShopId" value="<%= pushShopId %>"/>
-    <input type="hidden" name="shop_delay_number" id="shop_delay_number" value="<%= shopData.SHOP_CURRENT_NUM %>"/>
-    <input type="hidden" name="user_delay_number" id="user_delay_number" value="<%= shopData.USER_CURRENT_NUM %>"/>
-    <input type="hidden" name="user_stamp" id="user_stamp" value="<%= shopData.USER_STAMP %>"/>
+    <input type="hidden" name="shopDelayNumber" id="shopDelayNumber" value="<%= shopData.SHOP_CURRENT_NUM %>"/>
+    <input type="hidden" name="userDelayNumber" id="userDelayNumber" value="<%= shopData.USER_CURRENT_NUM %>"/>
+    <input type="hidden" name="userStamp" id="userStamp" value="<%= shopData.USER_STAMP %>"/>
 </form>
 
 <body>
@@ -51,7 +44,8 @@
 <div class="banner about-w3bnr">
     <!-- header -->
     <div class="header">
-        <div class="w3ls-header"><!-- header-one -->
+        <!-- header-one -->
+        <div class="w3ls-header">
             <div class="container">
                 <div class="w3ls-header-left">
                     <p>나의 스탬프 관리</p>
@@ -265,63 +259,98 @@
         <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
     </div>
 </div>
-
-
-<div id="layerPop">
-    <h3>무료 쿠폰 발급</h3>
-    <ul id="appendPush">
-    </ul>
-    <a href="#" onclick="closeLayer('layerPop')" class="close">쿠폰받기</a>
-</div>
 <!-- //footer -->
-<!-- cart-js -->
-<script src="/js/minicart.js"></script>
-<script>
-    w3ls.render();
 
-    w3ls.cart.on('w3sb_checkout', function (evt) {
-        var items, len, i;
-
-        if (this.subtotal() > 0) {
-            items = this.items();
-
-            for (i = 0, len = items.length; i < len; i++) {
-            }
-        }
-    });
-</script>
-<!-- //cart-js -->
-<!-- Owl-Carousel-JavaScript -->
-<script src="/js/owl.carousel.js"></script>
-<script>
-    $(document).ready(function() {
-        $("#owl-demo").owlCarousel ({
-            items : 3,
-            lazyLoad : true,
-            autoPlay : true,
-            pagination : true
-        });
-    });
-</script>
-<!-- //Owl-Carousel-JavaScript -->
-<!-- the jScrollPane script -->
-<script type="text/javascript" src="/js/jquery.jscrollpane.min.js"></script>
-<script type="text/javascript" id="sourcecode">
-    $(function()
-    {
-        $('.scroll-pane').jScrollPane();
-    });
-</script>
-<!-- //the jScrollPane script -->
-<script type="text/javascript" src="/js/jquery.mousewheel.js"></script> <!-- the mouse wheel plugin -->
-<!-- start-smooth-scrolling -->
 <script src="/js/SmoothScroll.min.js"></script>
+<script src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/move-top.js"></script>
 <script type="text/javascript" src="/js/easing.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="/js/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mousewheel.js"></script>
+
+<script type="text/javascript" id="sourcecode">
+    $(function() {
+        $('.scroll-pane').jScrollPane();
+    });
+
+    var socket = io.connect('https://whereareevent.com:8060');
+    var pushUserId = $("#pushUserId").val();
+
+    socket.on(pushUserId, function(data){
+        console.log('Success papa stamp push' + data.sendData);
+        $("ol.tabs li").removeClass("active");
+        $("ol.tabs li a").removeAttr("style");
+        $("#stamp").addClass("active");
+        $("#stamp").children().css("color", "#e24945");
+        $(".tab_content").hide();
+        var activeTab = $("#stamp").attr("rel");
+        $("#" + activeTab).fadeIn();
+
+        var visitCnt = $("#userStamp").val() % 10;
+
+        if (visitCnt < 9){
+            visitCnt++;
+            $("#userStamp").val(visitCnt);
+
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitCnt);
+            for(var i=1; i<=visitCnt; i++) {
+                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+                if(i==visitCnt) {
+                    TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+                }
+            }
+        }else {
+            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
+            TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+
+            createCouphone();
+
+            setTimeout(function() {
+                getCouphone();
+
+                // 방문 횟수 초기화
+                $("#userStamp").val(0);
+                for(var i=1; i<=10; i++) {
+                    $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
+                }
+
+                //Toast Success Message
+                $.toast.config.align = 'left';
+                $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
+            }, 3000);
+        }
+    });
+
     var remainSecond;
     var tid;
     jQuery(document).ready(function($) {
+        $().UItoTop({ easingType: 'easeOutQuart' });
+
+        /* Tab setting */
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+
+        $("ol.tabs li").click(function () {
+            $("ol.tabs li").removeClass("active");
+            $("ol.tabs li a").removeAttr("style");
+            $(this).addClass("active");
+            if($(this).attr("rel") == "tab3") {
+                var papaStampAnimate = document.getElementById("papa_stamp");
+                TweenLite.fromTo(papaStampAnimate, 4, {width: 70, rotation: 0}, {rotation: 720});
+            }
+
+            $(this).children().css("color", "#e24945");
+            $(".tab_content").hide();
+            var activeTab = $(this).attr("rel");
+            $("#" + activeTab).fadeIn();
+        });
+
+        $("ul.pagination li").click(function () {
+            $("ul.pagination li").removeClass("active");
+            $(this).addClass("active");
+        })
+
         $(".scroll").click(function(event){
             event.preventDefault();
 
@@ -329,16 +358,16 @@
         });
 
         $("#free").click(function(event){
-            var visitCnt = $("#user_stamp").val();
+            var visitCnt = $("#userStamp").val();
             visitCnt++;
-            $("#user_stamp").val(visitCnt);
+            $("#userStamp").val(visitCnt);
             for(var i=1; i<=visitCnt; i++) {
                 $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
             }
         });
 
         // 방문 횟수
-        var visitCnt = $("#user_stamp").val() % 10;
+        var visitCnt = $("#userStamp").val() % 10;
 
         console.log('XXXXXXXXXXXXXXXX : '+visitCnt);
 
@@ -349,8 +378,8 @@
         getMenu("Espresso");
         getCouphone();
 
-        var userNumber = $("#user_delay_number").val();
-        var shopNumber = $("#shop_delay_number").val();
+        var userNumber = $("#userDelayNumber").val();
+        var shopNumber = $("#shopDelayNumber").val();
         var delayTime = document.getElementById("delay_time");
         var remainMinute = 0;
         if(userNumber > shopNumber) {
@@ -531,59 +560,7 @@
         }
         return dynamicDom;
     }
-</script>
-<!-- //end-smooth-scrolling -->
-<!-- smooth-scrolling-of-move-up -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
-        $().UItoTop({ easingType: 'easeOutQuart' });
 
-        /* Tab setting */
-        $(".tab_content").hide();
-        $(".tab_content:first").show();
-
-        $("ol.tabs li").click(function () {
-            $("ol.tabs li").removeClass("active");
-            $("ol.tabs li a").removeAttr("style");
-            $(this).addClass("active");
-            if($(this).attr("rel") == "tab3") {
-                var papaStampAnimate = document.getElementById("papa_stamp");
-                TweenLite.fromTo(papaStampAnimate, 4, {width: 70, rotation: 0}, {rotation: 720});
-            }
-
-            $(this).children().css("color", "#e24945");
-            $(".tab_content").hide();
-            var activeTab = $(this).attr("rel");
-            $("#" + activeTab).fadeIn();
-        });
-
-        $("ul.pagination li").click(function () {
-            $("ul.pagination li").removeClass("active");
-            $(this).addClass("active");
-        })
-
-        /*        $("#delay-push").click(function () {
-         $(".login-agileinfo input").removeAttr("style");
-         });*/
-    });
-</script>
-<!-- //smooth-scrolling-of-move-up -->
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="/js/bootstrap.js"></script>
-
-<!-- 페이스북 -->
-<script>
-    // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
@@ -632,143 +609,6 @@
         });
     }
 </script>
-<!-- //페이스북-->
 
-<!-- web push -->
-<style type="text/css">
-    #layerPop{width:230px;height:180px;position:absolute;display:none;border:1px solid #ccc;padding:10px;background-color:white;}
-    #layerPop .close{position:absolute;bottom:5px;right:5px;}
-    #layerPop .couphone{position:absolute;bottom:5px;}
-</style>
-
-<script type='text/javascript'>
-    /*var socket = io.connect('https://54.238.200.27:8060');*/
-    var socket = io.connect('https://whereareevent.com:8060');
-
-    socket.on('toclient',function(data){
-        console.log('Send data' + data.sendData);
-        $("ol.tabs li").removeClass("active");
-        $("ol.tabs li a").removeAttr("style");
-        $("#stamp").addClass("active");
-        $("#stamp").children().css("color", "#e24945");
-        $(".tab_content").hide();
-        var activeTab = $("#stamp").attr("rel");
-        $("#" + activeTab).fadeIn();
-
-        var visitCnt = $("#user_stamp").val() % 10;
-
-        if (visitCnt < 9){
-            visitCnt++;
-            $("#user_stamp").val(visitCnt);
-
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitCnt);
-            for(var i=1; i<=visitCnt; i++) {
-                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-                if(i==visitCnt) {
-                    TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
-                }
-            }
-        }else {
-            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
-            TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
-
-            createCouphone();
-
-            setTimeout(function() {
-                getCouphone();
-
-                // 방문 횟수 초기화
-                $("#user_stamp").val(0);
-                for(var i=1; i<=10; i++) {
-                    $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
-                }
-
-                //Toast Success Message
-                $.toast.config.align = 'left';
-                $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
-            }, 3000);
-        }
-    });
-
-    /*
-    var pushShopId = $("#pushShopId").val();
-    var source = new EventSource('/shop/update-stream/'+pushShopId+'/'+'01026181715');
-
-    source.addEventListener('message', function(e) {
-        $("ol.tabs li").removeClass("active");
-        $("ol.tabs li a").removeAttr("style");
-        $("#stamp").addClass("active");
-        $("#stamp").children().css("color", "#e24945");
-        $(".tab_content").hide();
-        var activeTab = $("#stamp").attr("rel");
-        $("#" + activeTab).fadeIn();
-
-        var visitCnt = $("#user_stamp").val() % 10;
-
-        if (visitCnt < 9){
-            visitCnt++;
-            $("#user_stamp").val(visitCnt);
-
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_"+visitCnt);
-            for(var i=1; i<=visitCnt; i++) {
-                $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-                if(i==visitCnt) {
-                    TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
-                }
-            }
-        }else {
-            $("#visit10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-            var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
-            TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
-
-            createCouphone();
-
-            setTimeout(function() {
-                getCouphone();
-
-                // 방문 횟수 초기화
-                $("#user_stamp").val(0);
-                for(var i=1; i<=10; i++) {
-                    $("#visit"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
-                }
-
-                //Toast Success Message
-                $.toast.config.align = 'left';
-                $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
-            }, 3000);
-        }
-
-    }, false);
-
-    function closeLayer(IdName){
-        var pop = document.getElementById(IdName);
-        pop.style.display = "none";
-
-        var couphone = document.getElementById("layerCouphone");
-        couphone.style.display = "block";
-    }
-
-    function createCouphone() {
-        var couphoneShopId = $("#pushShopId").val();
-        var couphoneUserId = '01026181715';
-        var dataString = {'id': pushShopId};
-
-        $.ajax({
-            url: $("#url").val() + '/shop/createCouphone',
-            type: 'PUT',
-            dataType: 'json',
-            data: dataString,
-            success: function(data) {
-                console.log("### [Shopping Buy Insert] Insert Shopping Buy List Data Success ### " + JSON.stringify(data));
-            },
-            error: function(request, status, error) {
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                console.log('Error occured');
-            }
-        });
-    }
-    */
-</script>
 </body>
 </html>

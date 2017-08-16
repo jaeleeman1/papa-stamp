@@ -58,7 +58,7 @@ router.get('/shopInfo', function (req, res, next) {
                     }else{
                         logger.debug(TAG, 'Select shop menu success : ' + JSON.stringify(menuData));
                         res.status(200);
-                        res.render('shop/shopMain', {url:config.url, shopData:shopdata[0], menuData:menuData, pushShopId:shopId});
+                        res.render('shop/shopMain', {url:config.url, shopData:shopdata[0], menuData:menuData, pushUserId:userId, pushShopId:shopId});
                     }
                 });
             }

@@ -15,7 +15,6 @@
     <!-- js -->
     <script src="/js/jquery-2.2.3.min.js"></script>
     <script type ="text/javascript" src="/js/toastr.js"></script>
-    <!--<script src="https://54.238.200.27:8060/socket.io/socket.io.js"></script>-->
     <script src="https://whereareevent.com:8060/socket.io/socket.io.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
@@ -179,7 +178,7 @@
                         }
                     }
                 );*/
-                socket.emit('fromclient',{sendData: sendData});
+                socket.emit('SB-SHOP-00001',{sendData: sendData});
             });
         /*
          var defaults = {
