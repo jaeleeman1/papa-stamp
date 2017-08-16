@@ -167,6 +167,10 @@
 
                 socket.emit('shopClient',{userData: sendData});
 
+                var couphoneShopId = 'SB-SHOP-00001';//$("#pushShopId").val();
+                var headers = {};
+                headers["user_id"] = sendData;
+
                 $.ajax({
                     url: $("#url").val() + '/shop/update-stamp',
                     type: 'POST',

@@ -275,7 +275,7 @@
 
     var socket = io.connect('https://whereareevent.com:8060');
     var pushUserId = $("#pushUserId").val();
-    var visitCnt = $("#userStamp").val();
+
 
     socket.on(pushUserId, function(data){
         console.log('Papa stamp push : ' + data);
@@ -287,6 +287,7 @@
         var activeTab = $("#stamp").attr("rel");
         $("#" + activeTab).fadeIn();
 
+        var visitCnt = $("#userStamp").val();
         var visitRateCnt = visitCnt % 10;
 
         if (visitRateCnt < 9){
@@ -368,8 +369,6 @@
 
         // 방문 횟수
         var visitCnt = $("#userStamp").val() % 10;
-
-        console.log('XXXXXXXXXXXXXXXX : '+visitCnt);
 
         for(var i=1; i<=visitCnt; i++) {
             $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
