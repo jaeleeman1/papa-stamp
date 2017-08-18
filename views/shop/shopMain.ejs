@@ -278,7 +278,7 @@
 
 
     socket.on(pushUserId, function(data){
-        console.log('Papa stamp push : ' + data);
+//        console.log('Papa stamp push : ' + data);
         $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
         $("#stamp").addClass("active");
@@ -423,11 +423,10 @@
             dataType: 'json',
             data : dataString,
             success: function(data) {
-                console.log("updateCouphone : " + data);
+//                console.log("updateCouphone success");
             },
             error: function(request, status, error) {
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                console.log('Error occured');
+                console.error("updateCouphoneMapping : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     }
@@ -446,7 +445,7 @@
             dataType: 'json',
             data : dataString,
             success: function(data) {
-                console.log("getCouphone : " + data);
+//                console.log("getCouphone success");
                 var shopCouphoneData = data.shopCouphoneData;
                 var couphoneLayer = document.getElementById('layerCouphone');
                 couphoneLayer.innerHTML = '';
@@ -466,8 +465,7 @@
                 }
             },
             error: function(request, status, error) {
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                console.log('Error occured');
+                console.error("couphoneInfo : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     }
@@ -558,8 +556,7 @@
                 }
             },
             error: function(request, status, error) {
-                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                console.log('Error occured');
+                console.error("shopDetailMenu : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     }
@@ -627,7 +624,7 @@
     // Here we run a very simple test of the Graph API after login is
     // successful.  See statusChangeCallback() for when this call is made.
     function facebookLoginFunction() {
-        console.log('Welcome!  Fetching your information.... ');
+//        console.log('Welcome!  Fetching your information.... ');
 
         FB.login(function(response) {
         }, {
