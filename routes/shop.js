@@ -156,6 +156,40 @@ router.post('/update-stamp', function(req, res) {
     });
 });
 
+
+//Get Select Stamp History
+router.get('/selectStampHistory', function(req, res) {
+    logger.info(TAG, 'Select user push count');
+    var userId = req.headers.user_id;
+    var shopId = req.query.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    getConnection(function (err, connection){
+        var selectStampPushCount = 'select date_format(REG_DT, "%y/%m/%d") as REG_DT from SB_USER_PUSH_HIS where DEL_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId);
+        connection.query(selectStampPushCount, function (err, stampPushData) {
+            if (err) {
+                logger.error(TAG, "DB selectStampPushCount error : " + err);
+                res.status(400);
+                res.send('Select stamp push count error');
+            }else{
+                logger.debug(TAG, 'Select stamp push count success : ' + JSON.stringify(stampPushData));
+                res.status(200);
+                res.send({stampPushData:stampPushData});
+            }
+            connection.release();
+        });
+    });
+});
+
 //Put Insert Stamp History
 router.put('/insertStampHistory', function (req, res, next) {
     logger.info(TAG, 'Insert user stamp history');
@@ -183,39 +217,6 @@ router.put('/insertStampHistory', function (req, res, next) {
                 logger.debug(TAG, 'Insert user push history success');
                 res.status(200);
                 res.send('Insert user push history success');
-            }
-            connection.release();
-        });
-    });
-});
-
-//Get User Push Count
-router.get('/validateCouphone', function(req, res) {
-    logger.info(TAG, 'Select user push count');
-    var userId = req.headers.user_id;
-    var shopId = req.query.shop_id;
-
-    logger.debug(TAG, 'User ID : ' + userId);
-    logger.debug(TAG, 'Shop ID : ' + shopId);
-
-    if(shopId == null || shopId == undefined &&
-        userId == null || userId == undefined) {
-        logger.debug(TAG, 'Invalid parameter');
-        res.status(400);
-        res.send('Invalid parameter error');
-    }
-
-    getConnection(function (err, connection){
-        var selectUserPushCount = 'select count(*) from SB_USER_PUSH_HIS where DEL_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId)+')';
-        connection.query(selectUserPushCount, function (err, userPushData) {
-            if (err) {
-                logger.error(TAG, "DB selectUserPushCount error : " + err);
-                res.status(400);
-                res.send('Select user push count error');
-            }else{
-                logger.debug(TAG, 'Select user push count success : ' + JSON.stringify(userPushData));
-                res.status(200);
-                res.send({userPushData:userPushData});
             }
             connection.release();
         });
