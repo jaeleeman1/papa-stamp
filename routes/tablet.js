@@ -128,6 +128,14 @@ router.get('/tabletMain', function(req, res, next) {
 });
 
 /* POST Papastamp Push Stamp */
+router.get('/temppushStamp', function(req, res, next) {
+    io.sockets.emit('01026181715',{sendData: "API papa stamp success!"});
+    logger.debug(TAG, 'API papa stamp success! : ');
+    res.status(200);
+    res.send("success");
+});
+
+/* POST Papastamp Push Stamp */
 router.post('/pushStamp', function(req, res, next) {
     var userId = req.headers.user_id;
     var shopId = req.body.shop_id;
@@ -142,7 +150,7 @@ router.post('/pushStamp', function(req, res, next) {
         res.send('Invalid parameter error');
     }
 
-    io.sockets.emit('01026181715',{sendData: "API papa stamp success!"}); // 해당 클라이언트에게만 보냄. 다른 클라이언트에 보낼려면?
+    io.sockets.emit('01026181715',{sendData: "API papa stamp success!"});
     logger.debug(TAG, 'API papa stamp success! : ');
     res.status(200);
     res.send("success");
