@@ -299,8 +299,7 @@
             for(var i=1; i<=visitRateCnt; i++) {
                 $("#visitCnt"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
                 if(i==visitRateCnt) {
-                    var date = moment();
-                    $("#visitDate"+i).html(date.format("YY-MM-DD"));
+                    $("#visitDate"+i).html(GetFormattedDate());
                     TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
                 }
             }
@@ -426,12 +425,12 @@
         var now = new Date(),
             month = '' + (now.getMonth() + 1),
             day = '' + now.getDate(),
-            year = now.getYear();
+            year = '' + now.getFullYear();
 
         if (month.length < 2) month = '0' + month;
         if (day.length < 2) day = '0' + day;
 
-        return [year, month, day].join('/');
+        return [year.substr(2), month, day].join('/');
     }
 
     function getStamp() {
@@ -452,10 +451,7 @@
                 var stampPushData = data.stampPushData;
                 for(var i=1; i<=stampPushData.length; i++){
                     $("#visitCnt"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
-                    //$("#visitDate"+i).html(stampPushData[i-1].REG_DT);
-                    console.log(GetFormattedDate());
-
-                    $("#visitDate"+i).html(GetFormattedDate());
+                    $("#visitDate"+i).html(stampPushData[i-1].REG_DT);
                 }
             },
             error: function(request, status, error) {
