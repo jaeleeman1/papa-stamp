@@ -31,7 +31,7 @@ router.get('/shopInfo', function (req, res, next) {
             userId = '01000000000';
         }
 
-        var selectShopUserQuery = 'select SSI.*, SSPI.SHOP_CURRENT_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
+        var selectShopUserQuery = 'select SSI.*, SSPI.SHOP_ORDER_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
             'inner join SB_SHOP_PUSH_INFO as SSPI on SSI.SHOP_ID = SSPI.SHOP_ID ' +
             'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
             'where SSI.SHOP_ID = '+mysql.escape(shopId)+' and SUPI.USER_ID = '+mysql.escape(userId) +
@@ -115,8 +115,8 @@ router.post('/update-stamp', function(req, res) {
 
     getConnection(function (err, connection){
         // Select shop push information
-        var insertShopPushQuery = 'insert into SB_SHOP_PUSH_INFO (SHOP_ID, SHOP_ORDER_NUM, SHOP_CURRENT_NUM) value ' +
-            '('+mysql.escape(shopId)+', 1, 0) on duplicate key update SHOP_ORDER_NUM = SHOP_ORDER_NUM +1';
+        var insertShopPushQuery = 'insert into SB_SHOP_PUSH_INFO (SHOP_ID, SHOP_CURRENT_NUM) value ' +
+            '('+mysql.escape(shopId)+', 1) on duplicate key update SHOP_CURRENT_NUM = SHOP_CURRENT_NUM +1';
         connection.query(insertShopPushQuery, function (err, row) {
             if (err) {
                 logger.error(TAG, "DB selectShopPushQuery error : " + err);
@@ -124,7 +124,7 @@ router.post('/update-stamp', function(req, res) {
                 res.send('Select shop push info error');
             }else{
                 logger.debug(TAG, 'insert(update) shop push info Success');
-                var selectShopPushQuery = 'select SHOP_ORDER_NUM from SB_SHOP_PUSH_INFO where SHOP_ID ='+mysql.escape(shopId);
+                var selectShopPushQuery = 'select SHOP_CURRENT_NUM from SB_SHOP_PUSH_INFO where SHOP_ID ='+mysql.escape(shopId);
                 connection.query(selectShopPushQuery, function (err, shopPushData) {
                     if (err) {
                         logger.error(TAG, "DB selectShopPushQuery error : " + err);
@@ -132,11 +132,11 @@ router.post('/update-stamp', function(req, res) {
                         res.send('Select shop push info error');
                     } else {
                         logger.debug(TAG, 'Select shop push info Success');
-                        var shopOrderNum = shopPushData[0].SHOP_ORDER_NUM;
-                        logger.debug(TAG, 'Shop order number : ' + shopOrderNum);
+                        var shopCurrentNum = shopPushData[0].SHOP_CURRENT_NUM;
+                        logger.debug(TAG, 'Shop current number : ' + shopCurrentNum);
                         // Insert user push information
                         var insertUserPushQuery = 'insert into SB_USER_PUSH_INFO (SHOP_ID, USER_ID, USER_CURRENT_NUM, USER_STAMP) value (' + mysql.escape(shopId) + ',' + mysql.escape(userId) +
-                            ', ' + shopOrderNum + ', 1) on duplicate key update USER_CURRENT_NUM = ' + shopOrderNum + ', USER_STAMP = USER_STAMP +1';
+                            ', ' + shopCurrentNum + ', 1) on duplicate key update USER_CURRENT_NUM = ' + shopCurrentNum + ', USER_STAMP = USER_STAMP +1';
                         connection.query(insertUserPushQuery, function (err, userPushData) {
                             if (err) {
                                 logger.error(TAG, "DB insertUserPushQuery error : " + err);
@@ -145,7 +145,7 @@ router.post('/update-stamp', function(req, res) {
                             } else {
                                 logger.debug(TAG, 'Insert user push info success');
                                 res.status(200);
-                                res.send('Insert user info success');
+                                res.send({resultData:'Insert user info success'});
                             }
                         });
                     }
@@ -156,6 +156,41 @@ router.post('/update-stamp', function(req, res) {
     });
 });
 
+
+
+//Put Insert Shop Order Number
+router.put('/insertShopOrderNumber', function (req, res, next) {
+    logger.info(TAG, 'Insert user stamp history');
+    var userId = req.headers.user_id;
+    var shopId = req.body.shop_id;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+    logger.debug(TAG, 'Shop ID : ' + shopId);
+
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    getConnection(function (err, connection){
+        var insertShopOrderNumberQuery = 'insert into SB_SHOP_PUSH_INFO (SHOP_ID, SHOP_ORDER_NUM) value ' +
+            '('+mysql.escape(shopId)+', 0) on duplicate key update SHOP_ORDER_NUM = SHOP_ORDER_NUM +1';
+        connection.query(insertShopOrderNumberQuery, function (err, row) {
+            if (err) {
+                logger.error(TAG, "DB insertShopOrderNumberQuery error : " + err);
+                res.status(400);
+                res.send('Insert shop order number error');
+            }else{
+                logger.debug(TAG, 'Insert shop order number success');
+                res.status(200);
+                res.send({resultData:'Insert shop order number success'});
+            }
+            connection.release();
+        });
+    });
+});
 
 //Get Select Stamp History
 router.get('/selectStampHistory', function(req, res) {
@@ -194,7 +229,7 @@ router.get('/selectStampHistory', function(req, res) {
 router.put('/insertStampHistory', function (req, res, next) {
     logger.info(TAG, 'Insert user stamp history');
     var userId = req.headers.user_id;
-    var shopId = req.query.shop_id;
+    var shopId = req.body.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
     logger.debug(TAG, 'Shop ID : ' + shopId);
@@ -216,7 +251,7 @@ router.put('/insertStampHistory', function (req, res, next) {
             }else{
                 logger.debug(TAG, 'Insert user push history success');
                 res.status(200);
-                res.send('Insert user push history success');
+                res.send({resultData:'Insert user push history success'});
             }
             connection.release();
         });
@@ -250,7 +285,7 @@ router.put('/updateCouphoneMapping', function (req, res, next) {
             }else{
                 logger.debug(TAG, 'Update couphone mapping success');
                 res.status(200);
-                res.send('Update couphone mapping success');
+                res.send({resultData:'Update couphone mapping success'});
             }
             connection.release();
         });

@@ -180,7 +180,7 @@
                     dataType: 'json',
                     data : dataString,
                     success: function(data) {
-                        console.log("updateCouphone : " + data);
+                        console.log("updateCouphone : " + data.resultData);
                     },
                     error: function(request, status, error) {
                         console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

@@ -41,7 +41,7 @@ router.get('/tabletLogin', function(req, res, next) {
     logger.debug(TAG, 'Session Info' + userInfo);
 
     if(user_id == '') {
-        res.render('tablet/tabletInit', {url:config.url});
+        res.render('tablet/tabletLogin', {url:config.url});
     }else {
         res.render('tablet/tabletAdmin',{nickName: user_id, listLength : 0 });
     }
