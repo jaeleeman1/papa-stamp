@@ -300,14 +300,16 @@
             for(var i=1; i<=visitRateCnt; i++) {
                 $("#visitCnt"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
                 if(i==visitRateCnt) {
-                    $("#visitDate"+i).html(GetFormattedDate());
                     TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+                    $("#visitDate"+i).html(GetFormattedDate());
                 }
             }
         }else {
             $("#visitCnt10").css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
             var papaStampIconAnimate = document.getElementById("papa_stamp_icon_10");
             TweenLite.fromTo(papaStampIconAnimate, 2, {rotation: 0}, {rotation: 720});
+
+            $("#visitDate10").html(GetFormattedDate());
 
             updateCouphone();
 
@@ -318,7 +320,10 @@
                 $("#userStamp").val(0);
                 for(var i=1; i<=10; i++) {
                     $("#visitCnt"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
+                    $("#visitDate"+i).html('');
                 }
+
+                usedPushHistory();
 
                 //Toast Success Message
                 $.toast.config.align = 'left';
@@ -404,6 +409,28 @@
         }
     }
 
+    function usedPushHistory() {
+        var couphoneShopId = $("#pushShopId").val();
+        var couphoneUserId = $("#pushUserId").val();
+        var dataString = {'shop_id': couphoneShopId};
+        var headers = {};
+        headers["user_id"] = couphoneUserId;
+
+        $.ajax({
+            url: $("#url").val() + '/shop/updatePushHistory',
+            type: 'PUT',
+            headers : headers,
+            dataType: 'json',
+            data : dataString,
+            success: function(data) {
+                console.log("usedPushHistory :" + data.resultData);
+            },
+            error: function(request, status, error) {
+                console.error("usedPushHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    }
+
     function updateCouphone() {
         var couphoneShopId = $("#pushShopId").val();
         var couphoneUserId = $("#pushUserId").val();
@@ -446,7 +473,7 @@
         headers["user_id"] = couphoneUserId;
 
         $.ajax({
-            url: $("#url").val() + '/shop/selectStampHistory',
+            url: $("#url").val() + '/shop/selectStampDate',
             type: 'GET',
             headers : headers,
             dataType: 'json',
@@ -454,13 +481,14 @@
             success: function(data) {
 //                console.log("getStamp success");
                 var stampPushData = data.stampPushData;
-                for(var i=1; i<=stampPushData.length; i++){
+                var stampPushDataCnt = stampPushData.length % 10;
+                for(var i=1; i<=stampPushDataCnt; i++){
                     $("#visitCnt"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
                     $("#visitDate"+i).html(stampPushData[i-1].REG_DT);
                 }
             },
             error: function(request, status, error) {
-                console.error("selectStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                console.error("selectStampDate : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     }
@@ -503,50 +531,6 @@
             }
         });
     }
-
-    function putStampHistory() {
-        var couphoneShopId = $("#pushShopId").val();
-        var couphoneUserId = $("#pushUserId").val();
-        var dataString = {'shop_id': couphoneShopId};
-        var headers = {};
-        headers["user_id"] = couphoneUserId;
-
-        $.ajax({
-            url: $("#url").val() + '/shop/insertStampHistory',
-            type: 'PUT',
-            headers : headers,
-            dataType: 'json',
-            data : dataString,
-            success: function(data) {
-                console.log("insertStampHistory : " + data.resultData);
-            },
-            error: function(request, status, error) {
-                console.error("putStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-        });
-    }
-/*
-    function putStampHistory() {
-        var couphoneShopId = $("#pushShopId").val();
-        var couphoneUserId = $("#pushUserId").val();
-        var dataString = {'shop_id': couphoneShopId};
-        var headers = {};
-        headers["user_id"] = couphoneUserId;
-
-        $.ajax({
-            url: $("#url").val() + '/shop/insertStampHistory',
-            type: 'PUT',
-            headers : headers,
-            dataType: 'json',
-            data : dataString,
-            success: function(data) {
-                console.log("putStampHistory success");
-            },
-            error: function(request, status, error) {
-                console.error("insertStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-        });
-    }*/
 
     function getMenu(menuType) {
         $("#menuTypeName").text(menuType);

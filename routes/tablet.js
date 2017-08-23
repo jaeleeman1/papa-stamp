@@ -143,9 +143,6 @@ router.put('/insertStampHistory', function (req, res, next) {
         res.send('Invalid parameter error');
     }
 
-    io.sockets.emit(userId,{sendData: "API papa stamp success!"});
-    logger.debug(TAG, 'API papa stamp success! : ');
-
     getConnection(function (err, connection){
         var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
         connection.query(insertStampHistory, function (err, row) {
@@ -155,6 +152,10 @@ router.put('/insertStampHistory', function (req, res, next) {
                 res.send('Insert user push history error');
             }else{
                 logger.debug(TAG, 'Insert user push history success');
+
+                io.sockets.emit(userId,{sendData: "API papa stamp success!"});
+                logger.debug(TAG, 'API papa stamp success! : ');
+
                 res.status(200);
                 res.send({resultData:'Insert user push history success'});
             }
