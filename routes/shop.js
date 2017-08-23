@@ -156,8 +156,6 @@ router.post('/update-stamp', function(req, res) {
     });
 });
 
-
-
 //Put Insert Shop Order Number
 router.put('/insertShopOrderNumber', function (req, res, next) {
     logger.info(TAG, 'Insert user stamp history');
@@ -219,39 +217,6 @@ router.get('/selectStampHistory', function(req, res) {
                 logger.debug(TAG, 'Select stamp push count success : ' + JSON.stringify(stampPushData));
                 res.status(200);
                 res.send({stampPushData:stampPushData});
-            }
-            connection.release();
-        });
-    });
-});
-
-//Put Insert Stamp History
-router.put('/insertStampHistory', function (req, res, next) {
-    logger.info(TAG, 'Insert user stamp history');
-    var userId = req.headers.user_id;
-    var shopId = req.body.shop_id;
-
-    logger.debug(TAG, 'User ID : ' + userId);
-    logger.debug(TAG, 'Shop ID : ' + shopId);
-
-    if(shopId == null || shopId == undefined &&
-        userId == null || userId == undefined) {
-        logger.debug(TAG, 'Invalid parameter');
-        res.status(400);
-        res.send('Invalid parameter error');
-    }
-
-    getConnection(function (err, connection){
-        var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
-        connection.query(insertStampHistory, function (err, row) {
-            if (err) {
-                logger.error(TAG, "DB insertStampHistory error : " + err);
-                res.status(400);
-                res.send('Insert user push history error');
-            }else{
-                logger.debug(TAG, 'Insert user push history success');
-                res.status(200);
-                res.send({resultData:'Insert user push history success'});
             }
             connection.release();
         });

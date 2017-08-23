@@ -276,7 +276,8 @@
 
     var socket = io.connect('https://whereareevent.com:8060');
     var pushUserId = $("#pushUserId").val();
-
+    var remainSecond;
+    var tid;
 
     socket.on(pushUserId, function(data){
         console.log('Papa stamp push : ' + data);
@@ -290,8 +291,6 @@
 
         var visitCnt = $("#userStamp").val();
         var visitRateCnt = visitCnt % 10;
-
-        putStampHistory();
 
         if (visitRateCnt < 9){
             visitRateCnt++;
@@ -352,8 +351,6 @@
         }
     });
 
-    var remainSecond;
-    var tid;
     jQuery(document).ready(function($) {
         $().UItoTop({ easingType: 'easeOutQuart' });
 

@@ -166,12 +166,26 @@
                 sendData = sendData.replace('  ', '');
                 sendData = sendData.replace('  ', '');
 
-                socket.emit('shopClient',{userData: sendData});
+//                socket.emit('shopClient',{userData: sendData});
 
                 var couphoneShopId = 'SB-SHOP-00001';//$("#pushShopId").val();
                 var dataString = {'shop_id': couphoneShopId};
                 var headers = {};
                 headers["user_id"] = sendData;
+
+                $.ajax({
+                    url: $("#url").val() + '/tablet/insertStampHistory',
+                    type: 'PUT',
+                    headers : headers,
+                    dataType: 'json',
+                    data : dataString,
+                    success: function(data) {
+                        console.log("insertStampHistory : " + data.resultData);
+                    },
+                    error: function(request, status, error) {
+                        console.error("putStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                });
 
                 $.ajax({
                     url: $("#url").val() + '/shop/update-stamp',
