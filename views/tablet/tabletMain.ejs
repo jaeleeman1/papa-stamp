@@ -115,11 +115,11 @@
                 <div class="container" style="width:400px;float:right;text-align:right;">
                     <img class="lazyOwl" src="/images/qr-code.png" title="Our latest gallery" alt="" style="width:40%;margin-bottom:3em;"/>
                     <h3 id="click-event" style="font-size:30px;color:white;padding-left:6px;margin-bottom:3em;"></i>https://wherearevent.com/</h3>
-                    <span id="btn_push" class="label label-success" style="font-size:40px;border-radius:20px;padding:7px 10px 7px 10px;margin:0.5em;">대기 번호 및 스탬프 요청</span>
+                    <span id="btn_push" class="label label-success" style="font-size:40px;border-radius:20px;padding:7px 10px 7px 10px;margin:0.5em;">스탬프 요청</span>
                 </div>
                 <div class="container" style="width:200px;text-align:center;">
-                    <h3 id="click-event" style="font-size:30px;color:white;margin-top:1em;margin-bottom:1em;"></i>입장 번호</h3>
-                    <img class="lazyOwl" src="https://s3-ap-northeast-1.amazonaws.com/sbevent/image/lotto/lotto-number3.png" title="Our latest gallery" alt="" style="width:40%;margin-bottom:3em;"/>
+                    <h3 id="click-event" style="font-size:30px;color:white;margin-top:1em;margin-bottom:1em;"></i>주문 번호</h3>
+                    <img class="lazyOwl" src="/images/order/order_number_<%= orderNumberData.SHOP_ORDER_NUM %>.png" title="Our latest gallery" alt="" style="width:80%;margin-bottom:3em;"/>
                 </div>
             </div>
             <!-- //order -->
@@ -135,6 +135,39 @@
     </div>
 </div>
 <!-- //footer -->
+
+<div id="layerConfirmPop">
+    <div class="pop_up_body">
+        <p class="ti" style="color:#CD853F;">파파 스탬프<p>
+        <p class="confirm_number" id="confirm_number"></p>
+        <p class="copy">해당 번호로 적립 하시겠습니까?</p>
+        <p class="btn_txt_nor mt20"><span class="cancle" onclick="closeLayer('layerConfirmPop')">취소</span><span class="confirm" id="btn_confirm">확인</span></p>
+    </div>
+</div>
+
+<style type="text/css">
+    #layerConfirmPop {display:none;position:absolute; top:50%; margin-top:-107px; background:#FFF; height:230px; width:50%}
+    .pop_up-154 {margin-top:-77px !important; height:154px  !important; }
+    #layerConfirmPop .pop_up_body {padding:18.5px 6.7% 17.4px}
+    #layerConfirmPop .pop_up_body .ti {opacity: 0.87; font-size: 20px; line-height:29px; margin-bottom:14.5px}
+    #layerConfirmPop .pop_up_body .number {opacity: 0.87; font-size: 50px; line-height:29px; margin-bottom:14.5px;font-weight: bold;}
+    #layerConfirmPop .pop_up_body .set_num {border: 1px solid #979797;}
+    #layerConfirmPop .pop_up_body .set_num ul li {float:left}
+    #layerConfirmPop .pop_up_body .set_num img {width:59px}
+    #layerConfirmPop .pop_up_body .set_num .fir {width:59px; border-right: 1px solid #979797;}
+    #layerConfirmPop .pop_up_body .set_num .sec {font-size: 20px; color: #353535; line-height:59px; text-align:center; width:calc( 100% - 120px);}
+    #layerConfirmPop .pop_up_body .set_num .thi {float:right !important; width:59px; border-left: 1px solid #979797;}
+    #layerConfirmPop .pop_up_body .btn_txt {margin-top:45px; text-align:right}
+    #layerConfirmPop .pop_up_body .btn_txt span {font-size: 20px; color: rgba(0,0,0,0.54); line-height:29px; display:inline-block; margin-left:26px}
+    #layerConfirmPop .pop_up_body .copy {opacity: 0.87; font-size: 16px; color: #000000; line-height:24px; padding-top:4px}
+    .confirm_number {font-size: 40px; color: #DDA0DD; !important;}
+    .cancle {color: #e24945; !important;}
+    .confirm {color: #1AAD19 !important;}
+    #layerConfirmPop .pop_up_body .btn_txt_nor {text-align:right;}
+    #layerConfirmPop .pop_up_body .btn_txt_nor span {font-size: 30px; line-height:29px; display:inline-block; margin-left:100px}
+
+</style>
+
 <!-- cart-js -->
 <script src="/js/minicart.js"></script>
 <!-- //cart-js -->
@@ -156,10 +189,54 @@
 <script type="text/javascript">
     var socket = io.connect('https://whereareevent.com:8060');
 
+    function closeLayer(IdName){
+        var pop = document.getElementById(IdName);
+        pop.style.display = "none";
+    }
+
     $(function() {
+        var tempNumber = '01';
+        var sendData = '';
+
         $("#btn_push").click(
             function() {
-                var sendData = $("#phone-text").val();
+                sendData = $("#phone-text").val();
+
+                /*if(tempNumber.length < 17) {
+                    tempNumber = tempNumber.substr(0, tempNumber.length-1);
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-center",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "3000",
+                        "hideDuration": "1000",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr.info('올바른 번호를 누르세요~^^');
+                }*/
+
+                var pop = document.getElementById('layerConfirmPop');
+                pop.style.display = "block";
+                pop.style.top = "120px";
+                pop.style.left = "400px";
+
+                var confirmNumber = document.getElementById('confirm_number');
+                confirmNumber.innerHTML = sendData;
+            }
+        );
+
+        $("#btn_confirm").click(
+            function() {
+                closeLayer("layerConfirmPop");
 
                 sendData = sendData.replace('-', '');
                 sendData = sendData.replace('-', '');
@@ -170,7 +247,7 @@
                 var dataString = {'shop_id': couphoneShopId};
                 var headers = {};
                 headers["user_id"] = sendData;
-
+/*
                 $.ajax({
                     url: $("#url").val() + '/tablet/insertStampHistory',
                     type: 'PUT',
@@ -178,10 +255,10 @@
                     dataType: 'json',
                     data : dataString,
                     success: function(data) {
-                        console.log("insertStampHistory : " + data.resultData);
+                       console.log("insertStampHistory : " + data.resultData);
                     },
-                    error: function(request, status, error) {
-                        console.error("putStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                       error: function(request, status, error) {
+                       console.error("putStampHistory : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     }
                 });
 
@@ -191,19 +268,19 @@
                     headers : headers,
                     dataType: 'json',
                     data : dataString,
-                    success: function(data) {
-                        console.log("updateCouphone : " + data.resultData);
+                      success: function(data) {
+                       console.log("updateCouphone : " + data.resultData);
                     },
                     error: function(request, status, error) {
-                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                        console.log('Error occured');
+                       console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                       console.log('Error occured');
                     }
-                });
-            });
+                });*/
+            }
+        );
 
         $().UItoTop({ easingType: 'easeOutQuart' });
 
-        var tempNumber = '01';
         $(".order-x3text span").click(function(event){
             var index = $(".order-x3text").children('span').index(this);
 
@@ -246,7 +323,7 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     }
-                    toastr.info('입장 대기 버튼을 누르세요~^^');
+                    toastr.info('스탬프 요청 버튼을 누르세요~^^');
                 }else {
                     if(tempNumber.length == 3 || tempNumber.length == 10) {
                         tempNumber += ' - ';

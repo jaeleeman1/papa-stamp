@@ -58,25 +58,25 @@ router.get('/tabletLogout', function(req, res, next) {
 
 
 router.get('/tabletSignIn', function(req, res, next) {
-    var loginId = req.query.login_id;
-    var loginPassword = req.query.login_password;
+    var adminId = req.query.login_id;
+    var adminPassword = req.query.login_password;
 
-    logger.debug(TAG, 'Login ID : ' + loginId);
-    logger.debug(TAG, 'Login PW : ' + loginPassword);
+    logger.debug(TAG, 'Login ID : ' + adminId);
+    logger.debug(TAG, 'Login PW : ' + adminPassword);
 
-    if(loginId == null || loginId == undefined &&
-        loginPassword == null || loginPassword == undefined) {
+    if(adminId == null || adminId == undefined &&
+        adminPassword == null || adminPassword == undefined) {
         logger.debug(TAG, 'Invalid parameter');
         res.status(400);
         res.send('Invalid parameter error');
     }
 
     getConnection(function (err, connection){
-        var loginIdCheck = '0';
-        var loginPwCheck = '0';
-        var selectLoginQuery = "select SHOP_ID, USER_ID, (select exists (select * from SB_USER_INFO where USER_ID = "+ mysql.escape(loginId) + ")) as ID_CHECK, USER_PASSWORD" +
-            " from SB_USER_INFO where USER_TYPE = 02 and USER_ID = "+ mysql.escape(loginId) + " and USER_PASSWORD = "+mysql.escape(loginPassword);
-        connection.query(selectLoginQuery, loginId, function (err, tabletLogin) {
+        var adminIdCheck = '0';
+        var adminPwCheck = '0';
+        var selectLoginQuery = "select SHOP_ID, USER_ID, (select exists (select * from SB_USER_INFO where USER_ID = "+ mysql.escape(adminId) + ")) as ID_CHECK, USER_PASSWORD" +
+            " from SB_USER_INFO where USER_TYPE = 02 and USER_ID = "+ mysql.escape(adminId) + " and USER_PASSWORD = "+mysql.escape(adminPwCheck);
+        connection.query(selectLoginQuery, function (err, tabletLogin) {
             if (err) {
                 logger.error(TAG, "DB selectLoginQuery error : " + err);
                 res.status(400);
@@ -87,16 +87,16 @@ router.get('/tabletSignIn', function(req, res, next) {
                     res.send('No user info');
                 }else {
                     var userInfo = {
-                        user_id : loginId
+                        user_id : adminId
                     }
 
-                    loginIdCheck = tabletLogin[0].ID_CHECK
+                    adminIdCheck = tabletLogin[0].ID_CHECK
 
-                    if(tabletLogin[0].USER_PASSWORD == loginPassword) {
-                        loginPwCheck = '1';
+                    if(tabletLogin[0].USER_PASSWORD == adminPassword) {
+                        adminPwCheck = '1';
                     }
                     req.session.userInfo = userInfo;
-                    res.send({shopId: tabletLogin[0].SHOP_ID, userId: tabletLogin[0].USER_ID, loginIdCheck: loginIdCheck, loginPwCheck: loginPwCheck});
+                    res.send({shopId: tabletLogin[0].SHOP_ID, adminId: tabletLogin[0].USER_ID, adminIdCheck: adminIdCheck, adminPwCheck: adminPwCheck});
                 }
             }
             connection.release();
@@ -124,7 +124,22 @@ router.get('/tabletMain', function(req, res, next) {
         res.send('Invalid parameter error');
     }
 
-    res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
+    // Select shop order number
+    getConnection(function (err, connection){
+        var selectShopOrderNumber = 'select SHOP_ORDER_NUM from SB_SHOP_PUSH_INFO as SSM where SHOP_ID ='+mysql.escape(shopId);
+        connection.query(selectShopOrderNumber, function (err, orderNumberData) {
+            if (err) {
+                logger.error(TAG, "DB selectShopOrderNumber error : " + err);
+                res.status(400);
+                res.send('Select shop order number error');
+            }else{
+                logger.debug(TAG, 'Select shop order number success : ' + JSON.stringify(orderNumberData));
+                res.status(200);
+                res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength:0, orderNumberData:orderNumberData[0] });
+            }
+            connection.release();
+        });
+    });
 });
 
 //Put Insert Stamp History
@@ -152,37 +167,12 @@ router.put('/insertStampHistory', function (req, res, next) {
                 res.send('Insert user push history error');
             }else{
                 logger.debug(TAG, 'Insert user push history success');
-
-                io.sockets.emit(userId,{sendData: "API papa stamp success!"});
-                logger.debug(TAG, 'API papa stamp success! : ');
-
                 res.status(200);
                 res.send({resultData:'Insert user push history success'});
             }
             connection.release();
         });
     });
-});
-
-/* POST Papastamp Push Stamp */
-router.post('/pushStamp', function(req, res, next) {
-    var userId = req.headers.user_id;
-    var shopId = req.body.shop_id;
-
-    logger.debug(TAG, 'User ID : ' + userId);
-    logger.debug(TAG, 'Shop ID : ' + shopId);
-
-    if(shopId == null || shopId == undefined &&
-        userId == null || userId == undefined) {
-        logger.debug(TAG, 'Invalid parameter');
-        res.status(400);
-        res.send('Invalid parameter error');
-    }
-
-    io.sockets.emit('01026181715',{sendData: "API papa stamp success!"});
-    logger.debug(TAG, 'API papa stamp success! : ');
-    res.status(200);
-    res.send("success");
 });
 
 router.post('/tablet/mainPage', function(req, res, next) {
