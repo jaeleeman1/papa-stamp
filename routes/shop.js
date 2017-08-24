@@ -11,7 +11,7 @@ const TAG = "[SHOP INFO] ";
 //Get Shop Information
 router.get('/shopInfo', function (req, res, next) {
     logger.info(TAG, 'Select shop information');
-    var userId = req.headers.user_id;
+    var userId = '01026181715'//req.headers.user_id;
     var shopId = req.query.shop_id;
 
     logger.debug(TAG, 'User ID : ' + userId);

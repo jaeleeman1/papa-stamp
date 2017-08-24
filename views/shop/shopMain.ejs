@@ -515,16 +515,16 @@
                 couphoneLayer.innerHTML = '';
                 for(var i=0; i<shopCouphoneData.length; i++){
                     couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
-                        '<div class="add-products-row">'+
-                        '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
-                        '<a style="height:150px;" href="javascript:">'+
-                        '<h5 id="couphone_'+i+'" style="float:left;">사용하기</h5>'+
-                        '<h4 style="font-size:1.6em;">아메리카노<p>'+shopCouphoneData[i].COUPHONE_PRICE+'원</p></h4>'+
-                        '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ shopCouphoneData[i].EXPIRATION_DT +'</h6>'+
-                        '</a>'+
-                        '</div>'+
-                        '<div class="clearfix"> </div>'+
-                        '</div>'+
+                            '<div class="add-products-row">'+
+                                '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
+                                    '<a style="height:150px;" href="javascript:">'+
+                                    '<h5 id="couphone_'+i+'" style="float:left;">사용하기</h5>'+
+                                    '<h4 style="font-size:1.6em;">아메리카노<p>'+shopCouphoneData[i].COUPHONE_PRICE+'원</p></h4>'+
+                                    '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ shopCouphoneData[i].EXPIRATION_DT +'</h6>'+
+                                    '</a>'+
+                                '</div>'+
+                                '<div class="clearfix"> </div>'+
+                            '</div>'+
                         '</div>';
                 }
             },
@@ -555,66 +555,64 @@
                 for(var i=0; i<menuData.length; i++){
                     menuName.innerHTML +='<p>' + menuData[i].MENU_NAME + '</p>';
                     menuPrice.innerHTML +='<div class="pre-top">' +
-                        '<div class="pr-left">' +
-                        '<div class="item_add"><span class="item_price"><h6>' + menuData[i].MENU_PRICE + '원</h6></span></div>' +
-                        '</div>' +
+                            '<div class="pr-left">' +
+                                '<div class="item_add"><span class="item_price"><h6>' + menuData[i].MENU_PRICE + '원</h6></span></div>' +
+                            '</div>' +
                         '</div>';
                     var dynamicDom ='';
                     if(i%2 == 1) {
                         dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
                         shopMenu.innerHTML += ' <div class="col-xs-6 col-sm-4 product-grids">' +
-                            '<div class="flip-container">' +
-                            '<div class="flipper agile-products">' +
-                            '<div class="front">' +
-                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
-                            '<div class="agile-product-text">' +
-                            '<h5 style="font-family:Impact,Charcoal,sans-serif;">' + menuData[i].MENU_NAME + '</h5>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="back" style="background: #DDA0DD;">' +
-                            '<h4>' + menuData[i].MENU_NAME + '</h4>' +
-                            '<p>' + menuData[i].DESCRIPTION + '.</p>' +
-                            '<h6>' + menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
-                            '<form action="#" method="post">' +
-                            '<input type="hidden" name="cmd" value="_cart">' +
-                            '<input type="hidden" name="add" value="1">' +
-                            '<input type="hidden" name="w3ls_item" value="Fish salad">' +
-                            '<input type="hidden" name="amount" value="3.00">' +
-                            '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-coffee" aria-hidden="true"></i>' + menuData[i].MENU_TYPE + '</button>' +
-                            '<span class="w3-agile-line"> </span>' +
-                            dynamicDom +
-                            '</form>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
+                                '<div class="flip-container">' +
+                                    '<div class="flipper agile-products">' +
+                                        '<div class="front">' +
+                                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
+                                            '<div class="agile-product-text">' +
+                                                '<h5 style="font-family:Impact,Charcoal,sans-serif;">' + menuData[i].MENU_NAME + '</h5>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="back" style="background: #DDA0DD;">' +
+                                            '<h4>' + menuData[i].MENU_NAME + '</h4>' +
+                                            '<p>' + menuData[i].DESCRIPTION + '.</p>' +
+                                            '<h6>' + menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
+                                            '<form action="#" method="post">' +
+                                                '<input type="hidden" name="cmd" value="_cart">' +
+                                                '<input type="hidden" name="add" value="1">' +
+                                                '<input type="hidden" name="w3ls_item" value="Fish salad">' +
+                                                '<input type="hidden" name="amount" value="3.00">' +
+                                                '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-coffee" aria-hidden="true"></i>' + menuData[i].MENU_TYPE + '</button>' +
+                                                '<span class="w3-agile-line"> </span>' + dynamicDom +
+                                            '</form>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>';
                     }else {
                         dynamicDom += getRating(menuData[i].MENU_SCOPE, dynamicDom);
                         shopMenu.innerHTML += '<div class="col-xs-6 col-sm-4 product-grids">' +
-                            '<div class="flip-container">' +
-                            '<div class="flipper agile-products">' +
-                            '<div class="front">' +
-                            '<div class="agile-product-text agile-product-text2">' +
-                            '<h5 style="font-family:Impact,Charcoal,sans-serif;">' + menuData[i].MENU_NAME + '</h5>' +
-                            '</div>' +
-                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
-                            '</div>' +
-                            '<div class="back" style="background: #B0C4DE;">' +
-                            '<h4>' +  menuData[i].MENU_NAME + '</h4>' +
-                            '<p>' +  menuData[i].DESCRIPTION + '.</p>' +
-                            '<h6>' +  menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
-                            '<form action="#" method="post">' +
-                            '<input type="hidden" name="cmd" value="_cart">' +
-                            '<input type="hidden" name="add" value="1">' +
-                            '<input type="hidden" name="w3ls_item" value="Sandwich">' +
-                            '<input type="hidden" name="amount" value="2.00">' +
-                            '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-coffee" aria-hidden="true"></i>' + menuData[i].MENU_TYPE + '</button>' +
-                            '<span class="w3-agile-line"> </span>' +
-                            dynamicDom +
-                            '</form>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
+                                '<div class="flip-container">' +
+                                    '<div class="flipper agile-products">' +
+                                        '<div class="front">' +
+                                            '<div class="agile-product-text agile-product-text2">' +
+                                                '<h5 style="font-family:Impact,Charcoal,sans-serif;">' + menuData[i].MENU_NAME + '</h5>' +
+                                            '</div>' +
+                                            '<img src="/images/cafejass/espresso/' + menuData[i].MENU_IMG + '" class="img-responsive" alt="img">' +
+                                        '</div>' +
+                                        '<div class="back" style="background: #B0C4DE;">' +
+                                            '<h4>' +  menuData[i].MENU_NAME + '</h4>' +
+                                            '<p>' +  menuData[i].DESCRIPTION + '.</p>' +
+                                            '<h6>' +  menuData[i].MENU_PRICE + '<sup class="fa fa-won"></sup></h6>' +
+                                            '<form action="#" method="post">' +
+                                                '<input type="hidden" name="cmd" value="_cart">' +
+                                                '<input type="hidden" name="add" value="1">' +
+                                                '<input type="hidden" name="w3ls_item" value="Sandwich">' +
+                                                '<input type="hidden" name="amount" value="2.00">' +
+                                                '<button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-coffee" aria-hidden="true"></i>' + menuData[i].MENU_TYPE + '</button>' +
+                                                '<span class="w3-agile-line"> </span>' + dynamicDom +
+                                            '</form>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>';
                     }
                 }

@@ -342,11 +342,11 @@
                 for(var i=0; i<shopData.length; i++){
                     shopDataList.innerHTML += '<div class="address-row">' +
                         '<div class="col-xs-2 address-left">' +
-                        '<a href="shop/shopInfo?id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
+                        '<a href="shop/shopInfo?shop_id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                         '</div>' +
                         '<div class="col-xs-10 address-right">' +
                         '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ i +')"><img src="/images/map_load_pin.png" style="width:50px;"></span></a>' +
-                        '<h5>'+ shopData[i].SHOP_NAME +'</h5>' +
+                        '<h5 id="select_shop_name>'+ shopData[i].SHOP_NAME +'</h5>' +
                         '<span class="phone">TEL : '+ shopData[i].SHOP_PHONE +'</span>' +
                         '<p>'+ shopData[i].SHOP_ADDR +'</p>' +
                         '</div>' +
@@ -387,7 +387,7 @@
         }else {
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new daum.maps.LatLngBounds();
-            var imageSrc = "/image/shop_point.png";
+            var imageSrc = "/images/my_point1.png";
             var imageSize = new daum.maps.Size(44, 51);
             var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
 
@@ -422,6 +422,26 @@
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {
+        /*$("#select_shop").click(function() {
+            var dataString = {'shop_id': 'SB-SHOP-00001'};
+            var headers = {};
+            headers["user_id"] = '01000000000';
+
+            $.ajax({
+                url: $("#url").val() + '/shop/shopInfo',
+                type: 'GET',
+                headers : headers,
+                dataType: 'json',
+                data : dataString,
+                success: function(data) {
+                    console.log("select shop success : " + data.resultData);
+                },
+                error: function(request, status, error) {
+                    console.error("select shop : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        });*/
+
         $(".scroll").click(function(event){
             event.preventDefault();
 
