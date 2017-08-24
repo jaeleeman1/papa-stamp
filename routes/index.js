@@ -1,6 +1,12 @@
 var express = require('express');
 var config = require('../config/service_config');
 var router = express.Router();
+var getConnection = require('../config/db_connection');
+var logger = require('../config/logger');
+var request = require("request");
+var parser = require("xml2js");
+
+const TAG = "[MAP INFO] ";
 
 /* GET home page. */
 router.get('/main', function(req, res, next) {

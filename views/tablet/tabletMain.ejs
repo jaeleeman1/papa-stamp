@@ -202,7 +202,7 @@
             function() {
                 sendData = $("#phone-text").val();
 
-                /*if(tempNumber.length < 17) {
+                if(tempNumber.length < 17) {
                     tempNumber = tempNumber.substr(0, tempNumber.length-1);
                     toastr.options = {
                         "closeButton": false,
@@ -222,7 +222,7 @@
                         "hideMethod": "fadeOut"
                     }
                     toastr.info('올바른 번호를 누르세요~^^');
-                }*/
+                }
 
                 var pop = document.getElementById('layerConfirmPop');
                 pop.style.display = "block";
@@ -247,7 +247,7 @@
                 var dataString = {'shop_id': couphoneShopId};
                 var headers = {};
                 headers["user_id"] = sendData;
-/*
+
                 $.ajax({
                     url: $("#url").val() + '/tablet/insertStampHistory',
                     type: 'PUT',
@@ -275,7 +275,7 @@
                        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                        console.log('Error occured');
                     }
-                });*/
+                });
             }
         );
 

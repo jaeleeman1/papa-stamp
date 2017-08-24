@@ -4,7 +4,6 @@ var getConnection = require('../config/db_connection');
 var mysql = require('mysql');
 var config = require('../config/service_config');
 var logger = require('../config/logger');
-var request = require("request");
 
 const TAG = "[SHOP INFO] ";
 
