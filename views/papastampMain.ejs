@@ -383,7 +383,7 @@
         var shopLon = $("#shop_lon_"+index).val();
 
         if(document.documentElement.clientWidth >= 736) {
-            location.href="http://map.daum.net/?map_type=TYPE_SKYVIEW&map_hybrid=true&target=car&sName="+ currentAddr +"&eName="+ shopAddr +"";
+            location.href="https://map.daum.net/?map_type=TYPE_SKYVIEW&map_hybrid=true&target=car&sName="+ currentAddr +"&eName="+ shopAddr +"";
         }else {
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new daum.maps.LatLngBounds();
