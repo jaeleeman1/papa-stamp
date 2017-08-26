@@ -129,8 +129,8 @@
 
 <script>
     var map='';
+
     daum.maps.load(function() {
-        current();
         w3ls.render();
 
         w3ls.cart.on('w3sb_checkout', function (evt) {
@@ -154,12 +154,14 @@
 
         map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
+        current();
+
         // 현재 위치 표시
         function current() {
-            if (navigator.geolocation) {
+            /*if (navigator.geolocation) {
 
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     currentLat = position.coords.latitude; // 위도
                     currentLon = position.coords.longitude; // 경도
 
@@ -175,22 +177,25 @@
                     // 마커와 인포윈도우를 표시합니다
                     displayMarker(currentMarkerPosition, currentMarkerImage);
                 });
-
-            } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-                // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-                console.log("fail the geolocation")
-                var locPosition = new daum.maps.LatLng(37.650804099999995, 126.88645269999999); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                markerContentN = 'GPS 연결을 확인하여 주십시오';
-
-                // 마커를 생성합니다
-                var marker = new daum.maps.Marker({
-                    map: map,
-                    position: locPosition,
-                    image: markerContentN // 마커이미지 설정
-                });
-
-                displayMarker(currentMarkerPosition, currentMarkerImage);
             }
+            }else {*/ // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+                // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+                console.log("fail the geolocation");
+                currentLat = 37.650804099999995; // 위도
+                currentLon = 126.88645269999999; // 경도
+                var currentMarkerSrc = '/images/current_point.png', // 메인 마커이미지의 주소입니다
+                    currentMarkerSize = new daum.maps.Size(35, 49), // 메인  마커이미지의 크기입니다
+                    currentMarkerOption = {offset: new daum.maps.Point(19, 58)}; // 메인 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+                var currentMarkerImage = new daum.maps.MarkerImage(currentMarkerSrc, currentMarkerSize, currentMarkerOption);
+                var currentMarkerPosition = new daum.maps.LatLng(currentLat, currentLon); // 마커가 표시될 위치입니다
+
+                shopList(currentLat, currentLon);
+
+                // 마커와 인포윈도우를 표시합니다
+                displayMarker(currentMarkerPosition, currentMarkerImage);
+            //}
         }
 
         // 지도에 마커와 인포윈도우를 표시하는 함수입니다

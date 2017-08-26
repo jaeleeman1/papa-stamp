@@ -3278,6 +3278,8 @@ h3.icon-subheading {
     font-size: 22px; 
 }
 .contact-w3lsright {
+    float:none;
+    width:100%;
     padding-left: 0;
 }
 .contact-w3lsright h6 {
