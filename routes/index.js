@@ -111,7 +111,7 @@ router.get('/shopList', function (req, res, next) {
 
     //Shop List API
     getConnection(function (err, connection){
-        var selectShopListQuery = 'select SSI.*, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
+        var selectShopListQuery = 'select SSI.SHOP_LAT, SSI.SHOP_LON, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
             'inner join SB_USER_PUSH_INFO as SUPI on SUPI.SHOP_ID = SSI.SHOP_ID ' +
             'where SSI.DEL_YN = "N" and SUPI.USER_ID =' +mysql.escape(userId);
         connection.query(selectShopListQuery, function (err, shopListData) {

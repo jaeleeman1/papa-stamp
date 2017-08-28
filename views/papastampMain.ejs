@@ -30,9 +30,6 @@
     <input type="hidden" name="current_addr" id="current_addr" value=""/>
 </form>
 
-<form style="display:none" name="shop_addr_list" id="shop_addr_list">
-</form>
-
 <body>
 <!-- banner -->
 <div class="banner about-w3bnr">
@@ -59,7 +56,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1 style="float:left;"><a href="/main" style="color:#CD853F">PaPa<p style="float:right;font-size:0.6em;margin-left:10px;color:#EE82EE">Stamp</p></a>
+                        <h1 style="float:left;color:#CD853F">PaPa<p style="float:right;font-size:0.6em;margin-left:10px;color:#EE82EE">Stamp</p>
                             <a><span>Stamp Management System</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
@@ -82,7 +79,7 @@
 <!-- breadcrumb -->
 <div class="container">
     <ol class="breadcrumb w3l-crumbs">
-        <li><a href="javascript:"><i class="fa fa-home"></i> Home</a></li>
+        <li><i class="fa fa-home"></i> Home</li>
         <li class="active">
             <select id="cooperatorList" name="agileinfo_search" required="" onchange="changeShop()">
                 <option value="myShop">나의 스탬프 등록 지점</option>
@@ -333,33 +330,12 @@
             data: dataString,
             success: function(data) {
                 var shopData = data.shopListData;
-                $("#shop_length").val(shopData.length);
-                var shopDataList = document.getElementById('map_list_wrap');
-                var shopAddrList = document.getElementById('shop_addr_list');
-                shopDataList.innerHTML = '';
-                shopAddrList.innerHTML = '';
-
                 var mypositions = [];
 
                 for(var i=0; i<shopData.length; i++) {
-                    shopDataList.innerHTML += '<div class="address-row">' +
-                        '<div class="col-xs-2 address-left">' +
-                        '<a href="shop/shopInfo?shop_id='+ shopData[i].SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
-                        '</div>' +
-                        '<div class="col-xs-10 address-right">' +
-                        '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ i +','+ shopData[i].USER_STAMP+ ')"><img src="/images/map_load_pin.png" style="width:50px;"></span></a>' +
-                        '<h5 id="select_shop_name">'+ shopData[i].SHOP_NAME +'</h5>' +
-                        '<span class="phone">TEL : '+ shopData[i].SHOP_PHONE +'</span>' +
-                        '<p>'+ shopData[i].SHOP_ADDR +'</p>' +
-                        '</div>' +
-                        '<div class="clearfix"> </div>' +
-                        '</div>';
-                    shopAddrList.innerHTML += '<input type="hidden" name="shop_lat_'+ i +'" id="shop_lat_'+ i +'" value="'+ shopData[i].SHOP_LAT +'"/>'+
-                        '<input type="hidden" name="shop_lon_'+ i +'" id="shop_lon_'+ i +'" value="'+ shopData[i].SHOP_LON +'"/>'+
-                        '<input type="hidden" name="shop_addr_'+ i +'" id="shop_addr_'+ i +'" value="'+ shopData[i].SHOP_ADDR +'"/>'+
-                        '<input type="hidden" name="shop_name_'+ i +'" id="shop_name_'+ i +'" value="'+ shopData[i].SHOP_NAME +'"/>';
                     mypositions[i] = {'index': i, 'lat': shopData[i].SHOP_LAT,'lng': shopData[i].SHOP_LON,'stamp': shopData[i].USER_STAMP};
                 }
+
                 showClusterer(mypositions);
             },
             error: function(request, status, error) {
@@ -378,6 +354,7 @@
         });
 
         var selectedMarker = null;
+        var changeImage = null;
 
         var markers = $(mypositions).map(function (i, position) {
             var imageSrc = '/images/my_point'+position.stamp+'.png';
@@ -399,14 +376,15 @@
             });
 
             daum.maps.event.addListener(marker, 'click', function () {
-                // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면 마커의 이미지를 클릭 이미지로 변경
-                if (!selectedMarker || selectedMarker !== marker) {
-                    // 클릭된 마커 객체가 null이 아니면 클릭된 마커의 이미지를 기본 이미지로 변경하고
-                    !!selectedMarker && selectedMarker.setImage(normalImage);
-
-                    // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                if(selectedMarker == null) {
                     marker.setImage(clickImage);
+                    changeImage = normalImage;
+                }else if(selectedMarker !== marker) {
+                    marker.setImage(clickImage);
+                    !!selectedMarker && selectedMarker.setImage(changeImage);
+                    changeImage = normalImage;
                 }
+
                 // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
                 selectedMarker = marker;
 
@@ -428,9 +406,9 @@
                             '<a href="shop/shopInfo?shop_id=' + shopData.SHOP_ID + '"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                             '</div>' +
                             '<div class="col-xs-10 address-right">' +
-                            '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ position.index + ',' + position.stamp + ')"><img src="/images/map_load_pin.png" style="width:50px;"></span></a>' +
+                            '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ position.index + ',' + position.stamp + ')"><img src="/images/map_load_pin.png" style="width:50px;">3</span></a>' +
                             '<h5 id="select_shop_name">' + shopData.SHOP_NAME + '</h5>' +
-                            '<span class="phone">TEL : ' + shopData.SHOP_PHONE + '</span>' +
+                            '   <span class="phone">TEL : ' + shopData.SHOP_PHONE + '</span>' +
                             '<p>' + shopData.SHOP_ADDR + '</p>' +
                             '</div>' +
                             '<div class="clearfix"> </div>' +
@@ -481,18 +459,6 @@
         map.setLevel(map.getLevel() + 1);
     }
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- //cart-js -->
 <!-- start-smooth-scrolling -->
