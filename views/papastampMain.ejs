@@ -330,13 +330,18 @@
             data: dataString,
             success: function(data) {
                 var shopData = data.shopListData;
-                var mypositions = [];
+                if(shopData.length == 0) {
+                    $("#cooperatorList").val("papaShop");
+                    changeShop();
+                }else {
+                    var mypositions = [];
 
-                for(var i=0; i<shopData.length; i++) {
-                    mypositions[i] = {'index': i, 'lat': shopData[i].SHOP_LAT,'lng': shopData[i].SHOP_LON,'stamp': shopData[i].USER_STAMP};
+                    for(var i=0; i<shopData.length; i++) {
+                        mypositions[i] = {'index': i, 'lat': shopData[i].SHOP_LAT,'lng': shopData[i].SHOP_LON,'stamp': shopData[i].USER_STAMP};
+                    }
+
+                    showClusterer(mypositions);
                 }
-
-                showClusterer(mypositions);
             },
             error: function(request, status, error) {
                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
