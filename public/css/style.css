@@ -149,7 +149,7 @@ ul.nav.navbar-nav.navbar-right {
     margin: 0 1em;
 }
 .navbar-default .navbar-nav > li > a {
-    padding: 5px;
+    padding: 15px;
     letter-spacing: 1px;
     color: #fff;
     -webkit-transition: .5s all;
@@ -3231,7 +3231,7 @@ h3.w3ls-title.w3ls-title1 {
 }
 .navbar-default .navbar-nav > li > a { 
     letter-spacing: 1px; 
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 .navbar-nav > li {
     margin: 0 0.5em;

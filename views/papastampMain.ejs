@@ -229,8 +229,7 @@
                         selectedMarker = marker;
 
                         //shop data
-//                        var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
-                        var dataString = {'current_lat': '37.4892105052', 'current_lng': '127.0679616043'};
+                        var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
                         $.ajax({
                             url: $("#url").val() + '/shopData',
                             type: 'GET',
@@ -398,8 +397,7 @@
                 selectedMarker = marker;
 
                 //shop data
-//                        var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
-                var dataString = {'current_lat': '37.4892105052', 'current_lng': '127.0679616043'};
+                var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
                 $.ajax({
                     url: $("#url").val() + '/shopData',
                     type: 'GET',
