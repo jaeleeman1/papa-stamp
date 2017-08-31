@@ -132,9 +132,13 @@
         var currentLat = '';
         var currentLng = '';
 
+        var headers = {};
+        headers["user_id"] = $("#currentUserId").val();
+
         $.ajax({
             url: $("#url").val() + '/currentLocation',
             type: 'GET',
+            headers : headers,
             dataType: 'json',
             success: function(data) {
                 var currentLocationData = data.currentLocationData;
@@ -317,10 +321,14 @@
 
     //Shop List
     function shopList(currentLat, currentLng) {
+        var headers = {};
+        headers["user_id"] = $("#currentUserId").val();
+
         var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
         $.ajax({
             url: $("#url").val() + '/shopList',
             type: 'GET',
+            headers : headers,
             dataType: 'json',
             data: dataString,
             success: function(data) {
