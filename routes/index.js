@@ -29,7 +29,7 @@ router.get('/main', function(req, res, next) {
 router.get('/currentLocation', function (req, res, next) {
     logger.info(TAG, 'Select user current location');
 
-    var userId = req.headers.user_id;
+    var userId = '01026181715'//req.headers.user_id;
 
     logger.debug(TAG, 'User ID : ' + userId);
 
