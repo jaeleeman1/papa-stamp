@@ -93,7 +93,7 @@ router.get('/shopData', function(req, res, next) {
 router.get('/shopList', function (req, res, next) {
     logger.info(TAG, 'Select shop list');
 
-    var userId = req.headers.user_id;
+    var userId = '01026181715'//req.headers.user_id;
     var currentLat = req.query.current_lat;
     var currentLgn = req.query.current_lng;
 
