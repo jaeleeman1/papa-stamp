@@ -295,16 +295,6 @@
     function guidePapaShopLoad(shopLat, shopLng) {
         // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
         var bounds = new daum.maps.LatLngBounds();
-        var imageSrc = "/images/select_point.png";
-        var imageSize = new daum.maps.Size(35, 49);
-        var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
-
-        var moveMarker = new daum.maps.Marker({
-            position : new daum.maps.LatLng(shopLat, shopLng),
-            image : markerImage, // 마커 이미지
-            clickable: true
-        });
-        moveMarker.setMap(map);
 
         var mouseEvent = {
             latLng: new daum.maps.LatLng(shopLat, shopLng)
