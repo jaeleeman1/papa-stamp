@@ -30,10 +30,9 @@ router.get('/shopInfo', function (req, res, next) {
             userId = '01000000000';
         }
 
-        var selectShopUserQuery = 'select SSI.*, SSPI.SHOP_ORDER_NUM, SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_SHOP_INFO as SSI ' +
+        var selectShopUserQuery = 'select SSI.*, SSPI.SHOP_ORDER_NUM from SB_SHOP_INFO as SSI ' +
             'inner join SB_SHOP_PUSH_INFO as SSPI on SSI.SHOP_ID = SSPI.SHOP_ID ' +
-            'inner join SB_USER_PUSH_INFO as SUPI on SSPI.SHOP_ID = SUPI.SHOP_ID ' +
-            'where SSI.SHOP_ID = '+mysql.escape(shopId)+' and SUPI.USER_ID = '+mysql.escape(userId) +
+            'where SSI.SHOP_ID = '+mysql.escape(shopId) +
             'order by SSPI.UPDATE_DT DESC limit 1';
 
         connection.query(selectShopUserQuery, function (err, shopdata) {
@@ -51,8 +50,18 @@ router.get('/shopInfo', function (req, res, next) {
                         res.send('Select shop menu error');
                     }else{
                         logger.debug(TAG, 'Select shop menu success : ' + JSON.stringify(menuData));
-                        res.status(200);
-                        res.render('shop/shopMain', {url:config.url, shopData:shopdata[0], menuData:menuData, pushUserId:userId, pushShopId:shopId});
+                        var selectUserQuery = 'select SUPI.USER_CURRENT_NUM, SUPI.USER_STAMP from SB_USER_PUSH_INFO as SUPI where SUPI.SHOP_ID = '+mysql.escape(shopId)+' and SUPI.USER_ID = '+mysql.escape(userId);
+                        connection.query(selectUserQuery, function (err, userData) {
+                            if (err) {
+                                logger.error(TAG, "DB selectUserQuery error : " + err);
+                                res.status(400);
+                                res.send('Select user info error');
+                            }else{
+                                logger.debug(TAG, 'Select user info success : ' + JSON.stringify(userData));
+                                res.status(200);
+                                res.render('shop/shopMain', {url:config.url, shopData:shopdata[0], menuData:menuData, userData:userData, pushUserId:userId, pushShopId:shopId});
+                            }
+                        });
                     }
                 });
             }
