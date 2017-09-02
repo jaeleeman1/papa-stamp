@@ -271,8 +271,8 @@
                 clusterer.addMarkers(markers);
             });
         }else {
-            //shop list data 가져오기
-            shopList(currentLat, currentLng);
+            //user shop list data 가져오기
+            userShopList(currentLat, currentLng);
         }
     }
 
@@ -310,7 +310,7 @@
     }
 
     //Shop List
-    function shopList(currentLat, currentLng) {
+    function userShopList(currentLat, currentLng) {
         var headers = {};
         headers["user_id"] = $("#currentUserId").val();
 
