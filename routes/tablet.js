@@ -5,6 +5,7 @@ var path = require('path');
 var mysql = require('mysql');
 var getConnection = require('../config/db_connection');
 var config = require('../config/service_config');
+var config = require('../config/service_config');
 var logger = require('../config/logger');
 var request = require('request');
 
@@ -38,26 +39,28 @@ router.get('/tabletLogin', function(req, res, next) {
     }catch(err) {
         logger.error(TAG, "Login session error : " + err);
     }
-    logger.debug(TAG, 'Session Info' + userInfo);
+    logger.debug(TAG, 'Session Info : ',  userInfo);
 
     if(user_id == '') {
         res.render('tablet/tabletLogin', {url:config.url});
     }else {
-        res.render('tablet/tabletAdmin',{nickName: user_id, listLength : 0 });
+        res.render('tablet/tabletMain',{url:config.url, nickName: user_id, listLength : 0 });
     }
 });
 
 router.get('/tabletLogout', function(req, res, next) {
-    req.session.destory(function(err){
-        if(err) {
-            logger.error(TAG, "Logout error : " + err);
-        }
-        res.render('tablet/tabletInit', {url:config.url});
-    });
+    console.log('xxxxxxxxxxx ' , req.session);
+    res.render('tablet/tabletLogin', {url:config.url});
+    /*req.session.destory(function(err){
+         if(err) {
+             logger.error(TAG, "Logout error : " + err);
+         }
+        res.render('tablet/tabletLogin', {url:config.url});
+    });*/
 });
 
 
-router.get('/tabletSignIn', function(req, res, next) {
+router.get('/tabletInit', function(req, res, next) {
     var adminId = req.query.login_id;
     var adminPassword = req.query.login_password;
 
@@ -75,13 +78,14 @@ router.get('/tabletSignIn', function(req, res, next) {
         var adminIdCheck = '0';
         var adminPwCheck = '0';
         var selectLoginQuery = "select SHOP_ID, USER_ID, (select exists (select * from SB_USER_INFO where USER_ID = "+ mysql.escape(adminId) + ")) as ID_CHECK, USER_PASSWORD" +
-            " from SB_USER_INFO where USER_TYPE = 02 and USER_ID = "+ mysql.escape(adminId) + " and USER_PASSWORD = "+mysql.escape(adminPwCheck);
+            " from SB_USER_INFO where USER_TYPE = 02 and USER_ID = "+ mysql.escape(adminId) + " and USER_PASSWORD = "+mysql.escape(adminPassword);
         connection.query(selectLoginQuery, function (err, tabletLogin) {
             if (err) {
                 logger.error(TAG, "DB selectLoginQuery error : " + err);
                 res.status(400);
                 res.send('Tablet sign in error');
             }else{
+                logger.debug(TAG, 'Select shop login success : ' + JSON.stringify(tabletLogin));
                 if(tabletLogin.length < 1) {
                     res.status(500);
                     res.send('No user info');
@@ -112,8 +116,8 @@ router.post('/login/initPage', function(req, res, next) {
 
 /* GET Tablet Main */
 router.get('/tabletMain', function(req, res, next) {
-    var shopId = req.query.shop_id;
-    var userId = req.query.user_id;
+    var shopId = 'SB-SHOP-00001';//req.query.shop_id;
+    var userId = '01037291715';//req.query.user_id;
 
     logger.debug(TAG, 'Shop ID : ' + shopId);
 
@@ -167,6 +171,10 @@ router.put('/insertStampHistory', function (req, res, next) {
                 res.send('Insert user push history error');
             }else{
                 logger.debug(TAG, 'Insert user push history success');
+
+                io.sockets.emit(userId,{sendData: "API papa stamp success!"});
+                logger.debug(TAG, 'API papa stamp success! : ', userId);
+
                 res.status(200);
                 res.send({resultData:'Insert user push history success'});
             }
@@ -175,9 +183,9 @@ router.put('/insertStampHistory', function (req, res, next) {
     });
 });
 
-router.post('/tablet/mainPage', function(req, res, next) {
+router.get('/tabletAdmin', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
-    res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength : 0 });
+    res.render('tablet/tabletAdmin',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
 module.exports = router;

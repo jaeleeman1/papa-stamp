@@ -33,6 +33,13 @@
   <!-- animate.css stylesheet -->
   <link rel="stylesheet" href="/assets/lib/animate.css/animate.css">
 
+  <!-- Toast -->
+  <link href="/css/jquery.toast.min.css" type="text/css" rel="stylesheet"/>
+  <!-- //Toast -->
+  <!-- js -->
+  <script src="/js/jquery-2.2.3.min.js"></script>
+  <script src="/js/jquery.toast.min.js" type="text/javascript"></script>
+  <!-- //js -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,42 +48,42 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <script type ="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
-
   <script type ="text/javascript">
       $(function() {
+//          $.toast.config.align = 'left';
           $('#btn_send').on('click',
               function() {
                   if ($('#loginId').val() == "") {
-                      alert('ID 를 입력하세요!');
+//                      $.toast('<h4>ID</h4>를 입력하세요!', { type: 'success', duration: 3000 } );
                       $('#loginId').focus();
                       return;
                   }
 
                   if ($('#loginPassword').val() == "") {
-                      alert('Password 를 입력하세요!');
+//                      $.toast('<h4>Password</h4>를 입력하세요!', { type: 'success', duration: 3000 } );
                       $('#loginPassword').focus();
                       return;
                   }
 
                   var loginInfo = '{"login_id":"' + $('#loginId').val() + '", "login_password":"' + $('#loginPassword').val() + '"}';
                   $.ajax({
-                      url: $("#url").val()+'/tablet/tabletSignIn',
+                      url: $("#url").val()+'/tablet/tabletInit',
                       type: 'GET',
                       traditional:true,
                       data: JSON.parse(loginInfo),
                       success: function(data) {;
-                          //console.log('a' + data.loginIdCheck);
-                          //console.log('b' + data.loginPwCheck);
-                          if(data.loginIdCheck == '1' && data.loginPwCheck == '1'){
+                          console.log('a' + data.adminIdCheck);
+                          console.log('b' + data.adminPwCheck);
+                          if(data.adminIdCheck == '1' && data.adminPwCheck == '1'){
                               $('#shop_id').val(data.shopId);
-                              $('#admin_id').val(data.userId);
+                              $('#admin_id').val(data.adminId);
                               $('#sendLoginForm').submit();
                           }else {
-                              if(data.loginIdCheck == '0') {
-                                  alert('올바른 ID 를 입력하세요!');
-                              }else if(data.loginPwCheck == '0') {
-                                  alert('올바른 Password 를 입력하세요!');
+                              if(data.adminIdCheck == '0') {
+                                  //Toast Success Message
+//                                  $.toast('<h4>올바른 ID</h4>를 입력하세요!', { type: 'success', duration: 3000 } );
+                              }else if(data.adminPwCheck == '0') {
+//                                  $.toast('<h4>올바른 Password</h4>를 입력하세요!', { type: 'success', duration: 3000 } );
                               }
                           }
                       },
