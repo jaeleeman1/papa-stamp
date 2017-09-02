@@ -277,6 +277,14 @@
         $('.scroll-pane').jScrollPane();
     });
 
+    // 방문 횟수
+    var visitCnt = $("#userStamp").val();
+    var visitRateCnt = visitCnt % 10;
+
+    for(var i=1; i<=visitRateCnt; i++) {
+        $("#visit"+i).css({"-webkit-transform": "scale(0)", "-moz-transform": "scale(0)", "-o-transform": "scale(0)", "-ms-transform": "scale(0)", "transform": "scale(0)"});
+    }
+
     var socket = io.connect('https://whereareevent.com:8060');
     var pushUserId = $("#pushUserId").val();
     var remainSecond;
@@ -291,9 +299,6 @@
         $(".tab_content").hide();
         var activeTab = $("#stamp").attr("rel");
         $("#" + activeTab).fadeIn();
-
-        var visitCnt = $("#userStamp").val();
-        var visitRateCnt = visitCnt % 10;
 
         if (visitRateCnt < 9){
             visitRateCnt++;
