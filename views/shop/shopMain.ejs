@@ -261,9 +261,11 @@
         <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
     </div>
 </div>
-
-
 <!-- //footer -->
+
+<style type="text/css">
+    #deemed{opacity:0.3; z-index:25;}
+</style>
 
 <script src="/js/SmoothScroll.min.js"></script>
 <script src="/js/bootstrap.js"></script>
@@ -519,8 +521,23 @@
                 var shopCouphoneData = data.shopCouphoneData;
                 var couphoneLayer = document.getElementById('layerCouphone');
                 couphoneLayer.innerHTML = '';
-                for(var i=0; i<shopCouphoneData.length; i++){
-                    couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
+
+                if(shopCouphoneData.length == 0) {
+                    couphoneLayer.innerHTML +='<div id="deemed" class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
+                        '<div class="add-products-row">'+
+                            '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
+                                '<a style="height:150px;" href="javascript:">'+
+                                '<h5 style="float:left;">사용하기</h5>'+
+                                '<h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>'+
+                                '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : 영업점별 상이합니다.</h6>'+
+                                '</a>'+
+                                '</div>'+
+                                '<div class="clearfix"> </div>'+
+                            '</div>'+
+                        '</div>';
+                }else {
+                    for(var i=0; i<shopCouphoneData.length; i++){
+                        couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
                             '<div class="add-products-row">'+
                                 '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
                                     '<a style="height:150px;" href="javascript:">'+
@@ -528,10 +545,11 @@
                                     '<h4 style="font-size:1.6em;">아메리카노<p>'+shopCouphoneData[i].COUPHONE_PRICE+'원</p></h4>'+
                                     '<h6 style="padding-top:25px;"><i class="fa fa-calendar"></i>유효 기간 : '+ shopCouphoneData[i].EXPIRATION_DT +'</h6>'+
                                     '</a>'+
+                                    '</div>'+
+                                    '<div class="clearfix"> </div>'+
                                 '</div>'+
-                                '<div class="clearfix"> </div>'+
-                            '</div>'+
-                        '</div>';
+                            '</div>';
+                    }
                 }
             },
             error: function(request, status, error) {

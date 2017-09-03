@@ -188,4 +188,11 @@ router.get('/tabletAdmin', function(req, res, next) {
     res.render('tablet/tabletAdmin',{url:config.url, nickName: req.body.login_id, listLength : 0 });
 });
 
+router.get('/temppushStamp', function(req, res, next) {
+    io.sockets.emit(userId,{sendData: "API papa stamp success!"});
+    logger.debug(TAG, 'API papa stamp success! : ', userId);
+    res.send({url:config.url});
+});
+
+
 module.exports = router;
