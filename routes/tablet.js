@@ -189,8 +189,8 @@ router.get('/tabletAdmin', function(req, res, next) {
 });
 
 router.get('/temppushStamp', function(req, res, next) {
-    io.sockets.emit(userId,{sendData: "API papa stamp success!"});
-    logger.debug(TAG, 'API papa stamp success! : ', userId);
+    io.sockets.emit('01026181715',{sendData: "API papa stamp success!"});
+    logger.debug(TAG, 'API papa stamp success! : ', '01026181715');
     res.send({url:config.url});
 });
 
