@@ -170,7 +170,7 @@
                 <div class="grid_3 grid_5 w3-agileits w3layouts" style="margin-top:30px;">
                     <h3>
                         <span class="label label-default" style="float:left;margin-right:5px;">준비중</span>
-                        <span class="label label-info" style="margin-left:80px;">제조중</span>
+                        <span class="label label-info" style="margin-left:72px;">제조중</span>
                         <span class="label label-success" style="float:right;margin-left:5px;">완료</span>
                     </h3>
                     <h3 id="progress_per" class="w3ls-hdg"></h3>
@@ -294,13 +294,13 @@
     var tid;
 
     if(userCurrentNumber == 0) {
-        remainTime();
+        remainTime(callValue);
     }else if(userCurrentNumber != shopOrderNumber) {
         callValue = 1;
         tid=setInterval('remainTime()',1000);
     }else if(userCurrentNumber == shopOrderNumber) {
         callValue = 101;
-        remainTime();
+        remainTime(callValue);
     }
 
     socket.on(pushUserId, function(data){
@@ -353,8 +353,8 @@
         }
 
         //Call
-        callvalue++;
-        tid=setInterval('remainTime()',1000);
+        var callvalue = 1;
+        tid=setInterval('remainTime('+callvalue+')',1000);
     });
 
     jQuery(document).ready(function($) {
@@ -397,7 +397,7 @@
         getCouphone();
     });
 
-    function remainTime() {
+    function remainTime(callvalue) {
         if(callValue == 0) {
             $("#progress_bar").css("width", '100%');
             $("#progress_bar").css("background-color", '#777');
