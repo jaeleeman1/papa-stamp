@@ -152,29 +152,28 @@
         <!-- dishes -->
         <div id="tab2" class="w3agile-spldishes tab_content">
             <div class="container">
-                <h3 class="w3ls-title">나의 대기 번호</h3>
-                <div class="col-md-4 ftr-top-grids">
-                    <div class="ftr-top-left" style="text-align:center;">
-                        <i id="user_delay_number" class="fa" aria-hidden="true" style="color:#00c57e;margin-bottom:20px;"><%= userData.USER_CURRENT_NUM %></i>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-
                 <div class="grid_3 grid_5">
-                    <h3 class="w3ls-hdg" style="text-align:center;margin-right:2em;"><span style="margin-right:2em;">현재 주문 번호</span> / <span style="margin-left:2em;">대기 시간</span></h3>
-                    <div class="col-md-6 page_1 agileits-w3layouts" style="padding-left: 3px;text-align:center">
+                    <h3 class="w3ls-hdg" style="text-align:center;margin-right:2em;"><span style="margin-right:2em;">대기 번호</span> / <span style="margin-left:2em;">나의 번호</span></h3>
+                    <div class="col-md-6 page_1 agileits-w3layouts" style="padding-left:3px;text-align:center">
                         <nav>
                             <ul class="pagination">
-                                <span id="shop_delay_number" class="badge badge-info" style="float:left;font-size:30px;margin-left:25px;margin-right:4em;"><%= shopData.SHOP_ORDER_NUM %></span>
-                                <code id="delay_time" style="font-size:20px;">약 0분</code>
+                                <span id="shop_delay_number" class="badge badge-info" style="float:left;font-size:50px;margin-right:2em;"><%= shopData.SHOP_ORDER_NUM %></span>
+                                <div class="ftr-top-left" style="float:right;">
+                                    <i id="user_delay_number" class="fa" aria-hidden="true" style="color:#00c57e;margin-bottom:20px;"><%= userData.USER_CURRENT_NUM %></i>
+                                </div>
                             </ul>
                         </nav>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
 
-                <div class="grid_3 grid_5 w3-agileits w3layouts">
-                    <h3 id="progress_per" class="w3ls-hdg">진행률 0%</h3>
+                <div class="grid_3 grid_5 w3-agileits w3layouts" style="margin-top:30px;">
+                    <h3>
+                        <span class="label label-default" style="float:left;margin-right:5px;">준비중</span>
+                        <span class="label label-info" style="margin-left:80px;">제조중</span>
+                        <span class="label label-success" style="float:right;margin-left:5px;">완료</span>
+                    </h3>
+                    <h3 id="progress_per" class="w3ls-hdg"></h3>
                     <div class="tab-content">
                         <div class="tab-pane active" id="domprogress">
                             <div class="progress w3-agileits">
@@ -227,7 +226,7 @@
             <h4>SNS <span style="font-size:0.9em;color:#999;line-height:1.8em;">공유 하기</span></h4>
             <ul>
                 <li><a href="javascript:" onclick="checkLoginState();"><img style="width:50px;margin-right:5px;" src="/images/facebook.png"></a></li>
-                <li><a href="https://twitter.com/intent/tweet?text=우리동네%20베스트푸드(베푸)" onclick=""><img style="width:50px;margin-right:5px;" src="/images/twitter.png"></a></li>
+                <li><a href="https://twitter.com/intent/tweet?text=파파%20스탬프" onclick=""><img style="width:50px;margin-right:5px;" src="/images/twitter.png"></a></li>
                 <li><a href="https://instagram.com" onclick=""><img style="width:50px;margin-right:5px;" src="/images/instagram.png"></a></li>
                 <li><a href="https://story.kakao.com/s/login" onclick=""><img style="width:50px;margin-right:5px;" src="/images/kakao-story.png"></a></li>
                 <li><a href="https://m.blog.naver.com" onclick=""><img style="width:50px;margin-right:5px;" src="/images/naver.png"></a></li>
@@ -289,8 +288,20 @@
 
     var socket = io.connect('https://whereareevent.com:8060');
     var pushUserId = $("#pushUserId").val();
-    var remainSecond;
+    var shopOrderNumber = $("#shopOrderNumber").val();
+    var userCurrentNumber = $("#userCurrentNumber").val();
+    var callValue = 0;
     var tid;
+
+    if(userCurrentNumber == 0) {
+        remainTime();
+    }else if(userCurrentNumber != shopOrderNumber) {
+        callValue = 1;
+        tid=setInterval('remainTime()',1000);
+    }else if(userCurrentNumber == shopOrderNumber) {
+        callValue = 101;
+        remainTime();
+    }
 
     socket.on(pushUserId, function(data){
         console.log('Papa stamp push : ' + data);
@@ -341,29 +352,9 @@
             }, 3000);
         }
 
-        // Order Number
-        var shopOrderNumber = $("#shopOrderNumber").val();
-        var userCurrentNumber = $("#userCurrentNumber").val();
-        var shopDelayNumber = document.getElementById("shop_delay_number");
-        var userDelayNumber = document.getElementById("user_delay_number");
-        var delayTime = document.getElementById("delay_time");
-        var remainMinute = 0;
-        if(userCurrentNumber > shopOrderNumber) {
-            remainMinute = 2*(userCurrentNumber - shopOrderNumber);
-            delayTime.innerHTML = '약 ' + remainMinute +'분';
-        }else {
-            delayTime.innerHTML = '약 0분';
-        }
-
-        shopDelayNumber.innerHTML = shopOrderNumber;
-        userDelayNumber.innerHTML = userCurrentNumber;
-
-        remainSecond =  remainMinute * 60;
-        var totalSecond = remainMinute * 60;
-
-        if(!(totalSecond == 0)) {
-            tid=setInterval('remainTime('+totalSecond+')',1000);
-        }
+        //Call
+        callvalue++;
+        tid=setInterval('remainTime()',1000);
     });
 
     jQuery(document).ready(function($) {
@@ -406,16 +397,21 @@
         getCouphone();
     });
 
-    function remainTime(totalSecond) {
-        var percent = Math.floor(100 - (remainSecond / totalSecond) * 100);
-
-        document.getElementById("progress_per").innerHTML = '진행률 ' + percent +'%';
-        $("#progress_bar").css("width", percent +'%');
-
-        remainSecond--;
-
-        if(remainSecond < 0) {
+    function remainTime() {
+        if(callValue == 0) {
+            $("#progress_bar").css("width", '100%');
+            $("#progress_bar").css("background-color", '#777');
+        }else if(callValue > 100){
+            callValue = 0;
+            $("#progress_bar").css("width", 100 +'%');
+            $("#progress_bar").css("background-color", '#5cb85c');
             clearInterval(tid);
+        }else if(callValue%2 == 0){
+            callValue++;
+            $("#progress_bar").css("width", '100%');
+        }else if(callValue%2 == 1) {
+            callValue++;
+            $("#progress_bar").css("width", '0%');
         }
     }
 
