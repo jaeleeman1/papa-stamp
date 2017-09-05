@@ -171,7 +171,7 @@ router.put('/insertStampHistory', function (req, res, next) {
                 res.send('select user push history count error');
             }else{
                 if(stampHistoryCount[0].CNT < 10) {
-                    var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
+                    var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value (' + mysql.escape(shopId) + ', ' + mysql.escape(userId) + ')';
                     connection.query(insertStampHistory, function (err, row) {
                         if (err) {
                             logger.error(TAG, "DB insertStampHistory error : " + err);
@@ -187,7 +187,8 @@ router.put('/insertStampHistory', function (req, res, next) {
                             res.send({resultData: 'Insert user push history success'});
                         }
                     });
-                }else if (stampHistoryCount[0].CNT == 10) {
+                }
+                if (stampHistoryCount[0].CNT == 9) {
                     var updatePushHistory = 'update SB_USER_PUSH_HIS set USED_YN = "Y" where  SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId)+' and USED_YN = "N" order by REG_DT ASC limit 10';
                     connection.query(updatePushHistory, function (err, UpdateCouphoneData) {
                         if (err) {
