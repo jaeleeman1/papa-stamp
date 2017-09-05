@@ -26,6 +26,7 @@
 <form style="display:none" name="current_data" id="current_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
+    <input type="hidden" name="shop_current_number" id="shop_current_number" value="<%= currentNumberData.SHOP_CURRENT_NUM %>"/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lon" id="current_lon" value=""/>
     <input type="hidden" name="current_addr" id="current_addr" value=""/>
@@ -118,8 +119,8 @@
                     <span id="btn_push" class="label label-success" style="font-size:40px;border-radius:20px;padding:7px 10px 7px 10px;margin:0.5em;">스탬프 요청</span>
                 </div>
                 <div class="container" style="width:200px;text-align:center;">
-                    <h3 id="click-event" style="font-size:30px;color:white;margin-top:1em;margin-bottom:1em;">주문 번호</h3>
-                    <img class="lazyOwl" src="/images/order/order_number_<%= orderNumberData.SHOP_ORDER_NUM %>.png" title="Our latest gallery" alt="" style="width:80%;margin-bottom:3em;"/>
+                    <h3 id="click-event" style="font-size:30px;color:white;margin-top:1em;margin-bottom:1em;">대기 번호</h3>
+                    <img id="shopOrderNumber" class="lazyOwl" src="/images/order/order_number_<%= currentNumberData.SHOP_CURRENT_NUM %>.png" title="Our latest gallery" alt="" style="width:80%;margin-bottom:3em;"/>
                 </div>
             </div>
             <!-- //order -->
@@ -165,7 +166,6 @@
     .confirm {color: #1AAD19 !important;}
     #layerConfirmPop .pop_up_body .btn_txt_nor {text-align:right;}
     #layerConfirmPop .pop_up_body .btn_txt_nor span {font-size: 30px; line-height:29px; display:inline-block; margin-left:100px}
-
 </style>
 
 <!-- cart-js -->
@@ -276,6 +276,12 @@
                        console.log('Error occured');
                     }
                 });
+
+                var currentShopNumber = $("#shop_current_number").val();
+                currentShopNumber++;
+                $("#shop_current_number").val(currentShopNumber);
+                var updateShopCallNumber = document.getElementById("shopOrderNumber");
+                updateShopCallNumber.src = '/images/order/order_number_'+currentShopNumber+'.png';
             }
         );
 

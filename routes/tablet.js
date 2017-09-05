@@ -130,16 +130,16 @@ router.get('/tabletMain', function(req, res, next) {
 
     // Select shop order number
     getConnection(function (err, connection){
-        var selectShopOrderNumber = 'select SHOP_ORDER_NUM from SB_SHOP_PUSH_INFO as SSM where SHOP_ID ='+mysql.escape(shopId);
-        connection.query(selectShopOrderNumber, function (err, orderNumberData) {
+        var selectShopOrderNumber = 'select SHOP_CURRENT_NUM from SB_SHOP_PUSH_INFO as SSM where SHOP_ID ='+mysql.escape(shopId);
+        connection.query(selectShopOrderNumber, function (err, currentNumberData) {
             if (err) {
                 logger.error(TAG, "DB selectShopOrderNumber error : " + err);
                 res.status(400);
                 res.send('Select shop order number error');
             }else{
-                logger.debug(TAG, 'Select shop order number success : ' + JSON.stringify(orderNumberData));
+                logger.debug(TAG, 'Select shop order number success : ' + JSON.stringify(currentNumberData));
                 res.status(200);
-                res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength:0, orderNumberData:orderNumberData[0] });
+                res.render('tablet/tabletMain',{url:config.url, nickName: req.body.login_id, listLength:0, currentNumberData:currentNumberData[0] });
             }
             connection.release();
         });
@@ -161,22 +161,62 @@ router.put('/insertStampHistory', function (req, res, next) {
         res.status(400);
         res.send('Invalid parameter error');
     }
-
+    io.sockets.emit(userId, {sendData: "API papa stamp success!"});
     getConnection(function (err, connection){
-        var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
-        connection.query(insertStampHistory, function (err, row) {
+        var selectStampHistoryCount = 'select count(*) as CNT from SB_USER_PUSH_HIS where USED_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId);
+        connection.query(selectStampHistoryCount, function (err, stampHistoryCount) {
             if (err) {
-                logger.error(TAG, "DB insertStampHistory error : " + err);
+                logger.error(TAG, "DB selectStampHistoryCount error : " + err);
                 res.status(400);
-                res.send('Insert user push history error');
+                res.send('select user push history count error');
             }else{
-                logger.debug(TAG, 'Insert user push history success');
+                if(stampHistoryCount[0].CNT < 10) {
+                    var insertStampHistory = 'insert into SB_USER_PUSH_HIS (SHOP_ID, USER_ID) value ('+mysql.escape(shopId)+', '+mysql.escape(userId)+')';
+                    connection.query(insertStampHistory, function (err, row) {
+                        if (err) {
+                            logger.error(TAG, "DB insertStampHistory error : " + err);
+                            res.status(400);
+                            res.send('Insert user push history error');
+                        } else {
+                            logger.debug(TAG, 'Insert user push history success');
 
-                io.sockets.emit(userId,{sendData: "API papa stamp success!"});
-                logger.debug(TAG, 'API papa stamp success! : ', userId);
+                            io.sockets.emit(userId, {sendData: "API papa stamp success!"});
+                            logger.debug(TAG, 'API papa stamp success! : ', userId);
 
-                res.status(200);
-                res.send({resultData:'Insert user push history success'});
+                            res.status(200);
+                            res.send({resultData: 'Insert user push history success'});
+                        }
+                    });
+                }else if (stampHistoryCount[0].CNT == 10) {
+                    var updatePushHistory = 'update SB_USER_PUSH_HIS set USED_YN = "Y" where  SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId)+' and USED_YN = "N" order by REG_DT ASC limit 10';
+                    connection.query(updatePushHistory, function (err, UpdateCouphoneData) {
+                        if (err) {
+                            logger.error(TAG, "DB updatePushHistory error : " + err);
+                            res.status(400);
+                            res.send('Update push history error');
+                        }else{
+                            logger.debug(TAG, 'Update push history success');
+
+                            var updateCouphoneMapping = 'update SB_USER_COUPHONE SET USER_ID = '+mysql.escape(userId)+', MAPPING_YN = "Y"' +
+                                'where MAPPING_YN = "N" and USED_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' order by REG_DT ASC limit 1';
+                            connection.query(updateCouphoneMapping, function (err, UpdateCouphoneData) {
+                                if (err) {
+                                    logger.error(TAG, "DB updateCouphoneMapping error : " + err);
+                                    res.status(400);
+                                    res.send('Update couphone mapping error');
+                                }else{
+                                    logger.debug(TAG, 'Update couphone mapping success');
+
+                                    io.sockets.emit(userId, {sendData: "API papa stamp success!"});
+                                    logger.debug(TAG, 'API papa stamp success! : ', userId);
+
+                                    res.status(200);
+                                    res.send({resultData:'Update couphone mapping success'});
+                                }
+                            });
+                        }
+                    });
+                }
             }
             connection.release();
         });

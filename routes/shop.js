@@ -232,7 +232,7 @@ router.get('/selectStampDate', function(req, res) {
 });
 
 
-//Put Update Push History
+/*//Put Update Push History
 router.put('/updatePushHistory', function (req, res, next) {
     logger.info(TAG, 'Update push history');
     var userId = req.headers.user_id;
@@ -263,9 +263,9 @@ router.put('/updatePushHistory', function (req, res, next) {
             connection.release();
         });
     });
-});
+});*/
 
-//Put Couphone Mapping
+/*//Put Couphone Mapping
 router.put('/updateCouphoneMapping', function (req, res, next) {
     logger.info(TAG, 'Update couphone mapping');
     var userId = req.headers.user_id;
@@ -297,7 +297,7 @@ router.put('/updateCouphoneMapping', function (req, res, next) {
             connection.release();
         });
     });
-});
+});*/
 
 //Get Couphone Number
 router.get('/couphoneInfo', function (req, res, next) {
