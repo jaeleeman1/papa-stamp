@@ -161,7 +161,7 @@ router.put('/insertStampHistory', function (req, res, next) {
         res.status(400);
         res.send('Invalid parameter error');
     }
-    io.sockets.emit(userId, {sendData: "API papa stamp success!"});
+
     getConnection(function (err, connection){
         var selectStampHistoryCount = 'select count(*) as CNT from SB_USER_PUSH_HIS where USED_YN = "N" and SHOP_ID = '+mysql.escape(shopId)+' and USER_ID = '+mysql.escape(userId);
         connection.query(selectStampHistoryCount, function (err, stampHistoryCount) {
