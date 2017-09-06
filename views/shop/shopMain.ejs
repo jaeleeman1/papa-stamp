@@ -516,7 +516,7 @@
                 if(shopCouphoneData.length == 0) {
                     couphoneLayer.innerHTML +='<div id="deemed" class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
                         '<div class="add-products-row">'+
-                            '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
+                            '<div id="couphone-back" class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;background-image:url(/images/cafejass/couphone.png)">'+
                                 '<a style="height:150px;" href="javascript:">'+
                                 '<h5 style="float:left;">사용하기</h5>'+
                                 '<h4 style="font-size:1.6em;">아메리카노<p>4000원</p></h4>'+
@@ -530,7 +530,7 @@
                     for(var i=0; i<shopCouphoneData.length; i++){
                         couphoneLayer.innerHTML +='<div class="offers-wthreerow2" style="margin:0.5em 1em 2em;">'+
                             '<div class="add-products-row">'+
-                                '<div class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;">'+
+                                '<div id="couphone-back" class="w3ls-add-grids w3ls-add-grids-right" style="width:100%;background-image:url(/images/cafejass/couphone.png)">'+
                                     '<a style="height:150px;" href="javascript:">'+
                                     '<h5 id="couphone_'+i+'" style="float:left;">사용하기</h5>'+
                                     '<h4 style="font-size:1.6em;">아메리카노<p>'+shopCouphoneData[i].COUPHONE_PRICE+'원</p></h4>'+
