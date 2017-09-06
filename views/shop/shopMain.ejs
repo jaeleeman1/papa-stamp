@@ -332,7 +332,6 @@
 
             $("#visitDate10").html(GetFormattedDate());
 
-            getCouphone();
             setTimeout(function() {
                 // 방문 횟수 초기화
                 $("#userStamp").val(0);
@@ -340,6 +339,8 @@
                     $("#visitCnt"+i).css({"-webkit-transform": "scale(1)", "-moz-transform": "scale(1)", "-o-transform": "scale(1)", "-ms-transform": "scale(1)", "transform": "scale(1)"});
                     $("#visitDate"+i).html('');
                 }
+
+                getCouphone();
 
                 //Toast Success Message
                 $.toast.config.align = 'center';
