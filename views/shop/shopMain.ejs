@@ -332,9 +332,8 @@
 
             $("#visitDate10").html(GetFormattedDate());
 
+            getCouphone();
             setTimeout(function() {
-                getCouphone();
-
                 // 방문 횟수 초기화
                 $("#userStamp").val(0);
                 for(var i=1; i<=10; i++) {
@@ -343,7 +342,7 @@
                 }
 
                 //Toast Success Message
-                $.toast.config.align = 'left';
+                $.toast.config.align = 'center';
                 $.toast('<h4>쿠폰</h4> 발급이 완료되었습니다.', { type: 'success', duration: 3000 } );
             }, 3000);
         }
