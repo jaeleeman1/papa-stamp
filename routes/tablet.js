@@ -208,9 +208,6 @@ router.put('/insertStampHistory', function (req, res, next) {
                                 }else{
                                     logger.debug(TAG, 'Update couphone mapping success');
 
-                                    io.sockets.emit(userId, {sendData: "API papa stamp success!"});
-                                    logger.debug(TAG, 'API papa stamp success! : ', userId);
-
                                     res.status(200);
                                     res.send({resultData:'Update couphone mapping success'});
                                 }
