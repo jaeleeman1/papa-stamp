@@ -355,8 +355,10 @@
         var changeImage = null;
 
         var markers = $(mypositions).map(function (i, position) {
-            var imageSrc = '/images/my_point'+position.stamp+'.png';
-            var clickImageSrc = '/images/select_point'+position.stamp+'.png';
+            var convertStamp = position.stamp % 10;
+
+            var imageSrc = '/images/my_point'+convertStamp+'.png';
+            var clickImageSrc = '/images/select_point'+convertStamp+'.png';
 
             // 표시될 shop data
             var imageSize = new daum.maps.Size(35, 49), // 마커이미지의 크기입니다
