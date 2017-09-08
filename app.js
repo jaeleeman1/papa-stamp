@@ -13,6 +13,14 @@ var tablet = require('./routes/tablet');
 // app express
 var app = express( );
 
+function ignoreFavicon(req, res, next) {
+    if (req.originalUrl === '/favicon.ico') {
+        res.status(204).json({nope: true});
+    } else {
+        next();
+    }
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -32,6 +40,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+app.use(ignoreFavicon);
 
 app.use('/', index);
 app.use('/shop', shop);
