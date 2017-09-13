@@ -6,8 +6,28 @@ var logger = require('../config/logger');
 var request = require("request");
 var parser = require("xml2js");
 var mysql = require('mysql');
+var admin = require("firebase-admin");
+var serviceAccount = require("../config/papastamp-a72f6-firebase-adminsdk-qqp2q-6484dc5daa.json");
 
 const TAG = "[MAP INFO] ";
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://papastamp-a72f6.firebaseio.com"
+});
+
+var uid = "0K/TI3hNRoFYJ5qycxcasA==";
+
+admin.auth().createCustomToken(uid)
+    .then(function(customToken) {
+        // Send token back to client
+
+        console.log('XXXXXXXXXXX',customToken);
+    })
+    .catch(function(error) {
+        console.log("Error creating custom token:", error);
+    });
+
 
 // Get papa main
 router.get('/main', function(req, res, next) {
@@ -26,8 +46,8 @@ router.get('/main', function(req, res, next) {
 });
 
 //Get User Location
-router.get('/userLocation', function (req, res, next) {
-    logger.info(TAG, 'Select user location');
+router.get('/currentLocation', function (req, res, next) {
+    logger.info(TAG, 'Select user current location');
 
     var userId = req.headers.user_id;
 
@@ -41,15 +61,15 @@ router.get('/userLocation', function (req, res, next) {
 
     getConnection(function (err, connection){
         var selectUserLocationQuery = 'select CURRENT_LAT,CURRENT_LNG from SB_USER_INFO where USER_ID ='+mysql.escape(userId);
-        connection.query(selectUserLocationQuery, function (err, userLocationData) {
+        connection.query(selectUserLocationQuery, function (err, currentLocationData) {
             if (err) {
                 logger.error(TAG, "DB selectUserLocationQuery error : " + err);
                 res.status(400);
-                res.send('Select user location error');
+                res.send('Select user current location error');
             }else{
-                logger.debug(TAG, 'Select user location success : ' + JSON.stringify(userLocationData));
+                logger.debug(TAG, 'Select user current location success : ' + JSON.stringify(currentLocationData));
                 res.status(200);
-                res.send({userLocationData:userLocationData[0]});
+                res.send({currentLocationData:currentLocationData[0]});
             }
             connection.release();
         });
