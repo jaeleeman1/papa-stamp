@@ -129,8 +129,8 @@
     var map='';
 
     daum.maps.load(function() {
-        var currentLat = 37.4979887529;
-        var currentLng = 127.0296421998;
+        var currentLat = '';//37.4979887529;
+        var currentLng = '';//127.0296421998;
 
         var headers = {};
         headers["user_id"] = $("#currentUserId").val();
@@ -141,6 +141,18 @@
             navigator.geolocation.getCurrentPosition(function(position) {
                 currentLat = position.coords.latitude; // 위도
                 currentLng = position.coords.longitude; // 경도
+
+                $("#current_lat").val(currentLat);
+                $("#current_lng").val(currentLng);
+
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new daum.maps.LatLng(currentLat, currentLng), // 지도 현재 위치
+                        level: 10 // 지도의 확대 레벨
+                    };
+
+                map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
+                changeShop();
             });
 
             /*var couphoneUserId = $("#pushUserId").val();
@@ -170,24 +182,24 @@
                     var currentLocationData = data.currentLocationData;
                     currentLat = currentLocationData.CURRENT_LAT;
                     currentLng = currentLocationData.CURRENT_LNG;
+
+                    $("#current_lat").val(currentLat);
+                    $("#current_lng").val(currentLng);
+
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new daum.maps.LatLng(currentLat, currentLng), // 지도 현재 위치
+                            level: 10 // 지도의 확대 레벨
+                        };
+
+                    map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
+                    changeShop();
                 },
                 error: function(request, status, error) {
                     console.error("userLocationData : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
             });
         }
-
-        $("#current_lat").val(currentLat);
-        $("#current_lng").val(currentLng);
-
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-                center: new daum.maps.LatLng(currentLat, currentLng), // 지도 현재 위치
-                level: 10 // 지도의 확대 레벨
-            };
-
-        map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
-        changeShop();
     });
 
     function changeShop() {
