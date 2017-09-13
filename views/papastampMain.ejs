@@ -135,12 +135,15 @@
         var headers = {};
         headers["user_id"] = $("#currentUserId").val();
 
-        if (navigator.geolocation) {
-            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-            console.log("success the geolocation");
-            navigator.geolocation.getCurrentPosition(function(position) {
-                currentLat = position.coords.latitude; // 위도
-                currentLng = position.coords.longitude; // 경도
+        $.ajax({
+            url: $("#url").val() + '/currentLocation',
+            type: 'GET',
+            headers : headers,
+            dataType: 'json',
+            success: function(data) {
+                var currentLocationData = data.currentLocationData;
+                currentLat = currentLocationData.CURRENT_LAT;
+                currentLng = currentLocationData.CURRENT_LNG;
 
                 $("#current_lat").val(currentLat);
                 $("#current_lng").val(currentLng);
@@ -153,53 +156,11 @@
 
                 map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
                 changeShop();
-            });
-
-            /*var couphoneUserId = $("#pushUserId").val();
-            var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
-
-            $.ajax({
-                url: $("#url").val() + '/updateLocation',
-                type: 'PUT',
-                headers : headers,
-                dataType: 'json',
-                data : dataString,
-                success: function(data) {
-                    console.log("update the location");
-                },
-                error: function(request, status, error) {
-                    console.error("currentLocationData : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-            });*/
-        } else {
-            console.log("fail the geolocation");
-            $.ajax({
-                url: $("#url").val() + '/userLocation',
-                type: 'GET',
-                headers : headers,
-                dataType: 'json',
-                success: function(data) {
-                    var currentLocationData = data.currentLocationData;
-                    currentLat = currentLocationData.CURRENT_LAT;
-                    currentLng = currentLocationData.CURRENT_LNG;
-
-                    $("#current_lat").val(currentLat);
-                    $("#current_lng").val(currentLng);
-
-                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                        mapOption = {
-                            center: new daum.maps.LatLng(currentLat, currentLng), // 지도 현재 위치
-                            level: 10 // 지도의 확대 레벨
-                        };
-
-                    map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
-                    changeShop();
-                },
-                error: function(request, status, error) {
-                    console.error("userLocationData : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-            });
-        }
+            },
+            error: function(request, status, error) {
+                console.error("currentLocationData : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
     });
 
     function changeShop() {
