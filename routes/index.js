@@ -25,9 +25,9 @@ router.get('/main', function(req, res, next) {
     res.render('papastampMain', {url:config.url, currentUserId:userId});
 });
 
-//Get Current Location
-router.get('/currentLocation', function (req, res, next) {
-    logger.info(TAG, 'Select user current location');
+//Get User Location
+router.get('/userLocation', function (req, res, next) {
+    logger.info(TAG, 'Select user location');
 
     var userId = req.headers.user_id;
 
@@ -40,16 +40,48 @@ router.get('/currentLocation', function (req, res, next) {
     }
 
     getConnection(function (err, connection){
-        var selectCurrentLocationQuery = 'select CURRENT_LAT,CURRENT_LNG from SB_USER_INFO where USER_ID ='+mysql.escape(userId);
-        connection.query(selectCurrentLocationQuery, function (err, currentLocationData) {
+        var selectUserLocationQuery = 'select CURRENT_LAT,CURRENT_LNG from SB_USER_INFO where USER_ID ='+mysql.escape(userId);
+        connection.query(selectUserLocationQuery, function (err, userLocationData) {
             if (err) {
-                logger.error(TAG, "DB selectCurrentLocationQuery error : " + err);
+                logger.error(TAG, "DB selectUserLocationQuery error : " + err);
                 res.status(400);
-                res.send('Select user current location error');
+                res.send('Select user location error');
             }else{
-                logger.debug(TAG, 'Select user current location success : ' + JSON.stringify(currentLocationData));
+                logger.debug(TAG, 'Select user location success : ' + JSON.stringify(userLocationData));
                 res.status(200);
-                res.send({currentLocationData:currentLocationData[0]});
+                res.send({userLocationData:userLocationData[0]});
+            }
+            connection.release();
+        });
+    });
+});
+
+//Put User Location
+router.put('/updateLocation', function (req, res, next) {
+    logger.info(TAG, 'Update user location');
+
+    var userId = req.headers.user_id;
+    var currentLat = req.query.current_lat;
+    var currentLng = req.query.current_lng;
+
+    logger.debug(TAG, 'User ID : ' + userId);
+
+    if(userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    getConnection(function (err, connection){
+        var updateUserLocationQuery = 'update into SB_USER_INFO set CURRENT_LAT = '+ currentLat +', CURRENT_LNG =' + currentLng + 'where USER_ID = '+ userId;
+        connection.query(updateUserLocationQuery, function (err, userLocationData) {
+            if (err) {
+                logger.error(TAG, "DB updateUserLocationQuery error : " + err);
+                res.status(400);
+                res.send('Update user location error');
+            }else{
+                logger.debug(TAG, 'Update user location success');
+                res.status(200);
             }
             connection.release();
         });
