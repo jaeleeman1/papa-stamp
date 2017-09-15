@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var index = require('./routes/index');
+var main = require('./routes/main');
 var shop = require('./routes/shop');
 var login = require('./routes/login');
 var tablet = require('./routes/tablet');
@@ -43,7 +43,7 @@ app.use(session({
 
 app.use(ignoreFavicon);
 
-app.use('/', index);
+app.use('/', main);
 app.use('/shop', shop);
 app.use('/login', login);
 app.use('/tablet', tablet);

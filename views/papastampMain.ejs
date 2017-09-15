@@ -23,7 +23,7 @@
 
 <form style="display:none" name="current_data" id="current_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
-    <input type="hidden" name="currentUserId" id="currentUserId" value="<%= currentUserId %>"/>
+    <input type="hidden" name="fId" id="fId" value="<%= fId %>"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lng" id="current_lng" value=""/>
@@ -133,7 +133,7 @@
         var currentLng = '';//127.0296421998;
 
         var headers = {};
-        headers["user_id"] = $("#currentUserId").val();
+        headers["f_Id"] = $("#fId").val();
 
         $.ajax({
             url: $("#url").val() + '/currentLocation',
@@ -312,7 +312,7 @@
     //Shop List
     function userShopList(currentLat, currentLng) {
         var headers = {};
-        headers["user_id"] = $("#currentUserId").val();
+        headers["f_id"] = $("#fId").val();
 
         var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
         $.ajax({
