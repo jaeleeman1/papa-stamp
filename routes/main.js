@@ -20,10 +20,10 @@ admin.initializeApp({
 router.get('/adminAuth', function(req, res, next) {
     logger.info(TAG, 'Select papa main');
 
-    var uId = req.headers.uid;
-    logger.debug(TAG, 'User ID : ' + uId);
+    var uid = req.headers.uid;
+    logger.debug(TAG, 'User ID : ' + uid);
 
-    if(uId == null || uId == undefined) {
+    if(uid == null || uid == undefined) {
         logger.debug(TAG, 'Invalid headers value');
         res.status(400);
         res.send('Invalid headers error');
