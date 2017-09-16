@@ -16,24 +16,36 @@ admin.initializeApp({
     databaseURL: "https://papastamp-a72f6.firebaseio.com"
 });
 
-var uid = "0K/TI3hNRoFYJ5qycxcasA==";
+// Get firebase admin auth
+router.get('/adminAuth', function(req, res, next) {
+    logger.info(TAG, 'Select papa main');
 
-admin.auth().createCustomToken(uid)
-    .then(function(customToken) {
-        // Send token back to client
+    var uId = req.headers.uid;
+    logger.debug(TAG, 'User ID : ' + uId);
 
-        console.log('XXXXXXXXXXX',customToken);
-    })
-    .catch(function(error) {
-        console.log("Error creating custom token:", error);
-    });
+    if(uId == null || uId == undefined) {
+        logger.debug(TAG, 'Invalid headers value');
+        res.status(400);
+        res.send('Invalid headers error');
+    }
 
+    admin.auth().createCustomToken(uid)
+        .then(function(customToken) {
+            // Send token back to client
+            logger.debug(TAG, 'Custom token : ', customToken);
+            res.send({customToken:customToken});
+        })
+        .catch(function(error) {
+            logger.error(TAG, 'Error creating custom token : ', error);
+            console.log("Error creating custom token:", error);
+        });
+});
 
 // Get papa main
 router.get('/main', function(req, res, next) {
     logger.info(TAG, 'Select papa main');
 
-    var fId = req.headers.f_id;
+    var fId = "0K/TI3hNRoFYJ5qycxcasA==";//req.headers.f_id;
     logger.debug(TAG, 'Firebase ID : ' + fId);
 
     if(fId == null || fId == undefined) {
