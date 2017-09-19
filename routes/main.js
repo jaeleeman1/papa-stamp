@@ -136,13 +136,12 @@ router.put('/updateLocation', function (req, res, next) {
     logger.info(TAG, 'Update user location');
 
     var uid = req.headers.uid;
-    logger.debug(TAG, 'User ID : ' + uid);
     var currentLat = req.body.latitude;
     var currentLng = req.body.longitude;
     // var currentLat = req.query.current_lat;
     // var currentLng = req.query.current_lng;
 
-    logger.debug(TAG, 'Firebase ID : ' + uid);
+    logger.debug(TAG, 'User ID : ' + uid);
     logger.debug(TAG, 'Current Latitude : ' + currentLat);
     logger.debug(TAG, 'Current Longitude : ' + currentLng);
 
@@ -160,7 +159,8 @@ router.put('/updateLocation', function (req, res, next) {
     }
 
     getConnection(function (err, connection){
-        var updateUserLocationQuery = 'update into SB_USER_INFO set CURRENT_LAT = '+ currentLat +', CURRENT_LNG =' + currentLng + 'where USER_ID = '+ uid;
+        var updateUserLocationQuery = 'insert into SB_USER_INFO (USER_ID, CURRENT_LAT, CURRENT_LNG) value ("'+ uid +'", "'+ currentLat +'", "' + currentLng +'") ' +
+            'on duplicate key update CURRENT_LAT = "'+ currentLat +'", CURRENT_LNG = "'+ currentLng +'"';
         connection.query(updateUserLocationQuery, function (err, userLocationData) {
             if (err) {
                 logger.error(TAG, "DB updateUserLocationQuery error : " + err);
@@ -169,6 +169,7 @@ router.put('/updateLocation', function (req, res, next) {
             }else{
                 logger.debug(TAG, 'Update user location success');
                 res.status(200);
+                res.send();
             }
             connection.release();
         });
