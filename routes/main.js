@@ -135,15 +135,18 @@ router.get('/currentLocation', function (req, res, next) {
 router.put('/updateLocation', function (req, res, next) {
     logger.info(TAG, 'Update user location');
 
-    var fId = req.headers.f_id;
-    var currentLat = req.query.current_lat;
-    var currentLng = req.query.current_lng;
+    var uid = req.headers.uid;
+    logger.debug(TAG, 'User ID : ' + uid);
+    var currentLat = req.body.latitude;
+    var currentLng = req.body.longitude;
+    // var currentLat = req.query.current_lat;
+    // var currentLng = req.query.current_lng;
 
     logger.debug(TAG, 'Firebase ID : ' + fId);
     logger.debug(TAG, 'Current Latitude : ' + currentLat);
     logger.debug(TAG, 'Current Longitude : ' + currentLng);
 
-    if(fId == null || fId == undefined) {
+    if(uid == null || uid == undefined) {
         logger.debug(TAG, 'Invalid headers value');
         res.status(400);
         res.send('Invalid headers error');
@@ -157,7 +160,7 @@ router.put('/updateLocation', function (req, res, next) {
     }
 
     getConnection(function (err, connection){
-        var updateUserLocationQuery = 'update into SB_USER_INFO set CURRENT_LAT = '+ currentLat +', CURRENT_LNG =' + currentLng + 'where USER_ID = '+ userId;
+        var updateUserLocationQuery = 'update into SB_USER_INFO set CURRENT_LAT = '+ currentLat +', CURRENT_LNG =' + currentLng + 'where USER_ID = '+ uid;
         connection.query(updateUserLocationQuery, function (err, userLocationData) {
             if (err) {
                 logger.error(TAG, "DB updateUserLocationQuery error : " + err);
