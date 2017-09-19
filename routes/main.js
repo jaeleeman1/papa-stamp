@@ -55,7 +55,7 @@ router.get('/main', function(req, res, next) {
     }
 
 
-    res.render('papastampMain', {url:config.url, fId:fId});
+    res.render('papastampMain', {url:config.url, uid:uid});
 });
 
 //Get Shop List
