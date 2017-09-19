@@ -45,14 +45,15 @@ router.get('/adminAuth', function(req, res, next) {
 router.get('/main', function(req, res, next) {
     logger.info(TAG, 'Select papa main');
 
-    var fId = "0K/TI3hNRoFYJ5qycxcasA==";//req.headers.f_id;
-    logger.debug(TAG, 'Firebase ID : ' + fId);
+    var uid = req.headers.uid;
+    logger.debug(TAG, 'User ID : ' + uid);
 
-    if(fId == null || fId == undefined) {
+    if(uid == null || uid == undefined) {
         logger.debug(TAG, 'Invalid headers value');
         res.status(400);
         res.send('Invalid headers error');
     }
+
 
     res.render('papastampMain', {url:config.url, fId:fId});
 });
