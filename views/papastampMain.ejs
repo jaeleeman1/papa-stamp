@@ -312,7 +312,7 @@
     //Shop List
     function userShopList(currentLat, currentLng) {
         var headers = {};
-        headers["f_id"] = $("#fId").val();
+        headers["f_id"] = $("#uid").val();
 
         var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
         $.ajax({
