@@ -23,7 +23,7 @@
 
 <form style="display:none" name="current_data" id="current_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
-    <input type="hidden" name="fId" id="fId" value="<%= fId %>"/>
+    <input type="hidden" name="uid" id="uid" value="<%= uid %>"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lng" id="current_lng" value=""/>
@@ -133,7 +133,7 @@
         var currentLng = '';//127.0296421998;
 
         var headers = {};
-        headers["f_Id"] = $("#fId").val();
+        headers["f_Id"] = $("#uid").val();
 
         $.ajax({
             url: $("#url").val() + '/currentLocation',
