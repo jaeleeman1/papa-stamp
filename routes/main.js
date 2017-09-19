@@ -142,7 +142,7 @@ router.put('/updateLocation', function (req, res, next) {
     // var currentLat = req.query.current_lat;
     // var currentLng = req.query.current_lng;
 
-    logger.debug(TAG, 'Firebase ID : ' + fId);
+    logger.debug(TAG, 'Firebase ID : ' + uid);
     logger.debug(TAG, 'Current Latitude : ' + currentLat);
     logger.debug(TAG, 'Current Longitude : ' + currentLng);
 
