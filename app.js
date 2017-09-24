@@ -10,6 +10,9 @@ var main = require('./routes/main');
 var shop = require('./routes/shop');
 var login = require('./routes/login');
 var tablet = require('./routes/tablet');
+var notification = require('./routes/notification');
+var download = require('./routes/download');
+
 // app express
 var app = express( );
 
@@ -43,10 +46,20 @@ app.use(session({
 
 app.use(ignoreFavicon);
 
+const accountURL = '/account/v1.0';
+const userURL = '/user/v1.0';
+const shopURL = '/shop/v1.0';
+const mapURL = '/map/v1.0';
+const adminURL = '/admin/v1.0';
+const notificationURL = '/notification/v1.0';
+const downloadURL = '/download/v1.0';
+
 app.use('/', main);
 app.use('/shop', shop);
 app.use('/login', login);
 app.use('/tablet', tablet);
+app.use('/notification', notification);
+app.use(downloadURL, download);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
