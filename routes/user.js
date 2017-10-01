@@ -3,11 +3,51 @@ var router = express.Router();
 var config = require('../config/service_config');
 var getConnection = require('../config/db_connection');
 var request = require('request');
+var admin = require("firebase-admin");
+var serviceAccount = require("../config/papastamp-a72f6-firebase-adminsdk-qqp2q-6484dc5daa.json");
+
+const TAG = "[USER INFO] ";
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://papastamp-a72f6.firebaseio.com"
+});
+
+// Get Firebase User Auth
+router.get('/userAuth', function(req, res, next) {
+    logger.info(TAG, 'Get user auth');
+
+    var userId = req.headers.user_id;
+    logger.debug(TAG, 'User ID : ' + userId);
+
+    if(userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid headers value');
+        res.status(400);
+        res.send('Invalid headers error');
+    }
+
+    admin.auth().createCustomToken(userId)
+        .then(function(customToken) {
+            // Send token back to client
+            logger.debug(TAG, 'Custom token : ', customToken);
+            res.send({customToken:customToken});
+        })
+        .catch(function(error) {
+            logger.error(TAG, 'Error creating custom token : ', error);
+            console.log("Error creating custom token:", error);
+        });
+});
+
+
+
+
+
+
 
 /* GET login (session) */
 router.get('/init', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
-    res.render('login/loginMain',{nickName: req.body.login_id, listLength : 0 });
+    res.render('admin/loginMain',{nickName: req.body.login_id, listLength : 0 });
 });
 
 router.post('/tablet/mainPage', function(req, res, next) {
@@ -43,7 +83,7 @@ router.post('/userInfo', function(req, res, next) {
 
     getConnection(function (err, connection){
         // Insert User Infomation
-        var insertUserInfo = 'INSERT INTO SB_USER_INFO (USER_ID, USER_PASSWORD, USER_TYPE) VALUES(?, password(?), "01")';
+        var insertUserInfo = 'INSERT INTO SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_TYPE) VALUES(?, password(?), "01")';
         connection.query(insertUserInfo, [userId, userPw], function (err, row) {
             if (err) {
                 console.error("[User Info Error] Insert User Info Error : " + err);

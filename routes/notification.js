@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var FCM = require('fcm-push');
+var config = require('../config/service_config');
 
-const serverKey = 'AAAAHIVXzfk:APA91bHqH863OCv5t6oNHwoYjDp5kmqd-D6GtrrU-QW_ikVCkW2HteP6pnvCT58XhKH4bobu0jOPZyzF2w1DFE1z4ktQ1bVS59iXQi70qqGFyW8g9LNLR8KgksXrm9lzQ1_FVsDsQZt0';
+const serverKey = config.serverKey;
 const TAG = 'Notification';
 
 var notificationType = {
@@ -9,10 +11,11 @@ var notificationType = {
     "NOTIFICATION_TYPE_ORDER_NOTIFICATION" : 1
 };
 
-router.post('/:uid/', function(req, res, next) {
+router.post('/finish_order/:uid/', function(req, res, next) {
     console.log(TAG, 'POST: Send notification');
 
     var uid = req.params.uid;
+
     console.log(TAG, 'requested UID: ' + uid);
 
     /*var latitude = req.body.latitude;
@@ -85,56 +88,56 @@ router.post('/:uid/', function(req, res, next) {
 
     var info = {
         uid: uid,
-        nickname: "test noti"
+        nickname: "[주문 완료]"
     };
 
     sendNotification("doaOAZeSVJU:APA91bEqjuoPOdiylGT48IEGLfT0Yp-pDX8_JiNPgIM4xGyA9j7z4m6dUqK3n867EWzmCdnEUk6DhPlijovedBWxFeFx4cUocafuy2yQ0LpbGff8SdOGJj3TlWsYAleNjDnBgBgBgu18",
         notificationType.NOTIFICATION_TYPE_ORDER_NOTIFICATION, info);
 
-    var sendNotification = function sendNotification(accessToken, notiType, info) {
-
-        switch (notiType) {
-            case notificationType.NOTIFICATION_TYPE_ORDER_NOTIFICATION:
-                var callapse_key = 'ORDER';
-                var title = info.nickname;
-                var body = info.nickname + ' is around here';
-                var tag = 1;
-                break;
-            default:
-                console.log(TAG, 'Undefined notification type');
-                return;
-        }
-
-
-        var message = {
-            to: accessToken,
-            collapse_key: callapse_key,
-            notification: {
-            	title: title,
-            	body: body,
-            	icon: '/images/cafejass/couphone.png',
-            	tag: tag
-            },
-            data: {
-                msgType: callapse_key,
-                uid: info.uid,
-                nickname: info.nickname
-            }
-        };
-
-
-        var fcm = new FCM(serverKey);
-        fcm.send(message, function(err, res){
-            if (err) {
-                console.log(TAG, "Failed to send notification, error: " + err);
-            } else {
-                console.log(TAG, "Successfully sent with response: ", res);
-            }
-        });
-    };
-
     res.status(200);
     res.send('sendSsupNotification response ok');
 });
+
+var sendNotification = function sendNotification(accessToken, notiType, info) {
+
+    switch (notiType) {
+        case notificationType.NOTIFICATION_TYPE_ORDER_NOTIFICATION:
+            var callapse_key = 'ORDER';
+            var title = info.nickname;
+            var body = '01026181715 님의 주문이 완료되었습니다.';
+            var tag = 1;
+            break;
+        default:
+            console.log(TAG, 'Undefined notification type');
+            return;
+    }
+
+
+    var message = {
+        to: accessToken,
+        collapse_key: callapse_key,
+        notification: {
+            title: title,
+            body: body,
+            icon: '/images/cafejass/couphone.png',
+            tag: tag
+        },
+        data: {
+            msgType: callapse_key,
+            uid: info.uid,
+            nickname: info.nickname
+        }
+    };
+
+
+    var fcm = new FCM(serverKey);
+    fcm.send(message, function(err, res){
+        if (err) {
+            console.log(TAG, "Failed to send notification, error: " + err);
+        } else {
+            console.log(TAG, "Successfully sent with response: ", res);
+        }
+    });
+};
 
 module.exports = router;

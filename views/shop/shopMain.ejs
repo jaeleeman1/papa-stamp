@@ -49,7 +49,7 @@
         <div class="w3ls-header">
             <div class="container">
                 <div class="w3ls-header-left">
-                    <p>나의 스탬프 관리</p>
+                    <p>나의 온라인 스탬프 관리</p>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -72,8 +72,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a style="color:#CD853F;" href="/main">Home</a></li>
-                            <li><a href="/contact" class="active">Contact Us</a></li>
+                            <li><a style="color:#CD853F;" href="/map/v1.0/mapMain/<%= pushUserId %>">Home</a></li>
+                            <li><a href="/contact/<%= pushUserId %>" class="active">Contact Us</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -247,9 +247,9 @@
             <div class="col-xs-6 col-sm-3 footer-grids w3-agileits" style="width:100%">
                 <h3><%= shopData.SHOP_NAME %></h3>
                 <ul>
-                    <li><a href="about.html">  주    소 : <%= shopData.SHOP_ADDR %></a></li>
-                    <li><a href="contact.html">연 락 처 : <%= shopData.SHOP_PHONE %></a></li>
-                    <li><a href="careers.html">영업 시간 : <%= shopData.SHOP_OPEN %></a></li>
+                    <li><a href="javascript:">  주    소 : <%= shopData.SHOP_ADDR %></a></li>
+                    <li><a href="javascript:">연 락 처 : <%= shopData.SHOP_PHONE %></a></li>
+                    <li><a href="javascript:">영업 시간 : <%= shopData.SHOP_OPEN %></a></li>
                 </ul>
             </div>
         </div>
@@ -419,7 +419,7 @@
         headers["user_id"] = couphoneUserId;
 
         $.ajax({
-            url: $("#url").val() + '/shop/updatePushHistory',
+            url: $("#url").val() + '/shop/v1.0/updatePushHistory',
             type: 'PUT',
             headers : headers,
             dataType: 'json',
@@ -441,7 +441,7 @@
         headers["user_id"] = couphoneUserId;
 
         $.ajax({
-            url: $("#url").val() + '/shop/updateCouphoneMapping',
+            url: $("#url").val() + '/shop/v1.0/updateCouphoneMapping',
             type: 'PUT',
             headers : headers,
             dataType: 'json',
@@ -475,7 +475,7 @@
         headers["user_id"] = couphoneUserId;
 
         $.ajax({
-            url: $("#url").val() + '/shop/selectStampDate',
+            url: $("#url").val() + '/shop/v1.0/selectStampDate',
             type: 'GET',
             headers : headers,
             dataType: 'json',
@@ -503,7 +503,7 @@
         headers["user_id"] = couphoneUserId;
 
         $.ajax({
-            url: $("#url").val() + '/shop/couphoneInfo',
+            url: $("#url").val() + '/shop/v1.0/couphoneInfo',
             type: 'GET',
             headers : headers,
             dataType: 'json',
@@ -556,7 +556,7 @@
         var dataString = {'shop_id': pushShopId, 'menu_type': menuType};
 
         $.ajax({
-            url: $("#url").val() + '/shop/shopDetailMenu',
+            url: $("#url").val() + '/shop/v1.0/shopDetailMenu',
             type: 'GET',
             dataType: 'json',
             data: dataString,

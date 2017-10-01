@@ -6,9 +6,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var main = require('./routes/main');
+var init = require('./routes/init');
+var map = require('./routes/map');
 var shop = require('./routes/shop');
-var login = require('./routes/login');
+var user = require('./routes/user');
+
+var admin = require('./routes/admin');
 var tablet = require('./routes/tablet');
 var notification = require('./routes/notification');
 var download = require('./routes/download');
@@ -46,20 +49,29 @@ app.use(session({
 
 app.use(ignoreFavicon);
 
-const accountURL = '/account/v1.0';
-const userURL = '/user/v1.0';
-const shopURL = '/shop/v1.0';
-const mapURL = '/map/v1.0';
+const mapUrl = '/map/v1.0';
+const shopUrl = '/shop/v1.0';
+const userUrl = '/user/v1.0';
+
+
+
 const adminURL = '/admin/v1.0';
+const tabletURL = '/tablet/v1.0';
 const notificationURL = '/notification/v1.0';
 const downloadURL = '/download/v1.0';
 
-app.use('/', main);
-app.use('/shop', shop);
-app.use('/login', login);
+app.use('/', init);
+app.use(mapUrl, map);
+app.use(shopUrl, shop);
+app.use(userUrl, user);
+app.use(downloadURL, download);
+
+
+
+app.use('/admin', admin);
 app.use('/tablet', tablet);
 app.use('/notification', notification);
-app.use(downloadURL, download);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,7 +88,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('errorMain');
 });
 
 module.exports = app;

@@ -9,16 +9,18 @@ const TAG = "[SHOP INFO] ";
 
 /* Shop Page API */
 //Get Shop Information
-router.get('/shopInfo', function (req, res, next) {
-    logger.info(TAG, 'Select shop information');
-    var userId = '01026181715'//req.headers.user_id;
-    var shopId = req.query.shop_id;
+router.get('/shopInfo/:shopId/:userId/', function (req, res, next) {
+    logger.info(TAG, 'Get shop information');
 
-    logger.debug(TAG, 'User ID : ' + userId);
+    var shopId = req.params.shopId;
+    var userId = req.params.userId;
+
     logger.debug(TAG, 'Shop ID : ' + shopId);
+    logger.debug(TAG, 'User ID : ' + userId);
 
-    if(shopId == null || shopId == undefined) {
-        logger.debug(TAG, 'Invalid shop id');
+    if(shopId == null || shopId == undefined &&
+        userId == null || userId == undefined) {
+        logger.debug(TAG, 'Invalid paramete error');
         res.status(400);
         res.send('Invalid parameter error');
     }
@@ -72,7 +74,7 @@ router.get('/shopInfo', function (req, res, next) {
 
 //Get Shop Detail Menu
 router.get('/shopDetailMenu', function (req, res, next) {
-    logger.info(TAG, 'Select shop menu');
+    logger.info(TAG, 'Get shop menu');
 
     var shopId = req.query.shop_id;
     var menuType = req.query.menu_type;
@@ -377,6 +379,7 @@ router.post('/createCouphone', function (req, res, next) {
         });
     });
 });
+
 
 module.exports = router;
 

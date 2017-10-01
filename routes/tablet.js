@@ -108,7 +108,7 @@ router.get('/tabletInit', function(req, res, next) {
     });
 });
 
-router.post('/login/initPage', function(req, res, next) {
+router.post('/admin/initPage', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
     res.render('main/initPage',{nickName: req.body.login_id, listLength : 0 });
 });

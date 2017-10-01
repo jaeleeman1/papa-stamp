@@ -8,18 +8,22 @@
 	SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- Custom Theme files -->
-    <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-    <link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+    <link href="/css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/style.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
     <!-- //Custom Theme files -->
     <!-- js -->
-    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="/js/jquery-2.2.3.min.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Yantramanav:100,300,400,500,700,900" rel="stylesheet">
     <!-- //web-fonts -->
 </head>
+
+<form style="display:none" name="contact_data" id="contact_data">
+    <input type="hidden" name="userId" id="userId" value="<%= userId %>"/>
+</form>
 
 <body>
 <!-- banner -->
@@ -52,8 +56,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a style="color:#CD853F;" href="/main">Home</a></li>
-                            <li><a href="/contact" class="active">Contact Us</a></li>
+                            <li><a style="color:#CD853F;" href="/map/v1.0/mapMain/<%= userId %>">Home</a></li>
+                            <li><a href="/contact/<%= userId %>" class="active">Contact Us</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -141,6 +145,6 @@
 </div>
 <!-- //footer -->
 <!-- cart-js -->
-<script src="js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 </body>
 </html>

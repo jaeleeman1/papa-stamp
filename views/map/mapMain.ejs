@@ -8,12 +8,12 @@
 	SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- Custom Theme files -->
-    <link href="css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-    <link href="css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
+    <link href="/css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/style.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/font-awesome.css" rel="stylesheet"> <!-- font-awesome icons -->
     <!-- //Custom Theme files -->
     <!-- js -->
-    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="/js/jquery-2.2.3.min.js"></script>
     <!-- //js -->
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
@@ -23,7 +23,7 @@
 
 <form style="display:none" name="current_data" id="current_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
-    <input type="hidden" name="uid" id="uid" value="<%= uid %>"/>
+    <input type="hidden" name="userId" id="userId" value="<%= userId %>"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lng" id="current_lng" value=""/>
@@ -38,7 +38,7 @@
         <div class="w3ls-header" style="padding:0.3em 0"><!-- header-one -->
             <div class="container">
                 <div class="w3ls-header-left">
-                    <p>나의 스탬프 관리</p>
+                    <p>나의 온라인 스탬프 관리</p>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -61,8 +61,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a style="color:#CD853F;" href="/main">Home</a></li>
-                            <li><a href="/contact" class="active">Contact Us</a></li>
+                            <li><a style="color:#CD853F;" href="/map/v1.0/mapMain/<%= userId %>">Home</a></li>
+                            <li><a href="/contact/<%= userId %>" class="active">Contact Us</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -122,7 +122,7 @@
 </div>
 <!-- //footer -->
 <!-- cart-js -->
-<script src="js/minicart.js"></script>
+<script src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a30d2b7d0dec9ecdbd9665afa6ea7b1&autoload=false&libraries=clusterer,services"></script>
 
 <script type="text/javascript">
@@ -133,10 +133,10 @@
         var currentLng = '';//127.0296421998;
 
         var headers = {};
-        headers["f_Id"] = $("#uid").val();
+        headers["user_id"] = $("#userId").val();
 
         $.ajax({
-            url: $("#url").val() + '/currentLocation',
+            url: $("#url").val() + '/map/v1.0/currentLocation',
             type: 'GET',
             headers : headers,
             dataType: 'json',
@@ -148,13 +148,6 @@
                 $("#current_lat").val(currentLat);
                 $("#current_lng").val(currentLng);
 
-                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                    mapOption = {
-                        center: new daum.maps.LatLng(currentLat, currentLng), // 지도 현재 위치
-                        level: 10 // 지도의 확대 레벨
-                    };
-
-                map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성
                 changeShop();
             },
             error: function(request, status, error) {
@@ -191,7 +184,7 @@
             var clusterer = new daum.maps.MarkerClusterer({
                 map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
                 averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-                minLevel: 10 // 클러스터 할 최소 지도 레벨
+                minLevel: 8 // 클러스터 할 최소 지도 레벨
             });
 
             var selectedMarker = null;
@@ -227,22 +220,26 @@
                         }
                         // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
                         selectedMarker = marker;
+                        var headers = {};
+                        headers["user_id"] = $("#userId").val();
 
                         //shop data
                         var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
                         $.ajax({
-                            url: $("#url").val() + '/shopData',
+                            url: $("#url").val() + '/map/v1.0/shopData',
                             type: 'GET',
+                            headers : headers,
                             dataType: 'json',
                             data: dataString,
                             success: function(data) {
                                 var shopData = data.shopData;
+                                var userId = data.userId;
                                 var clickShopData = document.getElementById('map_list_wrap');
                                 clickShopData.innerHTML = '';
 
                                 clickShopData.innerHTML += '<div class="address-row">' +
                                     '<div class="col-xs-2 address-left">' +
-                                    '<a href="shop/shopInfo?shop_id='+ shopData.SHOP_ID +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
+                                    '<a href="/shop/v1.0/shopInfo/'+ shopData.SHOP_ID +'/'+userId+'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                                     '</div>' +
                                     '<div class="col-xs-10 address-right">' +
                                     '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guidePapaShopLoad('+ shopData.SHOP_LAT+','+ shopData.SHOP_LNG+')"><img src="/images/map_load_pin.png" style="width:50px;"></span></a>' +
@@ -280,7 +277,7 @@
     function displayMarker(currentMarkerPosition, currentMarkerImage) {
         map = new daum.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
             center : currentMarkerPosition, // 지도의 중심좌표
-            level : 10 // 지도의 확대 레벨
+            level : 8 // 지도의 확대 레벨
         });
 
         // 현재 위치 마커를 생성합니다
@@ -312,11 +309,11 @@
     //Shop List
     function userShopList(currentLat, currentLng) {
         var headers = {};
-        headers["f_id"] = $("#uid").val();
+        headers["user_id"] = $("#userId").val();
 
         var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
         $.ajax({
-            url: $("#url").val() + '/shopList',
+            url: $("#url").val() + '/map/v1.0/shopList',
             type: 'GET',
             headers : headers,
             dataType: 'json',
@@ -348,7 +345,7 @@
         var clusterer = new daum.maps.MarkerClusterer({
             map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
             averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-            minLevel: 10 // 클러스터 할 최소 지도 레벨
+            minLevel: 8 // 클러스터 할 최소 지도 레벨
         });
 
         var selectedMarker = null;
@@ -387,22 +384,26 @@
 
                 // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
                 selectedMarker = marker;
+                var headers = {};
+                headers["user_id"] = $("#userId").val();
 
                 //shop data
                 var dataString = {'current_lat': position.lat, 'current_lng': position.lng};
                 $.ajax({
-                    url: $("#url").val() + '/shopData',
+                    url: $("#url").val() + '/map/v1.0/shopData',
                     type: 'GET',
+                    headers : headers,
                     dataType: 'json',
                     data: dataString,
                     success: function (data) {
                         var shopData = data.shopData;
+                        var userId = data.userId;
                         var clickShopData = document.getElementById('map_list_wrap');
                         clickShopData.innerHTML = '';
 
                         clickShopData.innerHTML += '<div class="address-row">' +
                             '<div class="col-xs-2 address-left">' +
-                            '<a href="shop/shopInfo?shop_id=' + shopData.SHOP_ID + '"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
+                            '<a href="/shop/v1.0/shopInfo/'+ shopData.SHOP_ID +'/'+userId+'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>' +
                             '</div>' +
                             '<div class="col-xs-10 address-right">' +
                             '<a href="javascript:"><span class="icon" style="width:55px;height:55px;" onclick="guideLoad('+ position.lat + ',' + position.lng + ')"><img src="/images/map_load_pin.png" style="width:50px;">3</span></a>' +
@@ -465,31 +466,11 @@
 
 <!-- //cart-js -->
 <!-- start-smooth-scrolling -->
-<script src="js/SmoothScroll.min.js"></script>
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
+<script src="/js/SmoothScroll.min.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/easing.js"></script>
 <script type="text/javascript">
-    jQuery(document).ready(function($) {
-        /*$("#select_shop").click(function() {
-            var dataString = {'shop_id': 'SB-SHOP-00001'};
-            var headers = {};
-            headers["user_id"] = '01000000000';
-
-            $.ajax({
-                url: $("#url").val() + '/shop/shopInfo',
-                type: 'GET',
-                headers : headers,
-                dataType: 'json',
-                data : dataString,
-                success: function(data) {
-                    console.log("select shop success : " + data.resultData);
-                },
-                error: function(request, status, error) {
-                    console.error("select shop : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-            });
-        });*/
-
+    $(function() {
         $(".scroll").click(function(event){
             event.preventDefault();
 
@@ -502,25 +483,6 @@
     });
 </script>
 <!-- //end-smooth-scrolling -->
-<!-- smooth-scrolling-of-move-up -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
 
-        $().UItoTop({ easingType: 'easeOutQuart' });
-    });
-</script>
-<!-- //smooth-scrolling-of-move-up -->
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/bootstrap.js"></script>
 </body>
 </html>

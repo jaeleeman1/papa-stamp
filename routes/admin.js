@@ -7,7 +7,7 @@ var request = require('request');
 /* GET login (session) */
 router.get('/init', function(req, res, next) {
     // console.log('login id : ' + req.body.login_id);
-    res.render('login/loginMain',{nickName: req.body.login_id, listLength : 0 });
+    res.render('admin/loginMain',{nickName: req.body.login_id, listLength : 0 });
 });
 
 router.post('/tablet/mainPage', function(req, res, next) {
@@ -43,7 +43,7 @@ router.post('/userInfo', function(req, res, next) {
 
     getConnection(function (err, connection){
         // Insert User Infomation
-        var insertUserInfo = 'INSERT INTO SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_TYPE) VALUES(?, password(?), "01")';
+        var insertUserInfo = 'INSERT INTO SB_USER_INFO (USER_ID, USER_PASSWORD, USER_TYPE) VALUES(?, password(?), "01")';
         connection.query(insertUserInfo, [userId, userPw], function (err, row) {
             if (err) {
                 console.error("[User Info Error] Insert User Info Error : " + err);
