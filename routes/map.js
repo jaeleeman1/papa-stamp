@@ -13,14 +13,13 @@ const TAG = "[MAP INFO] ";
 router.get('/mapMain/:userId/', function(req, res, next) {
     logger.info(TAG, 'Get map main');
 
-    // var userId = req.params.userId;
-    var userId = req.headers.user_id;
+    var userId = req.params.userId;
     logger.debug(TAG, 'User ID : ' + userId);
 
     if(userId == null || userId == undefined) {
-        logger.debug(TAG, 'Invalid headers value');
+        logger.debug(TAG, 'Invalid paramete error');
         res.status(400);
-        res.send('Invalid headers error');
+        res.send('Invalid parameter error');
     }
 
     res.render('map/mapMain', {url:config.url, userId:userId});
