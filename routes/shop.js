@@ -9,7 +9,7 @@ const TAG = "[SHOP INFO] ";
 
 /* Shop Page API */
 //Get Shop Information
-router.get('/shopInfo/:shopId/:userId/', function (req, res, next) {
+router.get('/shopInfo/:shopId/:userId', function (req, res, next) {
     logger.info(TAG, 'Get shop information');
 
     var shopId = req.params.shopId;

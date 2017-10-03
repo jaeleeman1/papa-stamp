@@ -121,6 +121,13 @@
     </div>
 </div>
 <!-- //footer -->
+
+<style type="text/css">
+    #map {
+        touch-action: none;
+    }
+</style>
+
 <!-- cart-js -->
 <script src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a30d2b7d0dec9ecdbd9665afa6ea7b1&autoload=false&libraries=clusterer,services"></script>
@@ -456,13 +463,11 @@
     // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
     function zoomIn() {
         map.setLevel(map.getLevel() - 1);
-        map.relayout();
     }
 
     // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
     function zoomOut() {
         map.setLevel(map.getLevel() + 1);
-        map.relayout();
     }
 </script>
 

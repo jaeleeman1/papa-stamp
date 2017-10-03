@@ -181,21 +181,4 @@ router.put('/updateLocation', function (req, res, next) {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router;
