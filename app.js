@@ -9,10 +9,10 @@ var session = require('express-session');
 var init = require('./routes/init');
 var map = require('./routes/map');
 var shop = require('./routes/shop');
+var tablet = require('./routes/tablet');
 var user = require('./routes/user');
 
 var admin = require('./routes/admin');
-var tablet = require('./routes/tablet');
 var notification = require('./routes/notification');
 var download = require('./routes/download');
 
@@ -51,18 +51,21 @@ app.use(ignoreFavicon);
 
 const mapUrl = '/map/v1.0';
 const shopUrl = '/shop/v1.0';
+const tabletUrl = '/tablet/v1.0';
 const userUrl = '/user/v1.0';
 
 
 
 const adminURL = '/admin/v1.0';
-const tabletURL = '/tablet/v1.0';
+
 const notificationURL = '/notification/v1.0';
 const downloadURL = '/download/v1.0';
 
 app.use('/', init);
 app.use(mapUrl, map);
 app.use(shopUrl, shop);
+app.use(tabletUrl, tablet);
+
 app.use(userUrl, user);
 app.use(downloadURL, download);
 

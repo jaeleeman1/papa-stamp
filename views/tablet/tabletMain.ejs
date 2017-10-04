@@ -249,7 +249,7 @@
                 headers["user_id"] = sendData;
 
                 $.ajax({
-                    url: $("#url").val() + '/tablet/insertStampHistory',
+                    url: $("#url").val() + '/tablet/v1.0/insertStampHistory',
                     type: 'PUT',
                     headers : headers,
                     dataType: 'json',
@@ -263,7 +263,7 @@
                 });
 
                 $.ajax({
-                    url: $("#url").val() + '/shop/update-stamp',
+                    url: $("#url").val() + '/shop/v1.0/update-stamp',
                     type: 'POST',
                     headers : headers,
                     dataType: 'json',

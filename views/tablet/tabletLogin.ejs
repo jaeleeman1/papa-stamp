@@ -67,7 +67,7 @@
 
                   var loginInfo = '{"login_id":"' + $('#loginId').val() + '", "login_password":"' + $('#loginPassword').val() + '"}';
                   $.ajax({
-                      url: $("#url").val()+'/tablet/tabletInit',
+                      url: $("#url").val()+'/tablet/v1.0/tabletInit',
                       type: 'GET',
                       traditional:true,
                       data: JSON.parse(loginInfo),
