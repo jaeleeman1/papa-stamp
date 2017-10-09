@@ -57,7 +57,6 @@ const userUrl = '/user/v1.0';
 
 
 const adminURL = '/admin/v1.0';
-
 const notificationURL = '/notification/v1.0';
 const downloadURL = '/download/v1.0';
 
@@ -65,16 +64,14 @@ app.use('/', init);
 app.use(mapUrl, map);
 app.use(shopUrl, shop);
 app.use(tabletUrl, tablet);
-
 app.use(userUrl, user);
-app.use(downloadURL, download);
+
 
 
 
 app.use('/admin', admin);
-app.use('/tablet', tablet);
 app.use('/notification', notification);
-
+app.use(downloadURL, download);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,13 +5,10 @@ var path = require('path');
 var mysql = require('mysql');
 var getConnection = require('../config/db_connection');
 var config = require('../config/service_config');
-var config = require('../config/service_config');
 var logger = require('../config/logger');
 var request = require('request');
 
 const TAG = "[TABLET INFO] ";
-
-/* Tablet Page API */
 
 //Setting Socket.io
 var app = express();
@@ -106,11 +103,6 @@ router.get('/tabletInit', function(req, res, next) {
             connection.release();
         });
     });
-});
-
-router.post('/admin/initPage', function(req, res, next) {
-    // console.log('login id : ' + req.body.login_id);
-    res.render('main/initPage',{nickName: req.body.login_id, listLength : 0 });
 });
 
 
@@ -219,6 +211,16 @@ router.put('/insertStampHistory', function (req, res, next) {
             connection.release();
         });
     });
+});
+
+
+
+
+
+
+router.post('/admin/initPage', function(req, res, next) {
+    // console.log('login id : ' + req.body.login_id);
+    res.render('main/initPage',{nickName: req.body.login_id, listLength : 0 });
 });
 
 router.get('/tabletAdmin', function(req, res, next) {

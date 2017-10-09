@@ -5,6 +5,7 @@ var getConnection = require('../config/db_connection');
 var request = require('request');
 var admin = require("firebase-admin");
 var serviceAccount = require("../config/papastamp-a72f6-firebase-adminsdk-qqp2q-6484dc5daa.json");
+var crypto = require( "crypto" );
 
 const TAG = "[USER INFO] ";
 
@@ -13,8 +14,49 @@ admin.initializeApp({
     databaseURL: "https://papastamp-a72f6.firebaseio.com"
 });
 
-// Get Firebase User Auth
-router.get('/userAuth', function(req, res, next) {
+/* GET encrypt uid */
+router.get('/encryptUid', function(req, res, next) {
+    var text = "08201026181715";
+    var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
+    var cipher = crypto.createCipher("aes-128-ecb", secrect);
+    var crypted = cipher.update(text, 'utf8', 'hex');
+    crypted += cipher.final('hex');
+
+    console.log( "Input : ", text );
+    console.log( "secrect : ", secrect );
+    console.log( "Encrypted : ", crypted );
+
+    res.send({cryptedData: crypted});
+});
+
+/* GET decrypt uid */
+router.get('/decryptUid', function(req, res, next) {
+    var text = "9c4e059cb007a6d5065017d8f07133cd";
+    var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
+    var cipher = crypto.createDecipher('aes-128-ecb', secrect);
+    var decrypted = cipher.update(text, 'hex', 'utf8');
+    decrypted += cipher.final('utf8');
+
+    console.log( "Input : ", text );
+    console.log( "secrect : ", secrect );
+    console.log( "Decrypted : ", decrypted );
+
+    res.send({decryptedData: decrypted});
+});
+
+/* GET login (session) */
+router.get('/init', function(req, res, next) {
+    // console.log('login id : ' + req.body.login_id);
+    res.render('admin/loginMain',{nickName: req.body.login_id, listLength : 0 });
+});
+
+router.post('/tablet/mainPage', function(req, res, next) {
+    // console.log('login id : ' + req.body.login_id);
+    res.render('tablet/tabletMain',{nickName: req.body.login_id, listLength : 0 });
+});
+
+// Get Firebase User Create
+router.get('/userCreate', function(req, res, next) {
     logger.info(TAG, 'Get user auth');
 
     var userId = req.headers.user_id;
@@ -36,23 +78,6 @@ router.get('/userAuth', function(req, res, next) {
             logger.error(TAG, 'Error creating custom token : ', error);
             console.log("Error creating custom token:", error);
         });
-});
-
-
-
-
-
-
-
-/* GET login (session) */
-router.get('/init', function(req, res, next) {
-    // console.log('login id : ' + req.body.login_id);
-    res.render('admin/loginMain',{nickName: req.body.login_id, listLength : 0 });
-});
-
-router.post('/tablet/mainPage', function(req, res, next) {
-    // console.log('login id : ' + req.body.login_id);
-    res.render('tablet/tabletMain',{nickName: req.body.login_id, listLength : 0 });
 });
 
 /* GET user info */
