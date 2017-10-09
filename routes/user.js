@@ -6,6 +6,7 @@ var request = require('request');
 var admin = require("firebase-admin");
 var serviceAccount = require("../config/papastamp-a72f6-firebase-adminsdk-qqp2q-6484dc5daa.json");
 var crypto = require( "crypto" );
+var logger = require('../config/logger');
 
 const TAG = "[USER INFO] ";
 
@@ -16,7 +17,7 @@ admin.initializeApp({
 
 /* GET encrypt uid */
 router.get('/encryptUid', function(req, res, next) {
-    var dataId = req.body.phone_id;
+    var dataId = req.query.phone_id;
     var secrect = config.secrectKey;
     var cipher = crypto.createCipher("aes-128-ecb", secrect);
     var crypted = cipher.update(dataId, 'utf8', 'hex');
