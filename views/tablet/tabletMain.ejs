@@ -272,7 +272,7 @@
                             }
                         });
 
-                        /*$.ajax({
+                        $.ajax({
                             url: $("#url").val() + '/shop/v1.0/update-stamp',
                             type: 'POST',
                             headers : headers,
@@ -285,7 +285,7 @@
                                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                                 console.log('Error occured');
                             }
-                        });*/
+                        });
                     },
                     error: function(request, status, error) {
                         console.error("getConvertData : code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

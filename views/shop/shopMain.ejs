@@ -287,6 +287,7 @@
     }
 
     var socket = io.connect('https://whereareevent.com:8060');
+    var pushShopId = $("#pushShopId").val();
     var pushUserId = $("#pushUserId").val();
     var shopOrderNumber = $("#shopOrderNumber").val();
     var userCurrentNumber = $("#userCurrentNumber").val();
@@ -303,7 +304,7 @@
         remainTime(callValue);
     }
 
-    socket.on(pushUserId, function(data){
+    socket.on(pushShopId+pushUserId, function(data){
         console.log('Papa stamp push : ' + data);
         $("ol.tabs li").removeClass("active");
         $("ol.tabs li a").removeAttr("style");
