@@ -172,7 +172,7 @@ router.put('/insertStampHistory', function (req, res, next) {
                         } else {
                             logger.debug(TAG, 'Insert user push history success');
 
-                            io.sockets.emit(userId, {sendData: "API papa stamp success!"});
+                            io.sockets.emit(shopId+userId, {sendData: "API papa stamp success!"});
                             logger.debug(TAG, 'API papa stamp success! : ', shopId+userId);
 
                             res.status(200);

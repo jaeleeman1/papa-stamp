@@ -196,11 +196,11 @@
 
     $(function() {
         var tempNumber = '01';
-        var sendData = '';
+        var inputData = '';
 
         $("#btn_push").click(
             function() {
-                sendData = $("#phone-text").val();
+                inputData = $("#phone-text").val();
 
                 if(tempNumber.length < 17) {
                     tempNumber = tempNumber.substr(0, tempNumber.length-1);
@@ -229,7 +229,7 @@
                     pop.style.left = "400px";
 
                     var confirmNumber = document.getElementById('confirm_number');
-                    confirmNumber.innerHTML = sendData;
+                    confirmNumber.innerHTML = inputData;
                 }
             }
         );
@@ -238,14 +238,15 @@
             function() {
                 closeLayer("layerConfirmPop");
 
-                sendData = sendData.replace('-', '');
-                sendData = sendData.replace('-', '');
-                sendData = sendData.replace('  ', '');
-                sendData = sendData.replace('  ', '');
-                sendData = '082' + sendData;
+                inputData = inputData.replace('-', '');
+                inputData = inputData.replace('-', '');
+                inputData = inputData.replace('  ', '');
+                inputData = inputData.replace('  ', '');
+                inputData = '082' + inputData;
 
                 var couphoneShopId = 'SB-SHOP-00001';//$("#pushShopId").val();
                 var dataString = {'shop_id': couphoneShopId};
+                var sendString = {'phone_id': inputData};
                 var convertData = '';
                 var headers = {};
 
@@ -253,7 +254,7 @@
                     url: $("#url").val() + '/user/v1.0/encryptUid',
                     type: 'GET',
                     dataType: 'json',
-                    data : sendData,
+                    data : sendString,
                     success: function(data) {
                         console.log("getConvertData : " + data.cryptedData);
                         convertData = data.cryptedData;

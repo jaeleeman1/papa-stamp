@@ -16,15 +16,14 @@ admin.initializeApp({
 
 /* GET encrypt uid */
 router.get('/encryptUid', function(req, res, next) {
-    var text = "08201026181715";
-    var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
+    var dataId = req.body.phone_id;
+    var secrect = config.secrectKey;
     var cipher = crypto.createCipher("aes-128-ecb", secrect);
-    var crypted = cipher.update(text, 'utf8', 'hex');
+    var crypted = cipher.update(dataId, 'utf8', 'hex');
     crypted += cipher.final('hex');
 
-    console.log( "Input : ", text );
-    console.log( "secrect : ", secrect );
-    console.log( "Encrypted : ", crypted );
+    logger.debug(TAG, 'Phone ID : ' + dataId);
+    logger.debug(TAG, 'Encrypted ID : ' + crypted);
 
     res.send({cryptedData: crypted});
 });
