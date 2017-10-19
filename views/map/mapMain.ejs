@@ -24,6 +24,7 @@
 <form style="display:none" name="current_data" id="current_data">
     <input type="hidden" name="url" id="url" value="<%= url %>"/>
     <input type="hidden" name="userId" id="userId" value="<%= userId %>"/>
+    <input type="hidden" name="userId" id="initShopId" value="7c28d1c5088f01cda7e4ca654ec88ef8"/>
     <input type="hidden" name="shop_length" id="shop_length" value=""/>
     <input type="hidden" name="current_lat" id="current_lat" value=""/>
     <input type="hidden" name="current_lng" id="current_lng" value=""/>
@@ -318,6 +319,8 @@
         var headers = {};
         headers["user_id"] = $("#userId").val();
 
+        var initShopId = $("#initShopId").val();
+
         var dataString = {'current_lat': currentLat, 'current_lng': currentLng};
         $.ajax({
             url: $("#url").val() + '/map/v1.0/shopList',
@@ -327,7 +330,7 @@
             data: dataString,
             success: function(data) {
                 var shopData = data.shopListData;
-                if(shopData.length == 0) {
+                if(shopData.length < 2 && shopData[0].USER_ID == initShopId) {
                     $("#cooperatorList").val("papaShop");
                     changeShop();
                 }else {
