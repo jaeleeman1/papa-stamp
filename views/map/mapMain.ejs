@@ -330,7 +330,7 @@
             data: dataString,
             success: function(data) {
                 var shopData = data.shopListData;
-                if(shopData[0].USER_ID == initShopId) {
+                if(shopData.length == 0 || shopData[0].USER_ID == initShopId) {
                     $("#cooperatorList").val("papaShop");
                     changeShop();
                 }else {
