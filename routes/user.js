@@ -81,14 +81,14 @@ router.get('/userCreate', function(req, res, next) {
 });
 
 // Get User Login
-router.get('/userLogin', function(req, res, next) {
+router.post('/userLogin', function(req, res, next) {
     logger.info(TAG, 'Get user login');
 
     var userId = req.headers.user_id;
     logger.debug(TAG, 'User ID : ' + userId);
 
-    var userEmail = req.query.user_email;
-    var userPassword = req.query.user_password;
+    var userEmail = req.body.user_email;
+    var userPassword = req.body.user_password;
 
     logger.debug(TAG, 'Login EMAIL : ' + userEmail);
     logger.debug(TAG, 'Login PW : ' + userPassword);
