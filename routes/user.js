@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var config = require('../config/service_config');
+var mysql = require('mysql');
 var getConnection = require('../config/db_connection');
 var request = require('request');
 var admin = require("firebase-admin");
@@ -117,10 +118,10 @@ router.post('/userLogin', function(req, res, next) {
                     res.send('No user info');
                 }else {
                     var userInfo = {
-                        user_id : adminId
+                        user_id : userId
                     }
 
-                    userEmailCheck = tabletLogin[0].EMAIL_CHECK
+                    userEmailCheck = userLogin[0].EMAIL_CHECK
 
                     if(userLogin[0].USER_PASSWORD == userPassword) {
                         userPwCheck = '1';
