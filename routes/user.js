@@ -31,7 +31,7 @@ router.get('/encryptUid', function(req, res, next) {
 
 /* GET decrypt uid */
 router.get('/decryptUid', function(req, res, next) {
-    var text = "9c4e059cb007a6d5065017d8f07133cd";
+    var text = "7c28d1c5088f01cda7e4ca654ec88ef8";
     var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
     var cipher = crypto.createDecipher('aes-128-ecb', secrect);
     var decrypted = cipher.update(text, 'hex', 'utf8');
@@ -78,6 +78,60 @@ router.get('/userCreate', function(req, res, next) {
             logger.error(TAG, 'Error creating custom token : ', error);
             console.log("Error creating custom token:", error);
         });
+});
+
+// Get User Login
+router.get('/userLogin', function(req, res, next) {
+    logger.info(TAG, 'Get user login');
+
+    var userId = req.headers.user_id;
+    logger.debug(TAG, 'User ID : ' + userId);
+
+    var userEmail = req.query.user_email;
+    var userPassword = req.query.user_password;
+
+    logger.debug(TAG, 'Login EMAIL : ' + userEmail);
+    logger.debug(TAG, 'Login PW : ' + userPassword);
+
+    if(userEmail == null || userEmail == undefined &&
+        userPassword == null || userPassword == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    getConnection(function (err, connection){
+        var userEmailCheck = '0';
+        var userPwCheck = '0';
+        var selectLoginQuery = "select USER_EMAIL, USER_PASSWORD, (select exists (select * from SB_USER_INFO where USER_EMAIL = "+ mysql.escape(userEmail) + ")) as EMAIL_CHECK" +
+            " from SB_USER_INFO where USER_TYPE = 02 and USER_EMAIL = "+ mysql.escape(userEmail) + " and USER_PASSWORD = "+mysql.escape(userPassword);
+        connection.query(selectLoginQuery, function (err, userLogin) {
+            if (err) {
+                logger.error(TAG, "DB selectLoginQuery error : " + err);
+                res.status(400);
+                res.send('User sign in error');
+            }else{
+                logger.debug(TAG, 'Select user login success : ' + JSON.stringify(userLogin));
+                if(userLogin.length < 1) {
+                    res.status(500);
+                    res.send('No user info');
+                }else {
+                    var userInfo = {
+                        user_id : adminId
+                    }
+
+                    userEmailCheck = tabletLogin[0].EMAIL_CHECK
+
+                    if(userLogin[0].USER_PASSWORD == userPassword) {
+                        userPwCheck = '1';
+                    }
+                    req.session.userInfo = userInfo;
+                    res.send({userId: userLogin[0].USER_ID, userEmailCheck: userEmailCheck, userPwCheck: userPwCheck});
+                }
+            }
+            connection.release();
+        });
+    });
 });
 
 /* GET user info */
