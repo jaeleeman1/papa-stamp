@@ -233,7 +233,40 @@ router.get('/selectStampDate', function(req, res) {
     });
 });
 
+//Get Select Stamp History
+router.get('/shopBeacon/:major_id/:minor_id', function(req, res) {
+    logger.info(TAG, 'Select shop id');
+    var majorId = req.params.major_id;
+    var minorId = req.params.minor_id;
 
+    logger.debug(TAG, 'Major ID : ' + majorId);
+    logger.debug(TAG, 'Minor ID : ' + minorId);
+
+    if(majorId == null || majorId == undefined &&
+        minorId == null || minorId == undefined) {
+        logger.debug(TAG, 'Invalid parameter');
+        res.status(400);
+        res.send('Invalid parameter error');
+    }
+
+    var shopParams = majorId + minorId;
+
+    getConnection(function (err, connection){
+        var selectShopId = 'select SHOP_ID from SB_SHOP_INFO where DEL_YN = "N" and SHOP_MAJOR_MINOR = '+mysql.escape(shopParams);
+        connection.query(selectShopId, function (err, shopIdData) {
+            if (err) {
+                logger.error(TAG, "DB selectShopId error : " + err);
+                res.status(400);
+                res.send('Select select shop id error');
+            }else{
+                logger.debug(TAG, 'Select shop id success : ' + JSON.stringify(shopIdData));
+                res.status(200);
+                res.send({shopId:shopIdData[0].SHOP_ID});
+            }
+            connection.release();
+        });
+    });
+});
 /*//Put Update Push History
 router.put('/updatePushHistory', function (req, res, next) {
     logger.info(TAG, 'Update push history');
