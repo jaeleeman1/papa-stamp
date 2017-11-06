@@ -32,7 +32,7 @@ router.get('/encryptUid', function(req, res, next) {
 
 /* GET decrypt uid */
 router.get('/decryptUid', function(req, res, next) {
-    var text = "7c28d1c5088f01cda7e4ca654ec88ef8";
+    var text = "aef899849f01ee419daee3c6a8e7e8a5";//dbd1a03edc4f7cbe90cfd6dbfdee4ca6
     var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
     var cipher = crypto.createDecipher('aes-128-ecb', secrect);
     var decrypted = cipher.update(text, 'hex', 'utf8');
@@ -137,12 +137,13 @@ router.post('/userLogin', function(req, res, next) {
 
 /* GET user info */
 router.get('/userInfo', function(req, res, next) {
-    var userId = req.query.user_id;
+    // var userId = req.query.user_id;
+    var userId = req.headers.user_id;
 
     getConnection(function (err, connection){
         // Select User Infomation
-        var selectUserInfo = 'select USER_PASSWORD from SB_USER_INFO where USER_ID = ?';
-        connection.query(selectUserInfo, userId, function (err, row) {
+        var selectUserInfo = "select USER_PASSWORD from SB_USER_INFO where USER_ID = "+ mysql.escape(userId);
+        connection.query(selectUserInfo, function (err, row) {
             if (err) {
                 console.error("[User Info Error] Select User Info Error : " + err);
                 throw err;
@@ -158,21 +159,35 @@ router.get('/userInfo', function(req, res, next) {
 
 /* POST user info */
 router.post('/userInfo', function(req, res, next) {
-    var userId = req.body.user_id;
-    var userPw = req.body.user_pw;
+    var userId = req.headers.user_id;
+    var accessToken = req.body.access_token;
+    var userEmail = req.body.user_email;
+    var userPassword = req.body.user_pw;
 
     getConnection(function (err, connection){
         // Insert User Infomation
-        var insertUserInfo = 'INSERT INTO SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_TYPE) VALUES(?, password(?), "01")';
-        connection.query(insertUserInfo, [userId, userPw], function (err, row) {
+        var insertUserInfo = "INSERT INTO SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_EMAIL, USER_PASSWORD, USER_TYPE) " +
+            "VALUES("+ mysql.escape(userId) + ","+ mysql.escape(accessToken) + ","+ mysql.escape(userEmail) + ",password("+mysql.escape(userPassword) + "), '01')";
+        connection.query(insertUserInfo, function (err, userInfoData) {
             if (err) {
-                console.error("[User Info Error] Insert User Info Error : " + err);
+                logger.error(TAG, "Insert User Info Error : " + err);
                 res.status(500);
                 throw err;
             }else{
-                console.log("[User Info] Insert User Info Success ### " + JSON.stringify(row));
-                res.status(200);
-                res.send();
+                logger.debug(TAG, "Insert User Info Success ### " + JSON.stringify(userInfoData));
+                var insertUserPushInfo = "INSERT INTO SB_USER_PUSH_INFO (SHOP_ID, USER_ID) VALUES ('SB-SHOP-00001',"+ mysql.escape(userId) + "), ('SB-SHOP-00002',"+ mysql.escape(userId) + ")," +
+                    "('SB-SHOP-00003',"+ mysql.escape(userId) + "), ('SB-SHOP-00004',"+ mysql.escape(userId) + "), ('SB-SHOP-00005',"+ mysql.escape(userId) +")";
+                connection.query(insertUserPushInfo, function (err, userPushData) {
+                    if (err) {
+                        logger.error(TAG, "DB selectShopPushQuery error : " + err);
+                        res.status(400);
+                        res.send('Select shop push info error');
+                    } else {
+                        console.log("[User Info] Insert User Info Success ### " + JSON.stringify(userPushData));
+                        res.status(200);
+                        res.send();
+                    }
+                });
             }
             connection.release();
         });
