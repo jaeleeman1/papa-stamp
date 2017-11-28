@@ -166,8 +166,9 @@ router.post('/userInfo', function(req, res, next) {
 
     getConnection(function (err, connection){
         // Insert User Infomation
-        var insertUserInfo = "INSERT INTO SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_EMAIL, USER_PASSWORD, USER_TYPE) " +
-            "VALUES("+ mysql.escape(userId) + ","+ mysql.escape(accessToken) + ","+ mysql.escape(userEmail) + ",password("+mysql.escape(userPassword) + "), '01')";
+        var insertUserInfo = "insert into SB_USER_INFO (USER_ID, ACCESS_TOKEN, USER_EMAIL, USER_PASSWORD, USER_TYPE) " +
+            "values("+ mysql.escape(userId) + ","+ mysql.escape(accessToken) + ","+ mysql.escape(userEmail) + ",password("+mysql.escape(userPassword) + "), '01') " +
+            "on duplicate key update ACCESS_TOKEN="+ mysql.escape(accessToken) + "USER_EMAIL="+ mysql.escape(userEmail) +"USER_PASSWORD="+mysql.escape(userPassword) +"USER_TYPE=01";
         connection.query(insertUserInfo, function (err, userInfoData) {
             if (err) {
                 logger.error(TAG, "Insert User Info Error : " + err);
