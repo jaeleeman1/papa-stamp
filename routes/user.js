@@ -32,7 +32,7 @@ router.get('/encryptUid', function(req, res, next) {
 
 /* GET decrypt uid */
 router.get('/decryptUid', function(req, res, next) {
-    var text = "aef899849f01ee419daee3c6a8e7e8a5";//dbd1a03edc4f7cbe90cfd6dbfdee4ca6
+    var text = "7c28d1c5088f01cda7e4ca654ec88ef8";
     var secrect = "Glu0r6o0GzBZIe0Qsrh2FA==";
     var cipher = crypto.createDecipher('aes-128-ecb', secrect);
     var decrypted = cipher.update(text, 'hex', 'utf8');
@@ -162,7 +162,7 @@ router.post('/userInfo', function(req, res, next) {
     var userId = req.headers.user_id;
     var accessToken = req.body.access_token;
     var userEmail = req.body.user_email;
-    var userPassword = req.body.user_pw;
+    var userPassword = req.body.user_password;
 
     getConnection(function (err, connection){
         // Insert User Infomation
@@ -175,7 +175,9 @@ router.post('/userInfo', function(req, res, next) {
                 throw err;
             }else{
                 logger.debug(TAG, "Insert User Info Success ### " + JSON.stringify(userInfoData));
-                var insertUserPushInfo = "INSERT INTO SB_USER_PUSH_INFO (SHOP_ID, USER_ID) VALUES ('SB-SHOP-00001',"+ mysql.escape(userId) + "), ('SB-SHOP-00002',"+ mysql.escape(userId) + ")," +
+                res.status(200);
+                res.send();
+               /* var insertUserPushInfo = "INSERT INTO SB_USER_PUSH_INFO (SHOP_ID, USER_ID) VALUES ('SB-SHOP-00001',"+ mysql.escape(userId) + "), ('SB-SHOP-00002',"+ mysql.escape(userId) + ")," +
                     "('SB-SHOP-00003',"+ mysql.escape(userId) + "), ('SB-SHOP-00004',"+ mysql.escape(userId) + "), ('SB-SHOP-00005',"+ mysql.escape(userId) +")";
                 connection.query(insertUserPushInfo, function (err, userPushData) {
                     if (err) {
@@ -187,7 +189,7 @@ router.post('/userInfo', function(req, res, next) {
                         res.status(200);
                         res.send();
                     }
-                });
+                });*/
             }
             connection.release();
         });
